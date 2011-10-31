@@ -1,5 +1,5 @@
 /*
- * Project Fantasy, gioco di startegia a turni
+ * Project Fantasy, gioco di strategia a turni
  *       
  *
  * Copyright (C) 2011 Davide Tateo

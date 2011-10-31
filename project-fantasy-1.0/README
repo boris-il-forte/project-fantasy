@@ -1,0 +1,79 @@
+PROGETTO
+--------
+
+Project Fantasy, gioco di strategia a turni
+	      
+Versione 1.0 (2011-10-31)
+
+
+UTILIZZO
+--------
+
+Il pacchetto richiede le librerie gtk2.
+Assicurati che siano installate.
+
+E' anche richiesta una toolchain funzionante.
+
+Compila il sorgente, quindi eseguilo. :)
+
+
+COMPILAZIONE
+------------
+
+make clean
+make
+
+
+ESECUZIONE
+----------
+
+./gbin
+
+ENJOY !
+
+
+MAKEFILE
+--------
+
+Viene distribuito con le flag adatte alla distribuzione:
+CFLAGS= -O2 -mtune=generic -pipe -fomit-frame-pointer
+Ad ogni modo assicuratevi che queste impostate nel Makefile.
+
+Se volete un'ottimizzazione estrema, sostituite la flag
+-march=native al posto di -mtune=generic :
+Perché questa flag funzioni, dovete usare una versione di gcc >= 4.2
+Inoltre il binario compilato funzionerà solo su una macchina, quindi
+la flag non si adatta alla ridistribuzione binaria del pacchetto.
+
+E' consigliabile per un binario più snello dare
+$ strip -s -R .comment gbin
+
+Per il debug, è utile utilizzare (alternativamente):
+CFLAGS=-Wall -Wextra -ggdb3 -pipe
+E quindi eseguire il programma con
+$ gdb ./gbin
+(gdb) run
+
+
+FILES
+-----
+
+* fantasy-main.c: la main routine del gioco
+* fantasy-lib.c: le funzioni principali del gioco
+* fantasy-gtk.h: i prototipi delle funzioni grafiche; incluso nel fantasy-main.c
+* fantasy-core.h: la definzione dei tipi di struttura, variabili globali; incluso in fantasy-main.c e fantasy-lib.c
+
+
+COPYRIGHT
+---------
+
+Il progetto è distribuito sotto licenza GNU GPL versione 2.
+(C) 2011 Davide Tateo
+
+
+SITO INTERNET
+-------------
+
+Il sito internet di riferimento del progetto è
+http://forzazzurri.mine.nu/fantasy
+dove è possibile trovare notizie sul progetto e contattare gli autori.

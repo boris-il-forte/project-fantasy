@@ -1,8 +1,8 @@
 /*
- * Project Fantasy, gioco di startegia a turni
+ * Project Fantasy, gioco di strategia a turni
  *       
  *
- * Copyright (C) 2011 Boris_il_Forte
+ * Copyright (C) 2011 Davide Tateo
  * Versione 1.0
  *
  * This program is free software; you can redistribute it and/or

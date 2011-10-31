@@ -1,5 +1,5 @@
 /*
- * Project Fantasy, gioco di startegia a turni
+ * Project Fantasy, gioco di strategia a turni
  *       
  *
  * Copyright (C) 2011 Davide Tateo
@@ -14,6 +14,7 @@
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  */
+
 #define Larghezza 150
 #define Altezza 40
 #define numcastelli 12
