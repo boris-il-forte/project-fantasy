@@ -102,7 +102,7 @@ static void salva_carica(int Data)
 	Fselect=gtk_file_chooser_dialog_new (buf,NULL,Modo,"Ok",1,"Annulla",0,NULL);
 	gtk_window_set_icon (GTK_WINDOW (Fselect),Immagine.logo);
 	if (gtk_dialog_run (GTK_DIALOG(Fselect))==1)
-		printf(buf);
+		printf("%s",buf);
 	else
 		gtk_widget_destroy(Fselect);
 }

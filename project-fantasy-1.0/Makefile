@@ -1,7 +1,7 @@
 CC = gcc
 LIBSGTK= $(shell pkg-config --cflags --libs gtk+-2.0)
-#CFLAGS= -Wall -Wextra -O2 -march=native -pipe -fomit-frame-pointer
 LIBS= 
+#CFLAGS= -Wall -Wextra -O2 -march=native -pipe -fomit-frame-pointer
 CFLAGS= -Wall -Wextra -ggdb3 -pipe
 
 all: fantasy-core
