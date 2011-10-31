@@ -1,0 +1,11 @@
+TODO
+
+Gionnico:
+- salva/carica priorità alta
+- funzione void gtk_calcola_dimensioni () -> da controllare per più risoluzioni possibili priorità bassa 
+
+
+Boris_il_forte
+- funzioni per conquistare altre strutture oltre al castello priorità alta
+- funzioni tab strutture priorità media
+- controllo esistenza cartella immagini ed eventuale ricerca priorità bassa
