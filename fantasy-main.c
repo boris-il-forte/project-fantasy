@@ -898,54 +898,53 @@ void gtk_carica_immagini ()
 {
 	int i,j;
 	char Buf[100];
-	const char * Home=g_get_home_dir();
-	sprintf(Buf,"%s/project-fantasy-1.0/immagini/Fantasy-icon.xpm",Home);
+	sprintf(Buf,"immagini/Fantasy-icon.xpm");
 	Immagine.logo=gdk_pixbuf_new_from_file (Buf,NULL);
-	sprintf(Buf,"%s/project-fantasy-1.0/immagini/Freccia.xpm",Home);
+	sprintf(Buf,"immagini/Freccia.xpm");
 	Immagine.freccia=gdk_pixbuf_new_from_file_at_size (Buf,30,30,NULL);
-	sprintf(Buf,"%s/project-fantasy-1.0/immagini/p/p1.xpm",Home);
+	sprintf(Buf,"immagini/p/p1.xpm");
 	Immagine.p=gdk_pixbuf_new_from_file (Buf,NULL);
-	sprintf(Buf,"%s/project-fantasy-1.0/immagini/mov.xpm",Home);
+	sprintf(Buf,"immagini/mov.xpm");
 	Immagine.movimento=gdk_pixbuf_new_from_file (Buf,NULL);
-	sprintf(Buf,"%s/project-fantasy-1.0/immagini/atk.xpm",Home);
+	sprintf(Buf,"immagini/atk.xpm");
 	Immagine.attacco=gdk_pixbuf_new_from_file (Buf,NULL);
-	sprintf(Buf,"%s/project-fantasy-1.0/immagini/Fantasy-icon.xpm",Home);
+	sprintf(Buf,"immagini/Fantasy-icon.xpm");
 	Immagine.err=gdk_pixbuf_new_from_file_at_size (Buf,30,30,NULL);
 	//carica il castello
 	for (i=0; i<9; i++)
 	{
-		sprintf(Buf,"%s/project-fantasy-1.0/immagini/c/c%d.xpm",Home,i);
+		sprintf(Buf,"immagini/c/c%d.xpm",i);
 		Immagine.c[i]=gdk_pixbuf_new_from_file_at_size (Buf,Dim_casella,Dim_casella,NULL);
 	}
 	//carica la grotta
 	for (i=0; i<4; i++)
 	{
-		sprintf(Buf,"%s/project-fantasy-1.0/immagini/g/g%d.xpm",Home,i);
+		sprintf(Buf,"immagini/g/g%d.xpm",i);
 		Immagine.g[i]=gdk_pixbuf_new_from_file_at_size (Buf,Dim_casella,Dim_casella,NULL);
 	}
 	//carica la stalla
 	for (i=0; i<4; i++)
 	{
-		sprintf(Buf,"%s/project-fantasy-1.0/immagini/s/s%d.xpm",Home,i);
+		sprintf(Buf,"immagini/s/s%d.xpm",i);
 		Immagine.s[i]=gdk_pixbuf_new_from_file_at_size (Buf,Dim_casella,Dim_casella,NULL);
 	}
 	//carica la fattoria
 	for (i=0; i<4; i++)
 	{
-		sprintf(Buf,"%s/project-fantasy-1.0/immagini/f/f%d.xpm",Home,i);
+		sprintf(Buf,"immagini/f/f%d.xpm",i);
 		Immagine.f[i]=gdk_pixbuf_new_from_file_at_size (Buf,Dim_casella,Dim_casella,NULL);
 	}
 	//carica il nido
 	for (i=0; i<4; i++)
 	{
-		sprintf(Buf,"%s/project-fantasy-1.0/immagini/n/n%d.xpm",Home,i);
+		sprintf(Buf,"immagini/n/n%d.xpm",i);
 		Immagine.n[i]=gdk_pixbuf_new_from_file_at_size (Buf,Dim_casella,Dim_casella,NULL);
 	}
 	//carica le truppe
 	for (i=0; i<1; i++)
 		for(j=0; j<=Lan; j++)
 		{
-			sprintf(Buf,"%s/project-fantasy-1.0/immagini/t/t%d%d.xpm",Home,i,j);
+			sprintf(Buf,"immagini/t/t%d%d.xpm",i,j);
 			Immagine.t[i][j]=gdk_pixbuf_new_from_file_at_size (Buf,Dim_casella,Dim_casella,NULL);
 		}
 }
