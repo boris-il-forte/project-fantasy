@@ -89,21 +89,19 @@ static void salva_carica(int Data)
 {
 	GtkWidget *Fselect;
 	GtkFileChooserAction Modo;
-	char buf[10];
-	if (Data==0)
-	{
-		sprintf(buf,"Carica");
-		Modo=GTK_FILE_CHOOSER_ACTION_OPEN;
-	}
-	else 
-	{
-		sprintf(buf,"Salva");
-		Modo=GTK_FILE_CHOOSER_ACTION_SAVE;
-	}
+	char* buf=NULL;
+	const char* Home=g_get_home_dir();
+	if (Data==0) Modo=GTK_FILE_CHOOSER_ACTION_OPEN;
+	else Modo=GTK_FILE_CHOOSER_ACTION_SAVE;
 	Fselect=gtk_file_chooser_dialog_new (buf,NULL,Modo,"Ok",1,"Annulla",0,NULL);
 	gtk_window_set_icon (GTK_WINDOW (Fselect),Immagine.logo);
+	gtk_file_chooser_set_current_folder(GTK_FILE_CHOOSER(Fselect),Home);
 	if (gtk_dialog_run (GTK_DIALOG(Fselect))==1)
-		printf("%s",buf);
+	{
+		buf=gtk_file_chooser_get_filename (GTK_FILE_CHOOSER(Fselect));
+		printf("%s\n",buf);
+		gtk_widget_destroy(Fselect);
+	}
 	else
 		gtk_widget_destroy(Fselect);
 }
