@@ -14,14 +14,16 @@ testlib: provalib.o fantasy-lib.o
 startest: 
 	./bin
 
-fantasy-core: fantasy-main.o fantasy-lib.o
-	${CC} ${CFLAGS} ${LIBSGTK} fantasy-main.o fantasy-lib.o -o gbin
+fantasy-core: fantasy-main.o fantasy-lib.o fantasy-loadsave.o
+	${CC} ${CFLAGS} ${LIBSGTK} fantasy-main.o fantasy-lib.o fantasy-loadsave.o -o gbin
 
 fantasy-main.o: fantasy-main.c
 	${CC} ${CFLAGS} ${LIBSGTK} -c fantasy-main.c
 
 fantasy-lib.o: fantasy-lib.c
 	${CC} ${CFLAGS} ${LIBS} -c fantasy-lib.c
+fantasy-loadsave.o: fantasy-loadsave.c
+	${CC} ${CFLAGS} ${LIBS} -c fantasy-loadsave.c
 provalib.o:
 	${CC} ${CFLAGS} ${LIBS} -c provalib.c
 

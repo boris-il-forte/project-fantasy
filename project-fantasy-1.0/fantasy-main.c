@@ -99,7 +99,8 @@ static void salva_carica(int Data)
 	if (gtk_dialog_run (GTK_DIALOG(Fselect))==1)
 	{
 		buf=gtk_file_chooser_get_filename (GTK_FILE_CHOOSER(Fselect));
-		printf("%s\n",buf);
+		if(Data==0) carica(buf);
+		else salva(buf);
 		gtk_widget_destroy(Fselect);
 	}
 	else
