@@ -400,7 +400,44 @@ void combatti(t_infotruppa* Attaccante, t_infotruppa* Difensore, char m)
 	Difensore->numero=n;
 	return;
 }
-
+//fa combattere gli attaccanti contro i difensori di una struttura
+int assaltaedificio(t_lista_s* Edificio)
+{
+	fprintf(stderr,"debug: assaltamura\n");
+	int i,j=0;
+	int Pos=Edificio->pos;
+	t_infotruppa* Attaccanti[8];
+	t_infotruppa* Difensori[8];
+	t_lista_t* T;
+	T=Edificio->in;
+	if (T==NULL) return 1;
+	for(i=0; i<8; i++) Difensori[i]=NULL;
+	for(i=0; i<8; i++) Attaccanti[i]=NULL;
+	do
+	{
+		Attaccanti[j]=puntacasellaoccupata(Pos,j);
+		j++;
+	}while(Attaccanti[j-1]==NULL && j<8);
+	for (i=0; T!=NULL && i<j && i<8; i++)
+	{
+		Difensori[i]=T->truppa;
+		T=T->next;
+	}
+	for(i=0;i<j && Difensori[i]!=NULL;i++)
+	{
+		Attaccanti[i]->combattuto=1;
+		Difensori[i]->combattuto=1;
+		combatti(Attaccanti[i],Difensori[i],'s');
+		if(Difensori[i]->numero==0)
+		{
+			eliminamorti(&Difensori[i]);
+			return 1;
+		}
+		combatti(Difensori[i],Attaccanti[i],'n');
+		if(Attaccanti[i]->numero==0) eliminamorti(&Attaccanti[i]);
+	}
+	return 0;
+}
 //fa combattere gli attaccanti contro la prima linea di un castello presidiato
 int assaltamura(t_lista_s* Castello)
 {
@@ -485,11 +522,21 @@ void cambiaproprietario (int g1, int g2, int Pos,t_struttura Tipo)
 	if(g2<0)
 	{
 		S=giocatore[g1]->struttura[Tipo];
-		while (S->next!=NULL) S=S->next;
-		S->next=(t_lista_s*)malloc(sizeof(t_lista_s));
-		S->next->in=NULL;
-		S->next->pos=Pos;
-		S->next->next=NULL;
+		if(S!=NULL)
+		{
+			while (S->next!=NULL) S=S->next;
+			S->next=(t_lista_s*)malloc(sizeof(t_lista_s));
+			S->next->in=NULL;
+			S->next->pos=Pos;
+			S->next->next=NULL;
+		}
+		else
+		{
+			giocatore[g1]->struttura[Tipo]=(t_lista_s*)malloc(sizeof(t_lista_s));
+			giocatore[g1]->struttura[Tipo]->in=NULL;
+			giocatore[g1]->struttura[Tipo]->pos=Pos;
+			giocatore[g1]->struttura[Tipo]->next=NULL;
+		}
 	}
 	else
 	{

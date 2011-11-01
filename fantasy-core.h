@@ -107,6 +107,7 @@ t_lista_s* puntastruttura (int Pos);
 void combatti(t_infotruppa* Attaccante, t_infotruppa* Difensore, char m);
 int assaltamura(t_lista_s* Castello);
 int assaltabreccia(t_infotruppa* Attaccante,t_lista_t* Difensori);
+int assaltaedificio(t_lista_s* Edificio);
 int spostalecito (int PosT, int PosC );
 int bersagliolecito (int PosT, int PosC );
 int assaltolecito (int PosT, int PosC );
