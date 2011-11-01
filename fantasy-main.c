@@ -167,6 +167,8 @@ static void nuova_partita ()
 		gtk_stampa_mappa(0,0, 'n');
 		gtk_aggiorna_contarisorse();
 		Listacastelli[0]=gtk_riempi_tab_castelli (1, "Capitale");
+		gtk_aggiorna_tab_armate();
+		gtk_aggiorna_tab_strutture();
 		gtk_widget_destroy (Dialogo);
 	}
 	else
@@ -1692,6 +1694,7 @@ void gtk_azzera_tab ()
 		free(Tabp);
 	}
 	Listatruppe=NULL;
+	Listastrutture=NULL;
 	gtk_crea_elemento_tab(NULL,0,0,NULL);
 }
 
