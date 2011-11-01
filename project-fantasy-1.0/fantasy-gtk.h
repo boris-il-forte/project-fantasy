@@ -37,6 +37,7 @@ GtkWidget *gtk_crea_elemento_tab(GtkWidget *tab,int x, int y,char *buf);
 GtkWidget * gtk_riempi_tab_castelli (int i, char* buf);
 void gtk_aggiorna_tab_armate ();
 void gtk_aggiorna_tab_castelli ();
+void gtk_aggiorna_tab_strutture ();
 void gtk_pulisci_tab (GtkWidget *Target);
 void gtk_azzera_tab ();
 

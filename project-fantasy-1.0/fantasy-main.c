@@ -99,7 +99,18 @@ static void salva_carica(int Data)
 	if (gtk_dialog_run (GTK_DIALOG(Fselect))==1)
 	{
 		buf=gtk_file_chooser_get_filename (GTK_FILE_CHOOSER(Fselect));
-		if(Data==0) carica(buf);
+		if(Data==0) 
+		{
+			caricadati();
+			inizializza();
+			carica(buf);
+			gtk_pulisci_mappa ();
+			gtk_stampa_mappa(0,0, 'n');
+			gtk_aggiorna_contarisorse();
+			gtk_aggiorna_tab_castelli();
+			gtk_aggiorna_tab_strutture();
+			gtk_aggiorna_tab_armate();
+		}
 		else salva(buf);
 		gtk_widget_destroy(Fselect);
 	}
@@ -862,6 +873,11 @@ static void click_turno ()
 	{
 		fineturno();
 		gtk_aggiorna_contarisorse();
+		gtk_aggiorna_tab_castelli();
+		gtk_aggiorna_tab_strutture();
+		gtk_aggiorna_tab_armate();
+		gtk_pulisci_mappa();
+		gtk_stampa_mappa(cx,cy,'n');
 	}
 	return;
 }
@@ -1427,6 +1443,56 @@ void gtk_aggiorna_tab_castelli ()
 		Listacastelli[i]=gtk_crea_elemento_tab(Notebook[1],x, y, buf);
 		S=S->next;
 	}
+}
+//aggiorna il tab strutture
+void gtk_aggiorna_tab_strutture ()
+{
+	int i;
+	int x,y;
+	char buf[20];
+	t_lista_s* S[numstrutture-1];
+	t_listapertab* Tab;
+	t_listapertab* Tabp;
+	for(i=1; i<numstrutture;i++) S[i-1]=giocatore[0]->struttura[i];
+	Tab=Listastrutture;
+	while(Tab!=NULL)
+	{
+		gtk_pulisci_tab(Tab->P);
+		Tabp=Tab;
+		Tab=Tab->next;
+		free(Tabp);
+	}
+	for(i=0;i<numstrutture-1; i++)
+		while(S[i]!=NULL)
+		{
+			x=S[i]->pos%Larghezza+1;
+			y=S[i]->pos/Larghezza+1;
+			switch(i+1)
+			{
+				case Fat:
+					sprintf(buf,"Fattoria");
+					break;
+				case Scu:
+					sprintf(buf,"Scuderia");
+					break;
+				case Gro:
+					sprintf(buf,"Grotta");
+					break;
+				case Nid:
+					sprintf(buf,"Nido");
+					break;
+				default:
+					sprintf(buf,"Errore");
+					break;
+			}
+			Tabp=Tab;
+			Tab=(t_listapertab*)malloc(sizeof(t_listapertab));
+			if(Tabp==NULL) Listastrutture=Tab;
+			else Tabp->next=Tab;
+			Tab->P=gtk_crea_elemento_tab(Notebook[2],x, y, buf);
+			Tab->next=NULL;
+			S[i]=S[i]->next;
+		}
 }
 //aggiorna il tab armate
 void gtk_aggiorna_tab_armate ()
