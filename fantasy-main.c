@@ -1,6 +1,6 @@
 /*
  * Project Fantasy, gioco di strategia a turni
- *       
+ *
  *
  * Copyright (C) 2011 Davide Tateo
  * Versione 1.0
@@ -11,7 +11,7 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU General Public License for more details.
  */
 
@@ -21,9 +21,11 @@
 #include <string.h>
 #include "fantasy-core.h"
 #include "fantasy-gtk.h"
-#define L_schermo 36
-#define A_schermo 18
-#define Dim_freccia 40
+
+#define L_SCHERMO 36
+#define A_SCHERMO 18
+#define DIM_FRECCIA 40
+
 //struct per tab
 typedef struct s_listapertab
 {
@@ -35,8 +37,8 @@ typedef struct s_listapertab
 GtkWidget *Casella[648];
 GtkWidget *Thumb[648];
 GtkWidget *Notebook[4];
-GtkWidget *Counter[numrisorse];
-GtkWidget *Listacastelli[numcastelli];
+GtkWidget *Counter[NUMRISORSE];
+GtkWidget *Listacastelli[NUMCASTELLI];
 t_callback_s tr_callback[Fen];
 int Mossa;
 int cx,cy;
@@ -85,6 +87,7 @@ static void chiudi_da_menu()
 	else
 		gtk_widget_destroy (Dialogo);
 }
+
 static void salva_carica(int Data)
 {
 	GtkWidget *Fselect;
@@ -127,8 +130,8 @@ static void nuova_partita ()
 	GtkWidget *Hbox, *Vbox;
 	GtkObject *Giocatori, *IA;
 	fprintf(stderr,"debug nuova_partita\n");
-	Giocatori=gtk_adjustment_new(4, 2, maxgiocatori, 1, 2, 0);
-	IA=gtk_adjustment_new(3, 0, maxgiocatori-1, 1, 1, 0);
+	Giocatori=gtk_adjustment_new(4, 2, MAXGIOCATORI, 1, 2, 0);
+	IA=gtk_adjustment_new(3, 0, MAXGIOCATORI-1, 1, 1, 0);
 	Dialogo=gtk_dialog_new();
 	gtk_dialog_add_buttons (GTK_DIALOG(Dialogo),"Inizia!",1,"Annulla",0,NULL);
 	gtk_window_set_icon (GTK_WINDOW (Dialogo),Immagine.logo);
@@ -173,12 +176,12 @@ static void nuova_partita ()
 static void centra_mappa(char* pos)
 {
 	int P= (int) (pos-infomappa.mappa);
-	cx=P%Larghezza+1-L_schermo/2;
-	cy=P/Larghezza+1-A_schermo/2;
+	cx=P%LARGHEZZA+1-L_SCHERMO/2;
+	cy=P/LARGHEZZA+1-A_SCHERMO/2;
 	if(cx<0) cx=0;
 	if(cy<0) cy=0;
-	if(cx>Larghezza-L_schermo) cx=(Larghezza-L_schermo);
-	if(cy>Altezza-A_schermo) cy=(Altezza-A_schermo);
+	if(cx>LARGHEZZA-L_SCHERMO) cx=(LARGHEZZA-L_SCHERMO);
+	if(cy>ALTEZZA-A_SCHERMO) cy=(ALTEZZA-A_SCHERMO);
 	gtk_pulisci_mappa ();
 	gtk_stampa_mappa(cx,cy,'n');
 }
@@ -209,7 +212,7 @@ static void sposta_mappa(char* v)
 			}
 			break;
 		case 5:
-			if(cy+1>Altezza-A_schermo)
+			if(cy+1>ALTEZZA-A_SCHERMO)
 				return;
 			else
 			{
@@ -219,7 +222,7 @@ static void sposta_mappa(char* v)
 			}
 			break;
 		case 7:
-			if(cx+1>Larghezza-L_schermo)
+			if(cx+1>LARGHEZZA-L_SCHERMO)
 				return;
 			else
 			{
@@ -460,17 +463,17 @@ static void click_castello(char* pos)
 	//reclute
 	oggetto=gtk_menu_item_new_with_label ("Reclute");
 	gtk_menu_shell_append (GTK_MENU_SHELL (lista), oggetto);
-	g_signal_connect_swapped (oggetto, "activate",  G_CALLBACK (addestra_truppa), (gpointer) &tr_callback[Rec]);
+	g_signal_connect_swapped (oggetto, "activate", G_CALLBACK (addestra_truppa), (gpointer) &tr_callback[Rec]);
 	gtk_widget_show (oggetto);
 	//fanteria
 	oggetto=gtk_menu_item_new_with_label ("Fanteria");
 	gtk_menu_shell_append (GTK_MENU_SHELL (lista), oggetto);
-	g_signal_connect_swapped (oggetto, "activate",  G_CALLBACK (addestra_truppa), (gpointer) &tr_callback[Fan]);
+	g_signal_connect_swapped (oggetto, "activate", G_CALLBACK (addestra_truppa), (gpointer) &tr_callback[Fan]);
 	gtk_widget_show (oggetto);
 	//lanceri
 	oggetto=gtk_menu_item_new_with_label ("Lancieri");
 	gtk_menu_shell_append (GTK_MENU_SHELL (lista), oggetto);
-	g_signal_connect_swapped (oggetto, "activate",  G_CALLBACK (addestra_truppa), (gpointer) &tr_callback[Lan]);
+	g_signal_connect_swapped (oggetto, "activate", G_CALLBACK (addestra_truppa), (gpointer) &tr_callback[Lan]);
 	gtk_widget_show (oggetto);
 	//attacca la lista alla scelta
 	gtk_menu_item_set_submenu (GTK_MENU_ITEM (scelta), lista);
@@ -483,22 +486,22 @@ static void click_castello(char* pos)
 	//reclute
 	oggetto=gtk_menu_item_new_with_label ("Reclute");
 	gtk_menu_shell_append (GTK_MENU_SHELL (lista), oggetto);
-	g_signal_connect_swapped (oggetto, "activate",  G_CALLBACK (evacua_truppa), (gpointer) &tr_callback[Rec]);
+	g_signal_connect_swapped (oggetto, "activate", G_CALLBACK (evacua_truppa), (gpointer) &tr_callback[Rec]);
 	gtk_widget_show (oggetto);
 	//fanteria
 	oggetto=gtk_menu_item_new_with_label ("Fanteria");
 	gtk_menu_shell_append (GTK_MENU_SHELL (lista), oggetto);
-	g_signal_connect_swapped (oggetto, "activate",  G_CALLBACK (evacua_truppa), (gpointer) &tr_callback[Fan]);
+	g_signal_connect_swapped (oggetto, "activate", G_CALLBACK (evacua_truppa), (gpointer) &tr_callback[Fan]);
 	gtk_widget_show (oggetto);
 	//lanceri
 	oggetto=gtk_menu_item_new_with_label ("Lancieri");
 	gtk_menu_shell_append (GTK_MENU_SHELL (lista), oggetto);
-	g_signal_connect_swapped (oggetto, "activate",  G_CALLBACK (evacua_truppa), (gpointer) &tr_callback[Lan]);
+	g_signal_connect_swapped (oggetto, "activate", G_CALLBACK (evacua_truppa), (gpointer) &tr_callback[Lan]);
 	gtk_widget_show (oggetto);
 	//Arcieri
 	oggetto=gtk_menu_item_new_with_label ("Arcieri");
 	gtk_menu_shell_append (GTK_MENU_SHELL (lista), oggetto);
-	g_signal_connect_swapped (oggetto, "activate",  G_CALLBACK (evacua_truppa), (gpointer) &tr_callback[Arc]);
+	g_signal_connect_swapped (oggetto, "activate", G_CALLBACK (evacua_truppa), (gpointer) &tr_callback[Arc]);
 	gtk_widget_show (oggetto);
 	//attacca la lista alla scelta
 	gtk_menu_item_set_submenu (GTK_MENU_ITEM (scelta), lista);
@@ -523,12 +526,12 @@ static void click_scuderia()
 	//reclute
 	oggetto=gtk_menu_item_new_with_label ("Reclute");
 	gtk_menu_shell_append (GTK_MENU_SHELL (lista), oggetto);
-	g_signal_connect (oggetto, "activate",  G_CALLBACK (menuitem_response), (gpointer) NULL);
+	g_signal_connect (oggetto, "activate", G_CALLBACK (menuitem_response), (gpointer) NULL);
 	gtk_widget_show (oggetto);
 	//fanteria
 	oggetto=gtk_menu_item_new_with_label ("Cavalleria");
 	gtk_menu_shell_append (GTK_MENU_SHELL (lista), oggetto);
-	g_signal_connect (oggetto, "activate",  G_CALLBACK (menuitem_response), (gpointer) NULL);
+	g_signal_connect (oggetto, "activate", G_CALLBACK (menuitem_response), (gpointer) NULL);
 	gtk_widget_show (oggetto);
 	//attacca la lista alla scelta
 	gtk_menu_item_set_submenu (GTK_MENU_ITEM (scelta), lista);
@@ -541,22 +544,22 @@ static void click_scuderia()
 	//reclute
 	oggetto=gtk_menu_item_new_with_label ("Reclute");
 	gtk_menu_shell_append (GTK_MENU_SHELL (lista), oggetto);
-	g_signal_connect (oggetto, "activate",  G_CALLBACK (menuitem_response), (gpointer) NULL);
+	g_signal_connect (oggetto, "activate", G_CALLBACK (menuitem_response), (gpointer) NULL);
 	gtk_widget_show (oggetto);
 	//fanteria
 	oggetto=gtk_menu_item_new_with_label ("Fanteria");
 	gtk_menu_shell_append (GTK_MENU_SHELL (lista), oggetto);
-	g_signal_connect (oggetto, "activate",  G_CALLBACK (menuitem_response), (gpointer) NULL);
+	g_signal_connect (oggetto, "activate", G_CALLBACK (menuitem_response), (gpointer) NULL);
 	gtk_widget_show (oggetto);
 	//lanceri
 	oggetto=gtk_menu_item_new_with_label ("Lancieri");
 	gtk_menu_shell_append (GTK_MENU_SHELL (lista), oggetto);
-	g_signal_connect (oggetto, "activate",  G_CALLBACK (menuitem_response), (gpointer) NULL);
+	g_signal_connect (oggetto, "activate", G_CALLBACK (menuitem_response), (gpointer) NULL);
 	gtk_widget_show (oggetto);
 	//Cavalleria
 	oggetto=gtk_menu_item_new_with_label ("Cavalleria");
 	gtk_menu_shell_append (GTK_MENU_SHELL (lista), oggetto);
-	g_signal_connect (oggetto, "activate",  G_CALLBACK (menuitem_response), (gpointer) NULL);
+	g_signal_connect (oggetto, "activate", G_CALLBACK (menuitem_response), (gpointer) NULL);
 	gtk_widget_show (oggetto);
 	//attacca la lista alla scelta
 	gtk_menu_item_set_submenu (GTK_MENU_ITEM (scelta), lista);
@@ -581,12 +584,12 @@ static void click_fattoria()
 	//reclute
 	oggetto=gtk_menu_item_new_with_label ("Reclute");
 	gtk_menu_shell_append (GTK_MENU_SHELL (lista), oggetto);
-	g_signal_connect (oggetto, "activate",  G_CALLBACK (menuitem_response), (gpointer) NULL);
+	g_signal_connect (oggetto, "activate", G_CALLBACK (menuitem_response), (gpointer) NULL);
 	gtk_widget_show (oggetto);
 	//fanteria
 	oggetto=gtk_menu_item_new_with_label ("Arceri");
 	gtk_menu_shell_append (GTK_MENU_SHELL (lista), oggetto);
-	g_signal_connect (oggetto, "activate",  G_CALLBACK (menuitem_response), (gpointer) NULL);
+	g_signal_connect (oggetto, "activate", G_CALLBACK (menuitem_response), (gpointer) NULL);
 	gtk_widget_show (oggetto);
 	//attacca la lista alla scelta
 	gtk_menu_item_set_submenu (GTK_MENU_ITEM (scelta), lista);
@@ -599,22 +602,22 @@ static void click_fattoria()
 	//reclute
 	oggetto=gtk_menu_item_new_with_label ("Reclute");
 	gtk_menu_shell_append (GTK_MENU_SHELL (lista), oggetto);
-	g_signal_connect (oggetto, "activate",  G_CALLBACK (menuitem_response), (gpointer) NULL);
+	g_signal_connect (oggetto, "activate", G_CALLBACK (menuitem_response), (gpointer) NULL);
 	gtk_widget_show (oggetto);
 	//fanteria
 	oggetto=gtk_menu_item_new_with_label ("Fanteria");
 	gtk_menu_shell_append (GTK_MENU_SHELL (lista), oggetto);
-	g_signal_connect (oggetto, "activate",  G_CALLBACK (menuitem_response), (gpointer) NULL);
+	g_signal_connect (oggetto, "activate", G_CALLBACK (menuitem_response), (gpointer) NULL);
 	gtk_widget_show (oggetto);
 	//lanceri
 	oggetto=gtk_menu_item_new_with_label ("Lancieri");
 	gtk_menu_shell_append (GTK_MENU_SHELL (lista), oggetto);
-	g_signal_connect (oggetto, "activate",  G_CALLBACK (menuitem_response), (gpointer) NULL);
+	g_signal_connect (oggetto, "activate", G_CALLBACK (menuitem_response), (gpointer) NULL);
 	gtk_widget_show (oggetto);
 	//Arcieri
 	oggetto=gtk_menu_item_new_with_label ("Arcieri");
 	gtk_menu_shell_append (GTK_MENU_SHELL (lista), oggetto);
-	g_signal_connect (oggetto, "activate",  G_CALLBACK (menuitem_response), (gpointer) NULL);
+	g_signal_connect (oggetto, "activate", G_CALLBACK (menuitem_response), (gpointer) NULL);
 	gtk_widget_show (oggetto);
 	//attacca la lista alla scelta
 	gtk_menu_item_set_submenu (GTK_MENU_ITEM (scelta), lista);
@@ -639,7 +642,7 @@ static void click_grotta()
 	//Draghi
 	oggetto=gtk_menu_item_new_with_label ("Draghi");
 	gtk_menu_shell_append (GTK_MENU_SHELL (lista), oggetto);
-	g_signal_connect (oggetto, "activate",  G_CALLBACK (menuitem_response), (gpointer) NULL);
+	g_signal_connect (oggetto, "activate", G_CALLBACK (menuitem_response), (gpointer) NULL);
 	gtk_widget_show (oggetto);
 	//attacca la lista alla scelta
 	gtk_menu_item_set_submenu (GTK_MENU_ITEM (scelta), lista);
@@ -652,22 +655,22 @@ static void click_grotta()
 	//reclute
 	oggetto=gtk_menu_item_new_with_label ("Reclute");
 	gtk_menu_shell_append (GTK_MENU_SHELL (lista), oggetto);
-	g_signal_connect (oggetto, "activate",  G_CALLBACK (menuitem_response), (gpointer) NULL);
+	g_signal_connect (oggetto, "activate", G_CALLBACK (menuitem_response), (gpointer) NULL);
 	gtk_widget_show (oggetto);
 	//fanteria
 	oggetto=gtk_menu_item_new_with_label ("Fanteria");
 	gtk_menu_shell_append (GTK_MENU_SHELL (lista), oggetto);
-	g_signal_connect (oggetto, "activate",  G_CALLBACK (menuitem_response), (gpointer) NULL);
+	g_signal_connect (oggetto, "activate", G_CALLBACK (menuitem_response), (gpointer) NULL);
 	gtk_widget_show (oggetto);
 	//lanceri
 	oggetto=gtk_menu_item_new_with_label ("Lancieri");
 	gtk_menu_shell_append (GTK_MENU_SHELL (lista), oggetto);
-	g_signal_connect (oggetto, "activate",  G_CALLBACK (menuitem_response), (gpointer) NULL);
+	g_signal_connect (oggetto, "activate", G_CALLBACK (menuitem_response), (gpointer) NULL);
 	gtk_widget_show (oggetto);
 	//Arcieri
 	oggetto=gtk_menu_item_new_with_label ("Arcieri");
 	gtk_menu_shell_append (GTK_MENU_SHELL (lista), oggetto);
-	g_signal_connect (oggetto, "activate",  G_CALLBACK (menuitem_response), (gpointer) NULL);
+	g_signal_connect (oggetto, "activate", G_CALLBACK (menuitem_response), (gpointer) NULL);
 	gtk_widget_show (oggetto);
 	//attacca la lista alla scelta
 	gtk_menu_item_set_submenu (GTK_MENU_ITEM (scelta), lista);
@@ -692,7 +695,7 @@ static void click_nido()
 	//Fenici
 	oggetto=gtk_menu_item_new_with_label ("Fenici");
 	gtk_menu_shell_append (GTK_MENU_SHELL (lista), oggetto);
-	g_signal_connect (oggetto, "activate",  G_CALLBACK (menuitem_response), (gpointer) NULL);
+	g_signal_connect (oggetto, "activate", G_CALLBACK (menuitem_response), (gpointer) NULL);
 	gtk_widget_show (oggetto);
 	//attacca la lista alla scelta
 	gtk_menu_item_set_submenu (GTK_MENU_ITEM (scelta), lista);
@@ -705,22 +708,22 @@ static void click_nido()
 	//reclute
 	oggetto=gtk_menu_item_new_with_label ("Reclute");
 	gtk_menu_shell_append (GTK_MENU_SHELL (lista), oggetto);
-	g_signal_connect (oggetto, "activate",  G_CALLBACK (menuitem_response), (gpointer) NULL);
+	g_signal_connect (oggetto, "activate", G_CALLBACK (menuitem_response), (gpointer) NULL);
 	gtk_widget_show (oggetto);
 	//fanteria
 	oggetto=gtk_menu_item_new_with_label ("Fanteria");
 	gtk_menu_shell_append (GTK_MENU_SHELL (lista), oggetto);
-	g_signal_connect (oggetto, "activate",  G_CALLBACK (menuitem_response), (gpointer) NULL);
+	g_signal_connect (oggetto, "activate", G_CALLBACK (menuitem_response), (gpointer) NULL);
 	gtk_widget_show (oggetto);
 	//lanceri
 	oggetto=gtk_menu_item_new_with_label ("Lancieri");
 	gtk_menu_shell_append (GTK_MENU_SHELL (lista), oggetto);
-	g_signal_connect (oggetto, "activate",  G_CALLBACK (menuitem_response), (gpointer) NULL);
+	g_signal_connect (oggetto, "activate", G_CALLBACK (menuitem_response), (gpointer) NULL);
 	gtk_widget_show (oggetto);
 	//Arceri
 	oggetto=gtk_menu_item_new_with_label ("Arcieri");
 	gtk_menu_shell_append (GTK_MENU_SHELL (lista), oggetto);
-	g_signal_connect (oggetto, "activate",  G_CALLBACK (menuitem_response), (gpointer) NULL);
+	g_signal_connect (oggetto, "activate", G_CALLBACK (menuitem_response), (gpointer) NULL);
 	gtk_widget_show (oggetto);
 	//attacca la lista alla scelta
 	gtk_menu_item_set_submenu (GTK_MENU_ITEM (scelta), lista);
@@ -773,11 +776,11 @@ static void click_unita (char* pos)
 	/*pulsanti*/
 	oggetto=gtk_menu_item_new_with_label ("Muovi");
 	gtk_menu_shell_append (GTK_MENU_SHELL (menu), oggetto);
-	g_signal_connect_swapped (oggetto, "activate",  G_CALLBACK (muovi_unita), (gpointer) pos);
+	g_signal_connect_swapped (oggetto, "activate", G_CALLBACK (muovi_unita), (gpointer) pos);
 	gtk_widget_show (oggetto);
 	oggetto=gtk_menu_item_new_with_label ("Combatti");
 	gtk_menu_shell_append (GTK_MENU_SHELL (menu), oggetto);
-	g_signal_connect_swapped (oggetto, "activate",  G_CALLBACK (combatti_unita), (gpointer) pos);
+	g_signal_connect_swapped (oggetto, "activate", G_CALLBACK (combatti_unita), (gpointer) pos);
 	gtk_widget_show (oggetto);
 	gtk_menu_popup (GTK_MENU (menu), NULL, NULL, NULL, NULL,1, gtk_get_current_event_time());
 	printf("unità cliccata!\n");
@@ -886,10 +889,11 @@ static void click_turno ()
 void gtk_inizializza_widget()
 {
 	int i;
-	for (i=0; i<numcastelli; i++) Listacastelli[i]=NULL;
+	for (i=0; i<NUMCASTELLI; i++) Listacastelli[i]=NULL;
 	Listastrutture=NULL;
 	Listatruppe=NULL;
 }
+
 void gtk_carica_immagini ()
 {
 	int i,j;
@@ -969,22 +973,22 @@ void gtk_crea_menu (GtkWidget *Vbox)
 	// 	genera scelta 1
 	oggetto_menu=gtk_menu_item_new_with_label ("Nuova Partita");
 	gtk_menu_shell_append (GTK_MENU_SHELL (menu), oggetto_menu);
-	g_signal_connect (oggetto_menu, "activate",  G_CALLBACK (nuova_partita), (gpointer) NULL);
+	g_signal_connect (oggetto_menu, "activate", G_CALLBACK (nuova_partita), (gpointer) NULL);
 	gtk_widget_show (oggetto_menu);
 	// 	genera scelta 2
 	oggetto_menu=gtk_menu_item_new_with_label ("Carica");
 	gtk_menu_shell_append (GTK_MENU_SHELL (menu), oggetto_menu);
-	g_signal_connect_swapped (oggetto_menu, "activate",  G_CALLBACK (salva_carica),(gpointer) 0);
+	g_signal_connect_swapped (oggetto_menu, "activate", G_CALLBACK (salva_carica),(gpointer) 0);
 	gtk_widget_show (oggetto_menu);
 	// 	genera scelta 3
 	oggetto_menu=gtk_menu_item_new_with_label ("Salva");
 	gtk_menu_shell_append (GTK_MENU_SHELL (menu), oggetto_menu);
-	g_signal_connect_swapped (oggetto_menu, "activate",  G_CALLBACK (salva_carica),(gpointer) 1);
+	g_signal_connect_swapped (oggetto_menu, "activate", G_CALLBACK (salva_carica),(gpointer) 1);
 	gtk_widget_show (oggetto_menu);
 	// 	genera scelta 4
 	oggetto_menu=gtk_menu_item_new_with_label ("Esci");
 	gtk_menu_shell_append (GTK_MENU_SHELL (menu), oggetto_menu);
-	g_signal_connect (oggetto_menu, "activate",  G_CALLBACK (chiudi_da_menu), (gpointer) NULL);
+	g_signal_connect (oggetto_menu, "activate", G_CALLBACK (chiudi_da_menu), (gpointer) NULL);
 	gtk_widget_show (oggetto_menu);
 	// 	genera etichetta file 
 	menu_file=gtk_menu_item_new_with_label ("File");
@@ -995,12 +999,12 @@ void gtk_crea_menu (GtkWidget *Vbox)
 	// 	genera scelta 1
 	oggetto_menu=gtk_menu_item_new_with_label ("Manuale");
 	gtk_menu_shell_append (GTK_MENU_SHELL (menu), oggetto_menu);
-	g_signal_connect (oggetto_menu, "activate",  G_CALLBACK (menuitem_response), (gpointer) NULL);
+	g_signal_connect (oggetto_menu, "activate", G_CALLBACK (menuitem_response), (gpointer) NULL);
 	gtk_widget_show (oggetto_menu);
 	// 	genera scelta 2
 	oggetto_menu=gtk_menu_item_new_with_label ("Crediti");
 	gtk_menu_shell_append (GTK_MENU_SHELL (menu), oggetto_menu);
-	g_signal_connect (oggetto_menu, "activate",  G_CALLBACK (menuitem_response), (gpointer) NULL);
+	g_signal_connect (oggetto_menu, "activate", G_CALLBACK (menuitem_response), (gpointer) NULL);
 	gtk_widget_show (oggetto_menu);
 	// 	genera etichetta help
 	menu_help=gtk_menu_item_new_with_label ("Help");
@@ -1020,7 +1024,7 @@ void gtk_pulisci_mappa ()
 	static char control=0;
 	int Pos;
 	if(control!=0)
-		for  (Pos=0; Pos<648; Pos++) 
+		for (Pos=0; Pos<648; Pos++) 
 		{
 			
 			g_signal_handlers_disconnect_matched(Casella[Pos],G_SIGNAL_MATCH_FUNC,0,0,0, click_castello, 0);
@@ -1045,8 +1049,8 @@ void gtk_stampa_mappa(int x, int y, char m)
 	int R;
 	int Pos=0;
 	int G;
-	for(R=y;R<y+A_schermo;R++)
-		for(C=x;C<x+L_schermo;C++)
+	for(R=y;R<y+A_SCHERMO;R++)
+		for(C=x;C<x+L_SCHERMO;C++)
 		{
 			switch (accedi(C,R,infomappa.mappa))
 			{
@@ -1055,79 +1059,79 @@ void gtk_stampa_mappa(int x, int y, char m)
 					Thumb[Pos]=gtk_image_new_from_pixbuf (Immagine.c[0]);
 					gtk_container_add(GTK_CONTAINER(Casella[Pos]), Thumb[Pos]);
 					if(controlloedificio (posiziona(-1,-1,C,R), Cas)==0 && m=='n') 
-						g_signal_connect_swapped (Casella[Pos], "button_press_event",  G_CALLBACK (click_castello), (gpointer) &infomappa.mappa[posiziona(-1,-1,C,R)]);
+						g_signal_connect_swapped (Casella[Pos], "button_press_event", G_CALLBACK (click_castello), (gpointer) &infomappa.mappa[posiziona(-1,-1,C,R)]);
 					if(m=='c'&& assaltolecito(Mossa,posiziona(0,0,C,R))==1 && controllodiverso(Mossa,posiziona(-1,-1,C,R),Cas)==1)
-						g_signal_connect_swapped (Casella[Pos], "button_press_event",  G_CALLBACK (click_assediocastello), (gpointer) &infomappa.mappa[posiziona(-1,-1,C,R)]);
+						g_signal_connect_swapped (Casella[Pos], "button_press_event", G_CALLBACK (click_assediocastello), (gpointer) &infomappa.mappa[posiziona(-1,-1,C,R)]);
 					gtk_widget_show(Thumb[Pos]);
 					break;
 				case '1':
 					Thumb[Pos]=gtk_image_new_from_pixbuf (Immagine.c[1]);
 					gtk_container_add(GTK_CONTAINER(Casella[Pos]), Thumb[Pos]);
 					if(controlloedificio (posiziona(0,-1,C,R),Cas)==0 && m=='n') 
-						g_signal_connect_swapped (Casella[Pos], "button_press_event",  G_CALLBACK (click_castello), (gpointer) &infomappa.mappa[posiziona(0,-1,C,R)]);
+						g_signal_connect_swapped (Casella[Pos], "button_press_event", G_CALLBACK (click_castello), (gpointer) &infomappa.mappa[posiziona(0,-1,C,R)]);
 					if(m=='c'&& assaltolecito(Mossa,posiziona(0,0,C,R))==1 && controllodiverso(Mossa,posiziona(0,-1,C,R),Cas)==1)
-						g_signal_connect_swapped (Casella[Pos], "button_press_event",  G_CALLBACK (click_assediocastello), (gpointer) &infomappa.mappa[posiziona(0,-1,C,R)]);
+						g_signal_connect_swapped (Casella[Pos], "button_press_event", G_CALLBACK (click_assediocastello), (gpointer) &infomappa.mappa[posiziona(0,-1,C,R)]);
 					gtk_widget_show(Thumb[Pos]);
 					break;
 				case '2':
 					Thumb[Pos]=gtk_image_new_from_pixbuf (Immagine.c[2]);
 					gtk_container_add(GTK_CONTAINER(Casella[Pos]), Thumb[Pos]);
 					if(controlloedificio (posiziona(1,-1,C,R),Cas)==0 && m=='n') 
-						g_signal_connect_swapped (Casella[Pos], "button_press_event",  G_CALLBACK (click_castello), (gpointer) &infomappa.mappa[posiziona(1,-1,C,R)]);
+						g_signal_connect_swapped (Casella[Pos], "button_press_event", G_CALLBACK (click_castello), (gpointer) &infomappa.mappa[posiziona(1,-1,C,R)]);
 					if(m=='c'&& assaltolecito(Mossa,posiziona(0,0,C,R))==1 && controllodiverso(Mossa,posiziona(1,-1,C,R),Cas)==1)
-						g_signal_connect_swapped (Casella[Pos], "button_press_event",  G_CALLBACK (click_assediocastello), (gpointer) &infomappa.mappa[posiziona(1,-1,C,R)]);
+						g_signal_connect_swapped (Casella[Pos], "button_press_event", G_CALLBACK (click_assediocastello), (gpointer) &infomappa.mappa[posiziona(1,-1,C,R)]);
 					gtk_widget_show(Thumb[Pos]);
 					break;
 				case '3':
 					Thumb[Pos]=gtk_image_new_from_pixbuf (Immagine.c[3]);
 					gtk_container_add(GTK_CONTAINER(Casella[Pos]), Thumb[Pos]);
 					if(controlloedificio (posiziona(-1,0,C,R),Cas)==0 && m=='n') 
-						g_signal_connect_swapped (Casella[Pos], "button_press_event",  G_CALLBACK (click_castello), (gpointer) &infomappa.mappa[posiziona(-1,0,C,R)]);
+						g_signal_connect_swapped (Casella[Pos], "button_press_event", G_CALLBACK (click_castello), (gpointer) &infomappa.mappa[posiziona(-1,0,C,R)]);
 					if(m=='c'&& assaltolecito(Mossa,posiziona(0,0,C,R))==1 && controllodiverso(Mossa,posiziona(-1,0,C,R),Cas)==1)
-						g_signal_connect_swapped (Casella[Pos], "button_press_event",  G_CALLBACK (click_assediocastello), (gpointer) &infomappa.mappa[posiziona(-1,0,C,R)]);
+						g_signal_connect_swapped (Casella[Pos], "button_press_event", G_CALLBACK (click_assediocastello), (gpointer) &infomappa.mappa[posiziona(-1,0,C,R)]);
 					gtk_widget_show(Thumb[Pos]);
 					break;
 				case '4':
 					Thumb[Pos]=gtk_image_new_from_pixbuf (Immagine.c[4]);
 					gtk_container_add(GTK_CONTAINER(Casella[Pos]), Thumb[Pos]);
 					if(controlloedificio (posiziona(0,0,C,R),Cas)==0 && m=='n') 
-						g_signal_connect_swapped (Casella[Pos], "button_press_event",  G_CALLBACK (click_castello), (gpointer) &infomappa.mappa[posiziona(0,0,C,R)]);
+						g_signal_connect_swapped (Casella[Pos], "button_press_event", G_CALLBACK (click_castello), (gpointer) &infomappa.mappa[posiziona(0,0,C,R)]);
 					gtk_widget_show(Thumb[Pos]);
 					break;
 				case '5':
 					Thumb[Pos]=gtk_image_new_from_pixbuf (Immagine.c[5]);
 					gtk_container_add(GTK_CONTAINER(Casella[Pos]), Thumb[Pos]);
 					if(controlloedificio (posiziona(1,0,C,R),Cas)==0 && m=='n') 
-						g_signal_connect_swapped (Casella[Pos], "button_press_event",  G_CALLBACK (click_castello), (gpointer) &infomappa.mappa[posiziona(1,0,C,R)]);
+						g_signal_connect_swapped (Casella[Pos], "button_press_event", G_CALLBACK (click_castello), (gpointer) &infomappa.mappa[posiziona(1,0,C,R)]);
 					if(m=='c'&& assaltolecito(Mossa,posiziona(0,0,C,R))==1 && controllodiverso(Mossa,posiziona(1,0,C,R),Cas)==1)
-						g_signal_connect_swapped (Casella[Pos], "button_press_event",  G_CALLBACK (click_assediocastello), (gpointer) &infomappa.mappa[posiziona(1,0,C,R)]);
+						g_signal_connect_swapped (Casella[Pos], "button_press_event", G_CALLBACK (click_assediocastello), (gpointer) &infomappa.mappa[posiziona(1,0,C,R)]);
 					gtk_widget_show(Thumb[Pos]);
 					break;
 				case '6':
 					Thumb[Pos]=gtk_image_new_from_pixbuf (Immagine.c[6]);
 					gtk_container_add(GTK_CONTAINER(Casella[Pos]), Thumb[Pos]);
 					if(controlloedificio (posiziona(-1,1,C,R),Cas)==0 && m=='n') 
-						g_signal_connect_swapped (Casella[Pos], "button_press_event",  G_CALLBACK (click_castello), (gpointer) &infomappa.mappa[posiziona(-1,1,C,R)]);
+						g_signal_connect_swapped (Casella[Pos], "button_press_event", G_CALLBACK (click_castello), (gpointer) &infomappa.mappa[posiziona(-1,1,C,R)]);
 					if(m=='c'&& assaltolecito(Mossa,posiziona(0,0,C,R))==1 && controllodiverso(Mossa,posiziona(-1,1,C,R),Cas)==1)
-						g_signal_connect_swapped (Casella[Pos], "button_press_event",  G_CALLBACK (click_assediocastello), (gpointer) &infomappa.mappa[posiziona(-1,1,C,R)]);
+						g_signal_connect_swapped (Casella[Pos], "button_press_event", G_CALLBACK (click_assediocastello), (gpointer) &infomappa.mappa[posiziona(-1,1,C,R)]);
 					gtk_widget_show(Thumb[Pos]);
 					break;
 				case '7':
 					Thumb[Pos]=gtk_image_new_from_pixbuf (Immagine.c[7]);
 					gtk_container_add(GTK_CONTAINER(Casella[Pos]), Thumb[Pos]);
 					if(controlloedificio (posiziona(0,1,C,R),Cas)==0 && m=='n') 
-						g_signal_connect_swapped (Casella[Pos], "button_press_event",  G_CALLBACK (click_castello), (gpointer) &infomappa.mappa[posiziona(0,1,C,R)]);
+						g_signal_connect_swapped (Casella[Pos], "button_press_event", G_CALLBACK (click_castello), (gpointer) &infomappa.mappa[posiziona(0,1,C,R)]);
 					if(m=='c'&& assaltolecito(Mossa,posiziona(0,0,C,R))==1 && controllodiverso(Mossa,posiziona(0,1,C,R),Cas)==1)
-						g_signal_connect_swapped (Casella[Pos], "button_press_event",  G_CALLBACK (click_assediocastello), (gpointer) &infomappa.mappa[posiziona(0,1,C,R)]);
+						g_signal_connect_swapped (Casella[Pos], "button_press_event", G_CALLBACK (click_assediocastello), (gpointer) &infomappa.mappa[posiziona(0,1,C,R)]);
 					gtk_widget_show(Thumb[Pos]);
 					break;
 				case '8':
 					Thumb[Pos]=gtk_image_new_from_pixbuf (Immagine.c[8]);
 					gtk_container_add(GTK_CONTAINER(Casella[Pos]), Thumb[Pos]);
 					if(controlloedificio (posiziona(1,1,C,R),Cas)==0 && m=='n') 
-						g_signal_connect_swapped (Casella[Pos], "button_press_event",  G_CALLBACK (click_castello), (gpointer) &infomappa.mappa[posiziona(1,1,C,R)]);
+						g_signal_connect_swapped (Casella[Pos], "button_press_event", G_CALLBACK (click_castello), (gpointer) &infomappa.mappa[posiziona(1,1,C,R)]);
 					if(m=='c'&& assaltolecito(Mossa,posiziona(0,0,C,R))==1 && controllodiverso(Mossa,posiziona(1,1,C,R),Cas)==1)
-						g_signal_connect_swapped (Casella[Pos], "button_press_event",  G_CALLBACK (click_assediocastello), (gpointer) &infomappa.mappa[posiziona(1,1,C,R)]);
+						g_signal_connect_swapped (Casella[Pos], "button_press_event", G_CALLBACK (click_assediocastello), (gpointer) &infomappa.mappa[posiziona(1,1,C,R)]);
 					gtk_widget_show(Thumb[Pos]);
 					break;
 				/*stampa la grotta*/
@@ -1135,28 +1139,28 @@ void gtk_stampa_mappa(int x, int y, char m)
 					Thumb[Pos]=gtk_image_new_from_pixbuf (Immagine.g[0]);
 					gtk_container_add(GTK_CONTAINER(Casella[Pos]), Thumb[Pos]);
 					if(controlloedificio (posiziona(0,0,C,R),Gro)==0 && m=='n') 
-						g_signal_connect_swapped (Casella[Pos], "button_press_event",  G_CALLBACK (click_grotta), (gpointer) NULL);
+						g_signal_connect_swapped (Casella[Pos], "button_press_event", G_CALLBACK (click_grotta), (gpointer) NULL);
 					gtk_widget_show(Thumb[Pos]);
 					break;
 				case 'H':
 					Thumb[Pos]=gtk_image_new_from_pixbuf (Immagine.g[1]);
 					gtk_container_add(GTK_CONTAINER(Casella[Pos]), Thumb[Pos]);
 					if(controlloedificio (posiziona(1,0,C,R),Gro)==0 && m=='n') 
-						g_signal_connect_swapped (Casella[Pos], "button_press_event",  G_CALLBACK (click_grotta), (gpointer) NULL);
+						g_signal_connect_swapped (Casella[Pos], "button_press_event", G_CALLBACK (click_grotta), (gpointer) NULL);
 					gtk_widget_show(Thumb[Pos]);
 					break;
 				case 'I':
 					Thumb[Pos]=gtk_image_new_from_pixbuf (Immagine.g[2]);
 					gtk_container_add(GTK_CONTAINER(Casella[Pos]), Thumb[Pos]);
 					if(controlloedificio (posiziona(0,1,C,R),Gro)==0 && m=='n') 
-						g_signal_connect_swapped (Casella[Pos], "button_press_event",  G_CALLBACK (click_grotta), (gpointer) NULL);
+						g_signal_connect_swapped (Casella[Pos], "button_press_event", G_CALLBACK (click_grotta), (gpointer) NULL);
 					gtk_widget_show(Thumb[Pos]);
 					break;
 				case 'J':
 					Thumb[Pos]=gtk_image_new_from_pixbuf (Immagine.g[3]);
 					gtk_container_add(GTK_CONTAINER(Casella[Pos]), Thumb[Pos]);
 					if(controlloedificio (posiziona(1,1,C,R),Gro)==0 && m=='n') 
-						g_signal_connect_swapped (Casella[Pos], "button_press_event",  G_CALLBACK (click_grotta), (gpointer) NULL);
+						g_signal_connect_swapped (Casella[Pos], "button_press_event", G_CALLBACK (click_grotta), (gpointer) NULL);
 					gtk_widget_show(Thumb[Pos]);
 					break;
 				/*stampa la fattoria*/
@@ -1164,28 +1168,28 @@ void gtk_stampa_mappa(int x, int y, char m)
 					Thumb[Pos]=gtk_image_new_from_pixbuf (Immagine.f[0]);
 					gtk_container_add(GTK_CONTAINER(Casella[Pos]), Thumb[Pos]);
 					if(controlloedificio (posiziona(0,0,C,R),Fat)==0 && m=='n') 
-						g_signal_connect_swapped (Casella[Pos], "button_press_event",  G_CALLBACK (click_fattoria), (gpointer) NULL);
+						g_signal_connect_swapped (Casella[Pos], "button_press_event", G_CALLBACK (click_fattoria), (gpointer) NULL);
 					gtk_widget_show(Thumb[Pos]);
 					break;
 				case 'D':
 					Thumb[Pos]=gtk_image_new_from_pixbuf (Immagine.f[1]);
 					gtk_container_add(GTK_CONTAINER(Casella[Pos]), Thumb[Pos]);
 					if(controlloedificio (posiziona(1,0,C,R),Fat)==0 && m=='n') 
-						g_signal_connect_swapped (Casella[Pos], "button_press_event",  G_CALLBACK (click_fattoria), (gpointer) NULL);
+						g_signal_connect_swapped (Casella[Pos], "button_press_event", G_CALLBACK (click_fattoria), (gpointer) NULL);
 					gtk_widget_show(Thumb[Pos]);
 					break;
 				case 'E':
 					Thumb[Pos]=gtk_image_new_from_pixbuf (Immagine.f[2]);
 					gtk_container_add(GTK_CONTAINER(Casella[Pos]), Thumb[Pos]);
 					if(controlloedificio (posiziona(0,1,C,R),Fat)==0 && m=='n') 
-						g_signal_connect_swapped (Casella[Pos], "button_press_event",  G_CALLBACK (click_fattoria), (gpointer) NULL);
+						g_signal_connect_swapped (Casella[Pos], "button_press_event", G_CALLBACK (click_fattoria), (gpointer) NULL);
 					gtk_widget_show(Thumb[Pos]);
 					break;
 				case 'F':
 					Thumb[Pos]=gtk_image_new_from_pixbuf (Immagine.f[3]);
 					gtk_container_add(GTK_CONTAINER(Casella[Pos]), Thumb[Pos]);
 					if(controlloedificio (posiziona(1,1,C,R),Fat)==0 && m=='n') 
-						g_signal_connect_swapped (Casella[Pos], "button_press_event",  G_CALLBACK (click_fattoria), (gpointer) NULL);
+						g_signal_connect_swapped (Casella[Pos], "button_press_event", G_CALLBACK (click_fattoria), (gpointer) NULL);
 					gtk_widget_show(Thumb[Pos]);
 					break;				
 				/*stampa la scuderia*/
@@ -1193,28 +1197,28 @@ void gtk_stampa_mappa(int x, int y, char m)
 					Thumb[Pos]=gtk_image_new_from_pixbuf (Immagine.s[0]);
 					gtk_container_add(GTK_CONTAINER(Casella[Pos]), Thumb[Pos]);
 					if(controlloedificio (posiziona(0,0,C,R),Scu)==0 && m=='n') 
-						g_signal_connect_swapped (Casella[Pos], "button_press_event",  G_CALLBACK (click_scuderia), (gpointer) NULL);
+						g_signal_connect_swapped (Casella[Pos], "button_press_event", G_CALLBACK (click_scuderia), (gpointer) NULL);
 					gtk_widget_show(Thumb[Pos]);
 					break;
 				case 'T':
 					Thumb[Pos]=gtk_image_new_from_pixbuf (Immagine.s[1]);
 					gtk_container_add(GTK_CONTAINER(Casella[Pos]), Thumb[Pos]);
 					if(controlloedificio (posiziona(0,1,C,R),Scu)==0 && m=='n') 
-						g_signal_connect_swapped (Casella[Pos], "button_press_event",  G_CALLBACK (click_scuderia), (gpointer) NULL);
+						g_signal_connect_swapped (Casella[Pos], "button_press_event", G_CALLBACK (click_scuderia), (gpointer) NULL);
 					gtk_widget_show(Thumb[Pos]);
 					break;
 				case 'U':
 					Thumb[Pos]=gtk_image_new_from_pixbuf (Immagine.s[2]);
 					gtk_container_add(GTK_CONTAINER(Casella[Pos]), Thumb[Pos]);
 					if(controlloedificio (posiziona(1,0,C,R),Scu)==0 && m=='n') 
-						g_signal_connect_swapped (Casella[Pos], "button_press_event",  G_CALLBACK (click_scuderia), (gpointer) NULL);
+						g_signal_connect_swapped (Casella[Pos], "button_press_event", G_CALLBACK (click_scuderia), (gpointer) NULL);
 					gtk_widget_show(Thumb[Pos]);
 					break;
 				case 'V':
 					Thumb[Pos]=gtk_image_new_from_pixbuf (Immagine.s[3]);
 					gtk_container_add(GTK_CONTAINER(Casella[Pos]), Thumb[Pos]);
 					if(controlloedificio (posiziona(1,1,C,R),Scu)==0 && m=='n') 
-						g_signal_connect_swapped (Casella[Pos], "button_press_event",  G_CALLBACK (click_scuderia), (gpointer) NULL);
+						g_signal_connect_swapped (Casella[Pos], "button_press_event", G_CALLBACK (click_scuderia), (gpointer) NULL);
 					gtk_widget_show(Thumb[Pos]);
 					break;				
 				/*stampa in nido*/
@@ -1222,28 +1226,28 @@ void gtk_stampa_mappa(int x, int y, char m)
 					Thumb[Pos]=gtk_image_new_from_pixbuf (Immagine.n[0]);
 					gtk_container_add(GTK_CONTAINER(Casella[Pos]), Thumb[Pos]);
 					if(controlloedificio (posiziona(0,0,C,R),Nid)==0 && m=='n') 
-						g_signal_connect_swapped (Casella[Pos], "button_press_event",  G_CALLBACK (click_nido), (gpointer) NULL);
+						g_signal_connect_swapped (Casella[Pos], "button_press_event", G_CALLBACK (click_nido), (gpointer) NULL);
 					gtk_widget_show(Thumb[Pos]);
 					break;
 				case 'O':
 					Thumb[Pos]=gtk_image_new_from_pixbuf (Immagine.n[1]);
 					gtk_container_add(GTK_CONTAINER(Casella[Pos]), Thumb[Pos]);
 					if(controlloedificio (posiziona(1,0,C,R),Nid)==0 && m=='n') 
-						g_signal_connect_swapped (Casella[Pos], "button_press_event",  G_CALLBACK (click_nido), (gpointer) NULL);
+						g_signal_connect_swapped (Casella[Pos], "button_press_event", G_CALLBACK (click_nido), (gpointer) NULL);
 					gtk_widget_show(Thumb[Pos]);
 					break;
 				case 'P':
 					Thumb[Pos]=gtk_image_new_from_pixbuf (Immagine.n[2]);
 					gtk_container_add(GTK_CONTAINER(Casella[Pos]), Thumb[Pos]);
 					if(controlloedificio (posiziona(0,1,C,R),Nid)==0 && m=='n') 
-						g_signal_connect_swapped (Casella[Pos], "button_press_event",  G_CALLBACK (click_nido), (gpointer) NULL);
+						g_signal_connect_swapped (Casella[Pos], "button_press_event", G_CALLBACK (click_nido), (gpointer) NULL);
 					gtk_widget_show(Thumb[Pos]);
 					break;
 				case 'Q':
 					Thumb[Pos]=gtk_image_new_from_pixbuf (Immagine.n[3]);
 					gtk_container_add(GTK_CONTAINER(Casella[Pos]), Thumb[Pos]);
 					if(controlloedificio (posiziona(1,1,C,R),Nid)==0 && m=='n') 
-						g_signal_connect_swapped (Casella[Pos], "button_press_event",  G_CALLBACK (click_nido), (gpointer) NULL);
+						g_signal_connect_swapped (Casella[Pos], "button_press_event", G_CALLBACK (click_nido), (gpointer) NULL);
 					gtk_widget_show(Thumb[Pos]);
 					break;
 				case ' ':
@@ -1276,18 +1280,18 @@ void gtk_stampa_mappa(int x, int y, char m)
 						if(m=='n')
 						{
 							if (G==0)
-								g_signal_connect_swapped (Casella[Pos], "button_press_event",  G_CALLBACK (click_unita), (gpointer) &infomappa.mappa[posiziona(0,0,C,R)]);
+								g_signal_connect_swapped (Casella[Pos], "button_press_event", G_CALLBACK (click_unita), (gpointer) &infomappa.mappa[posiziona(0,0,C,R)]);
 							else
-								g_signal_connect_swapped (Casella[Pos], "button_press_event",  G_CALLBACK (click_nemico), (gpointer) &infomappa.mappa[posiziona(0,0,C,R)]);
+								g_signal_connect_swapped (Casella[Pos], "button_press_event", G_CALLBACK (click_nemico), (gpointer) &infomappa.mappa[posiziona(0,0,C,R)]);
 						}
 						else if(m=='c'&& bersagliolecito(Mossa,posiziona(0,0,C,R))==1 && controllodiverso(Mossa,posiziona(0,0,C,R),Cas)==1)
-							g_signal_connect_swapped (Casella[Pos], "button_press_event",  G_CALLBACK (click_bersaglio), (gpointer) &infomappa.mappa[posiziona(0,0,C,R)]);
+							g_signal_connect_swapped (Casella[Pos], "button_press_event", G_CALLBACK (click_bersaglio), (gpointer) &infomappa.mappa[posiziona(0,0,C,R)]);
 					}
 					else if (m=='s' && spostalecito(Mossa,posiziona(0,0,C,R))==1)
 					{
 						Thumb[Pos]=gtk_image_new_from_pixbuf (Immagine.movimento);
 						gtk_container_add(GTK_CONTAINER(Casella[Pos]), Thumb[Pos]);
-						g_signal_connect_swapped (Casella[Pos], "button_press_event",  G_CALLBACK (click_destinazione), (gpointer) &infomappa.mappa[posiziona(0,0,C,R)]);
+						g_signal_connect_swapped (Casella[Pos], "button_press_event", G_CALLBACK (click_destinazione), (gpointer) &infomappa.mappa[posiziona(0,0,C,R)]);
 						gtk_widget_show(Thumb[Pos]);
 					}
 					else if (m=='c' && bersagliolecito(Mossa,posiziona(0,0,C,R))==1)
@@ -1303,7 +1307,7 @@ void gtk_stampa_mappa(int x, int y, char m)
 						gtk_widget_show(Thumb[Pos]);
 					}
 					if (m=='s' && posiziona(0,0,C,R)==Mossa)
-						g_signal_connect_swapped (Casella[Pos], "button_press_event",  G_CALLBACK (click_destinazione), (gpointer) &infomappa.mappa[posiziona(0,0,C,R)]);
+						g_signal_connect_swapped (Casella[Pos], "button_press_event", G_CALLBACK (click_destinazione), (gpointer) &infomappa.mappa[posiziona(0,0,C,R)]);
 					break;
 				default:
 					Thumb[Pos]=gtk_image_new_from_pixbuf (Immagine.err);
@@ -1319,17 +1323,17 @@ void gtk_genera_mappa (GtkWidget *Hbox)
 {
 	GtkWidget *Mappa;
 	int i,j;
-	Mappa=gtk_table_new( L_schermo, A_schermo, FALSE);
+	Mappa=gtk_table_new( L_SCHERMO, A_SCHERMO, FALSE);
 	gtk_box_pack_start( GTK_BOX(Hbox), Mappa, FALSE, FALSE, 0);
-	for (i=0;i<L_schermo;i++)
-		for (j=0; j<A_schermo; j++)
+	for (i=0;i<L_SCHERMO;i++)
+		for (j=0; j<A_SCHERMO; j++)
 		{
-			Casella[i+j*L_schermo]=gtk_event_box_new();
-			gtk_widget_set_events (Casella[i+j*L_schermo], GDK_BUTTON_PRESS_MASK);
-			gtk_widget_set_usize(Casella[i+j*L_schermo], Dim_casella,Dim_casella);
-			gtk_table_attach_defaults (GTK_TABLE (Mappa), Casella[i+j*L_schermo], i, i+1, j, j+1);
-			gtk_widget_show (Casella[i+j*L_schermo]);
-			gtk_widget_realize (Casella[i+j*L_schermo]);
+			Casella[i+j*L_SCHERMO]=gtk_event_box_new();
+			gtk_widget_set_events (Casella[i+j*L_SCHERMO], GDK_BUTTON_PRESS_MASK);
+			gtk_widget_set_usize(Casella[i+j*L_SCHERMO], Dim_casella,Dim_casella);
+			gtk_table_attach_defaults (GTK_TABLE (Mappa), Casella[i+j*L_SCHERMO], i, i+1, j, j+1);
+			gtk_widget_show (Casella[i+j*L_SCHERMO]);
+			gtk_widget_realize (Casella[i+j*L_SCHERMO]);
 			
 		}
 	gtk_widget_show (Mappa);
@@ -1394,7 +1398,7 @@ GtkWidget *gtk_crea_elemento_tab(GtkWidget *tab,int x, int y,char *buf)
 	gtk_widget_show (Label);
 	sprintf(buffer,"%d|%d",x,y);
 	Button=gtk_button_new_with_label(buffer);
-	g_signal_connect_swapped (Button, "clicked",  G_CALLBACK (centra_mappa), (gpointer) &infomappa.mappa[x+y*Larghezza]);
+	g_signal_connect_swapped (Button, "clicked", G_CALLBACK (centra_mappa), (gpointer) &infomappa.mappa[x+y*LARGHEZZA]);
 	gtk_box_pack_start(GTK_BOX(Hbox),Button, FALSE, FALSE, 0);
 	gtk_widget_show (Button);
 	gtk_widget_show (Hbox);
@@ -1412,13 +1416,14 @@ GtkWidget * gtk_riempi_tab_castelli (int i, char* buf)
 	int x,y;
 	GtkWidget *R;
 	P=giocatore[0]->struttura[Cas]->pos;
-	x=P%Larghezza+1;
-	y=P/Larghezza+1;
+	x=P%LARGHEZZA+1;
+	y=P/LARGHEZZA+1;
 	R=gtk_crea_elemento_tab(Notebook[1],x,y,buf);
 	return R;
 	}
 	else return NULL;
 }
+
 //aggiorna il tab castelli
 void gtk_aggiorna_tab_castelli ()
 {
@@ -1429,8 +1434,8 @@ void gtk_aggiorna_tab_castelli ()
 	for(i=0; Listacastelli[i]!=NULL;i++) gtk_pulisci_tab(Listacastelli[i]);
 	for (i=0; S!=NULL && i<12; i++)
 	{
-		x=S->pos%Larghezza+1;
-		y=S->pos/Larghezza+1;
+		x=S->pos%LARGHEZZA+1;
+		y=S->pos/LARGHEZZA+1;
 		switch(i)
 		{
 			case 0:
@@ -1444,16 +1449,17 @@ void gtk_aggiorna_tab_castelli ()
 		S=S->next;
 	}
 }
+
 //aggiorna il tab strutture
 void gtk_aggiorna_tab_strutture ()
 {
 	int i;
 	int x,y;
 	char buf[20];
-	t_lista_s* S[numstrutture-1];
+	t_lista_s* S[NUMSTRUTTURE-1];
 	t_listapertab* Tab;
 	t_listapertab* Tabp;
-	for(i=1; i<numstrutture;i++) S[i-1]=giocatore[0]->struttura[i];
+	for(i=1; i<NUMSTRUTTURE;i++) S[i-1]=giocatore[0]->struttura[i];
 	Tab=Listastrutture;
 	while(Tab!=NULL)
 	{
@@ -1462,11 +1468,11 @@ void gtk_aggiorna_tab_strutture ()
 		Tab=Tab->next;
 		free(Tabp);
 	}
-	for(i=0;i<numstrutture-1; i++)
+	for(i=0;i<NUMSTRUTTURE-1; i++)
 		while(S[i]!=NULL)
 		{
-			x=S[i]->pos%Larghezza+1;
-			y=S[i]->pos/Larghezza+1;
+			x=S[i]->pos%LARGHEZZA+1;
+			y=S[i]->pos/LARGHEZZA+1;
 			switch(i+1)
 			{
 				case Fat:
@@ -1494,6 +1500,7 @@ void gtk_aggiorna_tab_strutture ()
 			S[i]=S[i]->next;
 		}
 }
+
 //aggiorna il tab armate
 void gtk_aggiorna_tab_armate ()
 {
@@ -1512,8 +1519,8 @@ void gtk_aggiorna_tab_armate ()
 	}
 	while(T!=NULL)
 	{
-		x=T->pos%Larghezza+1;
-		y=T->pos/Larghezza+1;
+		x=T->pos%LARGHEZZA+1;
+		y=T->pos/LARGHEZZA+1;
 		switch(T->truppa->tipo)
 		{
 			case Rec:
@@ -1564,7 +1571,7 @@ void gtk_azzera_tab ()
 	int i;
 	t_listapertab* Tab;
 	t_listapertab* Tabp;
-	for(i=0;i<numcastelli;i++)
+	for(i=0;i<NUMCASTELLI;i++)
 	{
 		gtk_pulisci_tab (Listacastelli[i]);
 		Listacastelli[i]=NULL;
@@ -1592,8 +1599,8 @@ GtkWidget *gtk_crea_4_frecce()
 	for (i=1; i<9;i=i+2)
 	{
 		Pulsante=gtk_button_new();
-		gtk_widget_set_usize(Pulsante, Dim_freccia,Dim_freccia);
-		g_signal_connect_swapped (Pulsante, "clicked",  G_CALLBACK (sposta_mappa), (gpointer) &infomappa.mappa[i]);
+		gtk_widget_set_usize(Pulsante, DIM_FRECCIA,DIM_FRECCIA);
+		g_signal_connect_swapped (Pulsante, "clicked", G_CALLBACK (sposta_mappa), (gpointer) &infomappa.mappa[i]);
 		gtk_table_attach_defaults (GTK_TABLE (Pulsantiera), Pulsante, i/3, i/3+1, i%3, i%3+1);
 		switch (i)
 		{
@@ -1625,13 +1632,13 @@ GtkWidget *gtk_crea_contarisorse()
 {
 	int i;
 	GtkWidget *Vbox;
-	GtkWidget *Hbox[numrisorse];
-	GtkWidget *Label[numrisorse];
+	GtkWidget *Hbox[NUMRISORSE];
+	GtkWidget *Label[NUMRISORSE];
 	Label[0]=gtk_label_new("Oro:");
 	Label[1]=gtk_label_new("Cibo:");
 	Label[2]=gtk_label_new("Smeraldi:");
 	Vbox=gtk_vbox_new(FALSE,10);
-	for(i=0; i<numrisorse; i++)
+	for(i=0; i<NUMRISORSE; i++)
 	{
 		Hbox[i]=gtk_hbox_new(TRUE,10);
 		gtk_box_pack_start(GTK_BOX(Vbox), Hbox[i], FALSE, FALSE, 0);
@@ -1646,6 +1653,7 @@ GtkWidget *gtk_crea_contarisorse()
 	
 	return Vbox;
 }
+
 //aggiorna i valori delle risorse
 void gtk_aggiorna_contarisorse() 
 {
@@ -1654,7 +1662,7 @@ void gtk_aggiorna_contarisorse()
 	int R[]={giocatore[0]->oro,giocatore[0]->cibo,giocatore[0]->smeraldi};
 	float n;
 	char Buf[6];
-	for(i=0; i<numrisorse; i++)
+	for(i=0; i<NUMRISORSE; i++)
 	{
 		n=(float)R[i];
 		nk=0;
@@ -1736,7 +1744,7 @@ int main(int argc, char *argv[])
 // 	crea pulsante fine turno
 	pulsante=gtk_button_new_with_label ("Fine Turno");
 	gtk_box_pack_start( GTK_BOX(Vbox), pulsante, FALSE, FALSE, 15);
-	g_signal_connect_swapped(pulsante, "clicked",  G_CALLBACK (click_turno),NULL);
+	g_signal_connect_swapped(pulsante, "clicked", G_CALLBACK (click_turno),NULL);
 	gtk_widget_show (pulsante);
 // 	crea mappa
 	gtk_genera_mappa (Hbox);

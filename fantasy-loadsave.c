@@ -1,6 +1,6 @@
 /*
  * Project Fantasy, gioco di strategia a turni
- *       
+ *
  *
  * Copyright (C) 2011 gionnico
  * Versione 1.0
@@ -11,7 +11,7 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU General Public License for more details.
  */
 
@@ -32,7 +32,7 @@ int carica(char *nomefile)
 		perror("fread fallita");
 		return 1;
 	}
-	if(fread(giocatore,sizeof(*giocatore),maxgiocatori,fp) < maxgiocatori) {
+	if(fread(giocatore,sizeof(*giocatore),MAXGIOCATORI,fp) < MAXGIOCATORI) {
 		perror("fread fallita");
 		return 1;
 	}
@@ -54,7 +54,7 @@ int salva(char *nomefile)
 		perror("fwrite fallita");
 		return 1;
 	}
-	if(fwrite(giocatore,sizeof(*giocatore),maxgiocatori,fp) < maxgiocatori) {
+	if(fwrite(giocatore,sizeof(*giocatore),MAXGIOCATORI,fp) < MAXGIOCATORI) {
 		perror("fwrite fallita");
 		return 1;
 	}

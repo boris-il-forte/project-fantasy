@@ -2,7 +2,7 @@ PROGETTO
 --------
 
 Project Fantasy, gioco di strategia a turni
-	      
+
 Versione 1.0 (2011-10-31)
 
 
@@ -20,7 +20,7 @@ Compila il sorgente, quindi eseguilo. :)
 COMPILAZIONE
 ------------
 
-make clean
+make mrproper
 make
 
 
@@ -60,8 +60,9 @@ FILES
 
 * fantasy-main.c: la main routine del gioco
 * fantasy-lib.c: le funzioni principali del gioco
-* fantasy-gtk.h: i prototipi delle funzioni grafiche; incluso nel fantasy-main.c
+* fantasy-loadsave.c: le funzioni per caricamento/salvataggio da/su file
 * fantasy-core.h: la definzione dei tipi di struttura, variabili globali; incluso in fantasy-main.c e fantasy-lib.c
+* fantasy-gtk.h: i prototipi delle funzioni grafiche; incluso nel fantasy-main.c
 
 
 COPYRIGHT

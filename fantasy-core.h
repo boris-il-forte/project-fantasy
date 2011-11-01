@@ -1,6 +1,6 @@
 /*
  * Project Fantasy, gioco di strategia a turni
- *       
+ *
  *
  * Copyright (C) 2011 Davide Tateo
  * Versione 1.0
@@ -11,23 +11,23 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU General Public License for more details.
  */
 
-#define Larghezza 150
-#define Altezza 40
-#define numcastelli 12
-#define maxgiocatori 12
-#define maxstalle 20
-#define maxfattorie 20
-#define maxgrotte 2
-#define maxnidi 4
-#define numtruppe 7
-#define numstrutture 5
-#define numrisorse 3
-#define accedi(x,y,z) z[(x)+Larghezza*(y)] /*accede ad un array come se fosse una matrice*/
-#define posiziona(x,y,z,k) (z)+Larghezza*k-((x)+Larghezza*(y))
+#define LARGHEZZA 150
+#define ALTEZZA 40
+#define NUMCASTELLI 12
+#define MAXGIOCATORI 12
+#define MAXSTALLE 20
+#define MAXFATTORIE 20
+#define MAXGROTTE 2
+#define MAXNIDI 4
+#define NUMTRUPPE 7
+#define NUMSTRUTTURE 5
+#define NUMRISORSE 3
+#define accedi(x,y,z) z[(x)+LARGHEZZA*(y)] /*accede ad un array come se fosse una matrice*/
+#define posiziona(x,y,z,k) (z)+LARGHEZZA*k-((x)+LARGHEZZA*(y))
 #define disegna(x,y,z) accedi(x,y,infomappa.mappa)=z; accedi(x+1,y,infomappa.mappa)=z+1; accedi(x+1,y+1,infomappa.mappa)=z+3; accedi(x,y+1,infomappa.mappa)=z+2 /*disegna la struttura di simbolo z*/
 
 //definisco le strutture fondamentali
@@ -55,13 +55,13 @@ typedef struct s_dtruppa
 
 typedef struct s_infomappa
 {
-	char mappa[Altezza*Larghezza];
-	t_infotruppa* truppe[Altezza*Larghezza];
-	int castelli[numcastelli];
-	int fattorie[maxfattorie];
-	int stalle[maxstalle];
-	int grotte[maxgrotte];
-	int nidi[maxnidi];
+	char mappa[ALTEZZA*LARGHEZZA];
+	t_infotruppa* truppe[ALTEZZA*LARGHEZZA];
+	int castelli[NUMCASTELLI];
+	int fattorie[MAXFATTORIE];
+	int stalle[MAXSTALLE];
+	int grotte[MAXGROTTE];
+	int nidi[MAXNIDI];
 	char numstalle, numnidi, numgrotte, numfattorie;
 } t_infomappa;
 
@@ -87,7 +87,7 @@ typedef struct s_lista_s
 
 typedef struct s_player
 {
-	t_lista_s* struttura[numstrutture];
+	t_lista_s* struttura[NUMSTRUTTURE];
 	t_lista_t* truppe;
 	int oro;
 	int cibo;
@@ -122,7 +122,5 @@ int salva(char *);
 
 //variabili globali
 t_infomappa infomappa;
-t_dtruppa Dtruppa[numtruppe];
-t_player* giocatore[maxgiocatori];
-
-
+t_dtruppa Dtruppa[NUMTRUPPE];
+t_player* giocatore[MAXGIOCATORI];

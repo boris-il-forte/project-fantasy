@@ -1,6 +1,6 @@
 /*
  * Project Fantasy, gioco di strategia a turni
- *       
+ *
  *
  * Copyright (C) 2011 Davide Tateo
  * Versione 1.0
@@ -11,7 +11,7 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU General Public License for more details.
  */
 
@@ -20,7 +20,6 @@
 #include <time.h>
 #include <string.h>
 #include "fantasy-core.h"
-
 
 //carica dati unità
 void caricadati ()
@@ -31,7 +30,7 @@ void caricadati ()
 	Dtruppa[Rec].git=2;
 	Dtruppa[Rec].vel=10;
 	Dtruppa[Rec].mor=25;
-	//dati  fante
+	//dati fante
 	Dtruppa[Fan].att=40;
 	Dtruppa[Fan].dif=15;
 	Dtruppa[Fan].git=1;
@@ -76,34 +75,34 @@ void inizializza ()
 	int i,j;
 	if(h++!=0) liberaheap ();
 	srand((unsigned)time(NULL));
-	for (i=0; i<numcastelli; i++) infomappa.castelli[i]=-1;
-	for (i=0; i<maxstalle; i++) infomappa.stalle[i]=-1;
-	for (i=0; i<maxgrotte; i++) infomappa.grotte[i]=-1;
-	for (i=0; i<maxnidi; i++) infomappa.nidi[i]=-1;
-	for (i=0; i<maxgiocatori; i++) giocatore[i]=NULL;
-	for (i=0; i<Altezza; i++)
-		for(j=0; j<Larghezza; j++)
+	for (i=0; i<NUMCASTELLI; i++) infomappa.castelli[i]=-1;
+	for (i=0; i<MAXSTALLE; i++) infomappa.stalle[i]=-1;
+	for (i=0; i<MAXGROTTE; i++) infomappa.grotte[i]=-1;
+	for (i=0; i<MAXNIDI; i++) infomappa.nidi[i]=-1;
+	for (i=0; i<MAXGIOCATORI; i++) giocatore[i]=NULL;
+	for (i=0; i<ALTEZZA; i++)
+		for(j=0; j<LARGHEZZA; j++)
 		{
 			accedi(j,i,infomappa.mappa)=' ';
 			accedi(j,i,infomappa.truppe)=NULL;
 		}
-	infomappa.numstalle=rand()%(maxstalle/2)+(maxstalle/2+1); //genera il numero delle stalle tra maxstalle e maxstalle/2;
-	infomappa.numfattorie=rand()%(maxfattorie/2)+(maxfattorie/2+1);//genera il numero delle stalle tra maxfattorie e maxfattorie/2;
-	infomappa.numgrotte=rand()%maxgrotte+1; //genera il numero delle grotte 
-	infomappa.numnidi=rand()%maxnidi+1; //genera il numero dei nidi	
+	infomappa.numstalle=rand()%(MAXSTALLE/2)+(MAXSTALLE/2+1); //genera il numero delle stalle tra MAXSTALLE e MAXSTALLE/2;
+	infomappa.numfattorie=rand()%(MAXFATTORIE/2)+(MAXFATTORIE/2+1);//genera il numero delle stalle tra MAXFATTORIE e MAXFATTORIE/2;
+	infomappa.numgrotte=rand()%MAXGROTTE+1; //genera il numero delle grotte 
+	infomappa.numnidi=rand()%MAXNIDI+1; //genera il numero dei nidi	
 }
 
 // controlla che i castelli generati siano sufficentemente distanti l'uno dall'altro
 int conflitticastello(int x, int y,int cur)
 {
 	int i,j,k;
-	int const pos=x+Larghezza*y;
-	if(x!=0 && y!=0 && x<Larghezza-1 && y<Altezza-1)
+	int const pos=x+LARGHEZZA*y;
+	if(x!=0 && y!=0 && x<LARGHEZZA-1 && y<ALTEZZA-1)
 	{
-		for (i=0; i<numcastelli; i++)
+		for (i=0; i<NUMCASTELLI; i++)
 			for (j=-10; j<=10; j++)
 				for (k=-10; k<=10; k++)
-					if(i!=cur && pos+k-Larghezza*j==infomappa.castelli[i]) return 1;
+					if(i!=cur && pos+k-LARGHEZZA*j==infomappa.castelli[i]) return 1;
 		return 0;
 	}
 	else return 1;
@@ -112,7 +111,7 @@ int conflitticastello(int x, int y,int cur)
 int conflittomappa(int x, int y)
 {
 	int i,j;
-	if(x!=0 && y!=0 && x<Larghezza-1 && y<Altezza-1)
+	if(x!=0 && y!=0 && x<LARGHEZZA-1 && y<ALTEZZA-1)
 	{
 		for (i=-3; i<=4; i++)
 			for (j=-3; j<=4; j++)
@@ -128,13 +127,13 @@ void generamappa ()
 	int x,y; //variabili posizionamento
 	srand((unsigned)time(NULL)); //randomizza col tempo
 	/*genero i castelli*/
-	for (i=0; i<numcastelli; i++) 
+	for (i=0; i<NUMCASTELLI; i++) 
 	{
 		do
 		{
-			infomappa.castelli[i]=rand()%(Altezza*Larghezza);
-			x=infomappa.castelli[i]%Larghezza;
-			y=infomappa.castelli[i]/Larghezza;
+			infomappa.castelli[i]=rand()%(ALTEZZA*LARGHEZZA);
+			x=infomappa.castelli[i]%LARGHEZZA;
+			y=infomappa.castelli[i]/LARGHEZZA;
 		}
 		while (conflitticastello(x,y,i));
 		accedi(x,y,infomappa.mappa)='4'; //segna i castelli
@@ -152,9 +151,9 @@ void generamappa ()
 	{
 		do
 		{
-			infomappa.stalle[i]=rand()%(Altezza*Larghezza);
-			x=infomappa.stalle[i]%Larghezza;
-			y=infomappa.stalle[i]/Larghezza;
+			infomappa.stalle[i]=rand()%(ALTEZZA*LARGHEZZA);
+			x=infomappa.stalle[i]%LARGHEZZA;
+			y=infomappa.stalle[i]/LARGHEZZA;
 		}
 		while (conflittomappa(x,y));
 		disegna(x,y,'S'); //segna le stalle
@@ -164,9 +163,9 @@ void generamappa ()
 	{
 		do
 		{
-			infomappa.fattorie[i]=rand()%(Altezza*Larghezza);
-			x=infomappa.fattorie[i]%Larghezza;
-			y=infomappa.fattorie[i]/Larghezza;
+			infomappa.fattorie[i]=rand()%(ALTEZZA*LARGHEZZA);
+			x=infomappa.fattorie[i]%LARGHEZZA;
+			y=infomappa.fattorie[i]/LARGHEZZA;
 		}
 		while (conflittomappa(x,y));
 		disegna(x,y,'C'); //segna le fattorie
@@ -176,9 +175,9 @@ void generamappa ()
 	{
 		do
 		{
-			infomappa.grotte[i]=rand()%(Altezza*Larghezza);
-			x=infomappa.grotte[i]%Larghezza;
-			y=infomappa.grotte[i]/Larghezza;
+			infomappa.grotte[i]=rand()%(ALTEZZA*LARGHEZZA);
+			x=infomappa.grotte[i]%LARGHEZZA;
+			y=infomappa.grotte[i]/LARGHEZZA;
 		}
 		while (conflittomappa(x,y));
 		disegna(x,y,'G');
@@ -188,9 +187,9 @@ void generamappa ()
 	{
 		do
 		{
-			infomappa.nidi[i]=rand()%(Altezza*Larghezza);
-			x=infomappa.nidi[i]%Larghezza;
-			y=infomappa.nidi[i]/Larghezza;
+			infomappa.nidi[i]=rand()%(ALTEZZA*LARGHEZZA);
+			x=infomappa.nidi[i]%LARGHEZZA;
+			y=infomappa.nidi[i]/LARGHEZZA;
 		}
 		while (conflittomappa(x,y));
 		disegna(x,y,'N');
@@ -202,14 +201,14 @@ void creagiocatori (int n)
 {
 	int i,j;
 	char al;
-	int num[maxgiocatori];
-	for (i=0;i<n;i++) num[i]=numcastelli;
+	int num[MAXGIOCATORI];
+	for (i=0;i<n;i++) num[i]=NUMCASTELLI;
 	for (i=0;i<n;i++)
 	{
 		srand((unsigned)time(NULL));
 		do
 		{
-			al=rand()%numcastelli;
+			al=rand()%NUMCASTELLI;
 			for(j=0;j<i && al!=num[j]; j++);
 		} while (j<i);
 		num[i]=al;
@@ -226,9 +225,9 @@ void creagiocatori (int n)
 		giocatore[i]->struttura[Cas]->in=NULL;
 		giocatore[i]->struttura[Cas]->next=NULL;
 		giocatore[i]->truppe=NULL;
-		for (j=1;j<numstrutture;j++) giocatore[i]->struttura[j]=NULL;
+		for (j=1;j<NUMSTRUTTURE;j++) giocatore[i]->struttura[j]=NULL;
 	}
-	while(i<maxgiocatori)
+	while(i<MAXGIOCATORI)
 	{
 		giocatore[i]=NULL;
 		i++;
@@ -257,9 +256,9 @@ void liberaheap ()
 	t_lista_s* Sn;
 	t_lista_t* T;
 	t_lista_t* Tn;
-	for (i=0; i<maxgiocatori && giocatore[i]!=NULL; i++) 
+	for (i=0; i<MAXGIOCATORI && giocatore[i]!=NULL; i++) 
 	{
-		for(j=0;j<numstrutture; j++)
+		for(j=0;j<NUMSTRUTTURE; j++)
 		{
 			S=giocatore[i]->struttura[j];
 			while(S!=NULL)
@@ -285,44 +284,46 @@ void liberaheap ()
 		}
 		free(giocatore[i]);
 	}
-	for (i=0; i<Altezza*Larghezza; i++) free(infomappa.truppe[i]);
+	for (i=0; i<ALTEZZA*LARGHEZZA; i++) free(infomappa.truppe[i]);
 }
-
 
 // calcola se lo spostamento è lecito
 int spostalecito (int PosT, int PosC )
 {
 	t_truppa Tipo= infomappa.truppe[PosT]->tipo;
 	char Vel=Dtruppa[Tipo].vel;
-	int x= PosT%Larghezza-PosC%Larghezza;
-	int y= PosT/Larghezza-PosC/Larghezza;
+	int x= PosT%LARGHEZZA-PosC%LARGHEZZA;
+	int y= PosT/LARGHEZZA-PosC/LARGHEZZA;
 	if(x*x+y*y<=Vel*Vel)
 		return 1;
 	else
 		return 0;	
 }
+
 //calcola area bersaglio
 int bersagliolecito (int PosT, int PosC )
 {
 	t_truppa Tipo= infomappa.truppe[PosT]->tipo;
 	char Git=Dtruppa[Tipo].git;
-	int x= PosT%Larghezza-PosC%Larghezza;
-	int y= PosT/Larghezza-PosC/Larghezza;
+	int x= PosT%LARGHEZZA-PosC%LARGHEZZA;
+	int y= PosT/LARGHEZZA-PosC/LARGHEZZA;
 	if(x*x+y*y<=Git*Git)
 		return 1;
 	else
 		return 0;
 }
+
 //calcola area assedio
 int assaltolecito (int PosT, int PosC )
 {
-	int x= PosT%Larghezza-PosC%Larghezza;
-	int y= PosT/Larghezza-PosC/Larghezza;
+	int x= PosT%LARGHEZZA-PosC%LARGHEZZA;
+	int y= PosT/LARGHEZZA-PosC/LARGHEZZA;
 	if(x*x+y*y<=1)
 		return 1;
 	else
 		return 0;
 }
+
 //elimina i puntatori alle unita morte
 void eliminamorti (t_infotruppa** M)
 {
@@ -513,13 +514,13 @@ int controlloedificio (int Pos, t_struttura s)
 {
 	int i;
 	t_lista_s* L;
-	for (i=0; i<maxgiocatori && giocatore[i]!=NULL; i++)
+	for (i=0; i<MAXGIOCATORI && giocatore[i]!=NULL; i++)
 	{
 		L=giocatore[i]->struttura[s];
 		while(L!=NULL)
 		{
 			if(L->pos==Pos) return i;
-			else  L=L->next;
+			else L=L->next;
 		}
 	}
 	return -1;
@@ -530,13 +531,13 @@ int controllounita (int Pos)
 {
 	int i;
 	t_lista_t* L;
-	for(i=0; i<maxgiocatori && giocatore[i]!=NULL; i++)
+	for(i=0; i<MAXGIOCATORI && giocatore[i]!=NULL; i++)
 	{
 		L=giocatore[i]->truppe;
 		while(L!=NULL)
 		{
 			if(L->pos==Pos) return i;
-			else  L=L->next;
+			else L=L->next;
 		}
 	}
 	return -1;
@@ -560,7 +561,7 @@ t_lista_s* puntastruttura (int Pos)
 		while(L!=NULL)
 		{
 			if(L->pos==Pos) return L;
-			else  L=L->next;
+			else L=L->next;
 		}
 	}
 	return NULL;
@@ -572,8 +573,8 @@ t_infotruppa** puntacasellalibera (int Pos)
 	int x, y;
 	int i,j;
 	int hi,hj,bj,bi;
-	x=Pos%Larghezza;
-	y=Pos/Larghezza;
+	x=Pos%LARGHEZZA;
+	y=Pos/LARGHEZZA;
 	if(infomappa.mappa[Pos-1]!=' ')
 	{
 		bi=-2;
@@ -582,8 +583,8 @@ t_infotruppa** puntacasellalibera (int Pos)
 		if (x+bi<0) bi++;
 		if (y+bj<0) bj++;
 		//evita di andare fuori dal limite alto
-		for (hi=1;x+hi<Larghezza && hi<2;hi++);
-		for (hj=1;y+hj<Altezza && hj<2;hj++);
+		for (hi=1;x+hi<LARGHEZZA && hi<2;hi++);
+		for (hj=1;y+hj<ALTEZZA && hj<2;hj++);
 		//iniziallizza i e j
 		i=bi;
 		j=bj;
@@ -601,7 +602,7 @@ t_infotruppa** puntacasellalibera (int Pos)
 		{
 			x+=i;
 			y+=j;
-			return &infomappa.truppe[x+y*Larghezza];
+			return &infomappa.truppe[x+y*LARGHEZZA];
 		}
 	}
 	else
@@ -612,8 +613,8 @@ t_infotruppa** puntacasellalibera (int Pos)
 		if (x+bi<0) bi++;
 		if (y+bj<0) bj++;
 		//evita di andare fuori dal limite alto
-		for (hi=1;x+hi<Larghezza && hi<=2;hi++);
-		for (hj=1;y+hj<Altezza && hj<=2;hj++);
+		for (hi=1;x+hi<LARGHEZZA && hi<=2;hi++);
+		for (hj=1;y+hj<ALTEZZA && hj<=2;hj++);
 		//iniziallizza i e j
 		i=bi;
 		j=bj;
@@ -631,7 +632,7 @@ t_infotruppa** puntacasellalibera (int Pos)
 		{
 			x+=i;
 			y+=j;
-			return &infomappa.truppe[x+y*Larghezza];
+			return &infomappa.truppe[x+y*LARGHEZZA];
 		}
 	}
 	return NULL;
@@ -643,8 +644,8 @@ t_infotruppa* puntacasellaoccupata (int Pos, int C)
 	int x, y;
 	int i,j,k=0;
 	int hi,hj,bj,bi,m;
-	x=Pos%Larghezza;
-	y=Pos/Larghezza;
+	x=Pos%LARGHEZZA;
+	y=Pos/LARGHEZZA;
 	fprintf(stderr,"debug: puntacasellaoccupata\n");
 	if(infomappa.mappa[Pos-1]!=' ')
 	{
@@ -655,8 +656,8 @@ t_infotruppa* puntacasellaoccupata (int Pos, int C)
 		if (x+bi<0) bi++;
 		if (y+bj<0) bj++;
 		//evita di andare fuori dal limite alto
-		for (hi=1;x+hi<Larghezza && hi<2;hi++);
-		for (hj=1;y+hj<Altezza && hj<2;hj++);
+		for (hi=1;x+hi<LARGHEZZA && hi<2;hi++);
+		for (hj=1;y+hj<ALTEZZA && hj<2;hj++);
 	}
 	else
 	{
@@ -667,15 +668,15 @@ t_infotruppa* puntacasellaoccupata (int Pos, int C)
 		if (x+bi<0) bi++;
 		if (y+bj<0) bj++;
 		//evita di andare fuori dal limite alto
-		for (hi=1;x+hi<Larghezza && hi<2;hi++);
-		for (hj=1;y+hj<Altezza && hj<2;hj++);
+		for (hi=1;x+hi<LARGHEZZA && hi<2;hi++);
+		for (hj=1;y+hj<ALTEZZA && hj<2;hj++);
 	}
 	for(j=bj;k<=C && j<=hj;j++)
 		for(i=bi;k<=C && i<=hi;i++)
 		{
 			if(!((i==m|| i==2) && (j==m || j==2)))
 			{
-				if ((accedi(x+i,y+j,infomappa.truppe)!=NULL))  k++;
+				if ((accedi(x+i,y+j,infomappa.truppe)!=NULL)) k++;
 			}
 		}
 	i--;
@@ -690,18 +691,19 @@ t_infotruppa* puntacasellaoccupata (int Pos, int C)
 		C++;
 		x+=i;
 		y+=j;
-		return infomappa.truppe[x+y*Larghezza];
+		return infomappa.truppe[x+y*LARGHEZZA];
 	}
 }
+
 //termina il turno
 void fineturno()
 {
 	int i;
-	int r[numstrutture];
+	int r[NUMSTRUTTURE];
 	int c=0;
 	t_lista_t* T=giocatore[0]->truppe;
 	t_lista_s* S;
-	for(i=0; i<numstrutture; i++) r[i]=0;
+	for(i=0; i<NUMSTRUTTURE; i++) r[i]=0;
 	while(T!=NULL)
 	{
 		T->truppa->stanca=0;
@@ -709,7 +711,7 @@ void fineturno()
 		T=T->next;
 		c++;
 	}
-	for(i=0;i<numstrutture; i++)
+	for(i=0;i<NUMSTRUTTURE; i++)
 	{
 		S=giocatore[0]->struttura[i];
 		while (S!=NULL)
@@ -728,9 +730,9 @@ void fineturno()
 void visualizza_su_terminale () 
 {
 	int i,j;
-	for (i=0; i<Altezza; i++)
+	for (i=0; i<ALTEZZA; i++)
 	{
-		for(j=0; j<Larghezza; j++)
+		for(j=0; j<LARGHEZZA; j++)
 		{
 			printf("%c",accedi(j,i,infomappa.mappa)); 
 		}
