@@ -1,11 +1,23 @@
 TODO
 
 Gionnico:
-- salva/carica priorità alta
-- funzione void gtk_calcola_dimensioni () -> da controllare per più risoluzioni possibili priorità bassa 
-
+- eliminare magik number										| priorità molto alta
+- salva/carica												| priorità alta
+- funzione void gtk_calcola_dimensioni () -> da controllare per più risoluzioni possibili		| priorità bassa 
 
 Boris_il_forte:
-- funzioni per conquistare altre strutture oltre al castello priorità alta
-- funzioni tab strutture priorità media
-- controllo esistenza cartella immagini ed eventuale ricerca priorità bassa
+- collegare agli eventi funzioni click delle strutture priorità molto alta
+- creare funzioni per unire unità e per far entrare le unità nel castello, e collegarle agli eventi 	| priorità alta
+- aggiustare dati unità speciali 									| priorità media 
+- IA 													| priorità molto bassa
+
+NintendOtaku:
+- unità mitiche
+- truppe mancanti per ogni colore
+- castelli per ogni colore
+
+Chiunque: 												| priorità molto bassa
+- Zoom in & out
+- Minimappa
+- freccie con pressione costante che spostano la mappa fino al rilascio
+- sposta mappa da tatstiera
