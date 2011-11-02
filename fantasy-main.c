@@ -451,7 +451,7 @@ static void click_castello(char* pos)
 	GtkWidget *lista;
 	GtkWidget *oggetto;
 	int i;
-	for (i=Rec; i<Fen; i++)
+	for (i=Rec; i<Cav; i++)
 	{
 		tr_callback[i].tipo=i;
 		tr_callback[i].pos=pos-infomappa.mappa;
@@ -513,12 +513,18 @@ static void click_castello(char* pos)
 	gtk_menu_popup (GTK_MENU (menu), NULL, NULL, NULL, NULL,1, gtk_get_current_event_time());
 }
 
-static void click_scuderia()
+static void click_scuderia(char* pos)
 {
 	GtkWidget *menu;
 	GtkWidget *scelta;
 	GtkWidget *lista;
 	GtkWidget *oggetto;
+	int i;
+	for (i=Rec; i<Dra; i++)
+	{
+		tr_callback[i].tipo=i;
+		tr_callback[i].pos=pos-infomappa.mappa;
+	}
 	/*crea menu*/
 	menu=gtk_menu_new();
 	/*etichetta addestra*/
@@ -571,12 +577,18 @@ static void click_scuderia()
 	gtk_menu_popup (GTK_MENU (menu), NULL, NULL, NULL, NULL,1, gtk_get_current_event_time());
 }
 
-static void click_fattoria()
+static void click_fattoria(char* pos)
 {
 	GtkWidget *menu;
 	GtkWidget *scelta;
 	GtkWidget *lista;
 	GtkWidget *oggetto;
+	int i;
+	for (i=Rec; i<Cav; i++)
+	{
+		tr_callback[i].tipo=i;
+		tr_callback[i].pos=pos-infomappa.mappa;
+	}
 	/*crea menu*/
 	menu=gtk_menu_new();
 	/*etichetta addestra*/
@@ -629,12 +641,18 @@ static void click_fattoria()
 	gtk_menu_popup (GTK_MENU (menu), NULL, NULL, NULL, NULL,1, gtk_get_current_event_time());
 }
 
-static void click_grotta()
+static void click_grotta(char* pos)
 {
 	GtkWidget *menu;
 	GtkWidget *scelta;
 	GtkWidget *lista;
 	GtkWidget *oggetto;
+	int i;
+	for (i=Rec; i<Fen; i++)
+	{
+		tr_callback[i].tipo=i;
+		tr_callback[i].pos=pos-infomappa.mappa;
+	}
 	/*crea menu*/
 	menu=gtk_menu_new();
 	/*etichetta addestra*/
@@ -674,6 +692,11 @@ static void click_grotta()
 	gtk_menu_shell_append (GTK_MENU_SHELL (lista), oggetto);
 	g_signal_connect (oggetto, "activate", G_CALLBACK (menuitem_response), (gpointer) NULL);
 	gtk_widget_show (oggetto);
+	//Draghi
+	oggetto=gtk_menu_item_new_with_label ("Draghi");
+	gtk_menu_shell_append (GTK_MENU_SHELL (lista), oggetto);
+	g_signal_connect (oggetto, "activate", G_CALLBACK (menuitem_response), (gpointer) NULL);
+	gtk_widget_show (oggetto);
 	//attacca la lista alla scelta
 	gtk_menu_item_set_submenu (GTK_MENU_ITEM (scelta), lista);
 	gtk_menu_shell_append (GTK_MENU_SHELL (menu), scelta);
@@ -682,12 +705,18 @@ static void click_grotta()
 	gtk_menu_popup (GTK_MENU (menu), NULL, NULL, NULL, NULL,1, gtk_get_current_event_time());
 }
 
-static void click_nido()
+static void click_nido(char* pos)
 {
 	GtkWidget *menu;
 	GtkWidget *scelta;
 	GtkWidget *lista;
 	GtkWidget *oggetto;
+	int i;
+	for (i=Rec; i<=Fen; i++)
+	{
+		tr_callback[i].tipo=i;
+		tr_callback[i].pos=pos-infomappa.mappa;
+	}
 	/*crea menu*/
 	menu=gtk_menu_new();
 	/*etichetta addestra*/
@@ -724,6 +753,11 @@ static void click_nido()
 	gtk_widget_show (oggetto);
 	//Arceri
 	oggetto=gtk_menu_item_new_with_label ("Arcieri");
+	gtk_menu_shell_append (GTK_MENU_SHELL (lista), oggetto);
+	g_signal_connect (oggetto, "activate", G_CALLBACK (menuitem_response), (gpointer) NULL);
+	gtk_widget_show (oggetto);
+	//Fenici
+	oggetto=gtk_menu_item_new_with_label ("Fenici");
 	gtk_menu_shell_append (GTK_MENU_SHELL (lista), oggetto);
 	g_signal_connect (oggetto, "activate", G_CALLBACK (menuitem_response), (gpointer) NULL);
 	gtk_widget_show (oggetto);
@@ -973,9 +1007,9 @@ void gtk_carica_immagini ()
 	sprintf(Buf,"immagini/p/p1.xpm");
 	Immagine.p=gdk_pixbuf_new_from_file (Buf,NULL);
 	sprintf(Buf,"immagini/mov.xpm");
-	Immagine.movimento=gdk_pixbuf_new_from_file (Buf,NULL);
+	Immagine.movimento=gdk_pixbuf_new_from_file_at_size (Buf,Dim_casella,Dim_casella,NULL);
 	sprintf(Buf,"immagini/atk.xpm");
-	Immagine.attacco=gdk_pixbuf_new_from_file (Buf,NULL);
+	Immagine.attacco=gdk_pixbuf_new_from_file_at_size (Buf,Dim_casella,Dim_casella,NULL);
 	sprintf(Buf,"immagini/Fantasy-icon.xpm");
 	Immagine.err=gdk_pixbuf_new_from_file_at_size (Buf,30,30,NULL);
 	//carica il castello
@@ -1289,7 +1323,7 @@ void gtk_stampa_mappa(int x, int y, char m)
 				case 'T':
 					Thumb[Pos]=gtk_image_new_from_pixbuf (Immagine.s[1]);
 					gtk_container_add(GTK_CONTAINER(Casella[Pos]), Thumb[Pos]);
-					if(controlloedificio (posiziona(0,1,C,R),Scu)==0 && m=='n') 
+					if(controlloedificio (posiziona(1,0,C,R),Scu)==0 && m=='n') 
 						g_signal_connect_swapped (Casella[Pos], "button_press_event", G_CALLBACK (click_scuderia), (gpointer) NULL);
 					if(m=='c'&& assaltolecito(Mossa,posiziona(0,0,C,R))==1 && controllodiverso(Mossa,posiziona(1,0,C,R),Cas)==1)
 						g_signal_connect_swapped (Casella[Pos], "button_press_event", G_CALLBACK (click_assaltostruttura), (gpointer) &infomappa.mappa[posiziona(1,0,C,R)]);
@@ -1298,7 +1332,7 @@ void gtk_stampa_mappa(int x, int y, char m)
 				case 'U':
 					Thumb[Pos]=gtk_image_new_from_pixbuf (Immagine.s[2]);
 					gtk_container_add(GTK_CONTAINER(Casella[Pos]), Thumb[Pos]);
-					if(controlloedificio (posiziona(1,0,C,R),Scu)==0 && m=='n') 
+					if(controlloedificio (posiziona(0,1,C,R),Scu)==0 && m=='n') 
 						g_signal_connect_swapped (Casella[Pos], "button_press_event", G_CALLBACK (click_scuderia), (gpointer) NULL);
 					if(m=='c'&& assaltolecito(Mossa,posiziona(0,0,C,R))==1 && controllodiverso(Mossa,posiziona(0,1,C,R),Cas)==1)
 						g_signal_connect_swapped (Casella[Pos], "button_press_event", G_CALLBACK (click_assaltostruttura), (gpointer) &infomappa.mappa[posiziona(0,1,C,R)]);
