@@ -36,5 +36,5 @@ clean: cleanobj
 mrproper: clean
 	rm -f *~
 
-cleant: cleanobj
-	rm -f bin
+cleant:
+	rm -f provalib.o bin

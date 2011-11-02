@@ -41,7 +41,7 @@ void gtk_aggiorna_tab_strutture ();
 void gtk_pulisci_tab (GtkWidget *Target);
 void gtk_azzera_tab ();
 
-//funzioni freccie
+//funzioni frecce
 GtkWidget *gtk_crea_4_frecce();
 
 // funzioni contarisorse

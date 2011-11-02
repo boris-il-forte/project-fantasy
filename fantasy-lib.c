@@ -21,6 +21,21 @@
 #include <string.h>
 #include "fantasy-core.h"
 
+#define INIZIO_ORO 1000
+#define INIZIO_CIBO 1000
+#define INIZIO_SMERALDI 200
+#define PROD_ORO_CAS 500
+#define PROD_ORO_FAT 200
+#define PROD_ORO_SCU 400
+#define PROD_ORO_NID 100
+#define PROD_ORO_GRO 1000
+#define PROD_SMERALDI_NID 500
+#define PROD_SMERALDI_GRO 100
+#define PROD_CIBO_CAS 400
+#define PROD_CIBO_FAT 1000
+#define PROD_CIBO_SCU 100
+#define FAME 100
+
 //carica dati unità
 void caricadati ()
 {
@@ -136,15 +151,15 @@ void generamappa ()
 			y=infomappa.castelli[i]/LARGHEZZA;
 		}
 		while (conflitticastello(x,y,i));
-		accedi(x,y,infomappa.mappa)='4'; //segna i castelli
-		accedi(x-1,y,infomappa.mappa)='3';
-		accedi(x+1,y,infomappa.mappa)='5';
-		accedi(x,y+1,infomappa.mappa)='7';
+		accedi(x-1,y-1,infomappa.mappa)='0'; //segna i castelli
 		accedi(x,y-1,infomappa.mappa)='1';
-		accedi(x-1,y+1,infomappa.mappa)='6';
-		accedi(x-1,y-1,infomappa.mappa)='0';
-		accedi(x+1,y+1,infomappa.mappa)='8';
 		accedi(x+1,y-1,infomappa.mappa)='2';
+		accedi(x-1,y,infomappa.mappa)='3';
+		accedi(x,y,infomappa.mappa)='4';
+		accedi(x+1,y,infomappa.mappa)='5';
+		accedi(x-1,y+1,infomappa.mappa)='6';
+		accedi(x,y+1,infomappa.mappa)='7';
+		accedi(x+1,y+1,infomappa.mappa)='8';
 	}
 	/*genero le stalle*/
 	for (i=0; i<infomappa.numstalle; i++) 
@@ -217,9 +232,9 @@ void creagiocatori (int n)
 	{
 		fprintf(stderr,"creo giocatore n:%d\n",i);
 		giocatore[i]=(t_player*)malloc(sizeof(t_player));
-		giocatore[i]->oro=1000;
-		giocatore[i]->cibo=1000;
-		giocatore[i]->smeraldi=200;
+		giocatore[i]->oro=INIZIO_ORO;
+		giocatore[i]->cibo=INIZIO_CIBO;
+		giocatore[i]->smeraldi=INIZIO_SMERALDI;
 		giocatore[i]->struttura[Cas]=(t_lista_s*)malloc(sizeof(t_lista_s));
 		giocatore[i]->struttura[Cas]->pos=infomappa.castelli[num[i]];
 		giocatore[i]->struttura[Cas]->in=NULL;
@@ -778,9 +793,9 @@ void fineturno()
 			S=S->next;
 		}
 	}
-	giocatore[0]->oro+=500*r[Cas]+200*r[Fat]+400*r[Scu]+100*r[Nid]+1000*r[Gro];
-	giocatore[0]->smeraldi+=500*r[Nid]+100*r[Gro];
-	giocatore[0]->cibo+=400*r[Cas]+1000*r[Fat]+100*r[Scu]-100*c;
+	giocatore[0]->oro+=PROD_ORO_CAS*r[Cas]+PROD_ORO_FAT*r[Fat]+PROD_ORO_SCU*r[Scu]+PROD_ORO_NID*r[Nid]+PROD_ORO_GRO*r[Gro];
+	giocatore[0]->smeraldi+=PROD_SMERALDI_NID*r[Nid]+PROD_SMERALDI_GRO*r[Gro];
+	giocatore[0]->cibo+=PROD_CIBO_CAS*r[Cas]+PROD_CIBO_FAT*r[Fat]+PROD_CIBO_SCU*r[Scu]-FAME*c;
 	return;
 }
 

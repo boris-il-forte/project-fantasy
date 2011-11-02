@@ -34,8 +34,8 @@ typedef struct s_listapertab
 } t_listapertab;
 
 //variabili globali
-GtkWidget *Casella[648];
-GtkWidget *Thumb[648];
+GtkWidget *Casella[L_SCHERMO*A_SCHERMO];
+GtkWidget *Thumb[L_SCHERMO*A_SCHERMO];
 GtkWidget *Notebook[4];
 GtkWidget *Counter[NUMRISORSE];
 GtkWidget *Listacastelli[NUMCASTELLI];
@@ -1101,7 +1101,7 @@ void gtk_pulisci_mappa ()
 	static char control=0;
 	int Pos;
 	if(control!=0)
-		for (Pos=0; Pos<648; Pos++) 
+		for (Pos=0; Pos<L_SCHERMO*A_SCHERMO; Pos++) 
 		{
 			
 			g_signal_handlers_disconnect_matched(Casella[Pos],G_SIGNAL_MATCH_FUNC,0,0,0, click_castello, 0);
@@ -1708,7 +1708,7 @@ void gtk_azzera_tab ()
 	gtk_crea_elemento_tab(NULL,0,0,NULL);
 }
 
-//crea 4 freccie direzionali
+//crea 4 frecce direzionali
 GtkWidget *gtk_crea_4_frecce()
 {
 	GtkWidget *Pulsantiera;
@@ -1807,7 +1807,7 @@ int main(int argc, char *argv[])
 	GtkWidget *Layout;
 	GtkWidget *Hbox;
 	GtkWidget *Frame;
-	GtkWidget *Freccie;
+	GtkWidget *Frecce;
 	GtkWidget *Risorse;
 //	inizializza
 	gtk_init(&argc, &argv);
@@ -1853,10 +1853,10 @@ int main(int argc, char *argv[])
 	pulsante=gtk_button_new_with_label ("Attaccate!");
 	gtk_box_pack_start( GTK_BOX(Vbox), pulsante, FALSE, FALSE, 0);
 	gtk_widget_show (pulsante);
-// 	crea le freccie
-	Freccie= gtk_crea_4_frecce();
-	gtk_box_pack_start( GTK_BOX(Vbox), Freccie, FALSE, FALSE, 0);
-	gtk_widget_show (Freccie);
+// 	crea le frecce
+	Frecce= gtk_crea_4_frecce();
+	gtk_box_pack_start( GTK_BOX(Vbox), Frecce, FALSE, FALSE, 0);
+	gtk_widget_show (Frecce);
 // 	crea zona conteggio risorse
 	Risorse=gtk_crea_contarisorse();
 	gtk_box_pack_start( GTK_BOX(Vbox), Risorse, FALSE, FALSE, 0);
