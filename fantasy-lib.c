@@ -742,6 +742,17 @@ t_infotruppa* puntacasellaoccupata (int Pos, int C)
 	}
 }
 
+//aggiorna tr_callback
+void aggiorna_tr_callback(char* pos)
+{
+	t_truppa i;
+	for (i=Rec; i<NUMTRUPPE; i++)
+	{
+		tr_callback[i].tipo=i;
+		tr_callback[i].pos=pos-infomappa.mappa;
+	}
+}
+
 //termina il turno
 void fineturno()
 {

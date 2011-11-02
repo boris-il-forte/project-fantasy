@@ -39,7 +39,6 @@ GtkWidget *Thumb[648];
 GtkWidget *Notebook[4];
 GtkWidget *Counter[NUMRISORSE];
 GtkWidget *Listacastelli[NUMCASTELLI];
-t_callback_s tr_callback[Fen];
 int Mossa;
 int cx,cy;
 int Dim_casella;
@@ -444,18 +443,15 @@ static void click_destinazione (char* pos)
 	gtk_stampa_mappa(cx,cy,'n');
 }
 
+
+
 static void click_castello(char* pos)
 {
 	GtkWidget *menu;
 	GtkWidget *scelta;
 	GtkWidget *lista;
 	GtkWidget *oggetto;
-	int i;
-	for (i=Rec; i<Cav; i++)
-	{
-		tr_callback[i].tipo=i;
-		tr_callback[i].pos=pos-infomappa.mappa;
-	}
+	aggiorna_tr_callback(pos);
 	/*crea menu*/
 	menu=gtk_menu_new();
 	/*etichetta addestra*/
@@ -519,12 +515,7 @@ static void click_scuderia(char* pos)
 	GtkWidget *scelta;
 	GtkWidget *lista;
 	GtkWidget *oggetto;
-	int i;
-	for (i=Rec; i<Dra; i++)
-	{
-		tr_callback[i].tipo=i;
-		tr_callback[i].pos=pos-infomappa.mappa;
-	}
+	aggiorna_tr_callback(pos);
 	/*crea menu*/
 	menu=gtk_menu_new();
 	/*etichetta addestra*/
@@ -583,12 +574,7 @@ static void click_fattoria(char* pos)
 	GtkWidget *scelta;
 	GtkWidget *lista;
 	GtkWidget *oggetto;
-	int i;
-	for (i=Rec; i<Cav; i++)
-	{
-		tr_callback[i].tipo=i;
-		tr_callback[i].pos=pos-infomappa.mappa;
-	}
+	aggiorna_tr_callback(pos);
 	/*crea menu*/
 	menu=gtk_menu_new();
 	/*etichetta addestra*/
@@ -647,12 +633,7 @@ static void click_grotta(char* pos)
 	GtkWidget *scelta;
 	GtkWidget *lista;
 	GtkWidget *oggetto;
-	int i;
-	for (i=Rec; i<Fen; i++)
-	{
-		tr_callback[i].tipo=i;
-		tr_callback[i].pos=pos-infomappa.mappa;
-	}
+	aggiorna_tr_callback(pos);
 	/*crea menu*/
 	menu=gtk_menu_new();
 	/*etichetta addestra*/
@@ -711,12 +692,7 @@ static void click_nido(char* pos)
 	GtkWidget *scelta;
 	GtkWidget *lista;
 	GtkWidget *oggetto;
-	int i;
-	for (i=Rec; i<=Fen; i++)
-	{
-		tr_callback[i].tipo=i;
-		tr_callback[i].pos=pos-infomappa.mappa;
-	}
+	aggiorna_tr_callback(pos);
 	/*crea menu*/
 	menu=gtk_menu_new();
 	/*etichetta addestra*/

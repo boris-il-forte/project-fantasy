@@ -120,8 +120,10 @@ int controllodiverso(int PosT, int PosS, t_struttura tipo);
 void fineturno();
 int carica(char *);
 int salva(char *);
+void aggiorna_tr_callback(char* pos);
 
 //variabili globali
 t_infomappa infomappa;
 t_dtruppa Dtruppa[NUMTRUPPE];
 t_player* giocatore[MAXGIOCATORI];
+t_callback_s tr_callback[NUMTRUPPE];
