@@ -62,6 +62,9 @@ int salva(char *nomefile)
 	FILE *fp;
 	char ver[3];
 
+	int i,j,k,l;
+	int num_giocatori,num_strutture,num_truppestruttura,num_truppe;
+
 	ver[0]='F';
 	ver[1]='C';
 	ver[2]=1;
@@ -72,6 +75,8 @@ int salva(char *nomefile)
 		return 1;
 	}
 	fwrite(ver,1,3,fp);
+
+	// infomappa
 	fwrite((&infomappa)->castelli,sizeof(infomappa.castelli),NUMCASTELLI,fp);
 	fwrite((&infomappa)->fattorie,sizeof(infomappa.fattorie),MAXFATTORIE,fp);
 	fwrite((&infomappa)->stalle,sizeof(infomappa.stalle),MAXSTALLE,fp);
@@ -81,6 +86,57 @@ int salva(char *nomefile)
 	fwrite(&(&infomappa)->numnidi,sizeof(infomappa.numnidi),1,fp);
 	fwrite(&(&infomappa)->numgrotte,sizeof(infomappa.numgrotte),1,fp);
 	fwrite(&(&infomappa)->numfattorie,sizeof(infomappa.numfattorie),1,fp);
+	// END infomappa
+	for(i=0;i<MAXGIOCATORI && giocatore[i] != NULL;i++); // *giocatore (conta)
+	num_giocatori=i-1;
+	fwrite(&num_giocatori,sizeof(num_giocatori),1,fp);
+	for(i=0;i<num_giocatori;i++) { // *giocatore (scorri)
+		for(j=0;j<NUMSTRUTTURE; j++) { // **struttura
+			for(k=0; giocatore[i]->struttura[j] != NULL; k++) { // *struttura (conta lista)
+				giocatore[i]->struttura[j] = giocatore[i]->struttura[j]->next;
+			}
+			num_strutture=k-1;
+			fwrite(&num_strutture,sizeof(num_strutture),1,fp);
+			for(k=0;k<num_strutture;k++) { // *struttura (scorri)
+				fwrite(&giocatore[i]->struttura[j]->pos,sizeof(giocatore[i]->struttura[j]->pos),1,fp);
+				for(l=0; giocatore[i]->struttura[j]->in != NULL; k++) { // *in (conta lista)
+					giocatore[i]->struttura[j]->in = giocatore[i]->struttura[j]->in->next;
+				}
+				num_truppestruttura=l-1;
+				fwrite(&num_truppestruttura,sizeof(num_truppestruttura),1,fp);
+				for(l=0;l<num_truppestruttura;l++) { // *in (scorri)
+					fwrite(&giocatore[i]->struttura[j]->in->truppa->tipo,sizeof(giocatore[i]->struttura[j]->in->truppa->tipo),1,fp);
+					fwrite(&giocatore[i]->struttura[j]->in->truppa->giocatore,sizeof(giocatore[i]->struttura[j]->in->truppa->giocatore),1,fp);
+					fwrite(&giocatore[i]->struttura[j]->in->truppa->numero,sizeof(giocatore[i]->struttura[j]->in->truppa->numero),1,fp);
+					fwrite(&giocatore[i]->struttura[j]->in->truppa->morale,sizeof(giocatore[i]->struttura[j]->in->truppa->morale),1,fp);
+					fwrite(&giocatore[i]->struttura[j]->in->truppa->stanca,sizeof(giocatore[i]->struttura[j]->in->truppa->stanca),1,fp);
+					fwrite(&giocatore[i]->struttura[j]->in->truppa->combattuto,sizeof(giocatore[i]->struttura[j]->in->truppa->combattuto),1,fp);
+					fwrite(&giocatore[i]->struttura[j]->in->pos,sizeof(giocatore[i]->struttura[j]->in->pos),1,fp);
+					giocatore[i]->struttura[j]->in=giocatore[i]->struttura[j]->in->next;
+				} // END *in
+				giocatore[i]->struttura[j] = giocatore[i]->struttura[j]->next;
+			} // END *struttura
+		} // END **struttura
+		for(j=0; giocatore[i]->truppe != NULL; j++) { // *truppe (conta lista)
+			giocatore[i]->truppe = giocatore[i]->truppe->next;
+		}
+		num_truppe=j-1;
+		fwrite(&num_truppe,sizeof(num_truppe),1,fp);
+		for(j=0;j<num_truppe;j++) { // *truppe (scorri)
+			fwrite(&giocatore[i]->truppe->truppa->tipo,sizeof(giocatore[i]->truppe->truppa->tipo),1,fp);
+			fwrite(&giocatore[i]->truppe->truppa->giocatore,sizeof(giocatore[i]->truppe->truppa->giocatore),1,fp);
+			fwrite(&giocatore[i]->truppe->truppa->numero,sizeof(giocatore[i]->truppe->truppa->numero),1,fp);
+			fwrite(&giocatore[i]->truppe->truppa->morale,sizeof(giocatore[i]->truppe->truppa->morale),1,fp);
+			fwrite(&giocatore[i]->truppe->truppa->stanca,sizeof(giocatore[i]->truppe->truppa->stanca),1,fp);
+			fwrite(&giocatore[i]->truppe->truppa->combattuto,sizeof(giocatore[i]->truppe->truppa->combattuto),1,fp);
+			fwrite(&giocatore[i]->truppe->pos,sizeof(giocatore[i]->truppe->pos),1,fp);
+			giocatore[i]->truppe=giocatore[i]->truppe->next;
+		} // END *truppe
+		fwrite(&giocatore[i]->oro,sizeof(giocatore[i]->oro),1,fp);
+		fwrite(&giocatore[i]->cibo,sizeof(giocatore[i]->cibo),1,fp);
+		fwrite(&giocatore[i]->smeraldi,sizeof(giocatore[i]->smeraldi),1,fp);
+	} // END *giocatore
+		
 	fclose(fp);
 
 	return 0;
