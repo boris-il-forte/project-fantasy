@@ -90,17 +90,17 @@ static void chiudi_da_menu()
 static void salva_carica(int Data)
 {
 	GtkWidget *Fselect;
-	GtkFileChooserAction Modo;
 	GtkFileFilter *filter = gtk_file_filter_new ();
 	GtkFileFilter *filter_all = gtk_file_filter_new ();
 	char* buf=NULL;
 	const char* Home=g_get_home_dir();
-	if (Data==0) {
-		Modo=GTK_FILE_CHOOSER_ACTION_OPEN;
-		Fselect=gtk_file_chooser_dialog_new (buf,NULL,Modo,"Annulla",0,"Apri",1,NULL);
-	} else {
-		Modo=GTK_FILE_CHOOSER_ACTION_SAVE;
-		Fselect=gtk_file_chooser_dialog_new (buf,NULL,Modo,"Annulla",0,"Salva",1,NULL);
+	if (Data==0) 
+	{
+		Fselect=gtk_file_chooser_dialog_new ("Carica", NULL,GTK_FILE_CHOOSER_ACTION_OPEN,GTK_STOCK_CANCEL,GTK_RESPONSE_CANCEL,GTK_STOCK_OPEN,GTK_RESPONSE_ACCEPT,NULL);
+	} 
+	else 
+	{
+		Fselect=gtk_file_chooser_dialog_new ("Salva", NULL,GTK_FILE_CHOOSER_ACTION_SAVE,GTK_STOCK_CANCEL,GTK_RESPONSE_CANCEL,GTK_STOCK_SAVE,GTK_RESPONSE_ACCEPT,NULL);
 	}
 	gtk_window_set_icon (GTK_WINDOW (Fselect),Immagine.logo);
 	gtk_file_chooser_set_current_folder(GTK_FILE_CHOOSER(Fselect),Home);
@@ -112,7 +112,7 @@ static void salva_carica(int Data)
 	gtk_file_chooser_add_filter(GTK_FILE_CHOOSER(Fselect),filter);
 	gtk_file_chooser_add_filter(GTK_FILE_CHOOSER(Fselect),filter_all);
 
-	if (gtk_dialog_run (GTK_DIALOG(Fselect))==1)
+	if (gtk_dialog_run (GTK_DIALOG(Fselect))==GTK_RESPONSE_ACCEPT)
 	{
 		buf=gtk_file_chooser_get_filename (GTK_FILE_CHOOSER(Fselect));
 		if(Data==0) 
@@ -127,7 +127,10 @@ static void salva_carica(int Data)
 			gtk_aggiorna_tab_strutture();
 			gtk_aggiorna_tab_armate();
 		}
-		else {
+		else 
+		{
+			gtk_file_chooser_set_do_overwrite_confirmation(GTK_FILE_CHOOSER(Fselect),TRUE);
+			fprintf(stderr,"debug: %d",gtk_file_chooser_get_do_overwrite_confirmation(GTK_FILE_CHOOSER(Fselect)));
 			salva(buf);
 		}
 		gtk_widget_destroy(Fselect);
