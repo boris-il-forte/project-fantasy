@@ -111,7 +111,7 @@ static void salva_carica(int Data)
 	gtk_file_filter_set_name(filter_all,"Tutti i file");
 	gtk_file_chooser_add_filter(GTK_FILE_CHOOSER(Fselect),filter);
 	gtk_file_chooser_add_filter(GTK_FILE_CHOOSER(Fselect),filter_all);
-
+	gtk_file_chooser_set_do_overwrite_confirmation(GTK_FILE_CHOOSER(Fselect),TRUE);
 	if (gtk_dialog_run (GTK_DIALOG(Fselect))==GTK_RESPONSE_ACCEPT)
 	{
 		buf=gtk_file_chooser_get_filename (GTK_FILE_CHOOSER(Fselect));
@@ -129,8 +129,6 @@ static void salva_carica(int Data)
 		}
 		else 
 		{
-			gtk_file_chooser_set_do_overwrite_confirmation(GTK_FILE_CHOOSER(Fselect),TRUE);
-			fprintf(stderr,"debug: %d",gtk_file_chooser_get_do_overwrite_confirmation(GTK_FILE_CHOOSER(Fselect)));
 			salva(buf);
 		}
 		gtk_widget_destroy(Fselect);
