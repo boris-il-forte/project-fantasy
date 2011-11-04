@@ -91,13 +91,26 @@ static void salva_carica(int Data)
 {
 	GtkWidget *Fselect;
 	GtkFileChooserAction Modo;
+	GtkFileFilter *filter = gtk_file_filter_new ();
+	GtkFileFilter *filter_all = gtk_file_filter_new ();
 	char* buf=NULL;
 	const char* Home=g_get_home_dir();
-	if (Data==0) Modo=GTK_FILE_CHOOSER_ACTION_OPEN;
-	else Modo=GTK_FILE_CHOOSER_ACTION_SAVE;
-	Fselect=gtk_file_chooser_dialog_new (buf,NULL,Modo,"Ok",1,"Annulla",0,NULL);
+	if (Data==0) {
+		Modo=GTK_FILE_CHOOSER_ACTION_OPEN;
+		Fselect=gtk_file_chooser_dialog_new (buf,NULL,Modo,"Annulla",0,"Apri",1,NULL);
+	} else {
+		Modo=GTK_FILE_CHOOSER_ACTION_SAVE;
+		Fselect=gtk_file_chooser_dialog_new (buf,NULL,Modo,"Annulla",0,"Salva",1,NULL);
+	}
 	gtk_window_set_icon (GTK_WINDOW (Fselect),Immagine.logo);
 	gtk_file_chooser_set_current_folder(GTK_FILE_CHOOSER(Fselect),Home);
+	gtk_file_filter_add_pattern(filter, "*.fc");
+	gtk_file_filter_set_name(filter,"File FC");
+	gtk_file_filter_add_pattern(filter_all, "*");
+	gtk_file_filter_set_name(filter_all,"Tutti i file");
+	gtk_file_chooser_add_filter(GTK_FILE_CHOOSER(Fselect),filter);
+	gtk_file_chooser_add_filter(GTK_FILE_CHOOSER(Fselect),filter_all);
+
 	if (gtk_dialog_run (GTK_DIALOG(Fselect))==1)
 	{
 		buf=gtk_file_chooser_get_filename (GTK_FILE_CHOOSER(Fselect));
@@ -113,7 +126,9 @@ static void salva_carica(int Data)
 			gtk_aggiorna_tab_strutture();
 			gtk_aggiorna_tab_armate();
 		}
-		else salva(buf);
+		else {
+			salva(buf);
+		}
 		gtk_widget_destroy(Fselect);
 	}
 	else
