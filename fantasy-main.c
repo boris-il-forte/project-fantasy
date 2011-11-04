@@ -104,7 +104,8 @@ static void salva_carica(int Data)
 	}
 	gtk_window_set_icon (GTK_WINDOW (Fselect),Immagine.logo);
 	gtk_file_chooser_set_current_folder(GTK_FILE_CHOOSER(Fselect),Home);
-	gtk_file_filter_add_pattern(filter, "*.fc");
+	gtk_file_filter_add_pattern(filter, "*fc");
+	gtk_file_filter_add_pattern(filter, "*FC");
 	gtk_file_filter_set_name(filter,"File FC");
 	gtk_file_filter_add_pattern(filter_all, "*");
 	gtk_file_filter_set_name(filter_all,"Tutti i file");
