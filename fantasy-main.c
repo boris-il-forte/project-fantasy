@@ -101,6 +101,8 @@ static void salva_carica(int Data)
 	else 
 	{
 		Fselect=gtk_file_chooser_dialog_new ("Salva", NULL,GTK_FILE_CHOOSER_ACTION_SAVE,GTK_STOCK_CANCEL,GTK_RESPONSE_CANCEL,GTK_STOCK_SAVE,GTK_RESPONSE_ACCEPT,NULL);
+		gtk_file_chooser_set_do_overwrite_confirmation(GTK_FILE_CHOOSER(Fselect),TRUE);
+		gtk_file_chooser_set_current_name (GTK_FILE_CHOOSER(Fselect),".fc");
 	}
 	gtk_window_set_icon (GTK_WINDOW (Fselect),Immagine.logo);
 	gtk_file_chooser_set_current_folder(GTK_FILE_CHOOSER(Fselect),Home);
@@ -111,10 +113,9 @@ static void salva_carica(int Data)
 	gtk_file_filter_set_name(filter_all,"Tutti i file");
 	gtk_file_chooser_add_filter(GTK_FILE_CHOOSER(Fselect),filter);
 	gtk_file_chooser_add_filter(GTK_FILE_CHOOSER(Fselect),filter_all);
-	if(Data != 0) gtk_file_chooser_set_do_overwrite_confirmation(GTK_FILE_CHOOSER(Fselect),TRUE);
 	if (gtk_dialog_run (GTK_DIALOG(Fselect))==GTK_RESPONSE_ACCEPT)
 	{
-		buf=gtk_file_chooser_get_filename (GTK_FILE_CHOOSER(Fselect));
+		buf=gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(Fselect));
 		if(Data==0) 
 		{
 			caricadati();
