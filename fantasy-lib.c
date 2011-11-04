@@ -612,6 +612,14 @@ int controllodiverso(int PosT, int PosS, t_struttura tipo)
 	else return 1;
 }
 
+//controlla che le unita non siano dello stesso giocatore
+int controllodiversotruppe (int PosA, int PosD)
+{
+	if (PosA==PosD) return 1;
+	if (controllounita(PosA)==controllounita(PosD)) return 0;
+	else return 1;
+}
+
 //punta alla lista struttura della struttura nella posizione desiderata
 t_lista_s* puntastruttura (int Pos)
 {

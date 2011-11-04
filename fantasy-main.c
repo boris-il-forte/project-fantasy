@@ -1409,7 +1409,7 @@ void gtk_stampa_mappa(int x, int y, char m)
 							else
 								g_signal_connect_swapped (Casella[Pos], "button_press_event", G_CALLBACK (click_nemico), (gpointer) &infomappa.mappa[posiziona(0,0,C,R)]);
 						}
-						else if(m=='c'&& bersagliolecito(Mossa,posiziona(0,0,C,R))==1 && controllodiverso(Mossa,posiziona(0,0,C,R),Cas)==1)
+						else if(m=='c'&& bersagliolecito(Mossa,posiziona(0,0,C,R))==1 && controllodiversotruppe(Mossa,posiziona(0,0,C,R))==1)
 							g_signal_connect_swapped (Casella[Pos], "button_press_event", G_CALLBACK (click_bersaglio), (gpointer) &infomappa.mappa[posiziona(0,0,C,R)]);
 					}
 					else if (m=='s' && spostalecito(Mossa,posiziona(0,0,C,R))==1)
@@ -1584,7 +1584,7 @@ void gtk_aggiorna_tab_strutture ()
 	t_lista_s* S[NUMSTRUTTURE-1];
 	t_listapertab* Tab;
 	t_listapertab* Tabp;
-	fprintf(stderr, "debug: gtk_aggiorna_tab_strutture");
+	fprintf(stderr, "debug: gtk_aggiorna_tab_strutture\n");
 	for(i=1; i<NUMSTRUTTURE;i++) S[i-1]=giocatore[0]->struttura[i];
 	Tab=Listastrutture;
 	while(Tab!=NULL)
