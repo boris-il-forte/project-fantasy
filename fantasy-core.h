@@ -117,6 +117,7 @@ void liberaheap ();
 int controlloedificio (int Pos, t_struttura s);
 int controllounita (int Pos);
 int controllodiverso(int PosT, int PosS, t_struttura tipo);
+int controllodiversotruppe (int PosA, int PosD);
 void fineturno();
 int carica(char *);
 int salva(char *);

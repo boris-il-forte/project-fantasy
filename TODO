@@ -6,7 +6,7 @@ Gionnico:
 - funzione void gtk_calcola_dimensioni () -> da controllare per più risoluzioni possibili		| priorità bassa 
 
 Boris_il_forte:
-- collegare agli eventi funzioni click delle strutture priorità molto alta
+- collegare agli eventi funzioni click delle strutture 							| priorità molto alta
 - creare funzioni per unire unità e per far entrare le unità nel castello, e collegarle agli eventi 	| priorità alta
 - aggiustare dati unità speciali 									| priorità media 
 - IA 													| priorità molto bassa
