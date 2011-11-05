@@ -571,6 +571,12 @@ void cambiaproprietario (int g1, int g2, int Pos,t_struttura Tipo)
 	}
 }
 
+//controlla il tipo della struttura
+t_struttura controllotipostruttura (int Pos)
+{
+	return Cas;
+}
+
 //controlla se la struttura e' del giocatore
 int controlloedificio (int Pos, t_struttura s)
 {
@@ -588,7 +594,7 @@ int controlloedificio (int Pos, t_struttura s)
 	return -1;
 }
 
-//controlla se la unita' e' del giocatore
+//controlla a quale giocatore appartiene l'unità
 int controllounita (int Pos)
 {
 	int i;

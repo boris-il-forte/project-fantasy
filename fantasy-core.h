@@ -116,6 +116,7 @@ void cambiaproprietario (int g1, int g2, int Pos,t_struttura Tipo);
 void liberaheap ();
 int controlloedificio (int Pos, t_struttura s);
 int controllounita (int Pos);
+t_struttura controllotipostruttura (int Pos);
 int controllodiverso(int PosT, int PosS, t_struttura tipo);
 int controllodiversotruppe (int PosA, int PosD);
 void fineturno();
