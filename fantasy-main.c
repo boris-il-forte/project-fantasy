@@ -373,7 +373,7 @@ static void muovi_unita (char* pos)
 	T=infomappa.truppe[Pos];
 	GtkWidget* Dialogo;
 	GtkWidget* Label;
-	if(T->stanca==0)
+	if(T->stanca==0 && T->combattuto==0)
 	{
 		T->stanca=1;
 		Mossa=Pos;
@@ -385,7 +385,8 @@ static void muovi_unita (char* pos)
 	{
 		Dialogo=gtk_dialog_new_with_buttons("F.C.",NULL,GTK_DIALOG_DESTROY_WITH_PARENT,"ok");
 		gtk_window_set_icon (GTK_WINDOW (Dialogo),Immagine.logo);
-		Label=gtk_label_new("unità stanca!");
+		if(T->stanca==1)Label=gtk_label_new("unità stanca!");
+		else Label=gtk_label_new("unità in combattimento!");
 		gtk_widget_show(Label);
 		gtk_box_pack_start (GTK_BOX (gtk_dialog_get_content_area (GTK_DIALOG(Dialogo))),Label, TRUE, TRUE, 0);
 		gtk_dialog_run(GTK_DIALOG(Dialogo));
@@ -404,7 +405,6 @@ static void combatti_unita (char* pos)
 	if(T->combattuto==0)
 	{
 		T->combattuto=1;
-		T->stanca=1;
 		Mossa=Pos;
 		gtk_pulisci_mappa ();
 		gtk_stampa_mappa(cx,cy,'c');
