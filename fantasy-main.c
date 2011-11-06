@@ -1648,6 +1648,7 @@ void gtk_aggiorna_tab_strutture ()
 		Tab=Tab->next;
 		free(Tabp);
 	}
+	Listastrutture=NULL;
 	for(i=0;i<NUMSTRUTTURE-1; i++)
 		while(S[i]!=NULL)
 		{
@@ -1697,6 +1698,7 @@ void gtk_aggiorna_tab_armate ()
 		Tab=Tab->next;
 		free(Tabp);
 	}
+	Listatruppe=NULL;
 	while(T!=NULL)
 	{
 		x=T->pos%LARGHEZZA+1;
