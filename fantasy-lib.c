@@ -574,7 +574,13 @@ void cambiaproprietario (int g1, int g2, int Pos,t_struttura Tipo)
 //controlla il tipo della struttura
 t_struttura controllotipostruttura (int Pos)
 {
-	return Cas;
+	int i;
+	t_struttura t;
+	int* s[]={infomappa.castelli,infomappa.fattorie,infomappa.stalle, infomappa.grotte,infomappa.nidi};
+	int n[]={NUMCASTELLI,infomappa.numfattorie,infomappa.numstalle, infomappa.numgrotte,infomappa.numnidi};
+	for(t=Cas; t<NUMSTRUTTURE; t++)
+		for(i=0; i<n[t]; i++) if(s[t][i]==Pos) return t;
+	return -1;
 }
 
 //controlla se la struttura e' del giocatore
