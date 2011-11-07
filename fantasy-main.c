@@ -1035,8 +1035,26 @@ static void click_unisci (char* pos)
 	GtkObject *UA, *UB;
 	t_infotruppa* TA=infomappa.truppe[Mossa];
 	t_infotruppa* TB=infomappa.truppe[Pos];
-	UA=gtk_adjustment_new(TA->numero, 0,TA->numero+TB->numero, 1, 0, 0);
-	UB=gtk_adjustment_new(TB->numero, 0,TA->numero+TB->numero, 1, 0, 0);
+	t_truppa Tipo=TB->numero;
+	switch(Tipo)
+	{
+		case Rec:
+		case Fan:
+		case Lan:
+		case Arc:
+			max=100*2;
+			break;
+		case Cav:
+			max=100*2;
+			break;
+		case Dra:
+		case Fen:
+			max=100*2;
+			break;
+	}
+	somma=TA->numero+TB->numero;
+	UA=gtk_adjustment_new(TA->numero, 0,somma, 1, 0, 0);
+	UB=gtk_adjustment_new(TB->numero, 0,somma, 1, 0, 0);
 	g_signal_connect (UA, "value_changed", G_CALLBACK (set_adjustmentvalue), UB);
 	g_signal_connect (UB, "value_changed", G_CALLBACK (set_adjustmentvalue), UA);
 	Dialogo=gtk_dialog_new_with_buttons("Fantasy C",NULL,GTK_DIALOG_DESTROY_WITH_PARENT, GTK_STOCK_OK,GTK_RESPONSE_YES,GTK_STOCK_CANCEL,GTK_RESPONSE_NO,NULL);
