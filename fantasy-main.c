@@ -1005,6 +1005,41 @@ static void click_entrastruttura (char* pos)
 	gtk_stampa_mappa(cx,cy,'n');
 }
 
+static void click_unisci (char* pos)
+{
+	int Pos=(int)(pos-infomappa.mappa);
+	GtkWidget * Dialogo;
+	GtkWidget * Vbox;
+	GtkWidget * Label;
+	GtkWidget * Spin1;
+	GtkWidget * Spin2;
+	GtkObject *UA, *UB;
+	t_infotruppa* TA=infomappa.truppe[Mossa];
+	t_infotruppa* TB=infomappa.truppe[Pos];
+	UA=gtk_adjustment_new(TA->numero, 0,TA->numero+TB->numero, 1, 0, 0);
+	UB=gtk_adjustment_new(TB->numero, 0,TA->numero+TB->numero, 1, 0, 0);
+	Dialogo=gtk_dialog_new_with_buttons("Fantasy C",NULL,GTK_DIALOG_DESTROY_WITH_PARENT, GTK_STOCK_OK,GTK_RESPONSE_YES,GTK_STOCK_CANCEL,GTK_RESPONSE_NO,NULL);
+	gtk_window_set_icon (GTK_WINDOW (Dialogo),Immagine.logo);
+	Vbox=gtk_vbox_new(TRUE,0);
+	gtk_box_pack_start (GTK_BOX (gtk_dialog_get_content_area (GTK_DIALOG(Dialogo))),Vbox, TRUE, TRUE, 0);
+	gtk_widget_show(Vbox);
+	Label=gtk_label_new("Sposta effettivi");
+	gtk_box_pack_start (GTK_BOX (Vbox),Label, TRUE, TRUE, 0);
+	gtk_widget_show(Label);
+	Spin1=gtk_spin_button_new(GTK_ADJUSTMENT(UA), 0, 0);
+	gtk_box_pack_start (GTK_BOX (Vbox),Spin1, TRUE, TRUE, 0);
+	gtk_widget_show(Spin1);
+	Spin2=gtk_spin_button_new(GTK_ADJUSTMENT(UB), 0, 0);
+	gtk_box_pack_start (GTK_BOX (Vbox),Spin2, TRUE, TRUE, 0);
+	gtk_widget_show(Spin2);
+	if(gtk_dialog_run(GTK_DIALOG(Dialogo))==GTK_RESPONSE_YES) 
+	{
+		gtk_widget_destroy (Dialogo);
+	}
+	else
+		gtk_widget_destroy (Dialogo);
+}
+
 static void click_turno ()
 {
 	if(giocatore[0]!=NULL)
@@ -1500,8 +1535,10 @@ void gtk_stampa_mappa(int x, int y, char m)
 							else
 								g_signal_connect_swapped (Casella[Pos], "button_press_event", G_CALLBACK (click_nemico), (gpointer) &infomappa.mappa[posiziona(0,0,C,R)]);
 						}
-						else if(m=='c'&& bersagliolecito(Mossa,posiziona(0,0,C,R))==1 && controllodiversotruppe(Mossa,posiziona(0,0,C,R))==1)
+						else if(m=='c' && bersagliolecito(Mossa,posiziona(0,0,C,R))==1 && controllodiversotruppe(Mossa,posiziona(0,0,C,R))==1)
 							g_signal_connect_swapped (Casella[Pos], "button_press_event", G_CALLBACK (click_bersaglio), (gpointer) &infomappa.mappa[posiziona(0,0,C,R)]);
+						else if(m=='s' && spostalecito(Mossa,posiziona(0,0,C,R))==1 && controllodiversotruppe(Mossa,posiziona(0,0,C,R))==0)
+							g_signal_connect_swapped (Casella[Pos], "button_press_event", G_CALLBACK (click_unisci), (gpointer) &infomappa.mappa[posiziona(0,0,C,R)]);
 					}
 					else if (m=='s' && spostalecito(Mossa,posiziona(0,0,C,R))==1)
 					{

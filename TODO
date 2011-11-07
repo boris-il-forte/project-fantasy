@@ -7,6 +7,7 @@ Gionnico:
 
 Boris_il_forte:
 - collegare agli eventi funzioni click delle strutture 							| priorità molto alta
+- calback per unire due unità differenti								| priorità alta
 - aggiustare dati unità speciali 									| priorità media 
 - Evacua subito truppe  appena reclutate								| priorità media
 - Lista truppe presenti in evacua anzichè unità evacuabili						| priorità bassa
