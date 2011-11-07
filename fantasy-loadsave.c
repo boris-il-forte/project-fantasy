@@ -146,3 +146,27 @@ int salva(char *nomefile)
 
 	return 0;
 }
+
+t_lista_t* carica_lista_strutture()
+{
+	int i;
+	t_lista_t* Head=NULL;
+	t_lista_t* T=NULL;
+	for(i=0; i<1;i++)	//aggiusta il ciclo con la condizione giusta
+	{
+		if (T!=NULL)
+		{
+			T->next=(t_lista_t*)malloc(sizeof (t_lista_t));
+			T=T->next;
+		}
+		else 
+		{
+			T=(t_lista_t*)malloc(sizeof (t_lista_t));
+			Head=T;
+		}
+		T->in=NULL;	//qua ci va una funzione analoga che attacchi le truppe se ci sono.
+		T->pos=0;	//qua ci va la pos corretta
+		T->next=NULL;
+	}
+	return Head;
+}
