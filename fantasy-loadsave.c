@@ -20,10 +20,65 @@
 #include <string.h>
 #include "fantasy-core.h"
 
+t_lista_t * inserisci_truppe_in_coda(t_lista_t *testa,FILE *fp)
+{
+	t_lista_t *temp, *nuova;
+	nuova=malloc(sizeof(t_lista_s));
+
+	fread(&nuova->truppa->tipo,sizeof(nuova->truppa->tipo),1,fp);
+	fread(&nuova->truppa->giocatore,sizeof(nuova->truppa->giocatore),1,fp);
+	fread(&nuova->truppa->numero,sizeof(nuova->truppa->numero),1,fp);
+	fread(&nuova->truppa->morale,sizeof(nuova->truppa->morale),1,fp);
+	fread(&nuova->truppa->stanca,sizeof(nuova->truppa->stanca),1,fp);
+	fread(&nuova->truppa->combattuto,sizeof(nuova->truppa->combattuto),1,fp);
+	fread(&nuova->pos,sizeof(nuova->pos),1,fp);
+	nuova->next=NULL;
+
+	temp=testa;
+
+	if (temp == NULL)
+		return nuova;
+	while(temp->next != NULL) {
+		temp=temp->next;
+	}
+	temp->next=nuova;
+
+	return testa;
+}
+
+t_lista_s * inserisci_strutture_in_coda(t_lista_s *testa,FILE *fp)
+{
+	int num_truppestruttura;
+	int l;
+
+	t_lista_s *temp, *nuova;
+	nuova=malloc(sizeof(t_lista_s));
+
+	fread(&nuova->pos,sizeof(nuova->pos),1,fp);
+	fread(&num_truppestruttura,sizeof(num_truppestruttura),1,fp); // intruso .. che ci vuoi fare? che nassa!
+	for(l=0;l<num_truppestruttura;l++) { // *in (scorri)
+		nuova->in=inserisci_truppe_in_coda(nuova->in,fp);
+	} // END *in
+	nuova->next=NULL;
+
+	temp=testa;
+
+	if (temp == NULL)
+		return nuova;
+	while(temp->next != NULL) {
+		temp=temp->next;
+	}
+	temp->next=nuova;
+
+	return testa;
+}
+
 int carica(char *nomefile)
 {
 	FILE *fp;
 	char ver[4];
+	int i,j,k;
+	int num_giocatori,num_strutture,num_truppe;
 	t_lista_t *Tp=NULL;
 
 	fp=fopen(nomefile,"r");
@@ -56,6 +111,22 @@ int carica(char *nomefile)
 	fread(&(&infomappa)->numgrotte,sizeof(infomappa.numgrotte),1,fp);
 	fread(&(&infomappa)->numfattorie,sizeof(infomappa.numfattorie),1,fp);
 	// END infomappa
+	fread(&num_giocatori,sizeof(num_giocatori),1,fp);
+	for(i=0;i<num_giocatori;i++) {
+		for(j=0;j<NUMSTRUTTURE; j++) { // **struttura
+			fread(&num_strutture,sizeof(num_strutture),1,fp);
+			for(k=0;k<num_strutture;k++) { // *struttura (scorri)
+					giocatore[i]->struttura[j]=inserisci_strutture_in_coda(giocatore[i]->struttura[j],fp);
+			} // END *struttura
+		}
+		fread(&num_truppe,sizeof(num_truppe),1,fp);
+		for(j=0;j<num_truppe;j++) { // *truppe (scorri)
+			giocatore[i]->truppe=inserisci_truppe_in_coda(giocatore[i]->truppe,fp);
+		} // END *truppe
+		fread(&giocatore[i]->oro,sizeof(giocatore[i]->oro),1,fp);
+		fread(&giocatore[i]->cibo,sizeof(giocatore[i]->cibo),1,fp);
+		fread(&giocatore[i]->smeraldi,sizeof(giocatore[i]->smeraldi),1,fp);
+	} // END *giocatore
 
 	fclose(fp);
 
@@ -145,28 +216,4 @@ int salva(char *nomefile)
 	fclose(fp);
 
 	return 0;
-}
-
-t_lista_t* carica_lista_strutture()
-{
-	int i;
-	t_lista_t* Head=NULL;
-	t_lista_t* T=NULL;
-	for(i=0; i<1;i++)	//aggiusta il ciclo con la condizione giusta
-	{
-		if (T!=NULL)
-		{
-			T->next=(t_lista_t*)malloc(sizeof (t_lista_t));
-			T=T->next;
-		}
-		else 
-		{
-			T=(t_lista_t*)malloc(sizeof (t_lista_t));
-			Head=T;
-		}
-		T->in=NULL;	//qua ci va una funzione analoga che attacchi le truppe se ci sono.
-		T->pos=0;	//qua ci va la pos corretta
-		T->next=NULL;
-	}
-	return Head;
 }
