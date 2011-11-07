@@ -24,6 +24,7 @@ int carica(char *nomefile)
 {
 	FILE *fp;
 	char ver[4];
+	t_lista_t *Tp=NULL;
 
 	fp=fopen(nomefile,"r");
 	if(fp == NULL) {
@@ -43,6 +44,8 @@ int carica(char *nomefile)
 		return 1;
 	}
 	// FINE controllo header standard
+
+	// infomappa
 	fread((&infomappa)->castelli,sizeof(infomappa.castelli),NUMCASTELLI,fp);
 	fread((&infomappa)->fattorie,sizeof(infomappa.fattorie),MAXFATTORIE,fp);
 	fread((&infomappa)->stalle,sizeof(infomappa.stalle),MAXSTALLE,fp);
@@ -52,6 +55,8 @@ int carica(char *nomefile)
 	fread(&(&infomappa)->numnidi,sizeof(infomappa.numnidi),1,fp);
 	fread(&(&infomappa)->numgrotte,sizeof(infomappa.numgrotte),1,fp);
 	fread(&(&infomappa)->numfattorie,sizeof(infomappa.numfattorie),1,fp);
+	// END infomappa
+
 	fclose(fp);
 
 	return 0;
@@ -99,7 +104,7 @@ int salva(char *nomefile)
 			fwrite(&num_strutture,sizeof(num_strutture),1,fp);
 			for(k=0;k<num_strutture;k++) { // *struttura (scorri)
 				fwrite(&giocatore[i]->struttura[j]->pos,sizeof(giocatore[i]->struttura[j]->pos),1,fp);
-				for(l=0; giocatore[i]->struttura[j]->in != NULL; k++) { // *in (conta lista)
+				for(l=0; giocatore[i]->struttura[j]->in != NULL; l++) { // *in (conta lista)
 					giocatore[i]->struttura[j]->in = giocatore[i]->struttura[j]->in->next;
 				}
 				num_truppestruttura=l-1;
