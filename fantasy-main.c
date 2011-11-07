@@ -302,7 +302,6 @@ static void evacua_truppa (t_callback_s* Struct)
 	t_lista_t* T;
 	t_lista_t* Tp;
 	t_infotruppa** Libera;
-	fprintf(stderr,"debug evacua_truppa: la pos ricevuta è %d",P);
 	S=puntastruttura(P);
 	T=S->in;
 	Tp=T;
@@ -537,7 +536,6 @@ static void click_scuderia(char* pos)
 	GtkWidget *scelta;
 	GtkWidget *lista;
 	GtkWidget *oggetto;
-	fprintf(stderr,"debug click_scuderia: la pos ricevuta è %d",pos-infomappa.mappa);
 	aggiorna_tr_callback(pos);
 	/*crea menu*/
 	menu=gtk_menu_new();
@@ -597,7 +595,6 @@ static void click_fattoria(char* pos)
 	GtkWidget *scelta;
 	GtkWidget *lista;
 	GtkWidget *oggetto;
-	fprintf(stderr,"debug click_fattoria: la pos ricevuta è %d",pos-infomappa.mappa);
 	aggiorna_tr_callback(pos);
 	/*crea menu*/
 	menu=gtk_menu_new();

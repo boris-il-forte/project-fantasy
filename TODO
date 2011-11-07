@@ -7,8 +7,9 @@ Gionnico:
 
 Boris_il_forte:
 - collegare agli eventi funzioni click delle strutture 							| priorità molto alta
-- creare funzioni per unire unità e per far entrare le unità nel castello, e collegarle agli eventi 	| priorità alta
 - aggiustare dati unità speciali 									| priorità media 
+- Evacua subito truppe  appena reclutate								| priorità media
+- Lista truppe presenti in evacua anzichè unità evacuabili						| priorità bassa
 - IA 													| priorità molto bassa
 
 NintendOtaku:
