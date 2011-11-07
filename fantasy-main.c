@@ -33,6 +33,13 @@ typedef struct s_listapertab
 	struct s_listapertab* next;
 } t_listapertab;
 
+//struct spin buton
+typedef struct s_spin
+{
+	GtkObject* A;
+	int somma;
+} t_spin;
+
 //variabili globali
 GtkWidget *Casella[L_SCHERMO*A_SCHERMO];
 GtkWidget *Thumb[L_SCHERMO*A_SCHERMO];
@@ -81,11 +88,12 @@ static gboolean set_adjustmentmax (GtkObject* S, GtkObject* D)
 	return FALSE;
 }
 
-static gboolean set_adjustmentvalue (GtkObject* S, GtkObject* D)
+static gboolean set_adjustmentvalue (GtkObject* S,t_spin* C)
 {
-	int ns=gtk_adjustment_get_value (GTK_ADJUSTMENT(S));
-	int max= gtk_adjustment_get_upper(GTK_ADJUSTMENT(S));
-	gtk_adjustment_set_value (GTK_ADJUSTMENT(D), max-ns);
+	int n=gtk_adjustment_get_value(GTK_ADJUSTMENT(S));
+	int max=C->somma;
+	GtkObject* D=C->A;
+	gtk_adjustment_set_value (GTK_ADJUSTMENT(D), max-n);
 	return FALSE;
 }
 
@@ -1026,7 +1034,8 @@ static void click_entrastruttura (char* pos)
 static void click_unisci (char* pos)
 {
 	int Pos=(int)(pos-infomappa.mappa);
-	int max, somma;
+	int max, somma, min;
+	const int a=0,b=1;
 	GtkWidget * Dialogo;
 	GtkWidget * Vbox;
 	GtkWidget * Label;
@@ -1035,7 +1044,8 @@ static void click_unisci (char* pos)
 	GtkObject *UA, *UB;
 	t_infotruppa* TA=infomappa.truppe[Mossa];
 	t_infotruppa* TB=infomappa.truppe[Pos];
-	t_truppa Tipo=TB->numero;
+	t_spin S_Callback[2];
+	t_truppa Tipo=TB->tipo;
 	switch(Tipo)
 	{
 		case Rec:
@@ -1045,18 +1055,23 @@ static void click_unisci (char* pos)
 			max=100*2;
 			break;
 		case Cav:
-			max=100*2;
+			max=50*2;
 			break;
 		case Dra:
 		case Fen:
-			max=100*2;
+			max=30*2;
 			break;
 	}
 	somma=TA->numero+TB->numero;
-	UA=gtk_adjustment_new(TA->numero, 0,somma, 1, 0, 0);
-	UB=gtk_adjustment_new(TB->numero, 0,somma, 1, 0, 0);
-	g_signal_connect (UA, "value_changed", G_CALLBACK (set_adjustmentvalue), UB);
-	g_signal_connect (UB, "value_changed", G_CALLBACK (set_adjustmentvalue), UA);
+	min=TA->numero>TB->numero?TA->numero-TB->numero:TB->numero-TA->numero;
+	UA=gtk_adjustment_new(TA->numero, min,max<somma?max:somma, 1, 0, 0);
+	UB=gtk_adjustment_new(TB->numero, min,max<somma?max:somma, 1, 0, 0);
+	S_Callback[a].A=UA;
+	S_Callback[a].somma=somma;
+	S_Callback[b].A=UB;
+	S_Callback[b].somma=somma;
+	g_signal_connect (UA, "value_changed", G_CALLBACK (set_adjustmentvalue), &S_Callback[b]);
+	g_signal_connect (UB, "value_changed", G_CALLBACK (set_adjustmentvalue), &S_Callback[a]);
 	Dialogo=gtk_dialog_new_with_buttons("Fantasy C",NULL,GTK_DIALOG_DESTROY_WITH_PARENT, GTK_STOCK_OK,GTK_RESPONSE_YES,GTK_STOCK_CANCEL,GTK_RESPONSE_NO,NULL);
 	gtk_window_set_icon (GTK_WINDOW (Dialogo),Immagine.logo);
 	Vbox=gtk_vbox_new(TRUE,0);
@@ -1586,7 +1601,7 @@ void gtk_stampa_mappa(int x, int y, char m)
 						}
 						else if(m=='c' && bersagliolecito(Mossa,posiziona(0,0,C,R))==1 && controllodiversotruppe(Mossa,posiziona(0,0,C,R))==1)
 							g_signal_connect_swapped (Casella[Pos], "button_press_event", G_CALLBACK (click_bersaglio), (gpointer) &infomappa.mappa[posiziona(0,0,C,R)]);
-						else if(m=='s' && spostalecito(Mossa,posiziona(0,0,C,R))==1 && controllodiversotruppe(Mossa,posiziona(0,0,C,R))==0 && tipouguale(C,R))
+						else if(m=='s' && assaltolecito(Mossa,posiziona(0,0,C,R))==1 && controllodiversotruppe(Mossa,posiziona(0,0,C,R))==0 && tipouguale(C,R))
 							g_signal_connect_swapped (Casella[Pos], "button_press_event", G_CALLBACK (click_unisci), (gpointer) &infomappa.mappa[posiziona(0,0,C,R)]);
 					}
 					else if (m=='s' && spostalecito(Mossa,posiziona(0,0,C,R))==1)
