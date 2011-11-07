@@ -1207,6 +1207,7 @@ void gtk_pulisci_mappa ()
 			g_signal_handlers_disconnect_matched(Casella[Pos],G_SIGNAL_MATCH_FUNC,0,0,0, click_assediocastello, 0);
 			g_signal_handlers_disconnect_matched(Casella[Pos],G_SIGNAL_MATCH_FUNC,0,0,0, click_assaltostruttura, 0);
 			g_signal_handlers_disconnect_matched(Casella[Pos],G_SIGNAL_MATCH_FUNC,0,0,0, click_entrastruttura, 0);
+			g_signal_handlers_disconnect_matched(Casella[Pos],G_SIGNAL_MATCH_FUNC,0,0,0, click_unisci, 0);
 			gtk_widget_destroy(Thumb[Pos]);
 			
 		}
@@ -1537,7 +1538,7 @@ void gtk_stampa_mappa(int x, int y, char m)
 						}
 						else if(m=='c' && bersagliolecito(Mossa,posiziona(0,0,C,R))==1 && controllodiversotruppe(Mossa,posiziona(0,0,C,R))==1)
 							g_signal_connect_swapped (Casella[Pos], "button_press_event", G_CALLBACK (click_bersaglio), (gpointer) &infomappa.mappa[posiziona(0,0,C,R)]);
-						else if(m=='s' && spostalecito(Mossa,posiziona(0,0,C,R))==1 && controllodiversotruppe(Mossa,posiziona(0,0,C,R))==0)
+						else if(m=='s' && spostalecito(Mossa,posiziona(0,0,C,R))==1 && controllodiversotruppe(Mossa,posiziona(0,0,C,R))==0 && tipouguale(C,R))
 							g_signal_connect_swapped (Casella[Pos], "button_press_event", G_CALLBACK (click_unisci), (gpointer) &infomappa.mappa[posiziona(0,0,C,R)]);
 					}
 					else if (m=='s' && spostalecito(Mossa,posiziona(0,0,C,R))==1)

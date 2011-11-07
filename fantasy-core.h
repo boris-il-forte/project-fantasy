@@ -29,6 +29,7 @@
 #define accedi(x,y,z) z[(x)+LARGHEZZA*(y)] /*accede ad un array come se fosse una matrice*/
 #define posiziona(x,y,z,k) (z)+LARGHEZZA*k-((x)+LARGHEZZA*(y))
 #define disegna(x,y,z) accedi(x,y,infomappa.mappa)=z; accedi(x+1,y,infomappa.mappa)=z+1; accedi(x+1,y+1,infomappa.mappa)=z+3; accedi(x,y+1,infomappa.mappa)=z+2 /*disegna la struttura di simbolo z*/
+#define tipouguale(x,y) accedi(x,y,infomappa.truppe)->tipo==infomappa.truppe[Mossa]->tipo
 
 //definisco le strutture fondamentali
 typedef enum e_truppa {Rec,Fan,Lan,Arc,Cav,Dra,Fen} t_truppa;
