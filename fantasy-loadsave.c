@@ -79,7 +79,6 @@ int carica(char *nomefile)
 	char ver[4];
 	int i,j,k;
 	int num_giocatori,num_strutture,num_truppe;
-	t_lista_t *Tp=NULL;
 
 	fp=fopen(nomefile,"r");
 	if(fp == NULL) {
