@@ -302,6 +302,7 @@ static void evacua_truppa (t_callback_s* Struct)
 	t_lista_t* T;
 	t_lista_t* Tp;
 	t_infotruppa** Libera;
+	fprintf(stderr,"debug evacua_truppa: la pos ricevuta è %d",P);
 	S=puntastruttura(P);
 	T=S->in;
 	Tp=T;
@@ -536,6 +537,7 @@ static void click_scuderia(char* pos)
 	GtkWidget *scelta;
 	GtkWidget *lista;
 	GtkWidget *oggetto;
+	fprintf(stderr,"debug click_scuderia: la pos ricevuta è %d",pos-infomappa.mappa);
 	aggiorna_tr_callback(pos);
 	/*crea menu*/
 	menu=gtk_menu_new();
@@ -546,12 +548,12 @@ static void click_scuderia(char* pos)
 	//reclute
 	oggetto=gtk_menu_item_new_with_label ("Reclute");
 	gtk_menu_shell_append (GTK_MENU_SHELL (lista), oggetto);
-	g_signal_connect (oggetto, "activate", G_CALLBACK (menuitem_response), (gpointer) NULL);
+	g_signal_connect_swapped (oggetto, "activate", G_CALLBACK (menuitem_response), (gpointer) NULL);
 	gtk_widget_show (oggetto);
 	//fanteria
 	oggetto=gtk_menu_item_new_with_label ("Cavalleria");
 	gtk_menu_shell_append (GTK_MENU_SHELL (lista), oggetto);
-	g_signal_connect (oggetto, "activate", G_CALLBACK (menuitem_response), (gpointer) NULL);
+	g_signal_connect_swapped (oggetto, "activate", G_CALLBACK (menuitem_response), (gpointer) NULL);
 	gtk_widget_show (oggetto);
 	//attacca la lista alla scelta
 	gtk_menu_item_set_submenu (GTK_MENU_ITEM (scelta), lista);
@@ -564,7 +566,7 @@ static void click_scuderia(char* pos)
 	//reclute
 	oggetto=gtk_menu_item_new_with_label ("Reclute");
 	gtk_menu_shell_append (GTK_MENU_SHELL (lista), oggetto);
-	g_signal_connect (oggetto, "activate", G_CALLBACK (evacua_truppa), (gpointer) &tr_callback[Rec]);
+	g_signal_connect_swapped (oggetto, "activate", G_CALLBACK (evacua_truppa), (gpointer) &tr_callback[Rec]);
 	gtk_widget_show (oggetto);
 	//fanteria
 	oggetto=gtk_menu_item_new_with_label ("Fanteria");
@@ -574,12 +576,12 @@ static void click_scuderia(char* pos)
 	//lanceri
 	oggetto=gtk_menu_item_new_with_label ("Lancieri");
 	gtk_menu_shell_append (GTK_MENU_SHELL (lista), oggetto);
-	g_signal_connect (oggetto, "activate", G_CALLBACK (evacua_truppa), (gpointer) &tr_callback[Lan]);
+	g_signal_connect_swapped (oggetto, "activate", G_CALLBACK (evacua_truppa), (gpointer) &tr_callback[Lan]);
 	gtk_widget_show (oggetto);
 	//Cavalleria
 	oggetto=gtk_menu_item_new_with_label ("Cavalleria");
 	gtk_menu_shell_append (GTK_MENU_SHELL (lista), oggetto);
-	g_signal_connect (oggetto, "activate", G_CALLBACK (evacua_truppa), (gpointer) &tr_callback[Cav]);
+	g_signal_connect_swapped (oggetto, "activate", G_CALLBACK (evacua_truppa), (gpointer) &tr_callback[Cav]);
 	gtk_widget_show (oggetto);
 	//attacca la lista alla scelta
 	gtk_menu_item_set_submenu (GTK_MENU_ITEM (scelta), lista);
@@ -595,6 +597,7 @@ static void click_fattoria(char* pos)
 	GtkWidget *scelta;
 	GtkWidget *lista;
 	GtkWidget *oggetto;
+	fprintf(stderr,"debug click_fattoria: la pos ricevuta è %d",pos-infomappa.mappa);
 	aggiorna_tr_callback(pos);
 	/*crea menu*/
 	menu=gtk_menu_new();
@@ -605,12 +608,12 @@ static void click_fattoria(char* pos)
 	//reclute
 	oggetto=gtk_menu_item_new_with_label ("Reclute");
 	gtk_menu_shell_append (GTK_MENU_SHELL (lista), oggetto);
-	g_signal_connect (oggetto, "activate", G_CALLBACK (menuitem_response), (gpointer) NULL);
+	g_signal_connect_swapped(oggetto, "activate", G_CALLBACK (menuitem_response), (gpointer) NULL);
 	gtk_widget_show (oggetto);
 	//fanteria
 	oggetto=gtk_menu_item_new_with_label ("Arceri");
 	gtk_menu_shell_append (GTK_MENU_SHELL (lista), oggetto);
-	g_signal_connect (oggetto, "activate", G_CALLBACK (menuitem_response), (gpointer) NULL);
+	g_signal_connect_swapped(oggetto, "activate", G_CALLBACK (menuitem_response), (gpointer) NULL);
 	gtk_widget_show (oggetto);
 	//attacca la lista alla scelta
 	gtk_menu_item_set_submenu (GTK_MENU_ITEM (scelta), lista);
@@ -623,22 +626,22 @@ static void click_fattoria(char* pos)
 	//reclute
 	oggetto=gtk_menu_item_new_with_label ("Reclute");
 	gtk_menu_shell_append (GTK_MENU_SHELL (lista), oggetto);
-	g_signal_connect (oggetto, "activate", G_CALLBACK (evacua_truppa), (gpointer) &tr_callback[Rec]);
+	g_signal_connect_swapped(oggetto, "activate", G_CALLBACK (evacua_truppa), (gpointer) &tr_callback[Rec]);
 	gtk_widget_show (oggetto);
 	//fanteria
 	oggetto=gtk_menu_item_new_with_label ("Fanteria");
 	gtk_menu_shell_append (GTK_MENU_SHELL (lista), oggetto);
-	g_signal_connect (oggetto, "activate", G_CALLBACK (evacua_truppa), (gpointer) &tr_callback[Fan]);
+	g_signal_connect_swapped(oggetto, "activate", G_CALLBACK (evacua_truppa), (gpointer) &tr_callback[Fan]);
 	gtk_widget_show (oggetto);
 	//lanceri
 	oggetto=gtk_menu_item_new_with_label ("Lancieri");
 	gtk_menu_shell_append (GTK_MENU_SHELL (lista), oggetto);
-	g_signal_connect (oggetto, "activate", G_CALLBACK (evacua_truppa), (gpointer) &tr_callback[Lan]);
+	g_signal_connect_swapped(oggetto, "activate", G_CALLBACK (evacua_truppa), (gpointer) &tr_callback[Lan]);
 	gtk_widget_show (oggetto);
 	//Arcieri
 	oggetto=gtk_menu_item_new_with_label ("Arcieri");
 	gtk_menu_shell_append (GTK_MENU_SHELL (lista), oggetto);
-	g_signal_connect (oggetto, "activate", G_CALLBACK (evacua_truppa), (gpointer) &tr_callback[Arc]);
+	g_signal_connect_swapped(oggetto, "activate", G_CALLBACK (evacua_truppa), (gpointer) &tr_callback[Arc]);
 	gtk_widget_show (oggetto);
 	//attacca la lista alla scelta
 	gtk_menu_item_set_submenu (GTK_MENU_ITEM (scelta), lista);
@@ -664,7 +667,7 @@ static void click_grotta(char* pos)
 	//Draghi
 	oggetto=gtk_menu_item_new_with_label ("Draghi");
 	gtk_menu_shell_append (GTK_MENU_SHELL (lista), oggetto);
-	g_signal_connect (oggetto, "activate", G_CALLBACK (menuitem_response), (gpointer) NULL);
+	g_signal_connect_swapped(oggetto, "activate", G_CALLBACK (menuitem_response), (gpointer) NULL);
 	gtk_widget_show (oggetto);
 	//attacca la lista alla scelta
 	gtk_menu_item_set_submenu (GTK_MENU_ITEM (scelta), lista);
@@ -677,27 +680,27 @@ static void click_grotta(char* pos)
 	//reclute
 	oggetto=gtk_menu_item_new_with_label ("Reclute");
 	gtk_menu_shell_append (GTK_MENU_SHELL (lista), oggetto);
-	g_signal_connect (oggetto, "activate", G_CALLBACK (evacua_truppa), (gpointer) &tr_callback[Rec]);
+	g_signal_connect_swapped(oggetto, "activate", G_CALLBACK (evacua_truppa), (gpointer) &tr_callback[Rec]);
 	gtk_widget_show (oggetto);
 	//fanteria
 	oggetto=gtk_menu_item_new_with_label ("Fanteria");
 	gtk_menu_shell_append (GTK_MENU_SHELL (lista), oggetto);
-	g_signal_connect (oggetto, "activate", G_CALLBACK (evacua_truppa), (gpointer) &tr_callback[Fan]);
+	g_signal_connect_swapped(oggetto, "activate", G_CALLBACK (evacua_truppa), (gpointer) &tr_callback[Fan]);
 	gtk_widget_show (oggetto);
 	//lanceri
 	oggetto=gtk_menu_item_new_with_label ("Lancieri");
 	gtk_menu_shell_append (GTK_MENU_SHELL (lista), oggetto);
-	g_signal_connect (oggetto, "activate", G_CALLBACK (evacua_truppa), (gpointer) &tr_callback[Lan]);
+	g_signal_connect_swapped(oggetto, "activate", G_CALLBACK (evacua_truppa), (gpointer) &tr_callback[Lan]);
 	gtk_widget_show (oggetto);
 	//Arcieri
 	oggetto=gtk_menu_item_new_with_label ("Arcieri");
 	gtk_menu_shell_append (GTK_MENU_SHELL (lista), oggetto);
-	g_signal_connect (oggetto, "activate", G_CALLBACK (evacua_truppa), (gpointer) &tr_callback[Arc]);
+	g_signal_connect_swapped(oggetto, "activate", G_CALLBACK (evacua_truppa), (gpointer) &tr_callback[Arc]);
 	gtk_widget_show (oggetto);
 	//Draghi
 	oggetto=gtk_menu_item_new_with_label ("Draghi");
 	gtk_menu_shell_append (GTK_MENU_SHELL (lista), oggetto);
-	g_signal_connect (oggetto, "activate", G_CALLBACK (evacua_truppa), (gpointer) &tr_callback[Dra]);
+	g_signal_connect_swapped(oggetto, "activate", G_CALLBACK (evacua_truppa), (gpointer) &tr_callback[Dra]);
 	gtk_widget_show (oggetto);
 	//attacca la lista alla scelta
 	gtk_menu_item_set_submenu (GTK_MENU_ITEM (scelta), lista);
@@ -723,7 +726,7 @@ static void click_nido(char* pos)
 	//Fenici
 	oggetto=gtk_menu_item_new_with_label ("Fenici");
 	gtk_menu_shell_append (GTK_MENU_SHELL (lista), oggetto);
-	g_signal_connect (oggetto, "activate", G_CALLBACK (menuitem_response), (gpointer) NULL);
+	g_signal_connect_swapped(oggetto, "activate", G_CALLBACK (menuitem_response), (gpointer) NULL);
 	gtk_widget_show (oggetto);
 	//attacca la lista alla scelta
 	gtk_menu_item_set_submenu (GTK_MENU_ITEM (scelta), lista);
@@ -736,27 +739,27 @@ static void click_nido(char* pos)
 	//reclute
 	oggetto=gtk_menu_item_new_with_label ("Reclute");
 	gtk_menu_shell_append (GTK_MENU_SHELL (lista), oggetto);
-	g_signal_connect (oggetto, "activate", G_CALLBACK (evacua_truppa), (gpointer) &tr_callback[Rec]);
+	g_signal_connect_swapped(oggetto, "activate", G_CALLBACK (evacua_truppa), (gpointer) &tr_callback[Rec]);
 	gtk_widget_show (oggetto);
 	//fanteria
 	oggetto=gtk_menu_item_new_with_label ("Fanteria");
 	gtk_menu_shell_append (GTK_MENU_SHELL (lista), oggetto);
-	g_signal_connect (oggetto, "activate", G_CALLBACK (evacua_truppa), (gpointer) &tr_callback[Fan]);
+	g_signal_connect_swapped(oggetto, "activate", G_CALLBACK (evacua_truppa), (gpointer) &tr_callback[Fan]);
 	gtk_widget_show (oggetto);
 	//lanceri
 	oggetto=gtk_menu_item_new_with_label ("Lancieri");
 	gtk_menu_shell_append (GTK_MENU_SHELL (lista), oggetto);
-	g_signal_connect (oggetto, "activate", G_CALLBACK (evacua_truppa), (gpointer) &tr_callback[Lan]);
+	g_signal_connect_swapped(oggetto, "activate", G_CALLBACK (evacua_truppa), (gpointer) &tr_callback[Lan]);
 	gtk_widget_show (oggetto);
 	//Arceri
 	oggetto=gtk_menu_item_new_with_label ("Arcieri");
 	gtk_menu_shell_append (GTK_MENU_SHELL (lista), oggetto);
-	g_signal_connect (oggetto, "activate", G_CALLBACK (evacua_truppa), (gpointer) &tr_callback[Arc]);
+	g_signal_connect_swapped(oggetto, "activate", G_CALLBACK (evacua_truppa), (gpointer) &tr_callback[Arc]);
 	gtk_widget_show (oggetto);
 	//Fenici
 	oggetto=gtk_menu_item_new_with_label ("Fenici");
 	gtk_menu_shell_append (GTK_MENU_SHELL (lista), oggetto);
-	g_signal_connect (oggetto, "activate", G_CALLBACK (evacua_truppa), (gpointer) &tr_callback[Fen]);
+	g_signal_connect_swapped(oggetto, "activate", G_CALLBACK (evacua_truppa), (gpointer) &tr_callback[Fen]);
 	gtk_widget_show (oggetto);
 	//attacca la lista alla scelta
 	gtk_menu_item_set_submenu (GTK_MENU_ITEM (scelta), lista);
