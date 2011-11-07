@@ -72,6 +72,23 @@ static gboolean delete_event()
 	return TRUE;
 }
 
+static gboolean set_adjustmentmax (GtkObject* S, GtkObject* D)
+{
+	int max=gtk_adjustment_get_value (GTK_ADJUSTMENT(S));
+	int n=gtk_adjustment_get_value (GTK_ADJUSTMENT(D));
+	gtk_adjustment_set_value (GTK_ADJUSTMENT(D), n<(max-1) ? n : (max-1));
+	gtk_adjustment_set_upper (GTK_ADJUSTMENT(D), max-1);
+	return FALSE;
+}
+
+static gboolean set_adjustmentvalue (GtkObject* S, GtkObject* D)
+{
+	int ns=gtk_adjustment_get_value (GTK_ADJUSTMENT(S));
+	int max= gtk_adjustment_get_upper(GTK_ADJUSTMENT(S));
+	gtk_adjustment_set_value (GTK_ADJUSTMENT(D), max-ns);
+	return FALSE;
+}
+
 static void chiudi_da_menu()
 {
 	GtkWidget * Dialogo;
@@ -149,6 +166,7 @@ static void nuova_partita ()
 	fprintf(stderr,"debug nuova_partita\n");
 	Giocatori=gtk_adjustment_new(4, 2, MAXGIOCATORI, 1, 2, 0);
 	IA=gtk_adjustment_new(3, 0, MAXGIOCATORI-1, 1, 1, 0);
+	g_signal_connect (Giocatori, "value_changed", G_CALLBACK (set_adjustmentmax), IA);
 	Dialogo=gtk_dialog_new();
 	gtk_dialog_add_buttons (GTK_DIALOG(Dialogo),"Inizia!",1,"Annulla",0,NULL);
 	gtk_window_set_icon (GTK_WINDOW (Dialogo),Immagine.logo);
@@ -1008,6 +1026,7 @@ static void click_entrastruttura (char* pos)
 static void click_unisci (char* pos)
 {
 	int Pos=(int)(pos-infomappa.mappa);
+	int max, somma;
 	GtkWidget * Dialogo;
 	GtkWidget * Vbox;
 	GtkWidget * Label;
@@ -1018,6 +1037,8 @@ static void click_unisci (char* pos)
 	t_infotruppa* TB=infomappa.truppe[Pos];
 	UA=gtk_adjustment_new(TA->numero, 0,TA->numero+TB->numero, 1, 0, 0);
 	UB=gtk_adjustment_new(TB->numero, 0,TA->numero+TB->numero, 1, 0, 0);
+	g_signal_connect (UA, "value_changed", G_CALLBACK (set_adjustmentvalue), UB);
+	g_signal_connect (UB, "value_changed", G_CALLBACK (set_adjustmentvalue), UA);
 	Dialogo=gtk_dialog_new_with_buttons("Fantasy C",NULL,GTK_DIALOG_DESTROY_WITH_PARENT, GTK_STOCK_OK,GTK_RESPONSE_YES,GTK_STOCK_CANCEL,GTK_RESPONSE_NO,NULL);
 	gtk_window_set_icon (GTK_WINDOW (Dialogo),Immagine.logo);
 	Vbox=gtk_vbox_new(TRUE,0);
@@ -1034,10 +1055,19 @@ static void click_unisci (char* pos)
 	gtk_widget_show(Spin2);
 	if(gtk_dialog_run(GTK_DIALOG(Dialogo))==GTK_RESPONSE_YES) 
 	{
+		TA->numero=gtk_adjustment_get_value (GTK_ADJUSTMENT(UA));
+		TB->numero=gtk_adjustment_get_value (GTK_ADJUSTMENT(UB));
+		//if(TA->numero==0)
+		//	eliminamorti(&TA);
+		//if(TB->numero==0)
+		//	eliminamorti(&TB);
 		gtk_widget_destroy (Dialogo);
 	}
 	else
 		gtk_widget_destroy (Dialogo);
+	gtk_pulisci_mappa();
+	gtk_aggiorna_tab_armate();
+	gtk_stampa_mappa(cx,cy,'n');
 }
 
 static void click_turno ()
