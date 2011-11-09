@@ -1063,7 +1063,7 @@ static void click_unisci (char* pos)
 			break;
 	}
 	somma=TA->numero+TB->numero;
-	min=TA->numero>TB->numero?TA->numero-TB->numero:TB->numero-TA->numero;
+	min=(somma-max)>0?(somma-max):0;
 	UA=gtk_adjustment_new(TA->numero, min,max<somma?max:somma, 1, 0, 0);
 	UB=gtk_adjustment_new(TB->numero, min,max<somma?max:somma, 1, 0, 0);
 	S_Callback[a].A=UA;
