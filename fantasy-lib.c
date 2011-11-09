@@ -340,27 +340,32 @@ int assaltolecito (int PosT, int PosC )
 }
 
 //elimina i puntatori alle unita morte
-void eliminamorti (t_infotruppa** M)
+void eliminamorti (t_infotruppa* M)
 {
-	int G=(*M)->giocatore;
+	int G=M->giocatore;
 	int Pos;
 	t_lista_t* T=giocatore[G]->truppe;
-	t_lista_t* Tp;
+	t_lista_t* Tp=NULL;
+	fprintf(stderr,"debug: eliminamorti\n");
 	while(T!=NULL && T->truppa->numero!=0)
 	{
 		Tp=T;
 		T=T->next;
 	}
-	if(T!=NULL)
+	if(Tp!=NULL)
 	{
 		Pos=T->pos;
 		Tp->next=T->next;
 		free(T);
-		free(*M);
-		*M=NULL;
 		infomappa.truppe[Pos]=NULL;
 	}
-	else fprintf(stderr,"o breccia con perdite o c'e' un bug!\n");
+	else 
+	{
+		Pos=T->pos;
+		giocatore[G]->truppe=T->next;
+		free(T);
+		infomappa.truppe[Pos]=NULL;
+	}
 }
 
 //fa combattere due unita'
@@ -445,11 +450,11 @@ int assaltaedificio(t_lista_s* Edificio)
 		combatti(Attaccanti[i],Difensori[i],'s');
 		if(Difensori[i]->numero==0)
 		{
-			eliminamorti(&Difensori[i]);
+			eliminamorti(Difensori[i]);
 			return 1;
 		}
 		combatti(Difensori[i],Attaccanti[i],'n');
-		if(Attaccanti[i]->numero==0) eliminamorti(&Attaccanti[i]);
+		if(Attaccanti[i]->numero==0) eliminamorti(Attaccanti[i]);
 	}
 	return 0;
 }
@@ -483,11 +488,11 @@ int assaltamura(t_lista_s* Castello)
 		combatti(Attaccanti[i],Difensori[i],'m');
 		if(Difensori[i]->numero==0)
 		{
-			eliminamorti(&Difensori[i]);
+			eliminamorti(Difensori[i]);
 			return 1;
 		}
 		combatti(Difensori[i],Attaccanti[i],'n');
-		if(Attaccanti[i]->numero==0) eliminamorti(&Attaccanti[i]);
+		if(Attaccanti[i]->numero==0) eliminamorti(Attaccanti[i]);
 	}
 	return 0;
 }
@@ -514,14 +519,14 @@ int assaltabreccia(t_infotruppa* Attaccante,t_lista_t* Difensori)
 			Temp=Difensori;
 			while(Temp!=NULL)
 			{
-				if(Temp->truppa->morale==0 || Temp->truppa->numero==0) eliminamorti(&Temp->truppa);
+				if(Temp->truppa->morale==0 || Temp->truppa->numero==0) eliminamorti(Temp->truppa);
 				Temp=Temp->next;
 			}
 		}
 		else
 		{
 			combatti(Difensori->truppa,Attaccante,'n');
-			if(Attaccante->numero==0 || Attaccante->morale==0) eliminamorti(&Attaccante);
+			if(Attaccante->numero==0 || Attaccante->morale==0) eliminamorti(Attaccante);
 			return 0;
 		}
 	}

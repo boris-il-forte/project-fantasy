@@ -1090,10 +1090,10 @@ static void click_unisci (char* pos)
 	{
 		TA->numero=gtk_adjustment_get_value (GTK_ADJUSTMENT(UA));
 		TB->numero=gtk_adjustment_get_value (GTK_ADJUSTMENT(UB));
-		//if(TA->numero==0)
-		//	eliminamorti(&TA);
-		//if(TB->numero==0)
-		//	eliminamorti(&TB);
+		if(TA->numero==0)
+			eliminamorti(TA);
+		if(TB->numero==0)
+			eliminamorti(TB);
 		gtk_widget_destroy (Dialogo);
 	}
 	else

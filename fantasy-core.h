@@ -112,7 +112,7 @@ int assaltaedificio(t_lista_s* Edificio);
 int spostalecito (int PosT, int PosC );
 int bersagliolecito (int PosT, int PosC );
 int assaltolecito (int PosT, int PosC );
-void eliminamorti (t_infotruppa** M);
+void eliminamorti (t_infotruppa* M);
 void cambiaproprietario (int g1, int g2, int Pos,t_struttura Tipo);
 void liberaheap ();
 int controlloedificio (int Pos, t_struttura s);
