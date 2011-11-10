@@ -572,9 +572,9 @@ static void click_scuderia(char* pos)
 	//reclute
 	oggetto=gtk_menu_item_new_with_label ("Reclute");
 	gtk_menu_shell_append (GTK_MENU_SHELL (lista), oggetto);
-	g_signal_connect_swapped (oggetto, "activate", G_CALLBACK (menuitem_response), (gpointer) NULL);
+	g_signal_connect_swapped (oggetto, "activate", G_CALLBACK (addestra_truppa), (gpointer) &tr_callback[Rec]);
 	gtk_widget_show (oggetto);
-	//fanteria
+	//Cavalleria
 	oggetto=gtk_menu_item_new_with_label ("Cavalleria");
 	gtk_menu_shell_append (GTK_MENU_SHELL (lista), oggetto);
 	g_signal_connect_swapped (oggetto, "activate", G_CALLBACK (menuitem_response), (gpointer) NULL);
@@ -631,7 +631,7 @@ static void click_fattoria(char* pos)
 	//reclute
 	oggetto=gtk_menu_item_new_with_label ("Reclute");
 	gtk_menu_shell_append (GTK_MENU_SHELL (lista), oggetto);
-	g_signal_connect_swapped(oggetto, "activate", G_CALLBACK (menuitem_response), (gpointer) NULL);
+	g_signal_connect_swapped(oggetto, "activate", G_CALLBACK (addestra_truppa), (gpointer) &tr_callback[Rec]);
 	gtk_widget_show (oggetto);
 	//fanteria
 	oggetto=gtk_menu_item_new_with_label ("Arceri");
@@ -1088,6 +1088,7 @@ static void click_unisci (char* pos)
 	gtk_widget_show(Spin2);
 	if(gtk_dialog_run(GTK_DIALOG(Dialogo))==GTK_RESPONSE_YES) 
 	{
+		TB->stanca=1;
 		TA->numero=gtk_adjustment_get_value (GTK_ADJUSTMENT(UA));
 		TB->numero=gtk_adjustment_get_value (GTK_ADJUSTMENT(UB));
 		if(TA->numero==0)
@@ -1097,7 +1098,10 @@ static void click_unisci (char* pos)
 		gtk_widget_destroy (Dialogo);
 	}
 	else
+	{
+		TA->stanca=0;
 		gtk_widget_destroy (Dialogo);
+	}
 	gtk_pulisci_mappa();
 	gtk_aggiorna_tab_armate();
 	gtk_stampa_mappa(cx,cy,'n');
@@ -1132,6 +1136,7 @@ void gtk_carica_immagini ()
 	int i,j;
 	char Buf[100];
 	sprintf(Buf,"immagini/Fantasy-icon.xpm");
+	Immagine.err=gdk_pixbuf_new_from_file_at_size (Buf,30,30,NULL);
 	Immagine.logo=gdk_pixbuf_new_from_file (Buf,NULL);
 	sprintf(Buf,"immagini/Freccia.xpm");
 	Immagine.freccia=gdk_pixbuf_new_from_file_at_size (Buf,30,30,NULL);
@@ -1141,8 +1146,7 @@ void gtk_carica_immagini ()
 	Immagine.movimento=gdk_pixbuf_new_from_file_at_size (Buf,Dim_casella,Dim_casella,NULL);
 	sprintf(Buf,"immagini/atk.xpm");
 	Immagine.attacco=gdk_pixbuf_new_from_file_at_size (Buf,Dim_casella,Dim_casella,NULL);
-	sprintf(Buf,"immagini/Fantasy-icon.xpm");
-	Immagine.err=gdk_pixbuf_new_from_file_at_size (Buf,30,30,NULL);
+	
 	//carica il castello
 	for (i=0; i<9; i++)
 	{

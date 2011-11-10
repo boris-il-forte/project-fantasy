@@ -368,6 +368,32 @@ void eliminamorti (t_infotruppa* M)
 	}
 }
 
+//elimina i puntatori alle unita morte nelle strutture
+void eliminamortistrutture (int Pos)
+{
+	t_lista_s* S;
+	t_lista_t* T;
+	t_lista_t* Tp=NULL;
+	S=puntastruttura(Pos);
+	T=S->in;
+	
+	while(T!=NULL && T->truppa->numero!=0 && T->truppa->morale!=0)
+	{
+		Tp=T;
+		T=T->next;
+	}
+	if(Tp!=NULL)
+	{
+		Tp->next=T->next;
+		free(T);
+	}
+	else 
+	{
+		S->in=T->next;
+		free(T);
+	}
+}
+
 //fa combattere due unita'
 void combatti(t_infotruppa* Attaccante, t_infotruppa* Difensore, char m)
 {
@@ -450,7 +476,7 @@ int assaltaedificio(t_lista_s* Edificio)
 		combatti(Attaccanti[i],Difensori[i],'s');
 		if(Difensori[i]->numero==0)
 		{
-			eliminamorti(Difensori[i]);
+			eliminamortistrutture(Pos);
 			return 1;
 		}
 		combatti(Difensori[i],Attaccanti[i],'n');
@@ -488,7 +514,7 @@ int assaltamura(t_lista_s* Castello)
 		combatti(Attaccanti[i],Difensori[i],'m');
 		if(Difensori[i]->numero==0)
 		{
-			eliminamorti(Difensori[i]);
+			eliminamortistrutture(Pos);
 			return 1;
 		}
 		combatti(Difensori[i],Attaccanti[i],'n');
@@ -519,7 +545,7 @@ int assaltabreccia(t_infotruppa* Attaccante,t_lista_t* Difensori)
 			Temp=Difensori;
 			while(Temp!=NULL)
 			{
-				if(Temp->truppa->morale==0 || Temp->truppa->numero==0) eliminamorti(Temp->truppa);
+				if(Temp->truppa->morale==0 || Temp->truppa->numero==0) eliminamortistrutture(Temp->pos);
 				Temp=Temp->next;
 			}
 		}
