@@ -16,6 +16,7 @@
  */
 
 #include <gtk/gtk.h>
+#include <gdk/gdkkeysyms.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -279,6 +280,60 @@ static void sposta_mappa(char* v)
 		default:
 			break;
 	}
+}
+
+static void sposta_datastiera(GtkWidget* Window, GdkEventKey* K)
+{
+	if(K->type == GDK_KEY_PRESS)
+	{
+		fprintf(stderr,"debug: sposta_datastiera\n");
+		switch (K->keyval)
+		{
+			case GDK_KEY_Left:
+				if(cx-1<0)
+					return;
+				else
+				{
+					cx-=1;
+					gtk_pulisci_mappa ();
+					gtk_stampa_mappa(cx,cy,'n');
+				}
+				break;
+			case GDK_KEY_Up:
+				if(cy-1<0)
+					return;
+				else
+				{
+					cy-=1;
+					gtk_pulisci_mappa ();
+					gtk_stampa_mappa(cx,cy,'n');
+				}
+				break;
+			case GDK_KEY_Down:
+				if(cy+1>ALTEZZA-A_SCHERMO)
+					return;
+				else
+				{
+					cy+=1;
+					gtk_pulisci_mappa ();
+					gtk_stampa_mappa(cx,cy,'n');
+				}
+				break;
+			case GDK_KEY_Right:
+				if(cx+1>LARGHEZZA-L_SCHERMO)
+					return;
+				else
+				{
+					cx+=1;
+					gtk_pulisci_mappa ();
+					gtk_stampa_mappa(cx,cy,'n');
+				}
+				break;
+			default:
+				break;
+		}
+	}
+	return;
 }
 
 static void addestra_truppa (t_callback_s* Struct)
@@ -1929,6 +1984,7 @@ GtkWidget *gtk_crea_4_frecce()
 	GtkWidget *Freccia;
 	int i;
 	Pulsantiera=gtk_table_new(3,3,FALSE);
+	
 	for (i=1; i<9;i=i+2)
 	{
 		Pulsante=gtk_button_new();
@@ -2030,6 +2086,7 @@ int main(int argc, char *argv[])
 // 	crea finestra
 	finestra=gtk_window_new (GTK_WINDOW_TOPLEVEL);
 	g_signal_connect (finestra, "delete-event", G_CALLBACK (delete_event), NULL);
+	g_signal_connect (finestra, "key-press-event", G_CALLBACK (sposta_datastiera),NULL);
 	gtk_window_set_title (GTK_WINDOW (finestra), "Fantasy Core");
 	gtk_window_set_icon (GTK_WINDOW (finestra),Immagine.logo);
 // 	crea box principale del layout
