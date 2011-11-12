@@ -20,10 +20,10 @@
 #include <string.h>
 #include "fantasy-core.h"
 
-t_lista_t * inserisci_truppe_in_coda(t_lista_t *testa,FILE *fp)
-{
+t_lista_t * inserisci_truppe_in_coda(t_lista_t *testa,FILE *fp) //# faccio notare che la funzione che avevo scritto prima non cercava più volte la coda della lista, perchè aggiornava l'ultimo elemento ogni volta dentro di se!
+{								//# non capisco perchè l'hai implementata così... non ne vedo il vantaggio!
 	t_lista_t *temp, *nuova;
-	nuova=malloc(sizeof(t_lista_s));
+	nuova=malloc(sizeof(t_lista_t));
 
 	fread(&nuova->truppa->tipo,sizeof(nuova->truppa->tipo),1,fp);
 	fread(&nuova->truppa->giocatore,sizeof(nuova->truppa->giocatore),1,fp);
@@ -149,11 +149,11 @@ int salva(char *nomefile)
 		perror("fopen fallita");
 		return 1;
 	}
-	fwrite(ver,1,3,fp);
+	fwrite(ver,1,3,fp);//#faccio notare che così scrive il numero binario di F seguito da quello di C e poi quello di 1
 
 	// infomappa
 	fwrite((&infomappa)->castelli,sizeof(infomappa.castelli),NUMCASTELLI,fp);
-	fwrite((&infomappa)->fattorie,sizeof(infomappa.fattorie),MAXFATTORIE,fp);
+	fwrite((&infomappa)->fattorie,sizeof(infomappa.fattorie),MAXFATTORIE,fp);// dovrebbe caricare: infomappa.numfattorie posizioni e non  MAXFATTORIE così per gli altri uguale... magari salvare prima  infomappa.numfattorie...
 	fwrite((&infomappa)->stalle,sizeof(infomappa.stalle),MAXSTALLE,fp);
 	fwrite((&infomappa)->grotte,sizeof(infomappa.grotte),MAXGROTTE,fp);
 	fwrite((&infomappa)->nidi,sizeof(infomappa.nidi),MAXNIDI,fp);
@@ -163,21 +163,21 @@ int salva(char *nomefile)
 	fwrite(&(&infomappa)->numfattorie,sizeof(infomappa.numfattorie),1,fp);
 	// END infomappa
 	for(i=0;i<MAXGIOCATORI && giocatore[i] != NULL;i++); // *giocatore (conta)
-	num_giocatori=i-1;
+	num_giocatori=i-1; //#probabilmente sbagliato in relazione al ciclo sotto: se ci fosse un solo giocatore num_giocatori=0 e il ciclo termina subito in quanto (0<0)=FALSO
 	fwrite(&num_giocatori,sizeof(num_giocatori),1,fp);
 	for(i=0;i<num_giocatori;i++) { // *giocatore (scorri)
 		for(j=0;j<NUMSTRUTTURE; j++) { // **struttura
 			for(k=0; giocatore[i]->struttura[j] != NULL; k++) { // *struttura (conta lista)
 				giocatore[i]->struttura[j] = giocatore[i]->struttura[j]->next;
 			}
-			num_strutture=k-1;
+			num_strutture=k-1; //#idem come sopra nel numero di giocatori
 			fwrite(&num_strutture,sizeof(num_strutture),1,fp);
 			for(k=0;k<num_strutture;k++) { // *struttura (scorri)
 				fwrite(&giocatore[i]->struttura[j]->pos,sizeof(giocatore[i]->struttura[j]->pos),1,fp);
 				for(l=0; giocatore[i]->struttura[j]->in != NULL; l++) { // *in (conta lista)
 					giocatore[i]->struttura[j]->in = giocatore[i]->struttura[j]->in->next;
 				}
-				num_truppestruttura=l-1;
+				num_truppestruttura=l-1; //#idem come sopra nel numero di giocatori
 				fwrite(&num_truppestruttura,sizeof(num_truppestruttura),1,fp);
 				for(l=0;l<num_truppestruttura;l++) { // *in (scorri)
 					fwrite(&giocatore[i]->struttura[j]->in->truppa->tipo,sizeof(giocatore[i]->struttura[j]->in->truppa->tipo),1,fp);
@@ -189,7 +189,7 @@ int salva(char *nomefile)
 					fwrite(&giocatore[i]->struttura[j]->in->pos,sizeof(giocatore[i]->struttura[j]->in->pos),1,fp);
 					giocatore[i]->struttura[j]->in=giocatore[i]->struttura[j]->in->next;
 				} // END *in
-				giocatore[i]->struttura[j] = giocatore[i]->struttura[j]->next;
+				giocatore[i]->struttura[j] = giocatore[i]->struttura[j]->next; //#palesemente sbagliato! modifica variabile globale!
 			} // END *struttura
 		} // END **struttura
 		for(j=0; giocatore[i]->truppe != NULL; j++) { // *truppe (conta lista)
@@ -205,7 +205,7 @@ int salva(char *nomefile)
 			fwrite(&giocatore[i]->truppe->truppa->stanca,sizeof(giocatore[i]->truppe->truppa->stanca),1,fp);
 			fwrite(&giocatore[i]->truppe->truppa->combattuto,sizeof(giocatore[i]->truppe->truppa->combattuto),1,fp);
 			fwrite(&giocatore[i]->truppe->pos,sizeof(giocatore[i]->truppe->pos),1,fp);
-			giocatore[i]->truppe=giocatore[i]->truppe->next;
+			giocatore[i]->truppe=giocatore[i]->truppe->next;  //#palesemente sbagliato! modifica variabile globale!
 		} // END *truppe
 		fwrite(&giocatore[i]->oro,sizeof(giocatore[i]->oro),1,fp);
 		fwrite(&giocatore[i]->cibo,sizeof(giocatore[i]->cibo),1,fp);
