@@ -384,6 +384,7 @@ static void evacua_truppa (t_callback_s* Struct)
 	t_lista_t* Tp;
 	t_infotruppa** Libera;
 	S=puntastruttura(P);
+	fprintf(stderr,"pos:  %d", P);
 	T=S->in;
 	Tp=T;
 	while (T!=NULL)
@@ -650,7 +651,7 @@ static void click_scuderia(char* pos)
 	//fanteria
 	oggetto=gtk_menu_item_new_with_label ("Fanteria");
 	gtk_menu_shell_append (GTK_MENU_SHELL (lista), oggetto);
-	g_signal_connect (oggetto, "activate", G_CALLBACK (evacua_truppa), (gpointer) &tr_callback[Fan]);
+	g_signal_connect_swapped (oggetto, "activate", G_CALLBACK (evacua_truppa), (gpointer) &tr_callback[Fan]);
 	gtk_widget_show (oggetto);
 	//lanceri
 	oggetto=gtk_menu_item_new_with_label ("Lancieri");
