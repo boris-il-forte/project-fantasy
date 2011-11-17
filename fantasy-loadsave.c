@@ -136,6 +136,8 @@ int salva(char *nomefile)
 {
 	FILE *fp;
 	char ver[3];
+	t_lista_t *Tptr;
+	t_lista_s *Sptr;
 
 	int i,j,k,l;
 	int num_giocatori,num_strutture,num_truppestruttura,num_truppe;
@@ -149,7 +151,7 @@ int salva(char *nomefile)
 		perror("fopen fallita");
 		return 1;
 	}
-	fwrite(ver,1,3,fp);//#faccio notare che così scrive il numero binario di F seguito da quello di C e poi quello di 1
+	fwrite(ver,1,3,fp);
 
 	// infomappa
 	fwrite((&infomappa)->castelli,sizeof(infomappa.castelli),NUMCASTELLI,fp);
@@ -163,33 +165,34 @@ int salva(char *nomefile)
 	fwrite(&(&infomappa)->numfattorie,sizeof(infomappa.numfattorie),1,fp);
 	// END infomappa
 	for(i=0;i<MAXGIOCATORI && giocatore[i] != NULL;i++); // *giocatore (conta)
-	num_giocatori=i-1; //#probabilmente sbagliato in relazione al ciclo sotto: se ci fosse un solo giocatore num_giocatori=0 e il ciclo termina subito in quanto (0<0)=FALSO
+	num_giocatori=i;
 	fwrite(&num_giocatori,sizeof(num_giocatori),1,fp);
 	for(i=0;i<num_giocatori;i++) { // *giocatore (scorri)
 		for(j=0;j<NUMSTRUTTURE; j++) { // **struttura
 			for(k=0; giocatore[i]->struttura[j] != NULL; k++) { // *struttura (conta lista)
 				giocatore[i]->struttura[j] = giocatore[i]->struttura[j]->next;
 			}
-			num_strutture=k-1; //#idem come sopra nel numero di giocatori
+			num_strutture=k;
 			fwrite(&num_strutture,sizeof(num_strutture),1,fp);
+			Sptr=giocatore[i]->struttura[j];
 			for(k=0;k<num_strutture;k++) { // *struttura (scorri)
-				fwrite(&giocatore[i]->struttura[j]->pos,sizeof(giocatore[i]->struttura[j]->pos),1,fp);
-				for(l=0; giocatore[i]->struttura[j]->in != NULL; l++) { // *in (conta lista)
-					giocatore[i]->struttura[j]->in = giocatore[i]->struttura[j]->in->next;
+				fwrite(&Sptr->pos,sizeof(Sptr->pos),1,fp);
+				for(l=0; Sptr->in != NULL; l++) { // *in (conta lista)
+					Sptr->in = Sptr->in->next;
 				}
-				num_truppestruttura=l-1; //#idem come sopra nel numero di giocatori
+				num_truppestruttura=l;
 				fwrite(&num_truppestruttura,sizeof(num_truppestruttura),1,fp);
 				for(l=0;l<num_truppestruttura;l++) { // *in (scorri)
-					fwrite(&giocatore[i]->struttura[j]->in->truppa->tipo,sizeof(giocatore[i]->struttura[j]->in->truppa->tipo),1,fp);
-					fwrite(&giocatore[i]->struttura[j]->in->truppa->giocatore,sizeof(giocatore[i]->struttura[j]->in->truppa->giocatore),1,fp);
-					fwrite(&giocatore[i]->struttura[j]->in->truppa->numero,sizeof(giocatore[i]->struttura[j]->in->truppa->numero),1,fp);
-					fwrite(&giocatore[i]->struttura[j]->in->truppa->morale,sizeof(giocatore[i]->struttura[j]->in->truppa->morale),1,fp);
-					fwrite(&giocatore[i]->struttura[j]->in->truppa->stanca,sizeof(giocatore[i]->struttura[j]->in->truppa->stanca),1,fp);
-					fwrite(&giocatore[i]->struttura[j]->in->truppa->combattuto,sizeof(giocatore[i]->struttura[j]->in->truppa->combattuto),1,fp);
-					fwrite(&giocatore[i]->struttura[j]->in->pos,sizeof(giocatore[i]->struttura[j]->in->pos),1,fp);
-					giocatore[i]->struttura[j]->in=giocatore[i]->struttura[j]->in->next;
+					fwrite(&Sptr->in->truppa->tipo,sizeof(Sptr->in->truppa->tipo),1,fp);
+					fwrite(&Sptr->in->truppa->giocatore,sizeof(Sptr->in->truppa->giocatore),1,fp);
+					fwrite(&Sptr->in->truppa->numero,sizeof(Sptr->in->truppa->numero),1,fp);
+					fwrite(&Sptr->in->truppa->morale,sizeof(Sptr->in->truppa->morale),1,fp);
+					fwrite(&Sptr->in->truppa->stanca,sizeof(Sptr->in->truppa->stanca),1,fp);
+					fwrite(&Sptr->in->truppa->combattuto,sizeof(Sptr->in->truppa->combattuto),1,fp);
+					fwrite(&Sptr->in->pos,sizeof(Sptr->in->pos),1,fp);
+					Sptr->in=Sptr->in->next;
 				} // END *in
-				giocatore[i]->struttura[j] = giocatore[i]->struttura[j]->next; //#palesemente sbagliato! modifica variabile globale!
+				Sptr = Sptr->next;
 			} // END *struttura
 		} // END **struttura
 		for(j=0; giocatore[i]->truppe != NULL; j++) { // *truppe (conta lista)
@@ -197,15 +200,16 @@ int salva(char *nomefile)
 		}
 		num_truppe=j-1;
 		fwrite(&num_truppe,sizeof(num_truppe),1,fp);
+		Tptr=giocatore[i]->truppe;
 		for(j=0;j<num_truppe;j++) { // *truppe (scorri)
-			fwrite(&giocatore[i]->truppe->truppa->tipo,sizeof(giocatore[i]->truppe->truppa->tipo),1,fp);
-			fwrite(&giocatore[i]->truppe->truppa->giocatore,sizeof(giocatore[i]->truppe->truppa->giocatore),1,fp);
-			fwrite(&giocatore[i]->truppe->truppa->numero,sizeof(giocatore[i]->truppe->truppa->numero),1,fp);
-			fwrite(&giocatore[i]->truppe->truppa->morale,sizeof(giocatore[i]->truppe->truppa->morale),1,fp);
-			fwrite(&giocatore[i]->truppe->truppa->stanca,sizeof(giocatore[i]->truppe->truppa->stanca),1,fp);
-			fwrite(&giocatore[i]->truppe->truppa->combattuto,sizeof(giocatore[i]->truppe->truppa->combattuto),1,fp);
-			fwrite(&giocatore[i]->truppe->pos,sizeof(giocatore[i]->truppe->pos),1,fp);
-			giocatore[i]->truppe=giocatore[i]->truppe->next;  //#palesemente sbagliato! modifica variabile globale!
+			fwrite(&Tptr->truppa->tipo,sizeof(Tptr->truppa->tipo),1,fp);
+			fwrite(&Tptr->truppa->giocatore,sizeof(Tptr->truppa->giocatore),1,fp);
+			fwrite(&Tptr->truppa->numero,sizeof(Tptr->truppa->numero),1,fp);
+			fwrite(&Tptr->truppa->morale,sizeof(Tptr->truppa->morale),1,fp);
+			fwrite(&Tptr->truppa->stanca,sizeof(Tptr->truppa->stanca),1,fp);
+			fwrite(&Tptr->truppa->combattuto,sizeof(Tptr->truppa->combattuto),1,fp);
+			fwrite(&Tptr->pos,sizeof(Tptr->pos),1,fp);
+			Tptr=Tptr->next;
 		} // END *truppe
 		fwrite(&giocatore[i]->oro,sizeof(giocatore[i]->oro),1,fp);
 		fwrite(&giocatore[i]->cibo,sizeof(giocatore[i]->cibo),1,fp);
