@@ -169,8 +169,9 @@ int salva(char *nomefile)
 	fwrite(&num_giocatori,sizeof(num_giocatori),1,fp);
 	for(i=0;i<num_giocatori;i++) { // *giocatore (scorri)
 		for(j=0;j<NUMSTRUTTURE; j++) { // **struttura
-			for(k=0; giocatore[i]->struttura[j] != NULL; k++) { // *struttura (conta lista)
-				giocatore[i]->struttura[j] = giocatore[i]->struttura[j]->next; //# errore grave! scrive in una variabile locale! è un salva e NON deve mai modificare le variabili locali
+			Sptr=giocatore[i]->struttura[j];
+			for(k=0; Sptr != NULL; k++) { // *struttura (conta lista)
+				Sptr = giocatore[i]->struttura[j]->next;
 			}
 			num_strutture=k;
 			fwrite(&num_strutture,sizeof(num_strutture),1,fp);
@@ -195,8 +196,9 @@ int salva(char *nomefile)
 				Sptr = Sptr->next;
 			} // END *struttura
 		} // END **struttura
-		for(j=0; giocatore[i]->truppe != NULL; j++) { // *truppe (conta lista)
-			giocatore[i]->truppe = giocatore[i]->truppe->next; //# errore grave! scrive in una variabile locale! è un salva e NON deve mai modificare le variabili locali
+		Tptr=giocatore[i]->truppe;
+		for(j=0; Tptr != NULL; j++) { // *truppe (conta lista)
+			Tptr = giocatore[i]->truppe->next;
 		}
 		num_truppe=j-1;
 		fwrite(&num_truppe,sizeof(num_truppe),1,fp);
