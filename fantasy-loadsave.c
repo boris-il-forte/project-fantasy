@@ -20,8 +20,8 @@
 #include <string.h>
 #include "fantasy-core.h"
 
-t_lista_t * inserisci_truppe_in_coda(t_lista_t *testa,FILE *fp) //# faccio notare che la funzione che avevo scritto prima non cercava più volte la coda della lista, perchè aggiornava l'ultimo elemento ogni volta dentro di se!
-{								//# non capisco perchè l'hai implementata così... non ne vedo il vantaggio!
+t_lista_t * inserisci_truppe_in_coda(t_lista_t *testa,FILE *fp) //# stavolta faccio notare che è meglio in questa funzione fare solo l'inserimento e non cercare la coda! inutile cercare la coda in quanto nessun'altra parte del codice usa la suddetta funzione.
+{
 	t_lista_t *temp, *nuova;
 	nuova=malloc(sizeof(t_lista_t));
 
@@ -154,8 +154,8 @@ int salva(char *nomefile)
 	fwrite(ver,1,3,fp);
 
 	// infomappa
-	fwrite((&infomappa)->castelli,sizeof(infomappa.castelli),NUMCASTELLI,fp);
-	fwrite((&infomappa)->fattorie,sizeof(infomappa.fattorie),MAXFATTORIE,fp);// dovrebbe caricare: infomappa.numfattorie posizioni e non  MAXFATTORIE così per gli altri uguale... magari salvare prima  infomappa.numfattorie...
+	fwrite((&infomappa)->castelli,sizeof(infomappa.castelli),NUMCASTELLI,fp); //# errore! deve caricare solo infomappa.numfattorie e non MAXFATTORIE. prima bisogna salvare i valori infomappa.numfattorie (etc..) e poi caricare le varie posizioni.
+	fwrite((&infomappa)->fattorie,sizeof(infomappa.fattorie),MAXFATTORIE,fp);
 	fwrite((&infomappa)->stalle,sizeof(infomappa.stalle),MAXSTALLE,fp);
 	fwrite((&infomappa)->grotte,sizeof(infomappa.grotte),MAXGROTTE,fp);
 	fwrite((&infomappa)->nidi,sizeof(infomappa.nidi),MAXNIDI,fp);
@@ -170,7 +170,7 @@ int salva(char *nomefile)
 	for(i=0;i<num_giocatori;i++) { // *giocatore (scorri)
 		for(j=0;j<NUMSTRUTTURE; j++) { // **struttura
 			for(k=0; giocatore[i]->struttura[j] != NULL; k++) { // *struttura (conta lista)
-				giocatore[i]->struttura[j] = giocatore[i]->struttura[j]->next;
+				giocatore[i]->struttura[j] = giocatore[i]->struttura[j]->next; //# errore grave! scrive in una variabile locale! è un salva e NON deve mai modificare le variabili locali
 			}
 			num_strutture=k;
 			fwrite(&num_strutture,sizeof(num_strutture),1,fp);
@@ -196,7 +196,7 @@ int salva(char *nomefile)
 			} // END *struttura
 		} // END **struttura
 		for(j=0; giocatore[i]->truppe != NULL; j++) { // *truppe (conta lista)
-			giocatore[i]->truppe = giocatore[i]->truppe->next;
+			giocatore[i]->truppe = giocatore[i]->truppe->next; //# errore grave! scrive in una variabile locale! è un salva e NON deve mai modificare le variabili locali
 		}
 		num_truppe=j-1;
 		fwrite(&num_truppe,sizeof(num_truppe),1,fp);
