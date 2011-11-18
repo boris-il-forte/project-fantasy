@@ -111,7 +111,10 @@ int carica(char *nomefile)
 	fread(&(&infomappa)->numfattorie,sizeof(infomappa.numfattorie),1,fp);
 	// END infomappa
 	fread(&num_giocatori,sizeof(num_giocatori),1,fp);
-	for(i=0;i<num_giocatori;i++) {
+	for(i=0;i<num_giocatori;i++) { // *giocatore
+		giocatore[i]=malloc(sizeof(t_player));
+		for(j=0;j<NUMSTRUTTURE; j++)
+			giocatore[i]->struttura[j]=NULL;
 		for(j=0;j<NUMSTRUTTURE; j++) { // **struttura
 			fread(&num_strutture,sizeof(num_strutture),1,fp);
 			for(k=0;k<num_strutture;k++) { // *struttura (scorri)
