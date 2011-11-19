@@ -99,6 +99,7 @@ typedef struct s_player
 void caricadati ();
 void inizializza ();
 void generamappa ();
+void rigeneramappa (int j, int i, int pos);
 void visualizza_su_terminale ();
 void creagiocatori (int n);
 t_infotruppa* generatruppa (t_truppa Tipo, char Giocatore, int Numero);
