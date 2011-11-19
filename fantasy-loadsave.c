@@ -47,7 +47,7 @@ t_lista_t * inserisci_truppe_in_coda(t_lista_t *testa,FILE *fp) //# stavolta fac
 	return testa;
 }
 
-t_lista_s * inserisci_strutture_in_coda(t_lista_s *testa,FILE *fp, int j, int k) // j indica la struttura enum: Cas, Fat, ecc. utile per ricreare cache mappa. k: strut. num
+t_lista_s * inserisci_strutture_in_coda(t_lista_s *testa,FILE *fp) // j indica la struttura enum: Cas, Fat, ecc. utile per ricreare cache mappa. k: strut. num
 {
 	int num_truppestruttura;
 	int l;
@@ -60,7 +60,6 @@ t_lista_s * inserisci_strutture_in_coda(t_lista_s *testa,FILE *fp, int j, int k)
 	for(l=0;l<num_truppestruttura;l++) { // *in (scorri)
 		nuova->in=inserisci_truppe_in_coda(nuova->in,fp);
 	} // END *in
-	rigeneramappa(j,k,nuova->pos);
 	nuova->next=NULL;
 
 	temp=testa;
@@ -111,6 +110,7 @@ int carica(char *nomefile)
 	fread(&(&infomappa)->numnidi,sizeof(infomappa.numnidi),1,fp);
 	fread(&(&infomappa)->numgrotte,sizeof(infomappa.numgrotte),1,fp);
 	fread(&(&infomappa)->numfattorie,sizeof(infomappa.numfattorie),1,fp);
+	rigeneramappa();
 	// END infomappa
 	fread(&num_giocatori,sizeof(num_giocatori),1,fp);
 	for(i=0;i<num_giocatori;i++) { // *giocatore
@@ -120,7 +120,7 @@ int carica(char *nomefile)
 		for(j=0;j<NUMSTRUTTURE; j++) { // **struttura
 			fread(&num_strutture,sizeof(num_strutture),1,fp);
 			for(k=0;k<num_strutture;k++) { // *struttura (scorri)
-					giocatore[i]->struttura[j]=inserisci_strutture_in_coda(giocatore[i]->struttura[j],fp,j,k);
+					giocatore[i]->struttura[j]=inserisci_strutture_in_coda(giocatore[i]->struttura[j],fp);
 			} // END *struttura
 		}
 		fread(&num_truppe,sizeof(num_truppe),1,fp);

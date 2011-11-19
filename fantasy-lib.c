@@ -212,65 +212,48 @@ void generamappa ()
 }
 
 //genera la mappa caricata
-void rigeneramappa (int j, int i, int pos)
+void rigeneramappa ()
 {
+	int i; // contatori
 	int x,y; //variabili posizionamento
 
-	switch (j) {
-		case Cas:
-		{
-			/*genero i castelli*/
-			infomappa.castelli[i]=pos;
-			x=infomappa.castelli[i]%LARGHEZZA;
-			y=infomappa.castelli[i]/LARGHEZZA;
-			accedi(x-1,y-1,infomappa.mappa)='0'; //segna i castelli
-			accedi(x,y-1,infomappa.mappa)='1';
-			accedi(x+1,y-1,infomappa.mappa)='2';
-			accedi(x-1,y,infomappa.mappa)='3';
-			accedi(x,y,infomappa.mappa)='4';
-			accedi(x+1,y,infomappa.mappa)='5';
-			accedi(x-1,y+1,infomappa.mappa)='6';
-			accedi(x,y+1,infomappa.mappa)='7';
-			accedi(x+1,y+1,infomappa.mappa)='8';
-			break;
-		}
-		case Fat:
-		{
-			/*genero le fattorie*/
-			infomappa.fattorie[i]=pos;
-			x=infomappa.fattorie[i]%LARGHEZZA;
-			y=infomappa.fattorie[i]/LARGHEZZA;
-			disegna(x,y,'C'); //segna le fattorie
-		}
-		case Scu:
-		{
-			/*genero le stalle*/
-			infomappa.stalle[i]=pos;
-			x=infomappa.stalle[i]%LARGHEZZA;
-			y=infomappa.stalle[i]/LARGHEZZA;
-			disegna(x,y,'S'); //segna le stalle
-		}
-		case Gro:
-		{
-			/*genero le grotte*/
-			infomappa.grotte[i]=pos;
-			x=infomappa.grotte[i]%LARGHEZZA;
-			y=infomappa.grotte[i]/LARGHEZZA;
-			disegna(x,y,'G');
-		}
-		case Nid:
-		{
-			/*genero i nidi*/
-			infomappa.nidi[i]=pos;
-			x=infomappa.nidi[i]%LARGHEZZA;
-			y=infomappa.nidi[i]/LARGHEZZA;
-			disegna(x,y,'N');
-		}
-		default:
-		{
-			printf("Tipo struttura sconosciuto?!\n");
-			break;
-		}
+	/*genero i castelli*/
+	for (i=0; i<NUMCASTELLI; i++) {
+		x=infomappa.castelli[i]%LARGHEZZA;
+		y=infomappa.castelli[i]/LARGHEZZA;
+		accedi(x-1,y-1,infomappa.mappa)='0'; //segna i castelli
+		accedi(x,y-1,infomappa.mappa)='1';
+		accedi(x+1,y-1,infomappa.mappa)='2';
+		accedi(x-1,y,infomappa.mappa)='3';
+		accedi(x,y,infomappa.mappa)='4';
+		accedi(x+1,y,infomappa.mappa)='5';
+		accedi(x-1,y+1,infomappa.mappa)='6';
+		accedi(x,y+1,infomappa.mappa)='7';
+		accedi(x+1,y+1,infomappa.mappa)='8';
+	}
+	/*genero le fattorie*/
+	for (i=0; i<infomappa.numstalle; i++) {
+		x=infomappa.fattorie[i]%LARGHEZZA;
+		y=infomappa.fattorie[i]/LARGHEZZA;
+		disegna(x,y,'C'); //segna le fattorie
+	}
+		/*genero le stalle*/
+	for (i=0; i<infomappa.numstalle; i++) {
+		x=infomappa.stalle[i]%LARGHEZZA;
+		y=infomappa.stalle[i]/LARGHEZZA;
+		disegna(x,y,'S'); //segna le stalle
+	}
+	/*genero le grotte*/
+	for (i=0; i<infomappa.numgrotte; i++) {
+		x=infomappa.grotte[i]%LARGHEZZA;
+		y=infomappa.grotte[i]/LARGHEZZA;
+		disegna(x,y,'G');
+	}
+		/*genero i nidi*/
+	for (i=0; i<infomappa.numnidi; i++) {
+		x=infomappa.nidi[i]%LARGHEZZA;
+		y=infomappa.nidi[i]/LARGHEZZA;
+		disegna(x,y,'N');
 	}
 }
 
