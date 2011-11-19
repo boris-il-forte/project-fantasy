@@ -188,6 +188,7 @@ int salva(char *nomefile)
 				}
 				num_truppestruttura=l;
 				fwrite(&num_truppestruttura,sizeof(num_truppestruttura),1,fp);
+				Sptr=giocatore[i]->struttura[j];
 				for(l=0;l<num_truppestruttura;l++) { // *in (scorri)
 					fwrite(&Sptr->in->truppa->tipo,sizeof(Sptr->in->truppa->tipo),1,fp);
 					fwrite(&Sptr->in->truppa->giocatore,sizeof(Sptr->in->truppa->giocatore),1,fp);
