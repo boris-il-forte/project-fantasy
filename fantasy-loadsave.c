@@ -32,7 +32,7 @@ t_lista_t * inserisci_truppe_in_coda(t_lista_t *testa,FILE *fp) //# stavolta fac
 	fread(&nuova->truppa->stanca,sizeof(nuova->truppa->stanca),1,fp);
 	fread(&nuova->truppa->combattuto,sizeof(nuova->truppa->combattuto),1,fp);
 	fread(&nuova->pos,sizeof(nuova->pos),1,fp);
-	infomappa.truppe[nuova->pos]=nuova->truppa; // assegnazione "di comodo"
+	infomappa.truppe[nuova->pos]=nuova->truppa; // assegnazione "di comodo" //# errore! questo assegnamento va fatto solo per le truppe che non stiano dentro a una struttura!
 	nuova->next=NULL;
 
 	temp=testa;
@@ -185,13 +185,13 @@ int salva(char *nomefile)
 			for(k=0;k<num_strutture;k++) { // *struttura (scorri)
 				fwrite(&Sptr->pos,sizeof(Sptr->pos),1,fp);
 				for(l=0; Sptr->in != NULL; l++) { // *in (conta lista)
-					Sptr->in = Sptr->in->next;
-				}
+					Sptr->in = Sptr->in->next; //# errore! stai cambiando ancora le variabili globali senza accorgertene! stai cambiando la testa della lista delle truppe dentro! 
+				}				   //# la variabile temporanea deve essere assegnata alla truppa che scorri e non alla struttura!
 				num_truppestruttura=l;
 				fwrite(&num_truppestruttura,sizeof(num_truppestruttura),1,fp);
 				Sptr=giocatore[i]->struttura[j];
 				for(l=0;l<num_truppestruttura;l++) { // *in (scorri)
-					fwrite(&Sptr->in->truppa->tipo,sizeof(Sptr->in->truppa->tipo),1,fp);
+					fwrite(&Sptr->in->truppa->tipo,sizeof(Sptr->in->truppa->tipo),1,fp); //# ...e infatti qui crasha alla prima iterazione!si trova NULL mentre non se lo aspetta!
 					fwrite(&Sptr->in->truppa->giocatore,sizeof(Sptr->in->truppa->giocatore),1,fp);
 					fwrite(&Sptr->in->truppa->numero,sizeof(Sptr->in->truppa->numero),1,fp);
 					fwrite(&Sptr->in->truppa->morale,sizeof(Sptr->in->truppa->morale),1,fp);
