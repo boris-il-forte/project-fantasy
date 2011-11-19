@@ -57,6 +57,7 @@ t_lista_s * inserisci_strutture_in_coda(t_lista_s *testa,FILE *fp) // j indica l
 
 	fread(&nuova->pos,sizeof(nuova->pos),1,fp);
 	fread(&num_truppestruttura,sizeof(num_truppestruttura),1,fp); // intruso .. che ci vuoi fare? che nassa!
+	nuova->in=NULL;
 	for(l=0;l<num_truppestruttura;l++) { // *in (scorri)
 		nuova->in=inserisci_truppe_in_coda(nuova->in,fp);
 	} // END *in
