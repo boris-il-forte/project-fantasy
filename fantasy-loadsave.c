@@ -20,7 +20,7 @@
 #include <string.h>
 #include "fantasy-core.h"
 
-t_lista_t * inserisci_truppe_in_coda(t_lista_t *testa,FILE *fp) //# stavolta faccio notare che è meglio in questa funzione fare solo l'inserimento e non cercare la coda! inutile cercare la coda in quanto nessun'altra parte del codice usa la suddetta funzione.
+t_lista_t * inserisci_truppe_in_coda(t_lista_t *testa,FILE *fp, char from) //# stavolta faccio notare che è meglio in questa funzione fare solo l'inserimento e non cercare la coda! inutile cercare la coda in quanto nessun'altra parte del codice usa la suddetta funzione.
 {
 	t_lista_t *temp, *nuova;
 	nuova=malloc(sizeof(t_lista_t));
@@ -32,7 +32,9 @@ t_lista_t * inserisci_truppe_in_coda(t_lista_t *testa,FILE *fp) //# stavolta fac
 	fread(&nuova->truppa->stanca,sizeof(nuova->truppa->stanca),1,fp);
 	fread(&nuova->truppa->combattuto,sizeof(nuova->truppa->combattuto),1,fp);
 	fread(&nuova->pos,sizeof(nuova->pos),1,fp);
-	infomappa.truppe[nuova->pos]=nuova->truppa; // assegnazione "di comodo" //# errore! questo assegnamento va fatto solo per le truppe che non stiano dentro a una struttura!
+	if(from == 0) {// 0 = esterno; 1 = struttura
+		infomappa.truppe[nuova->pos]=nuova->truppa; // assegnazione "di comodo"
+	}
 	nuova->next=NULL;
 
 	temp=testa;
@@ -47,7 +49,7 @@ t_lista_t * inserisci_truppe_in_coda(t_lista_t *testa,FILE *fp) //# stavolta fac
 	return testa;
 }
 
-t_lista_s * inserisci_strutture_in_coda(t_lista_s *testa,FILE *fp) // j indica la struttura enum: Cas, Fat, ecc. utile per ricreare cache mappa. k: strut. num
+t_lista_s * inserisci_strutture_in_coda(t_lista_s *testa,FILE *fp)
 {
 	int num_truppestruttura;
 	int l;
@@ -59,7 +61,7 @@ t_lista_s * inserisci_strutture_in_coda(t_lista_s *testa,FILE *fp) // j indica l
 	fread(&num_truppestruttura,sizeof(num_truppestruttura),1,fp); // intruso .. che ci vuoi fare? che nassa!
 	nuova->in=NULL;
 	for(l=0;l<num_truppestruttura;l++) { // *in (scorri)
-		nuova->in=inserisci_truppe_in_coda(nuova->in,fp);
+		nuova->in=inserisci_truppe_in_coda(nuova->in,fp,1);
 	} // END *in
 	nuova->next=NULL;
 
@@ -126,7 +128,7 @@ int carica(char *nomefile)
 		}
 		fread(&num_truppe,sizeof(num_truppe),1,fp);
 		for(j=0;j<num_truppe;j++) { // *truppe (scorri)
-			giocatore[i]->truppe=inserisci_truppe_in_coda(giocatore[i]->truppe,fp);
+			giocatore[i]->truppe=inserisci_truppe_in_coda(giocatore[i]->truppe,fp,0);
 		} // END *truppe
 		fread(&giocatore[i]->oro,sizeof(giocatore[i]->oro),1,fp);
 		fread(&giocatore[i]->cibo,sizeof(giocatore[i]->cibo),1,fp);
@@ -142,7 +144,7 @@ int salva(char *nomefile)
 {
 	FILE *fp;
 	char ver[3];
-	t_lista_t *Tptr;
+	t_lista_t *Tptr,*Sptrbis;
 	t_lista_s *Sptr;
 
 	int i,j,k,l;
@@ -184,14 +186,15 @@ int salva(char *nomefile)
 			Sptr=giocatore[i]->struttura[j];
 			for(k=0;k<num_strutture;k++) { // *struttura (scorri)
 				fwrite(&Sptr->pos,sizeof(Sptr->pos),1,fp);
-				for(l=0; Sptr->in != NULL; l++) { // *in (conta lista)
-					Sptr->in = Sptr->in->next; //# errore! stai cambiando ancora le variabili globali senza accorgertene! stai cambiando la testa della lista delle truppe dentro! 
-				}				   //# la variabile temporanea deve essere assegnata alla truppa che scorri e non alla struttura!
+				Sptrbis=Sptr->in;
+				for(l=0; Sptrbis != NULL; l++) { // *in (conta lista)
+					Sptrbis = Sptrbis->next;
+				}
 				num_truppestruttura=l;
 				fwrite(&num_truppestruttura,sizeof(num_truppestruttura),1,fp);
 				Sptr=giocatore[i]->struttura[j];
 				for(l=0;l<num_truppestruttura;l++) { // *in (scorri)
-					fwrite(&Sptr->in->truppa->tipo,sizeof(Sptr->in->truppa->tipo),1,fp); //# ...e infatti qui crasha alla prima iterazione!si trova NULL mentre non se lo aspetta!
+					fwrite(&Sptr->in->truppa->tipo,sizeof(Sptr->in->truppa->tipo),1,fp);
 					fwrite(&Sptr->in->truppa->giocatore,sizeof(Sptr->in->truppa->giocatore),1,fp);
 					fwrite(&Sptr->in->truppa->numero,sizeof(Sptr->in->truppa->numero),1,fp);
 					fwrite(&Sptr->in->truppa->morale,sizeof(Sptr->in->truppa->morale),1,fp);
