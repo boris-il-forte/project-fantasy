@@ -24,7 +24,8 @@ t_lista_t * inserisci_truppe_in_coda(t_lista_t *testa,FILE *fp, char from) //# s
 {
 	t_lista_t *temp, *nuova;
 	nuova=malloc(sizeof(t_lista_t));
-
+	nuova->truppa=malloc(sizeof(t_infotruppa));
+	
 	fread(&nuova->truppa->tipo,sizeof(nuova->truppa->tipo),1,fp);
 	fread(&nuova->truppa->giocatore,sizeof(nuova->truppa->giocatore),1,fp);
 	fread(&nuova->truppa->numero,sizeof(nuova->truppa->numero),1,fp);
@@ -192,25 +193,25 @@ int salva(char *nomefile)
 				}
 				num_truppestruttura=l;
 				fwrite(&num_truppestruttura,sizeof(num_truppestruttura),1,fp);
-				Sptr=giocatore[i]->struttura[j];
+				Sptrbis=Sptr->in;
 				for(l=0;l<num_truppestruttura;l++) { // *in (scorri)
-					fwrite(&Sptr->in->truppa->tipo,sizeof(Sptr->in->truppa->tipo),1,fp);
-					fwrite(&Sptr->in->truppa->giocatore,sizeof(Sptr->in->truppa->giocatore),1,fp);
-					fwrite(&Sptr->in->truppa->numero,sizeof(Sptr->in->truppa->numero),1,fp);
-					fwrite(&Sptr->in->truppa->morale,sizeof(Sptr->in->truppa->morale),1,fp);
-					fwrite(&Sptr->in->truppa->stanca,sizeof(Sptr->in->truppa->stanca),1,fp);
-					fwrite(&Sptr->in->truppa->combattuto,sizeof(Sptr->in->truppa->combattuto),1,fp);
-					fwrite(&Sptr->in->pos,sizeof(Sptr->in->pos),1,fp);
-					Sptr->in=Sptr->in->next;
+					fwrite(&Sptrbis->truppa->tipo,sizeof(Sptr->in->truppa->tipo),1,fp);
+					fwrite(&Sptrbis->truppa->giocatore,sizeof(Sptr->in->truppa->giocatore),1,fp);
+					fwrite(&Sptrbis->truppa->numero,sizeof(Sptr->in->truppa->numero),1,fp);
+					fwrite(&Sptrbis->truppa->morale,sizeof(Sptr->in->truppa->morale),1,fp);
+					fwrite(&Sptrbis->truppa->stanca,sizeof(Sptr->in->truppa->stanca),1,fp);
+					fwrite(&Sptrbis->truppa->combattuto,sizeof(Sptr->in->truppa->combattuto),1,fp);
+					fwrite(&Sptrbis->pos,sizeof(Sptr->in->pos),1,fp);
+					Sptrbis=Sptrbis->next; 
 				} // END *in
 				Sptr = Sptr->next;
 			} // END *struttura
 		} // END **struttura
 		Tptr=giocatore[i]->truppe;
 		for(j=0; Tptr != NULL; j++) { // *truppe (conta lista)
-			Tptr = giocatore[i]->truppe->next;
+			Tptr = Tptr->next;
 		}
-		num_truppe=j-1;
+		num_truppe=j;
 		fwrite(&num_truppe,sizeof(num_truppe),1,fp);
 		Tptr=giocatore[i]->truppe;
 		for(j=0;j<num_truppe;j++) { // *truppe (scorri)
