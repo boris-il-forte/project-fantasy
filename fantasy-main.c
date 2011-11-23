@@ -147,8 +147,8 @@ static void salva_carica(int Data)
 		{
 			caricadati();
 			inizializza();
-			partita_in_corso=1;
 			carica(buf);
+			partita_in_corso=1;
 			gtk_azzera_tab ();
 			gtk_pulisci_mappa();
 			gtk_stampa_mappa(0,0, 'n');
