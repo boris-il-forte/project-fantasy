@@ -128,6 +128,7 @@ int salva(char *);
 void aggiorna_tr_callback(char* pos);
 
 //variabili globali
+char partita_in_corso;
 t_infomappa infomappa;
 t_dtruppa Dtruppa[NUMTRUPPE];
 t_player* giocatore[MAXGIOCATORI];

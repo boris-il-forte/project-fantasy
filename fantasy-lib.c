@@ -86,9 +86,8 @@ void caricadati ()
 //inizializza le strutture dati 
 void inizializza ()
 {
-	static int h=0;
 	int i,j;
-	if(h++!=0) liberaheap ();
+	if(partita_in_corso!=0) liberaheap ();
 	srand((unsigned)time(NULL));
 	for (i=0; i<NUMCASTELLI; i++) infomappa.castelli[i]=-1;
 	for (i=0; i<MAXSTALLE; i++) infomappa.stalle[i]=-1;

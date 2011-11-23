@@ -126,6 +126,7 @@ static void salva_carica(int Data)
 	} 
 	else 
 	{
+		if(partita_in_corso==0) return;
 		Fselect=gtk_file_chooser_dialog_new ("Salva", NULL,GTK_FILE_CHOOSER_ACTION_SAVE,GTK_STOCK_CANCEL,GTK_RESPONSE_CANCEL,GTK_STOCK_SAVE,GTK_RESPONSE_ACCEPT,NULL);
 		gtk_file_chooser_set_do_overwrite_confirmation(GTK_FILE_CHOOSER(Fselect),TRUE);
 		gtk_file_chooser_set_current_name (GTK_FILE_CHOOSER(Fselect),".fc");
@@ -146,6 +147,7 @@ static void salva_carica(int Data)
 		{
 			caricadati();
 			inizializza();
+			partita_in_corso=1;
 			carica(buf);
 			gtk_pulisci_mappa ();
 			gtk_stampa_mappa(0,0, 'n');
@@ -199,6 +201,7 @@ static void nuova_partita ()
 	gtk_widget_show_all (Opzioni);
 	if(gtk_dialog_run(GTK_DIALOG(Dialogo))==1)
 	{
+		partita_in_corso=1;
 		cx=0;
 		cy=0;
 		caricadati();
@@ -235,6 +238,7 @@ static void centra_mappa(char* pos)
 static void sposta_mappa(char* v)
 {
 	int V=(int)(v-infomappa.mappa);
+	if(partita_in_corso==0) return;
 	switch (V)
 	{
 		case 1:
@@ -284,7 +288,8 @@ static void sposta_mappa(char* v)
 
 static void sposta_datastiera(GtkWidget* Window, GdkEventKey* K)
 {
-	if(K->type == GDK_KEY_PRESS)
+	if(partita_in_corso==0) return;
+	if(K->type == GDK_KEY_PRESS && Window!=NULL)
 	{
 		fprintf(stderr,"debug: sposta_datastiera\n");
 		switch (K->keyval)
@@ -465,7 +470,7 @@ static void muovi_unita (char* pos)
 	}
 	else
 	{
-		Dialogo=gtk_dialog_new_with_buttons("F.C.",NULL,GTK_DIALOG_DESTROY_WITH_PARENT,"ok");
+		Dialogo=gtk_dialog_new_with_buttons("F.C.",NULL,GTK_DIALOG_DESTROY_WITH_PARENT,GTK_STOCK_OK);
 		gtk_window_set_icon (GTK_WINDOW (Dialogo),Immagine.logo);
 		if(T->stanca==1)Label=gtk_label_new("unità stanca!");
 		else Label=gtk_label_new("unità in combattimento!");
@@ -494,7 +499,7 @@ static void combatti_unita (char* pos)
 	}
 	else
 	{
-		Dialogo=gtk_dialog_new_with_buttons("F.C.",NULL,GTK_DIALOG_DESTROY_WITH_PARENT,"ok");
+		Dialogo=gtk_dialog_new_with_buttons("F.C.",NULL,GTK_DIALOG_DESTROY_WITH_PARENT,GTK_STOCK_OK);
 		gtk_window_set_icon (GTK_WINDOW (Dialogo),Immagine.logo);
 		Label=gtk_label_new("unità in combattimento!");
 		gtk_widget_show(Label);
@@ -1165,6 +1170,7 @@ static void click_unisci (char* pos)
 
 static void click_turno ()
 {
+	if(partita_in_corso==0) return;
 	if(giocatore[0]!=NULL)
 	{
 		fineturno();
@@ -1176,6 +1182,64 @@ static void click_turno ()
 		gtk_stampa_mappa(cx,cy,'n');
 	}
 	return;
+}
+
+static void click_nt ()
+{
+	int P;
+	static t_lista_t* T=NULL;
+	GtkWidget* Dialogo;
+	GtkWidget* Label;
+	if(partita_in_corso==0) return;
+	if(T==NULL) T=giocatore[0]->truppe;
+	if (giocatore[0]->truppe==NULL)
+	{
+		Dialogo=gtk_dialog_new_with_buttons("F.C.",NULL,GTK_DIALOG_DESTROY_WITH_PARENT,GTK_STOCK_OK);
+		gtk_window_set_icon (GTK_WINDOW (Dialogo),Immagine.logo);
+		Label=gtk_label_new("Non ci sono unità!");
+		gtk_widget_show(Label);
+		gtk_box_pack_start (GTK_BOX (gtk_dialog_get_content_area (GTK_DIALOG(Dialogo))),Label, TRUE, TRUE, 0);
+		gtk_dialog_run(GTK_DIALOG(Dialogo));
+		gtk_widget_destroy(Dialogo);
+	}
+	else
+	{
+		P=T->pos;
+		cx=P%LARGHEZZA+1-L_SCHERMO/2;
+		cy=P/LARGHEZZA+1-A_SCHERMO/2;
+		if(cx<0) cx=0;
+		if(cy<0) cy=0;
+		if(cx>LARGHEZZA-L_SCHERMO) cx=(LARGHEZZA-L_SCHERMO);
+		if(cy>ALTEZZA-A_SCHERMO) cy=(ALTEZZA-A_SCHERMO);
+		gtk_pulisci_mappa ();
+		gtk_stampa_mappa(cx,cy,'n');
+		T=T->next;
+	}
+}
+
+static void click_nc ()
+{
+	int P;
+	static t_lista_s* S=NULL;
+	if(partita_in_corso==0) return;
+	if(S==NULL) S=giocatore[0]->struttura[Cas];
+	if (giocatore[0]->struttura[Cas]==NULL)
+	{
+		fprintf(stderr,"c'è un bug!\n");
+	}
+	else
+	{
+		P=S->pos;
+		cx=P%LARGHEZZA+1-L_SCHERMO/2;
+		cy=P/LARGHEZZA+1-A_SCHERMO/2;
+		if(cx<0) cx=0;
+		if(cy<0) cy=0;
+		if(cx>LARGHEZZA-L_SCHERMO) cx=(LARGHEZZA-L_SCHERMO);
+		if(cy>ALTEZZA-A_SCHERMO) cy=(ALTEZZA-A_SCHERMO);
+		gtk_pulisci_mappa ();
+		gtk_stampa_mappa(cx,cy,'n');
+		S=S->next;
+	}
 }
 
 // funzioni grafiche
@@ -2081,6 +2145,7 @@ int main(int argc, char *argv[])
 	GtkWidget *Risorse;
 //	inizializza
 	gtk_init(&argc, &argv);
+	partita_in_corso=0;
 	gtk_calcola_dimensioni ();
 	gtk_carica_immagini();
 	gtk_inizializza_widget();
@@ -2111,10 +2176,12 @@ int main(int argc, char *argv[])
 	//crea pulsante seleziona truppa
 	pulsante=gtk_button_new_with_label ("Prossima truppa");
 	gtk_box_pack_start( GTK_BOX(Vbox), pulsante, FALSE, FALSE, 0);
+	g_signal_connect_swapped(pulsante, "clicked", G_CALLBACK (click_nt),NULL);
 	gtk_widget_show (pulsante);
 	//crea pulsante seleziona castello
 	pulsante=gtk_button_new_with_label ("Prossimo Castello");
 	gtk_box_pack_start( GTK_BOX(Vbox), pulsante, FALSE, FALSE, 0);
+	g_signal_connect_swapped(pulsante, "clicked", G_CALLBACK (click_nc),NULL);
 	gtk_widget_show (pulsante);
 	//crea pulsante ricerca minaccie
 	pulsante=gtk_button_new_with_label ("Mostra Minacce");
