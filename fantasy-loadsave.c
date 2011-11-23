@@ -195,13 +195,13 @@ int salva(char *nomefile)
 				fwrite(&num_truppestruttura,sizeof(num_truppestruttura),1,fp);
 				Sptrbis=Sptr->in;
 				for(l=0;l<num_truppestruttura;l++) { // *in (scorri)
-					fwrite(&Sptrbis->truppa->tipo,sizeof(Sptr->in->truppa->tipo),1,fp);
-					fwrite(&Sptrbis->truppa->giocatore,sizeof(Sptr->in->truppa->giocatore),1,fp);
-					fwrite(&Sptrbis->truppa->numero,sizeof(Sptr->in->truppa->numero),1,fp);
-					fwrite(&Sptrbis->truppa->morale,sizeof(Sptr->in->truppa->morale),1,fp);
-					fwrite(&Sptrbis->truppa->stanca,sizeof(Sptr->in->truppa->stanca),1,fp);
-					fwrite(&Sptrbis->truppa->combattuto,sizeof(Sptr->in->truppa->combattuto),1,fp);
-					fwrite(&Sptrbis->pos,sizeof(Sptr->in->pos),1,fp);
+					fwrite(&Sptrbis->truppa->tipo,sizeof(Sptrbis->truppa->tipo),1,fp);
+					fwrite(&Sptrbis->truppa->giocatore,sizeof(Sptrbis->truppa->giocatore),1,fp);
+					fwrite(&Sptrbis->truppa->numero,sizeof(Sptrbis->truppa->numero),1,fp);
+					fwrite(&Sptrbis->truppa->morale,sizeof(Sptrbis->truppa->morale),1,fp);
+					fwrite(&Sptrbis->truppa->stanca,sizeof(Sptrbis->truppa->stanca),1,fp);
+					fwrite(&Sptrbis->truppa->combattuto,sizeof(Sptrbis->truppa->combattuto),1,fp);
+					fwrite(&Sptrbis->pos,sizeof(Sptrbis->pos),1,fp);
 					Sptrbis=Sptrbis->next; 
 				} // END *in
 				Sptr = Sptr->next;
