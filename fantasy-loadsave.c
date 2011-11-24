@@ -105,15 +105,15 @@ int carica(char *nomefile)
 	// FINE controllo header standard
 
 	// infomappa
-	fread((&infomappa)->castelli,sizeof(infomappa.castelli),NUMCASTELLI,fp);
-	fread((&infomappa)->fattorie,sizeof(infomappa.fattorie),MAXFATTORIE,fp);
-	fread((&infomappa)->stalle,sizeof(infomappa.stalle),MAXSTALLE,fp);
-	fread((&infomappa)->grotte,sizeof(infomappa.grotte),MAXGROTTE,fp);
-	fread((&infomappa)->nidi,sizeof(infomappa.nidi),MAXNIDI,fp);
-	fread(&(&infomappa)->numstalle,sizeof(infomappa.numstalle),1,fp);
-	fread(&(&infomappa)->numnidi,sizeof(infomappa.numnidi),1,fp);
-	fread(&(&infomappa)->numgrotte,sizeof(infomappa.numgrotte),1,fp);
-	fread(&(&infomappa)->numfattorie,sizeof(infomappa.numfattorie),1,fp);
+	fread(&infomappa.castelli,sizeof(infomappa.castelli),NUMCASTELLI,fp);
+	fread(&infomappa.fattorie,sizeof(infomappa.fattorie),MAXFATTORIE,fp);
+	fread(&infomappa.stalle,sizeof(infomappa.stalle),MAXSTALLE,fp);
+	fread(&infomappa.grotte,sizeof(infomappa.grotte),MAXGROTTE,fp);
+	fread(&infomappa.nidi,sizeof(infomappa.nidi),MAXNIDI,fp);
+	fread(&infomappa.numstalle,sizeof(infomappa.numstalle),1,fp);
+	fread(&infomappa.numnidi,sizeof(infomappa.numnidi),1,fp);
+	fread(&infomappa.numgrotte,sizeof(infomappa.numgrotte),1,fp);
+	fread(&infomappa.numfattorie,sizeof(infomappa.numfattorie),1,fp);
 	rigeneramappa();
 	// END infomappa
 	fread(&num_giocatori,sizeof(num_giocatori),1,fp);
@@ -163,15 +163,15 @@ int salva(char *nomefile)
 	fwrite(ver,1,3,fp);
 
 	// infomappa
-	fwrite((&infomappa)->castelli,sizeof(infomappa.castelli),NUMCASTELLI,fp); //# errore! deve caricare solo infomappa.numfattorie e non MAXFATTORIE. prima bisogna salvare i valori infomappa.numfattorie (etc..) e poi caricare le varie posizioni.
-	fwrite((&infomappa)->fattorie,sizeof(infomappa.fattorie),MAXFATTORIE,fp);
-	fwrite((&infomappa)->stalle,sizeof(infomappa.stalle),MAXSTALLE,fp);
-	fwrite((&infomappa)->grotte,sizeof(infomappa.grotte),MAXGROTTE,fp);
-	fwrite((&infomappa)->nidi,sizeof(infomappa.nidi),MAXNIDI,fp);
-	fwrite(&(&infomappa)->numstalle,sizeof(infomappa.numstalle),1,fp);
-	fwrite(&(&infomappa)->numnidi,sizeof(infomappa.numnidi),1,fp);
-	fwrite(&(&infomappa)->numgrotte,sizeof(infomappa.numgrotte),1,fp);
-	fwrite(&(&infomappa)->numfattorie,sizeof(infomappa.numfattorie),1,fp);
+	fwrite(&infomappa.castelli,sizeof(infomappa.castelli),NUMCASTELLI,fp); //# errore! deve caricare solo infomappa.numfattorie e non MAXFATTORIE. prima bisogna salvare i valori infomappa.numfattorie (etc..) e poi caricare le varie posizioni.
+	fwrite(&infomappa.fattorie,sizeof(infomappa.fattorie),MAXFATTORIE,fp);
+	fwrite(&infomappa.stalle,sizeof(infomappa.stalle),MAXSTALLE,fp);
+	fwrite(&infomappa.grotte,sizeof(infomappa.grotte),MAXGROTTE,fp);
+	fwrite(&infomappa.nidi,sizeof(infomappa.nidi),MAXNIDI,fp);
+	fwrite(&infomappa.numstalle,sizeof(infomappa.numstalle),1,fp);
+	fwrite(&infomappa.numnidi,sizeof(infomappa.numnidi),1,fp);
+	fwrite(&infomappa.numgrotte,sizeof(infomappa.numgrotte),1,fp);
+	fwrite(&infomappa.numfattorie,sizeof(infomappa.numfattorie),1,fp);
 	// END infomappa
 	for(i=0;i<MAXGIOCATORI && giocatore[i] != NULL;i++); // *giocatore (conta)
 	num_giocatori=i;
