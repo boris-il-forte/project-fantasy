@@ -139,7 +139,10 @@ int carica(char *nomefile)
 		fread(&giocatore[i]->cibo,sizeof(giocatore[i]->cibo),1,fp);
 		fread(&giocatore[i]->smeraldi,sizeof(giocatore[i]->smeraldi),1,fp);
 	} // END *giocatore
-
+	while(i<MAXGIOCATORI) {
+		giocatore[i]=NULL;
+		i++;
+	}
 	fclose(fp);
 
 	return 0;

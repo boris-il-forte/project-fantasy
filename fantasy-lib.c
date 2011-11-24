@@ -215,7 +215,6 @@ void rigeneramappa ()
 {
 	int i; // contatori
 	int x,y; //variabili posizionamento
-
 	/*genero i castelli*/
 	for (i=0; i<NUMCASTELLI; i++) {
 		x=infomappa.castelli[i]%LARGHEZZA;
@@ -254,6 +253,7 @@ void rigeneramappa ()
 		y=infomappa.nidi[i]/LARGHEZZA;
 		disegna(x,y,'N');
 	}
+	visualizza_su_terminale();
 }
 
 //inizializza la struttura dati giocatori
