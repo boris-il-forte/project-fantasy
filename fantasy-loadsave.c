@@ -187,7 +187,7 @@ int salva(char *nomefile)
 		for(j=0;j<NUMSTRUTTURE; j++) { // **struttura
 			Sptr=giocatore[i]->struttura[j];
 			for(k=0; Sptr != NULL; k++) { // *struttura (conta lista)
-				Sptr = giocatore[i]->struttura[j]->next;
+				Sptr = Sptr->next;
 			}
 			num_strutture=k;
 			fwrite(&num_strutture,sizeof(num_strutture),1,fp);
