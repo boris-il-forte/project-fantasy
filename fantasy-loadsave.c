@@ -104,6 +104,10 @@ int carica(char *nomefile)
 	}
 	// FINE controllo header standard
 
+	// Cx,Cy
+	fread(&cx,sizeof(cx),1,fp);
+	fread(&cy,sizeof(cy),1,fp);
+	// infomappa
 	// infomappa
 	fread(&infomappa.castelli,sizeof(infomappa.castelli),NUMCASTELLI,fp);
 	fread(&infomappa.fattorie,sizeof(infomappa.fattorie),MAXFATTORIE,fp);
@@ -162,6 +166,9 @@ int salva(char *nomefile)
 	}
 	fwrite(ver,1,3,fp);
 
+	// Cx,Cy
+	fwrite(&cx,sizeof(cx),1,fp);
+	fwrite(&cy,sizeof(cy),1,fp);
 	// infomappa
 	fwrite(&infomappa.castelli,sizeof(infomappa.castelli),NUMCASTELLI,fp); //# errore! deve caricare solo infomappa.numfattorie e non MAXFATTORIE. prima bisogna salvare i valori infomappa.numfattorie (etc..) e poi caricare le varie posizioni.
 	fwrite(&infomappa.fattorie,sizeof(infomappa.fattorie),MAXFATTORIE,fp);

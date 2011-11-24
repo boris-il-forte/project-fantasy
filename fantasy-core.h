@@ -128,6 +128,7 @@ int salva(char *);
 void aggiorna_tr_callback(char* pos);
 
 //variabili globali
+int cx,cy; // posizione della mappa visibile
 char partita_in_corso;
 t_infomappa infomappa;
 t_dtruppa Dtruppa[NUMTRUPPE];

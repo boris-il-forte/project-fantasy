@@ -48,7 +48,6 @@ GtkWidget *Notebook[4];
 GtkWidget *Counter[NUMRISORSE];
 GtkWidget *Listacastelli[NUMCASTELLI];
 int Mossa;
-int cx,cy;
 int Dim_casella;
 struct Immagini
 {
