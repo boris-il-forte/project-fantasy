@@ -147,14 +147,14 @@ static void salva_carica(int Data)
 			caricadati();
 			inizializza();
 			carica(buf);
-			partita_in_corso=1;
 			gtk_azzera_tab ();
 			gtk_pulisci_mappa();
-			gtk_stampa_mappa(0,0, 'n');
+			gtk_stampa_mappa(cx,cy, 'n');
 			gtk_aggiorna_contarisorse();
 			gtk_aggiorna_tab_castelli();
 			gtk_aggiorna_tab_strutture();
 			gtk_aggiorna_tab_armate();
+			partita_in_corso=1;
 		}
 		else 
 		{
@@ -201,7 +201,6 @@ static void nuova_partita ()
 	gtk_widget_show_all (Opzioni);
 	if(gtk_dialog_run(GTK_DIALOG(Dialogo))==1)
 	{
-		partita_in_corso=1;
 		cx=0;
 		cy=0;
 		caricadati();
@@ -216,6 +215,7 @@ static void nuova_partita ()
 		Listacastelli[0]=gtk_riempi_tab_castelli (1, "Capitale");
 		gtk_aggiorna_tab_armate();
 		gtk_aggiorna_tab_strutture();
+		partita_in_corso=1;
 		gtk_widget_destroy (Dialogo);
 	}
 	else
@@ -1377,9 +1377,8 @@ void gtk_crea_menu (GtkWidget *Vbox)
 
 void gtk_pulisci_mappa ()
 {
-	static char control=0;
 	int Pos;
-	if(control!=0)
+	if(partita_in_corso==1)
 		for (Pos=0; Pos<L_SCHERMO*A_SCHERMO; Pos++) 
 		{
 			
@@ -1396,10 +1395,7 @@ void gtk_pulisci_mappa ()
 			g_signal_handlers_disconnect_matched(Casella[Pos],G_SIGNAL_MATCH_FUNC,0,0,0, click_entrastruttura, 0);
 			g_signal_handlers_disconnect_matched(Casella[Pos],G_SIGNAL_MATCH_FUNC,0,0,0, click_unisci, 0);
 			gtk_widget_destroy(Thumb[Pos]);
-			
 		}
-	else
-		control=1;
 }
 
 void gtk_stampa_mappa(int x, int y, char m)

@@ -108,7 +108,6 @@ int carica(char *nomefile)
 	fread(&cx,sizeof(cx),1,fp);
 	fread(&cy,sizeof(cy),1,fp);
 	// infomappa
-	// infomappa
 	fread(&infomappa.castelli,sizeof(infomappa.castelli),NUMCASTELLI,fp);
 	fread(&infomappa.fattorie,sizeof(infomappa.fattorie),MAXFATTORIE,fp);
 	fread(&infomappa.stalle,sizeof(infomappa.stalle),MAXSTALLE,fp);
