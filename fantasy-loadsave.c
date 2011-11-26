@@ -132,6 +132,7 @@ int carica(char *nomefile)
 			} // END *struttura
 		}
 		fread(&num_truppe,sizeof(num_truppe),1,fp);
+		giocatore[i]->truppe=NULL;
 		for(j=0;j<num_truppe;j++) { // *truppe (scorri)
 			giocatore[i]->truppe=inserisci_truppe_in_coda(giocatore[i]->truppe,fp,0);
 		} // END *truppe

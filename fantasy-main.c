@@ -211,7 +211,7 @@ static void nuova_partita ()
 		creagiocatori (gtk_adjustment_get_value(GTK_ADJUSTMENT(Giocatori)));
 		gtk_azzera_tab ();
 		gtk_pulisci_mappa ();
-		gtk_stampa_mappa(0,0, 'n');
+		gtk_stampa_mappa(cx,cy, 'n');
 		gtk_aggiorna_contarisorse();
 		Listacastelli[0]=gtk_riempi_tab_castelli (1, "Capitale");
 		gtk_aggiorna_tab_armate();
