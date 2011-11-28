@@ -103,16 +103,15 @@ int carica(char *nomefile)
 		return 1;
 	}
 	// FINE controllo header standard
-
 	// Cx,Cy
 	fread(&cx,sizeof(cx),1,fp);
 	fread(&cy,sizeof(cy),1,fp);
 	// infomappa
-	fread(&infomappa.castelli,sizeof(infomappa.castelli),NUMCASTELLI,fp);
-	fread(&infomappa.fattorie,sizeof(infomappa.fattorie),MAXFATTORIE,fp);
-	fread(&infomappa.stalle,sizeof(infomappa.stalle),MAXSTALLE,fp);
-	fread(&infomappa.grotte,sizeof(infomappa.grotte),MAXGROTTE,fp);
-	fread(&infomappa.nidi,sizeof(infomappa.nidi),MAXNIDI,fp);
+	fread(&infomappa.castelli,sizeof(infomappa.castelli),1,fp);
+	fread(&infomappa.fattorie,sizeof(infomappa.fattorie),1,fp);
+	fread(&infomappa.stalle,sizeof(infomappa.stalle),1,fp);
+	fread(&infomappa.grotte,sizeof(infomappa.grotte),1,fp);
+	fread(&infomappa.nidi,sizeof(infomappa.nidi),1,fp);
 	fread(&infomappa.numstalle,sizeof(infomappa.numstalle),1,fp);
 	fread(&infomappa.numnidi,sizeof(infomappa.numnidi),1,fp);
 	fread(&infomappa.numgrotte,sizeof(infomappa.numgrotte),1,fp);
@@ -173,11 +172,11 @@ int salva(char *nomefile)
 	fwrite(&cx,sizeof(cx),1,fp);
 	fwrite(&cy,sizeof(cy),1,fp);
 	// infomappa
-	fwrite(&infomappa.castelli,sizeof(infomappa.castelli),NUMCASTELLI,fp); //# errore! deve caricare solo infomappa.numfattorie e non MAXFATTORIE. prima bisogna salvare i valori infomappa.numfattorie (etc..) e poi caricare le varie posizioni.
-	fwrite(&infomappa.fattorie,sizeof(infomappa.fattorie),MAXFATTORIE,fp);
-	fwrite(&infomappa.stalle,sizeof(infomappa.stalle),MAXSTALLE,fp);
-	fwrite(&infomappa.grotte,sizeof(infomappa.grotte),MAXGROTTE,fp);
-	fwrite(&infomappa.nidi,sizeof(infomappa.nidi),MAXNIDI,fp);
+	fwrite(&infomappa.castelli,sizeof(infomappa.castelli),1,fp);
+	fwrite(&infomappa.fattorie,sizeof(infomappa.fattorie),1,fp);
+	fwrite(&infomappa.stalle,sizeof(infomappa.stalle),1,fp);
+	fwrite(&infomappa.grotte,sizeof(infomappa.grotte),1,fp);
+	fwrite(&infomappa.nidi,sizeof(infomappa.nidi),1,fp);
 	fwrite(&infomappa.numstalle,sizeof(infomappa.numstalle),1,fp);
 	fwrite(&infomappa.numnidi,sizeof(infomappa.numnidi),1,fp);
 	fwrite(&infomappa.numgrotte,sizeof(infomappa.numgrotte),1,fp);
