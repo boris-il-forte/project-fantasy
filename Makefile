@@ -33,7 +33,10 @@ provalib.o:
 cleanobj:
 	rm -f $(PROGRAM_OBJS)
 
-clean: cleanobj
+cleaneditor:
+	rm -f fantasy-editor/fantasy-editor.o fantasy-editor/editor
+
+clean: cleanobj cleaneditor
 	rm -f $(TARGET)
 
 mrproper: clean
