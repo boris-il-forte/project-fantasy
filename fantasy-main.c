@@ -147,6 +147,7 @@ static void salva_carica(int Data)
 			caricadati();
 			inizializza();
 			carica(buf);
+			CurrentPlayer=0;
 			gtk_azzera_tab ();
 			gtk_pulisci_mappa();
 			gtk_stampa_mappa(cx,cy, 'n');
@@ -208,6 +209,7 @@ static void nuova_partita ()
 		generamappa();
 		visualizza_su_terminale ();
 		creagiocatori (gtk_adjustment_get_value(GTK_ADJUSTMENT(Giocatori)));
+		CurrentPlayer=0;
 		gtk_azzera_tab ();
 		gtk_pulisci_mappa ();
 		gtk_stampa_mappa(cx,cy, 'n');
@@ -412,17 +414,17 @@ static void evacua_truppa (t_callback_s* Struct)
 					free(T);
 					S->in=Tp;
 				}
-				if(giocatore[0]->truppe==NULL)
+				if(giocatore[CurrentPlayer]->truppe==NULL)
 				{
-					giocatore[0]->truppe=(t_lista_t*)malloc(sizeof(t_lista_t));
-					giocatore[0]->truppe->truppa=infomappa.truppe[L];
-					giocatore[0]->truppe->pos=L;
-					giocatore[0]->truppe->next=NULL;
+					giocatore[CurrentPlayer]->truppe=(t_lista_t*)malloc(sizeof(t_lista_t));
+					giocatore[CurrentPlayer]->truppe->truppa=infomappa.truppe[L];
+					giocatore[CurrentPlayer]->truppe->pos=L;
+					giocatore[CurrentPlayer]->truppe->next=NULL;
 				}
 				else
 				{
-					Tp=giocatore[0]->truppe;
-					T=giocatore[0]->truppe->next;
+					Tp=giocatore[CurrentPlayer]->truppe;
+					T=giocatore[CurrentPlayer]->truppe->next;
 					while(T!=NULL)
 					{
 						Tp=T;
@@ -529,7 +531,7 @@ static void click_destinazione (char* pos)
 {
 	int Dst= (int) (pos-infomappa.mappa);
 	int Src= Mossa;
-	t_lista_t *T=giocatore[0]->truppe;
+	t_lista_t *T=giocatore[CurrentPlayer]->truppe;
 	if (Src==Dst)
 	{
 		infomappa.truppe[Src]->stanca=0;
@@ -1171,7 +1173,7 @@ static void click_unisci (char* pos)
 static void click_turno ()
 {
 	if(partita_in_corso==0) return;
-	if(giocatore[0]!=NULL)
+	if(giocatore[CurrentPlayer]!=NULL)
 	{
 		fineturno();
 		gtk_aggiorna_contarisorse();
@@ -1191,8 +1193,8 @@ static void click_nt ()
 	GtkWidget* Dialogo;
 	GtkWidget* Label;
 	if(partita_in_corso==0) return;
-	if(T==NULL) T=giocatore[0]->truppe;
-	if (giocatore[0]->truppe==NULL)
+	if(T==NULL) T=giocatore[CurrentPlayer]->truppe;
+	if (giocatore[CurrentPlayer]->truppe==NULL)
 	{
 		Dialogo=gtk_dialog_new_with_buttons("F.C.",NULL,GTK_DIALOG_DESTROY_WITH_PARENT,GTK_STOCK_OK);
 		gtk_window_set_icon (GTK_WINDOW (Dialogo),Immagine.logo);
@@ -1222,8 +1224,8 @@ static void click_nc ()
 	int P;
 	static t_lista_s* S=NULL;
 	if(partita_in_corso==0) return;
-	if(S==NULL) S=giocatore[0]->struttura[Cas];
-	if (giocatore[0]->struttura[Cas]==NULL)
+	if(S==NULL) S=giocatore[CurrentPlayer]->struttura[Cas];
+	if (giocatore[CurrentPlayer]->struttura[Cas]==NULL)
 	{
 		fprintf(stderr,"c'è un bug!\n");
 	}
@@ -1852,7 +1854,7 @@ GtkWidget * gtk_riempi_tab_castelli (int i, char* buf)
 	int P;
 	int x,y;
 	GtkWidget *R;
-	P=giocatore[0]->struttura[Cas]->pos;
+	P=giocatore[CurrentPlayer]->struttura[Cas]->pos;
 	x=P%LARGHEZZA+1;
 	y=P/LARGHEZZA+1;
 	R=gtk_crea_elemento_tab(Notebook[1],x,y,buf);
@@ -1867,7 +1869,7 @@ void gtk_aggiorna_tab_castelli ()
 	int i;
 	int x,y;
 	char buf[20];
-	t_lista_s* S=giocatore[0]->struttura[Cas];
+	t_lista_s* S=giocatore[CurrentPlayer]->struttura[Cas];
 	for(i=0; Listacastelli[i]!=NULL;i++) gtk_pulisci_tab(Listacastelli[i]);
 	for (i=0; S!=NULL && i<12; i++)
 	{
@@ -1897,7 +1899,7 @@ void gtk_aggiorna_tab_strutture ()
 	t_listapertab* Tab;
 	t_listapertab* Tabp;
 	fprintf(stderr, "debug: gtk_aggiorna_tab_strutture\n");
-	for(i=1; i<NUMSTRUTTURE;i++) S[i-1]=giocatore[0]->struttura[i];
+	for(i=1; i<NUMSTRUTTURE;i++) S[i-1]=giocatore[CurrentPlayer]->struttura[i];
 	Tab=Listastrutture;
 	while(Tab!=NULL)
 	{
@@ -1945,7 +1947,7 @@ void gtk_aggiorna_tab_armate ()
 {
 	int x,y;
 	char buf[20];
-	t_lista_t* T=giocatore[0]->truppe;
+	t_lista_t* T=giocatore[CurrentPlayer]->truppe;
 	t_listapertab* Tab;
 	t_listapertab* Tabp;
 	Tab=Listatruppe;
@@ -2109,7 +2111,7 @@ void gtk_aggiorna_contarisorse()
 {
 	int i,j;
 	int nk;
-	int R[]={giocatore[0]->oro,giocatore[0]->cibo,giocatore[0]->smeraldi};
+	int R[]={giocatore[CurrentPlayer]->oro,giocatore[CurrentPlayer]->cibo,giocatore[CurrentPlayer]->smeraldi};
 	float n;
 	char Buf[6];
 	for(i=0; i<NUMRISORSE; i++)

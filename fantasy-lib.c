@@ -715,7 +715,7 @@ t_lista_s* puntastruttura (int Pos)
 	t_lista_s* L;
 	for(i=Cas; i<=Nid; i++)
 	{
-		L=giocatore[0]->struttura[i];
+		L=giocatore[CurrentPlayer]->struttura[i];
 		while(L!=NULL)
 		{
 			if(L->pos==Pos) return L;
@@ -870,7 +870,7 @@ void fineturno()
 	int i;
 	int r[NUMSTRUTTURE];
 	int c=0;
-	t_lista_t* T=giocatore[0]->truppe;
+	t_lista_t* T=giocatore[CurrentPlayer]->truppe;
 	t_lista_s* S;
 	for(i=0; i<NUMSTRUTTURE; i++) r[i]=0;
 	while(T!=NULL)
@@ -882,16 +882,16 @@ void fineturno()
 	}
 	for(i=0;i<NUMSTRUTTURE; i++)
 	{
-		S=giocatore[0]->struttura[i];
+		S=giocatore[CurrentPlayer]->struttura[i];
 		while (S!=NULL)
 		{
 			r[i]++;
 			S=S->next;
 		}
 	}
-	giocatore[0]->oro+=PROD_ORO_CAS*r[Cas]+PROD_ORO_FAT*r[Fat]+PROD_ORO_SCU*r[Scu]+PROD_ORO_NID*r[Nid]+PROD_ORO_GRO*r[Gro];
-	giocatore[0]->smeraldi+=PROD_SMERALDI_NID*r[Nid]+PROD_SMERALDI_GRO*r[Gro];
-	giocatore[0]->cibo+=PROD_CIBO_CAS*r[Cas]+PROD_CIBO_FAT*r[Fat]+PROD_CIBO_SCU*r[Scu]-FAME*c;
+	giocatore[CurrentPlayer]->oro+=PROD_ORO_CAS*r[Cas]+PROD_ORO_FAT*r[Fat]+PROD_ORO_SCU*r[Scu]+PROD_ORO_NID*r[Nid]+PROD_ORO_GRO*r[Gro];
+	giocatore[CurrentPlayer]->smeraldi+=PROD_SMERALDI_NID*r[Nid]+PROD_SMERALDI_GRO*r[Gro];
+	giocatore[CurrentPlayer]->cibo+=PROD_CIBO_CAS*r[Cas]+PROD_CIBO_FAT*r[Fat]+PROD_CIBO_SCU*r[Scu]-FAME*c;
 	return;
 }
 
