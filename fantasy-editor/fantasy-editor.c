@@ -36,7 +36,7 @@ int main(int argc, char *argv[])
 	//g_signal_connect (finestra, "delete-event", G_CALLBACK (delete_event), NULL);
 	//g_signal_connect (finestra, "key-press-event", G_CALLBACK (sposta_datastiera),NULL);
 	gtk_window_set_title (GTK_WINDOW (finestra), "Fantasy Core Editor");
-	gtk_window_set_icon (GTK_WINDOW (finestra),Immagine.logo);
+	//gtk_window_set_icon (GTK_WINDOW (finestra),Immagine.logo);
 	// 	crea box principale del layout
 	Layout=gtk_vbox_new(FALSE,10);
 	gtk_container_add (GTK_CONTAINER (finestra), Layout);

@@ -8,7 +8,7 @@ TARGET=gbin
 
 PROGRAM_OBJS=fantasy-main.o fantasy-lib.o fantasy-loadsave.o
 
-all: $(TARGET)
+all: $(TARGET) editor
 
 $(TARGET): $(PROGRAM_OBJS)
 	$(CC) $(CFLAGS) $(LDFLAGS) $(LIBS) $(PROGRAM_OBJS) -o $(TARGET)
@@ -16,16 +16,19 @@ $(TARGET): $(PROGRAM_OBJS)
 .c.o:
 	$(CC) $(CFLAGS) $(LIBSGTK) -c $< -o $@
 
+editor: fantasy-editor/fantasy-editor.o
+	$(CC) $(CFLAGS) $(LIBSGTK) fantasy-editor/fantasy-editor.o -o fantasy-editor/editor
+
 test: cleant testlib startest
 
 testlib: provalib.o fantasy-lib.o
-	${CC} ${CFLAGS} ${LIBS} provalib.o fantasy-lib.o -o bin
+	$(CC) $(CFLAGS) $(LIBS) provalib.o fantasy-lib.o -o bin
 
 startest: 
 	./bin
 
 provalib.o:
-	${CC} ${CFLAGS} ${LIBS} -c provalib.c
+	$(CC) $(CFLAGS) $(LIBS) -c provalib.c
 
 cleanobj:
 	rm -f $(PROGRAM_OBJS)
