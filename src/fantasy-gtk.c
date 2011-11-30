@@ -1077,58 +1077,58 @@ void gtk_carica_immagini ()
 {
 	int i,j;
 	char Buf[100];
-	sprintf(Buf,"immagini/Fantasy-icon.xpm");
+	sprintf(Buf,"img/Fantasy-icon.xpm");
 	Immagine.err=gdk_pixbuf_new_from_file_at_size (Buf,30,30,NULL);
 	Immagine.logo=gdk_pixbuf_new_from_file (Buf,NULL);
-	sprintf(Buf,"immagini/Freccia.xpm");
+	sprintf(Buf,"img/Freccia.xpm");
 	Immagine.freccia=gdk_pixbuf_new_from_file_at_size (Buf,30,30,NULL);
-	sprintf(Buf,"immagini/p/p1.xpm");
+	sprintf(Buf,"img/p/p1.xpm");
 	Immagine.p=gdk_pixbuf_new_from_file (Buf,NULL);
-	sprintf(Buf,"immagini/mov.xpm");
+	sprintf(Buf,"img/mov.xpm");
 	Immagine.movimento=gdk_pixbuf_new_from_file_at_size (Buf,Dim_casella,Dim_casella,NULL);
-	sprintf(Buf,"immagini/atk.xpm");
+	sprintf(Buf,"img/atk.xpm");
 	Immagine.attacco=gdk_pixbuf_new_from_file_at_size (Buf,Dim_casella,Dim_casella,NULL);
 	
 	//carica il castello
 	for (i=0;i<1;i++)
 		for (j=0; j<9; j++)
 		{
-			sprintf(Buf,"immagini/c/c%d.xpm",j);
+			sprintf(Buf,"img/c/c%d.xpm",j);
 			Immagine.c[i][j]=gdk_pixbuf_new_from_file_at_size (Buf,Dim_casella,Dim_casella,NULL);
 		}
 	//carica la grotta
 	for (i=0;i<1;i++)
 		for (j=0; j<4; j++)
 		{
-			sprintf(Buf,"immagini/g/g%d.xpm",j);
+			sprintf(Buf,"img/g/g%d.xpm",j);
 			Immagine.g[i][j]=gdk_pixbuf_new_from_file_at_size (Buf,Dim_casella,Dim_casella,NULL);
 		}
 	//carica la stalla
 	for (i=0;i<1;i++)
 		for (j=0; j<4; j++)
 		{
-			sprintf(Buf,"immagini/s/s%d.xpm",j);
+			sprintf(Buf,"img/s/s%d.xpm",j);
 			Immagine.s[i][j]=gdk_pixbuf_new_from_file_at_size (Buf,Dim_casella,Dim_casella,NULL);
 		}
 	//carica la fattoria
 	for (i=0;i<1;i++)
 		for (j=0; j<4; j++)
 		{
-			sprintf(Buf,"immagini/f/f%d.xpm",j);
+			sprintf(Buf,"img/f/f%d.xpm",j);
 			Immagine.f[i][j]=gdk_pixbuf_new_from_file_at_size (Buf,Dim_casella,Dim_casella,NULL);
 		}
 	//carica il nido
 	for (i=0;i<1;i++)
 		for (j=0; j<4; j++)
 		{
-			sprintf(Buf,"immagini/n/n%d.xpm",j);
+			sprintf(Buf,"img/n/n%d.xpm",j);
 			Immagine.n[i][j]=gdk_pixbuf_new_from_file_at_size (Buf,Dim_casella,Dim_casella,NULL);
 		}
 	//carica le truppe
 	for (i=0; i<1; i++)
 		for(j=0; j<=Lan; j++)
 		{
-			sprintf(Buf,"immagini/t/t%d%d.xpm",i,j);
+			sprintf(Buf,"img/t/t%d%d.xpm",i,j);
 			Immagine.t[i][j]=gdk_pixbuf_new_from_file_at_size (Buf,Dim_casella,Dim_casella,NULL);
 		}
 }

@@ -116,7 +116,7 @@ int carica(char *nomefile)
 	fread(&infomappa.numnidi,sizeof(infomappa.numnidi),1,fp);
 	fread(&infomappa.numgrotte,sizeof(infomappa.numgrotte),1,fp);
 	fread(&infomappa.numfattorie,sizeof(infomappa.numfattorie),1,fp);
-	rigeneramappa();
+//	rigeneramappa();
 	// END infomappa
 	fread(&num_giocatori,sizeof(num_giocatori),1,fp);
 	for(i=0;i<num_giocatori;i++) { // *giocatore
