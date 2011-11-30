@@ -14,9 +14,10 @@
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU General Public License for more details.
  */
+
 #include <stdio.h>
 #include <gtk/gtk.h>
-#include "../fantasy-core.h"
+#include "fantasy-core.h"
 
 int main(int argc, char *argv[])
 {

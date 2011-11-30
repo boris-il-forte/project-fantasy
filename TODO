@@ -1,7 +1,6 @@
 TODO
 
 Gionnico:
-- eliminare magik number										| priorità molto alta
 - funzione void gtk_calcola_dimensioni () -> da controllare per più risoluzioni possibili		| priorità alta
 - Editor di mappe & scenari										| priorità media
 
@@ -10,6 +9,7 @@ Boris_il_forte:
 - Evacua subito truppe  appena reclutate								| priorità media
 - Lista truppe presenti in evacua anzichè unità evacuabili						| priorità bassa
 - IA 													| priorità molto bassa
+- multiplayer											| priorità molto bassa
 
 NintendOtaku:
 - unità mitiche
