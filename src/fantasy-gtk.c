@@ -96,6 +96,7 @@ static void salva_carica(int Data)
 			caricadati();
 			inizializza();
 			carica(buf);
+			rigeneramappa();
 			CurrentPlayer=0;
 			gtk_azzera_tab ();
 			gtk_pulisci_mappa();

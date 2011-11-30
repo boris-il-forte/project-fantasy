@@ -18,6 +18,7 @@
 #include <stdio.h>
 #include <gtk/gtk.h>
 #include "fantasy-core.h"
+#include "fantasy-gtk.h"
 
 int main(int argc, char *argv[])
 {
