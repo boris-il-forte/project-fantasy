@@ -15,6 +15,49 @@
  * GNU General Public License for more details.
  */
 
+#define L_SCHERMO 36
+#define A_SCHERMO 18
+#define DIM_FRECCIA 40
+
+//struct per tab
+typedef struct s_listapertab
+{
+	GtkWidget* P;
+	struct s_listapertab* next;
+} t_listapertab;
+
+//struct spin buton
+typedef struct s_spin
+{
+	GtkObject* A;
+	int somma;
+} t_spin;
+
+//variabili globali
+GtkWidget *Casella[L_SCHERMO*A_SCHERMO];
+GtkWidget *Thumb[L_SCHERMO*A_SCHERMO];
+GtkWidget *Notebook[4];
+GtkWidget *Counter[NUMRISORSE];
+GtkWidget *Listacastelli[NUMCASTELLI];
+int Mossa;
+int Dim_casella;
+struct Immagini
+{
+	GdkPixbuf* logo;
+	GdkPixbuf* freccia;
+	GdkPixbuf* movimento;
+	GdkPixbuf* attacco;
+	GdkPixbuf* p; // immagine del prato
+	GdkPixbuf* c[MAXGIOCATORI+1][9]; // matrice che contiene i pezzi dei 12 castelli di proprietà + il castello vuoto
+	GdkPixbuf* g[MAXGIOCATORI+1][4]; // matrice che contiene i pezzi delle 12 grotte di proprietà + la grotta vuota
+	GdkPixbuf* s[MAXGIOCATORI+1][4]; // matrice che contiene i pezzi delle 12 scuderie di proprietà + la scuderia vuota
+	GdkPixbuf* n[MAXGIOCATORI+1][4]; // matrice che contiene i pezzi dei 12 nidi di proprietà + il nido vuoto
+	GdkPixbuf* f[MAXGIOCATORI+1][4]; // matrice che contiene i pezzi delle 12 fattorie di proprietà + la fattoria vuota
+	GdkPixbuf* t[MAXGIOCATORI][Fen]; // matrice che contiene le truppe dei 12 giocatori
+	GdkPixbuf* err;
+} Immagine;
+t_listapertab* Listastrutture;
+t_listapertab* Listatruppe;
 /*header funzioni gtk*/
 
 //funzioni generiche

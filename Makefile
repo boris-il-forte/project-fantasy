@@ -6,7 +6,7 @@ CFLAGS= -Wall -Wextra -ggdb3 -pipe
 
 TARGET=gbin
 
-PROGRAM_OBJS=fantasy-main.o fantasy-lib.o fantasy-loadsave.o
+PROGRAM_OBJS=fantasy-main.o fantasy-lib.o fantasy-loadsave.o fantasy-gtk.o
 
 all: $(TARGET) editor
 
