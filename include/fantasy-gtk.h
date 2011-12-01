@@ -87,6 +87,10 @@ void gtk_azzera_tab ();
 //funzioni frecce
 GtkWidget *gtk_crea_4_frecce();
 
+//funzioni editor
+GtkWidget *gtk_crea_pulsanti_editor_s();
+GtkWidget *gtk_crea_pulsanti_editor_u();
+
 // funzioni contarisorse
 GtkWidget *gtk_crea_contarisorse();
 void gtk_aggiorna_contarisorse();

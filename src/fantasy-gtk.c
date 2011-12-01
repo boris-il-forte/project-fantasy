@@ -1595,7 +1595,7 @@ void gtk_genera_mappa (GtkWidget *Hbox)
 		{
 			Casella[i+j*L_SCHERMO]=gtk_event_box_new();
 			gtk_widget_set_events (Casella[i+j*L_SCHERMO], GDK_BUTTON_PRESS_MASK);
-			gtk_widget_set_usize(Casella[i+j*L_SCHERMO], Dim_casella,Dim_casella);
+			gtk_widget_set_size_request(Casella[i+j*L_SCHERMO], Dim_casella,Dim_casella);
 			gtk_table_attach_defaults (GTK_TABLE (Mappa), Casella[i+j*L_SCHERMO], i, i+1, j, j+1);
 			gtk_widget_show (Casella[i+j*L_SCHERMO]);
 			gtk_widget_realize (Casella[i+j*L_SCHERMO]);
@@ -1877,7 +1877,7 @@ GtkWidget *gtk_crea_4_frecce()
 	for (i=1; i<9;i=i+2)
 	{
 		Pulsante=gtk_button_new();
-		gtk_widget_set_usize(Pulsante, DIM_FRECCIA,DIM_FRECCIA);
+		gtk_widget_set_size_request(Pulsante, DIM_FRECCIA,DIM_FRECCIA);
 		g_signal_connect_swapped (Pulsante, "clicked", G_CALLBACK (sposta_mappa), (gpointer) &infomappa.mappa[i]);
 		gtk_table_attach_defaults (GTK_TABLE (Pulsantiera), Pulsante, i/3, i/3+1, i%3, i%3+1);
 		switch (i)
@@ -1905,6 +1905,43 @@ GtkWidget *gtk_crea_4_frecce()
 	return Pulsantiera;
 }
 
+//crea pulsanti editor per inserire strutture
+GtkWidget *gtk_crea_pulsanti_editor_s()
+{
+	GtkWidget *Pulsantiera;
+	GtkWidget *Pulsante;
+	int i;
+	Pulsantiera=gtk_table_new(3,2,TRUE);
+	
+	for (i=0; i<NUMSTRUTTURE;i++)
+	{
+		Pulsante=gtk_button_new();
+		gtk_widget_set_size_request(Pulsante, DIM_FRECCIA,DIM_FRECCIA);
+		g_signal_connect_swapped (Pulsante, "clicked", G_CALLBACK (menuitem_response),NULL);
+		gtk_table_attach (GTK_TABLE (Pulsantiera), Pulsante, i%2, i%2+1, i/2, i/2+1,GTK_SHRINK,GTK_SHRINK,0,0);
+		gtk_widget_show (Pulsante);
+	}
+	return Pulsantiera;
+}
+
+//crea pulsanti editor per inserire unità
+GtkWidget *gtk_crea_pulsanti_editor_u()
+{
+	GtkWidget *Pulsantiera;
+	GtkWidget *Pulsante;
+	int i;
+	Pulsantiera=gtk_table_new(4,2,TRUE);
+	
+	for (i=0; i<NUMTRUPPE;i++)
+	{
+		Pulsante=gtk_button_new();
+		gtk_widget_set_size_request(Pulsante, DIM_FRECCIA,DIM_FRECCIA);
+		g_signal_connect_swapped (Pulsante, "clicked", G_CALLBACK (menuitem_response),NULL);
+		gtk_table_attach (GTK_TABLE (Pulsantiera), Pulsante, i%2, i%2+1, i/2, i/2+1,GTK_SHRINK,GTK_SHRINK,0,0);
+		gtk_widget_show (Pulsante);
+	}
+	return Pulsantiera;
+}
 // crea riepilogo risorse
 GtkWidget *gtk_crea_contarisorse()
 {

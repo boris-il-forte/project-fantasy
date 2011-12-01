@@ -86,6 +86,7 @@ int main(int argc, char *argv[])
 {
 	GtkWidget *finestra;
 	GtkWidget *PulsantiS;
+	GtkWidget *PulsantieraS;
 	GtkWidget *Vbox;
 	GtkWidget *Layout;
 	GtkWidget *Hbox;
@@ -118,10 +119,20 @@ int main(int argc, char *argv[])
 	gtk_container_add (GTK_CONTAINER (Frame), Vbox);
 	gtk_widget_show (Vbox);
 	gtk_widget_show (Frame);
-	// 	crea box per i pulsanti struttura
+	// 	crea box e i pulsanti struttura
 	PulsantiS=gtk_frame_new("Pulsanti Strutture");
 	gtk_box_pack_start(GTK_BOX(Vbox), PulsantiS, FALSE, FALSE, 0);
 	gtk_widget_show (PulsantiS);
+	PulsantieraS=gtk_crea_pulsanti_editor_s();
+	gtk_container_add (GTK_CONTAINER(PulsantiS),PulsantieraS);
+	gtk_widget_show (PulsantieraS);
+	// 	crea box e i pulsanti unità
+	PulsantiS=gtk_frame_new("Pulsanti Unità");
+	gtk_box_pack_start(GTK_BOX(Vbox), PulsantiS, FALSE, FALSE, 0);
+	gtk_widget_show (PulsantiS);
+	PulsantieraS=gtk_crea_pulsanti_editor_u();
+	gtk_container_add (GTK_CONTAINER(PulsantiS),PulsantieraS);
+	gtk_widget_show (PulsantieraS);
 	// 	crea le frecce
 	Frecce= gtk_crea_4_frecce();
 	gtk_box_pack_start( GTK_BOX(Vbox), Frecce, FALSE, FALSE, 0);
