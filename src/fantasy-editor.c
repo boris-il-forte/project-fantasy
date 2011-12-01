@@ -17,8 +17,70 @@
 
 #include <stdio.h>
 #include <gtk/gtk.h>
+#include <gdk/gdkkeysyms.h>
 #include "fantasy-core.h"
 #include "fantasy-gtk.h"
+
+static gboolean delete_event()
+{
+	gtk_main_quit();
+	return TRUE;
+}
+
+static void sposta_datastiera(GtkWidget* Window, GdkEventKey* K)
+{
+	if(partita_in_corso==0) return;
+	if(K->type == GDK_KEY_PRESS && Window!=NULL)
+	{
+		fprintf(stderr,"debug: sposta_datastiera\n");
+		switch (K->keyval)
+		{
+			case GDK_KEY_Left:
+				if(cx-1<0)
+					return;
+				else
+				{
+					cx-=1;
+					gtk_pulisci_mappa ();
+					gtk_stampa_mappa(cx,cy,'n');
+				}
+				break;
+			case GDK_KEY_Up:
+				if(cy-1<0)
+					return;
+				else
+				{
+					cy-=1;
+					gtk_pulisci_mappa ();
+					gtk_stampa_mappa(cx,cy,'n');
+				}
+				break;
+			case GDK_KEY_Down:
+				if(cy+1>ALTEZZA-A_SCHERMO)
+					return;
+				else
+				{
+					cy+=1;
+					gtk_pulisci_mappa ();
+					gtk_stampa_mappa(cx,cy,'n');
+				}
+				break;
+			case GDK_KEY_Right:
+				if(cx+1>LARGHEZZA-L_SCHERMO)
+					return;
+				else
+				{
+					cx+=1;
+					gtk_pulisci_mappa ();
+					gtk_stampa_mappa(cx,cy,'n');
+				}
+				break;
+			default:
+				break;
+		}
+	}
+	return;
+}
 
 int main(int argc, char *argv[])
 {
@@ -33,12 +95,15 @@ int main(int argc, char *argv[])
 	
 	//	inizializza
 	gtk_init(&argc, &argv);
+	gtk_calcola_dimensioni ();
+	gtk_carica_immagini();
+	gtk_inizializza_widget();
 	// 	crea finestra
 	finestra=gtk_window_new (GTK_WINDOW_TOPLEVEL);
-	//g_signal_connect (finestra, "delete-event", G_CALLBACK (delete_event), NULL);
-	//g_signal_connect (finestra, "key-press-event", G_CALLBACK (sposta_datastiera),NULL);
+	g_signal_connect (finestra, "delete-event", G_CALLBACK (delete_event), NULL);
+	g_signal_connect (finestra, "key-press-event", G_CALLBACK (sposta_datastiera),NULL);
 	gtk_window_set_title (GTK_WINDOW (finestra), "Fantasy Core Editor");
-	//gtk_window_set_icon (GTK_WINDOW (finestra),Immagine.logo);
+	gtk_window_set_icon (GTK_WINDOW (finestra),Immagine.logo);
 	// 	crea box principale del layout
 	Layout=gtk_vbox_new(FALSE,10);
 	gtk_container_add (GTK_CONTAINER (finestra), Layout);
@@ -47,6 +112,19 @@ int main(int argc, char *argv[])
 	Hbox=gtk_hbox_new(FALSE,10);
 	gtk_box_pack_start(GTK_BOX(Layout), Hbox, FALSE, FALSE, 0);
 	gtk_widget_show (Hbox);
+	// 	crea box per i pulsanti
+	Frame=gtk_frame_new("Pulsanti");
+	gtk_box_pack_start(GTK_BOX(Hbox), Frame, FALSE, FALSE, 0);
+	Vbox=gtk_vbox_new(FALSE,10);
+	gtk_container_add (GTK_CONTAINER (Frame), Vbox);
+	gtk_widget_show (Vbox);
+	gtk_widget_show (Frame);
+	// 	crea le frecce
+	Frecce= gtk_crea_4_frecce();
+	gtk_box_pack_start( GTK_BOX(Vbox), Frecce, FALSE, FALSE, 0);
+	gtk_widget_show (Frecce);
+	// 	crea mappa
+	gtk_genera_mappa (Hbox);
 	// 	visualizza finestra
 	gtk_widget_show (finestra);
 	gtk_main();
