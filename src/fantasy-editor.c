@@ -85,13 +85,12 @@ static void sposta_datastiera(GtkWidget* Window, GdkEventKey* K)
 int main(int argc, char *argv[])
 {
 	GtkWidget *finestra;
-	GtkWidget *pulsante;
+	GtkWidget *PulsantiS;
 	GtkWidget *Vbox;
 	GtkWidget *Layout;
 	GtkWidget *Hbox;
 	GtkWidget *Frame;
 	GtkWidget *Frecce;
-	GtkWidget *Risorse;
 	
 	//	inizializza
 	gtk_init(&argc, &argv);
@@ -113,12 +112,16 @@ int main(int argc, char *argv[])
 	gtk_box_pack_start(GTK_BOX(Layout), Hbox, FALSE, FALSE, 0);
 	gtk_widget_show (Hbox);
 	// 	crea box per i pulsanti
-	Frame=gtk_frame_new("Pulsanti");
+	Frame=gtk_frame_new(NULL);
 	gtk_box_pack_start(GTK_BOX(Hbox), Frame, FALSE, FALSE, 0);
 	Vbox=gtk_vbox_new(FALSE,10);
 	gtk_container_add (GTK_CONTAINER (Frame), Vbox);
 	gtk_widget_show (Vbox);
 	gtk_widget_show (Frame);
+	// 	crea box per i pulsanti struttura
+	PulsantiS=gtk_frame_new("Pulsanti Strutture");
+	gtk_box_pack_start(GTK_BOX(Vbox), PulsantiS, FALSE, FALSE, 0);
+	gtk_widget_show (PulsantiS);
 	// 	crea le frecce
 	Frecce= gtk_crea_4_frecce();
 	gtk_box_pack_start( GTK_BOX(Vbox), Frecce, FALSE, FALSE, 0);
