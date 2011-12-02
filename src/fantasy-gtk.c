@@ -359,7 +359,6 @@ static void muovi_unita (char* pos)
 	GtkWidget* Label;
 	if(T->stanca==0 && T->combattuto==0)
 	{
-		T->stanca=1;
 		Mossa=Pos;
 		gtk_pulisci_mappa ();
 		gtk_stampa_mappa(cx,cy,'s');
@@ -429,11 +428,11 @@ static void click_destinazione (char* pos)
 	t_lista_t *T=giocatore[CurrentPlayer]->truppe;
 	if (Src==Dst)
 	{
-		infomappa.truppe[Src]->stanca=0;
 		gtk_pulisci_mappa();
 		gtk_stampa_mappa(cx,cy,'n');
 		return;
 	}
+	infomappa.truppe[Src]->stanca=1;
 	infomappa.truppe[Dst]=infomappa.truppe[Src];
 	infomappa.truppe[Src]=NULL;
 	while (T!=NULL)
