@@ -387,7 +387,6 @@ static void combatti_unita (char* pos)
 	GtkWidget* Label;
 	if(T->combattuto==0)
 	{
-		T->combattuto=1;
 		Mossa=Pos;
 		gtk_pulisci_mappa ();
 		gtk_stampa_mappa(cx,cy,'c');
@@ -414,11 +413,14 @@ static void click_bersaglio (char* pos)
 	t_infotruppa* D=infomappa.truppe[Dst];
 	if (Src==Dst)
 	{
-		infomappa.truppe[Src]->combattuto=0;
 		gtk_pulisci_mappa();
 		gtk_stampa_mappa(cx,cy,'n');
 	}
-	else combatti(A, D, 'n');
+	else
+	{
+		infomappa.truppe[Src]->combattuto=1;
+		combatti(A, D, 'n');
+	}
 }
 
 static void click_destinazione (char* pos)
