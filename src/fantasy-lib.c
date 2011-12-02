@@ -929,7 +929,11 @@ void fineturno()
 		}
 	}
 	//aggiorna il giocatore corrente
-	//CurrentPlayer++;
+	do
+	{
+		CurrentPlayer++;
+		if (CurrentPlayer==MAXGIOCATORI) CurrentPlayer=0;
+	}while (giocatore[CurrentPlayer]==NULL);
 	return;
 }
 
