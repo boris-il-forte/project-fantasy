@@ -34,7 +34,7 @@
 #define PROD_CIBO_CAS 400
 #define PROD_CIBO_FAT 1000
 #define PROD_CIBO_SCU 100
-#define FAME 100
+#define FAME 10
 
 //carica dati unità
 void caricadati ()
@@ -870,16 +870,23 @@ void fineturno()
 	int i;
 	int r[NUMSTRUTTURE];
 	int c=0;
+	int n=0;
+	int f;
 	t_lista_t* T=giocatore[CurrentPlayer]->truppe;
 	t_lista_s* S;
 	for(i=0; i<NUMSTRUTTURE; i++) r[i]=0;
+	//conta le truppe, il loro numero e aggiorna loro stato
 	while(T!=NULL)
 	{
 		T->truppa->stanca=0;
 		T->truppa->combattuto=0;
+		if (T->truppa->tipo<Cav) c+=T->truppa->numero/10;
+		else if (T->truppa->tipo==Cav) c+=2*T->truppa->numero;
+		else c+=30;
 		T=T->next;
-		c++;
+		n++;
 	}
+	//conta le strutture
 	for(i=0;i<NUMSTRUTTURE; i++)
 	{
 		S=giocatore[CurrentPlayer]->struttura[i];
@@ -889,9 +896,40 @@ void fineturno()
 			S=S->next;
 		}
 	}
+	//calcola le risorse per il prossimo turno
 	giocatore[CurrentPlayer]->oro+=PROD_ORO_CAS*r[Cas]+PROD_ORO_FAT*r[Fat]+PROD_ORO_SCU*r[Scu]+PROD_ORO_NID*r[Nid]+PROD_ORO_GRO*r[Gro];
 	giocatore[CurrentPlayer]->smeraldi+=PROD_SMERALDI_NID*r[Nid]+PROD_SMERALDI_GRO*r[Gro];
 	giocatore[CurrentPlayer]->cibo+=PROD_CIBO_CAS*r[Cas]+PROD_CIBO_FAT*r[Fat]+PROD_CIBO_SCU*r[Scu]-FAME*c;
+	//introduce il concetto di cibo da comprare e morte e scoraggiamento per fame
+	if(giocatore[CurrentPlayer]->cibo<0) 
+	{
+		f=giocatore[CurrentPlayer]->cibo;
+		giocatore[CurrentPlayer]->cibo=0;
+		giocatore[CurrentPlayer]->oro+=f;
+		if(giocatore[CurrentPlayer]->oro<0)
+		{
+			f=giocatore[CurrentPlayer]->oro;
+			giocatore[CurrentPlayer]->oro=0;
+			giocatore[CurrentPlayer]->smeraldi+=f;
+			if(giocatore[CurrentPlayer]->smeraldi<0)
+			{
+				f=giocatore[CurrentPlayer]->smeraldi;
+				giocatore[CurrentPlayer]->smeraldi=0;
+				f=f/n;
+				f=(f<=0)? -1 : f;
+				T=giocatore[CurrentPlayer]->truppe;
+				while(T!=NULL)
+				{
+					T->truppa->morale-=1;
+					if (T->truppa->tipo<Dra) T->truppa->numero+=f;
+					if(T->truppa->numero<=0) eliminamorti (T->truppa);
+					T=T->next;
+				}
+			}
+		}
+	}
+	//aggiorna il giocatore corrente
+	//CurrentPlayer++;
 	return;
 }
 

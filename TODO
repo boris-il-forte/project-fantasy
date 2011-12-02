@@ -9,7 +9,7 @@ Boris_il_forte:
 - Evacua subito truppe  appena reclutate								| priorità media
 - Lista truppe presenti in evacua anzichè unità evacuabili						| priorità bassa
 - IA 													| priorità molto bassa
-- multiplayer											| priorità molto bassa
+- multiplayer												| priorità molto alta
 
 NintendOtaku:
 - unità mitiche
