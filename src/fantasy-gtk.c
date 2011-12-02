@@ -420,6 +420,9 @@ static void click_bersaglio (char* pos)
 	{
 		infomappa.truppe[Src]->combattuto=1;
 		combatti(A, D, 'n');
+		gtk_aggiorna_tab_armate ();
+		gtk_pulisci_mappa();
+		gtk_stampa_mappa(cx,cy,'n');
 	}
 }
 
@@ -856,6 +859,7 @@ static void click_assediocastello (char* pos)
 	int C=0;
 	t_lista_s* Castello;
 	t_lista_t* Secondalinea;
+	infomappa.truppe[Mossa]->combattuto=1;
 	g=controlloedificio (Pos,Cas);
 	if (g>0)
 	{
@@ -897,6 +901,7 @@ static void click_assaltostruttura (char* pos)
 	t_lista_s* Struttura;
 	t_lista_t* Difensori;
 	fprintf(stderr,"debug: click_assaltostruttura\n");
+	infomappa.truppe[Mossa]->combattuto=1;
 	for(i=1;i<NUMSTRUTTURE && g>0;i++) g=controlloedificio (Pos,i);
 	if (g>0)
 	{
@@ -1223,6 +1228,7 @@ void gtk_pulisci_mappa ()
 			g_signal_handlers_disconnect_matched(Casella[Pos],G_SIGNAL_MATCH_FUNC,0,0,0, click_assaltostruttura, 0);
 			g_signal_handlers_disconnect_matched(Casella[Pos],G_SIGNAL_MATCH_FUNC,0,0,0, click_entrastruttura, 0);
 			g_signal_handlers_disconnect_matched(Casella[Pos],G_SIGNAL_MATCH_FUNC,0,0,0, click_unisci, 0);
+			g_signal_handlers_disconnect_matched(Casella[Pos],G_SIGNAL_MATCH_FUNC,0,0,0, click_nemico, 0);
 			gtk_widget_destroy(Thumb[Pos]);
 		}
 }
