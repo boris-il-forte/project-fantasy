@@ -1240,8 +1240,8 @@ void gtk_stampa_mappa(int x, int y, char m)
 	int Pos=0;
 	int G;
 	char buf[10];
-	sprintf(buf,"(%d|%d)",x,y);
-	gtk_entry_set_text(GTK_ENTRY(Coordinate),buf);
+	sprintf(buf,"(%d|%d)",x+L_SCHERMO/2-1,y+A_SCHERMO/2-1);
+	gtk_label_set_text(GTK_LABEL(Coordinate),buf);
 	for(R=y;R<y+A_SCHERMO;R++)
 		for(C=x;C<x+L_SCHERMO;C++)
 		{
@@ -1673,7 +1673,7 @@ GtkWidget *gtk_crea_elemento_tab(GtkWidget *tab,int x, int y,char *buf)
 	gtk_widget_show (Label);
 	sprintf(buffer,"%d|%d",x,y);
 	Button=gtk_button_new_with_label(buffer);
-	g_signal_connect_swapped (Button, "clicked", G_CALLBACK (centra_mappa), (gpointer) &infomappa.mappa[x+y*LARGHEZZA]);
+	g_signal_connect_swapped (Button, "button_press_event", G_CALLBACK (centra_mappa), (gpointer) &infomappa.mappa[x+y*LARGHEZZA]);
 	gtk_box_pack_start(GTK_BOX(Hbox),Button, FALSE, FALSE, 0);
 	gtk_widget_show (Button);
 	gtk_widget_show (Hbox);
@@ -1888,7 +1888,7 @@ GtkWidget *gtk_crea_4_frecce()
 	{
 		Pulsante=gtk_button_new();
 		gtk_widget_set_size_request(Pulsante, DIM_FRECCIA,DIM_FRECCIA);
-		g_signal_connect_swapped (Pulsante, "clicked", G_CALLBACK (sposta_mappa), (gpointer) &infomappa.mappa[i]);
+		g_signal_connect_swapped (Pulsante, "button_press_event", G_CALLBACK (sposta_mappa), (gpointer) &infomappa.mappa[i]);
 		gtk_table_attach_defaults (GTK_TABLE (Pulsantiera), Pulsante, i/3, i/3+1, i%3, i%3+1);
 		switch (i)
 		{
@@ -1912,10 +1912,8 @@ GtkWidget *gtk_crea_4_frecce()
 		gtk_widget_show (Freccia);
 		gtk_widget_show (Pulsante);
 	}
-		Coordinate=gtk_entry_new();
+		Coordinate=gtk_label_new("(0|0)");
 		gtk_widget_set_size_request(Coordinate, DIM_FRECCIA,DIM_FRECCIA);
-		gtk_editable_set_editable(GTK_EDITABLE(Coordinate),FALSE);
-		gtk_entry_set_text(GTK_ENTRY(Coordinate),"(0|0)");
 		gtk_table_attach_defaults (GTK_TABLE (Pulsantiera), Coordinate, 1, 2, 1, 2);
 		gtk_widget_show (Coordinate);
 	return Pulsantiera;
@@ -1933,7 +1931,7 @@ GtkWidget *gtk_crea_pulsanti_editor_s()
 	{
 		Pulsante=gtk_button_new();
 		gtk_widget_set_size_request(Pulsante, DIM_FRECCIA,DIM_FRECCIA);
-		g_signal_connect_swapped (Pulsante, "clicked", G_CALLBACK (menuitem_response),NULL);
+		g_signal_connect_swapped (Pulsante, "button_press_event", G_CALLBACK (menuitem_response),NULL);
 		gtk_table_attach (GTK_TABLE (Pulsantiera), Pulsante, i%2, i%2+1, i/2, i/2+1,GTK_SHRINK,GTK_SHRINK,0,0);
 		gtk_widget_show (Pulsante);
 	}
@@ -1952,7 +1950,7 @@ GtkWidget *gtk_crea_pulsanti_editor_u()
 	{
 		Pulsante=gtk_button_new();
 		gtk_widget_set_size_request(Pulsante, DIM_FRECCIA,DIM_FRECCIA);
-		g_signal_connect_swapped (Pulsante, "clicked", G_CALLBACK (menuitem_response),NULL);
+		g_signal_connect_swapped (Pulsante, "button_press_event", G_CALLBACK (menuitem_response),NULL);
 		gtk_table_attach (GTK_TABLE (Pulsantiera), Pulsante, i%2, i%2+1, i/2, i/2+1,GTK_SHRINK,GTK_SHRINK,0,0);
 		gtk_widget_show (Pulsante);
 	}
