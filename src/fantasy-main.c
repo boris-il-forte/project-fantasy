@@ -44,7 +44,7 @@ static void sposta_datastiera(GtkWidget* Window, GdkEventKey* K)
 				{
 					cx-=1;
 					gtk_pulisci_mappa ();
-					gtk_stampa_mappa(cx,cy,'n');
+					gtk_stampa_mappa(cx,cy,'p');
 				}
 				break;
 			case GDK_KEY_Up:
@@ -54,7 +54,7 @@ static void sposta_datastiera(GtkWidget* Window, GdkEventKey* K)
 				{
 					cy-=1;
 					gtk_pulisci_mappa ();
-					gtk_stampa_mappa(cx,cy,'n');
+					gtk_stampa_mappa(cx,cy,'p');
 				}
 				break;
 			case GDK_KEY_Down:
@@ -64,7 +64,7 @@ static void sposta_datastiera(GtkWidget* Window, GdkEventKey* K)
 				{
 					cy+=1;
 					gtk_pulisci_mappa ();
-					gtk_stampa_mappa(cx,cy,'n');
+					gtk_stampa_mappa(cx,cy,'p');
 				}
 				break;
 			case GDK_KEY_Right:
@@ -74,7 +74,7 @@ static void sposta_datastiera(GtkWidget* Window, GdkEventKey* K)
 				{
 					cx+=1;
 					gtk_pulisci_mappa ();
-					gtk_stampa_mappa(cx,cy,'n');
+					gtk_stampa_mappa(cx,cy,'p');
 				}
 				break;
 			default:

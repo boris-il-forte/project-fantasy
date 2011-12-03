@@ -200,7 +200,7 @@ static void sposta_mappa(char* v)
 			{
 				cx-=1;
 				gtk_pulisci_mappa ();
-				gtk_stampa_mappa(cx,cy,'n');
+				gtk_stampa_mappa(cx,cy,'p');
 			}
 			break;
 		case 3:
@@ -210,7 +210,7 @@ static void sposta_mappa(char* v)
 			{
 				cy-=1;
 				gtk_pulisci_mappa ();
-				gtk_stampa_mappa(cx,cy,'n');
+				gtk_stampa_mappa(cx,cy,'p');
 			}
 			break;
 		case 5:
@@ -220,7 +220,7 @@ static void sposta_mappa(char* v)
 			{
 				cy+=1;
 				gtk_pulisci_mappa ();
-				gtk_stampa_mappa(cx,cy,'n');
+				gtk_stampa_mappa(cx,cy,'p');
 			}
 			break;
 		case 7:
@@ -230,7 +230,7 @@ static void sposta_mappa(char* v)
 			{
 				cx+=1;
 				gtk_pulisci_mappa ();
-				gtk_stampa_mappa(cx,cy,'n');
+				gtk_stampa_mappa(cx,cy,'p');
 			}
 			break;
 		default:
@@ -1243,6 +1243,7 @@ void gtk_pulisci_mappa ()
 
 void gtk_stampa_mappa(int x, int y, char m)
 {
+	static char pre='n';
 	int C;
 	int R;
 	int Pos=0;
@@ -1250,6 +1251,8 @@ void gtk_stampa_mappa(int x, int y, char m)
 	char buf[10];
 	sprintf(buf,"(%d|%d)",x+L_SCHERMO/2-1,y+A_SCHERMO/2-1);
 	gtk_label_set_text(GTK_LABEL(Coordinate),buf);
+	if (m=='p') m=pre;
+	else pre=m;
 	for(R=y;R<y+A_SCHERMO;R++)
 		for(C=x;C<x+L_SCHERMO;C++)
 		{
