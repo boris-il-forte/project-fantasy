@@ -346,7 +346,59 @@ void liberaheap ()
 	}
 	for (i=0; i<ALTEZZA*LARGHEZZA; i++) free(infomappa.truppe[i]);
 }
-
+//calcola il costo del percorso più breve utilizzando l'algoritmo di Dijkstra
+int percorsominimo(int Sx, int Sy, int Dx,int Dy, int vel)
+{
+	int i,j;
+	int Lx=(Sx>Dx)?(Sx-Dx):(Dx-Sx);
+	int Ly=(Sy>Dy)?(Sy-Dy):(Dy-Sy);
+	const int Mx=2*vel-Lx+2;
+	const int My=2*vel-Ly+2;
+	const int Is=(Sx>Dx)?(vel+1):(vel-Lx);
+	const int Js=(Sy>Dy)?(vel+1):(vel-Ly);
+	char G[Mx][My];
+	struct s_v
+	{
+		int d;
+		int p;
+	} V[Mx][My];
+	//prepara grafo
+	for(i=0;i<Mx; i++)
+	{
+		G[i][0]='#';
+		G[i][My-1]='#';
+		V[i][0].d=vel*10+1;
+		V[i][My-1].d=vel*10+1;
+		V[i][0].p=-1;
+		V[i][My-1].p=-1;
+	}
+	for(i=0;i<My; i++) 
+	{
+		G[0][i]='#';
+		G[Mx-1][i]='#';
+		V[0][j].d=vel*10+1;
+		V[Mx-1][j].d=vel*10+1;
+		V[0][j].p=-1;
+		V[Mx-1][j].p=-1;
+	}
+	for(i=1; i<Mx-1;i++)
+		for(j=1; j<My-1;j++)
+		{
+			if((i-Is)*(i-Is)+(j-Js)*(j-Js)>vel*vel && infomappa.mappa[posiziona(Sx,Sy,i-Is,j-Js)]!= ' ' && infomappa.truppe[posiziona(Sx,Sy,i-Is,j-Js)]!=NULL) G[i][j]='#';
+			else G[i][j]='.';
+			V[i][j].d=vel*10+1;
+			V[i][j].p=-1;
+		}
+	G[Is][Js]='S';
+	G[Is+Lx][Js+Ly]='D';
+	// grafo creato e inizializzato
+	//inizializzo algoritmo
+	
+	//comincio algoritmo
+	
+	//fine!
+	return 0;
+}
 // calcola se lo spostamento è lecito
 int spostalecito (int PosT, int PosC )
 {
@@ -356,7 +408,7 @@ int spostalecito (int PosT, int PosC )
 	int y= PosT/LARGHEZZA-PosC/LARGHEZZA;
 
 	if(x*x+y*y<=Vel*Vel) return 1;
-	else return 0;	
+	else return 0;
 }
 
 //calcola area bersaglio
