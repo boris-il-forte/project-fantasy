@@ -39,6 +39,7 @@ GtkWidget *Thumb[L_SCHERMO*A_SCHERMO];
 GtkWidget *Notebook[4];
 GtkWidget *Counter[NUMRISORSE];
 GtkWidget *Listacastelli[NUMCASTELLI];
+GtkWidget *Coordinate;
 int Mossa;
 int Dim_casella;
 struct Immagini

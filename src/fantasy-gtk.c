@@ -1239,6 +1239,9 @@ void gtk_stampa_mappa(int x, int y, char m)
 	int R;
 	int Pos=0;
 	int G;
+	char buf[10];
+	sprintf(buf,"(%d|%d)",x,y);
+	gtk_entry_set_text(GTK_ENTRY(Coordinate),buf);
 	for(R=y;R<y+A_SCHERMO;R++)
 		for(C=x;C<x+L_SCHERMO;C++)
 		{
@@ -1909,6 +1912,12 @@ GtkWidget *gtk_crea_4_frecce()
 		gtk_widget_show (Freccia);
 		gtk_widget_show (Pulsante);
 	}
+		Coordinate=gtk_entry_new();
+		gtk_widget_set_size_request(Coordinate, DIM_FRECCIA,DIM_FRECCIA);
+		gtk_editable_set_editable(GTK_EDITABLE(Coordinate),FALSE);
+		gtk_entry_set_text(GTK_ENTRY(Coordinate),"(0|0)");
+		gtk_table_attach_defaults (GTK_TABLE (Pulsantiera), Coordinate, 1, 2, 1, 2);
+		gtk_widget_show (Coordinate);
 	return Pulsantiera;
 }
 
