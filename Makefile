@@ -3,8 +3,8 @@ SRCPATH= ./src/
 LIBSGTK= $(shell pkg-config --cflags --libs gtk+-2.0)
 LIBS= $(LIBSGTK)
 #CFLAGS= -I./include -Wall -Wextra -O2 -march=native -pipe -fomit-frame-pointer -U_FORTIFY_SOURCE
-CFLAGS= -I./include -Wall -Wextra -O2 -march=native -pipe -fomit-frame-pointer  -Wno-unused-result 
-#CFLAGS= -I./include -Wall -Wextra -ggdb3 -pipe
+#CFLAGS= -I./include -Wall -Wextra -O2 -march=native -pipe -fomit-frame-pointer  -Wno-unused-result 
+CFLAGS= -I./include -Wall -Wextra -ggdb3 -pipe -O2 -march=native -pipe -fomit-frame-pointer -D_FORTIFY_SOURCE=2
 
 TARGET=gbin
 

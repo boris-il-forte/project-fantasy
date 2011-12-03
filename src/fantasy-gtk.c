@@ -1990,7 +1990,7 @@ void gtk_aggiorna_contarisorse()
 	int nk;
 	int R[]={giocatore[CurrentPlayer]->oro,giocatore[CurrentPlayer]->cibo,giocatore[CurrentPlayer]->smeraldi};
 	float n;
-	char Buf[6];
+	char Buf[12];
 	for(i=0; i<NUMRISORSE; i++)
 	{
 		n=(float)R[i];
