@@ -354,10 +354,9 @@ int spostalecito (int PosT, int PosC )
 	char Vel=Dtruppa[Tipo].vel;
 	int x= PosT%LARGHEZZA-PosC%LARGHEZZA;
 	int y= PosT/LARGHEZZA-PosC/LARGHEZZA;
-	if(x*x+y*y<=Vel*Vel)
-		return 1;
-	else
-		return 0;	
+
+	if(x*x+y*y<=Vel*Vel) return 1;
+	else return 0;	
 }
 
 //calcola area bersaglio
