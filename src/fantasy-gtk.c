@@ -861,7 +861,7 @@ static void click_assediocastello (char* pos)
 	t_lista_t* Secondalinea;
 	infomappa.truppe[Mossa]->combattuto=1;
 	g=controlloedificio (Pos,Cas);
-	if (g>0)
+	if (g>=0)
 	{
 		Castello=giocatore[g]->struttura[Cas];
 		while(Castello->pos!=Pos) Castello=Castello->next;
@@ -895,30 +895,35 @@ static void click_assediocastello (char* pos)
 static void click_assaltostruttura (char* pos)
 {
 	int Pos=(int) (pos-infomappa.mappa);
-	int g;
+	int g=-1;
 	int morale=0;
 	t_struttura i;
 	t_lista_s* Struttura;
 	t_lista_t* Difensori;
 	fprintf(stderr,"debug: click_assaltostruttura\n");
 	infomappa.truppe[Mossa]->combattuto=1;
-	for(i=1;i<NUMSTRUTTURE && g>0;i++) g=controlloedificio (Pos,i);
-	if (g>0)
+	for(i=1;i<NUMSTRUTTURE && g<0;i++) g=controlloedificio (Pos,i);
+	if (g>=0)
 	{
 		fprintf(stderr,"debug: di qualcuno\n");
 		Struttura=giocatore[g]->struttura[i];
 		while(Struttura->pos!=Pos) Struttura=Struttura->next;
+		Difensori=Struttura->in;
 		if(assaltaedificio(Struttura)==1) 
 		{
-			Difensori=Struttura->in;
 			while (Difensori!=NULL)
 			{
 				Difensori->truppa->morale-=10;
+				if(Difensori->truppa->morale<0) Difensori->truppa->morale=0;
 				morale+=Difensori->truppa->morale;
 				Difensori=Difensori->next;
 			}
 			Difensori=Struttura->in;
-			if(morale==0) cambiaproprietario (0, g,Pos,i);
+			if(morale==0) 
+			{
+				while(Struttura->in!=NULL) eliminamortistrutture (Struttura->pos);
+				cambiaproprietario (0, g,Pos,i);
+			}
 		}
 		else
 		{
@@ -931,7 +936,7 @@ static void click_assaltostruttura (char* pos)
 	}
 	else
 	{
-		fprintf(stderr,"debug: di nessuno\n");
+		fprintf(stderr,"debug: di nessuno, %d\n", g);
 		switch(infomappa.mappa[Pos])
 		{
 			case 'G':
@@ -1024,6 +1029,9 @@ static void click_unisci (char* pos)
 		case Dra:
 		case Fen:
 			max=30*2;
+			break;
+		default:
+			max=100;
 			break;
 	}
 	somma=TA->numero+TB->numero;
