@@ -1651,9 +1651,8 @@ void gtk_crea_notebook (GtkWidget *Frame)
 	Notebook[3]=(GtkWidget *)gtk_crea_notebook_tab(Notebook[0],"Armate");
 }
 
-GtkWidget *gtk_crea_elemento_tab(GtkWidget *tab,int x, int y,char *buf)
+GtkWidget *gtk_crea_elemento_tab(GtkWidget *tab,int x, int y,char *nome, char *buf)
 {
-	static int i=1;
 	GtkWidget *Hbox;
 	GtkWidget *Vbox;
 	GtkWidget *Label;
@@ -1662,24 +1661,20 @@ GtkWidget *gtk_crea_elemento_tab(GtkWidget *tab,int x, int y,char *buf)
 	char buffer[10];
 	if (tab==NULL)
 	{
-		i=1;
+		printf("errore!");
 		return NULL;
 	}
 	Vbox=gtk_vbox_new(TRUE,0);
 	gtk_box_pack_start(GTK_BOX (tab), Vbox,FALSE, FALSE, 0);
-	if (i!=1)
-	{
-		Separator=gtk_hseparator_new ();
-		gtk_box_pack_start(GTK_BOX (Vbox), Separator,FALSE, FALSE, 3);
-		gtk_widget_show (Separator);
-	}
+	Separator=gtk_hseparator_new ();
+	gtk_box_pack_start(GTK_BOX (Vbox), Separator,FALSE, FALSE, 3);
+	gtk_widget_show (Separator);
 	Hbox=gtk_hbox_new(TRUE,0);
 	gtk_box_pack_start(GTK_BOX (Vbox), Hbox,FALSE, FALSE, 0);
-	Label=gtk_label_new (buf);
+	Label=gtk_label_new (nome);
 	gtk_box_pack_start(GTK_BOX(Hbox),Label, FALSE, FALSE, 0);
 	gtk_widget_show (Label);
-	sprintf(buffer,"N° %d",i);
-	Label=gtk_label_new (buffer);
+	Label=gtk_label_new (buf);
 	gtk_box_pack_start(GTK_BOX(Hbox),Label, FALSE, FALSE, 0);
 	gtk_widget_show (Label);
 	sprintf(buffer,"%d|%d",x,y);
@@ -1689,7 +1684,6 @@ GtkWidget *gtk_crea_elemento_tab(GtkWidget *tab,int x, int y,char *buf)
 	gtk_widget_show (Button);
 	gtk_widget_show (Hbox);
 	gtk_widget_show (Vbox);
-	i++;
 	return Vbox;
 }
 
@@ -1704,7 +1698,7 @@ GtkWidget * gtk_riempi_tab_castelli (int i, char* buf)
 	P=giocatore[CurrentPlayer]->struttura[Cas]->pos;
 	x=P%LARGHEZZA+1;
 	y=P/LARGHEZZA+1;
-	R=gtk_crea_elemento_tab(Notebook[1],x,y,buf);
+	R=gtk_crea_elemento_tab(Notebook[1],x,y,buf,"N°1");
 	return R;
 	}
 	else return NULL;
@@ -1715,6 +1709,7 @@ void gtk_aggiorna_tab_castelli ()
 {
 	int i;
 	int x,y;
+	char nome[20];
 	char buf[20];
 	t_lista_s* S=giocatore[CurrentPlayer]->struttura[Cas];
 	for(i=0; Listacastelli[i]!=NULL;i++) gtk_pulisci_tab(Listacastelli[i]);
@@ -1725,13 +1720,14 @@ void gtk_aggiorna_tab_castelli ()
 		switch(i)
 		{
 			case 0:
-				sprintf(buf,"Capitale");
+				sprintf(nome,"Capitale");
 				break;
 			default:
-				sprintf(buf,"Città %d",i);
+				sprintf(nome,"Città %d",i);
 				break;
 		}
-		Listacastelli[i]=gtk_crea_elemento_tab(Notebook[1],x, y, buf);
+		sprintf(buf,"N°%d", i+1);
+		Listacastelli[i]=gtk_crea_elemento_tab(Notebook[1],x, y, nome,buf);
 		S=S->next;
 	}
 }
@@ -1739,8 +1735,9 @@ void gtk_aggiorna_tab_castelli ()
 //aggiorna il tab strutture
 void gtk_aggiorna_tab_strutture ()
 {
-	int i;
+	int i,j=0;
 	int x,y;
+	char nome[20];
 	char buf[20];
 	t_lista_s* S[NUMSTRUTTURE-1];
 	t_listapertab* Tab;
@@ -1759,31 +1756,33 @@ void gtk_aggiorna_tab_strutture ()
 	for(i=0;i<NUMSTRUTTURE-1; i++)
 		while(S[i]!=NULL)
 		{
+			j++;
 			x=S[i]->pos%LARGHEZZA+1;
 			y=S[i]->pos/LARGHEZZA+1;
 			switch(i+1)
 			{
 				case Fat:
-					sprintf(buf,"Fattoria");
+					sprintf(nome,"Fattoria");
 					break;
 				case Scu:
-					sprintf(buf,"Scuderia");
+					sprintf(nome,"Scuderia");
 					break;
 				case Gro:
-					sprintf(buf,"Grotta");
+					sprintf(nome,"Grotta");
 					break;
 				case Nid:
-					sprintf(buf,"Nido");
+					sprintf(nome,"Nido");
 					break;
 				default:
-					sprintf(buf,"Errore");
+					sprintf(nome,"Errore");
 					break;
 			}
 			Tabp=Tab;
 			Tab=(t_listapertab*)malloc(sizeof(t_listapertab));
 			if(Tabp==NULL) Listastrutture=Tab;
 			else Tabp->next=Tab;
-			Tab->P=gtk_crea_elemento_tab(Notebook[2],x, y, buf);
+			sprintf(buf,"N°%d",j);
+			Tab->P=gtk_crea_elemento_tab(Notebook[2],x, y, nome,buf);
 			Tab->next=NULL;
 			S[i]=S[i]->next;
 		}
@@ -1793,6 +1792,7 @@ void gtk_aggiorna_tab_strutture ()
 void gtk_aggiorna_tab_armate ()
 {
 	int x,y;
+	char nome[20];
 	char buf[20];
 	t_lista_t* T=giocatore[CurrentPlayer]->truppe;
 	t_listapertab* Tab;
@@ -1813,35 +1813,36 @@ void gtk_aggiorna_tab_armate ()
 		switch(T->truppa->tipo)
 		{
 			case Rec:
-				sprintf(buf,"Reclute");
+				sprintf(nome,"Reclute");
 				break;
 			case Fan:
-				sprintf(buf,"Fanteria");
+				sprintf(nome,"Fanteria");
 				break;
 			case Lan:
-				sprintf(buf,"Lancieri");
+				sprintf(nome,"Lancieri");
 				break;
 			case Arc:
-				sprintf(buf,"Arcieri");
+				sprintf(nome,"Arcieri");
 				break;
 			case Cav:
-				sprintf(buf,"Cavalleria");
+				sprintf(nome,"Cavalleria");
 				break;
 			case Dra:
-				sprintf(buf,"Drago");
+				sprintf(nome,"Drago");
 				break;
 			case Fen:
-				sprintf(buf,"Fenice");
+				sprintf(nome,"Fenice");
 				break;
 			default:
-				sprintf(buf,"Errore");
+				sprintf(nome,"Errore");
 				break;
 		}
 		Tabp=Tab;
 		Tab=(t_listapertab*)malloc(sizeof(t_listapertab));
 		if(Tabp==NULL) Listatruppe=Tab;
 		else Tabp->next=Tab;
-		Tab->P=gtk_crea_elemento_tab(Notebook[3],x, y, buf);
+		sprintf(buf,"-%d (%d)-",T->truppa->numero,T->truppa->morale);
+		Tab->P=gtk_crea_elemento_tab(Notebook[3],x, y, nome,buf);
 		Tab->next=NULL;
 		T=T->next;
 	}
@@ -1883,7 +1884,6 @@ void gtk_azzera_tab ()
 	}
 	Listatruppe=NULL;
 	Listastrutture=NULL;
-	gtk_crea_elemento_tab(NULL,0,0,NULL);
 }
 
 //crea 4 frecce direzionali

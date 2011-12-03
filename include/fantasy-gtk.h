@@ -77,7 +77,7 @@ void gtk_genera_mappa (GtkWidget *Hbox);
 //funzioni tab
 GtkWidget *gtk_crea_notebook_tab (GtkWidget *Notebook,char *buf);
 void gtk_crea_notebook (GtkWidget *Frame);
-GtkWidget *gtk_crea_elemento_tab(GtkWidget *tab,int x, int y,char *buf);
+GtkWidget *gtk_crea_elemento_tab(GtkWidget *tab,int x, int y,char *nome, char *buf);
 GtkWidget * gtk_riempi_tab_castelli (int i, char* buf);
 void gtk_aggiorna_tab_armate ();
 void gtk_aggiorna_tab_castelli ();
