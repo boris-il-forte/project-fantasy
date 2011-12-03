@@ -1140,7 +1140,7 @@ void gtk_carica_immagini ()
 			Immagine.n[i][j]=gdk_pixbuf_new_from_file_at_size (Buf,Dim_casella,Dim_casella,NULL);
 		}
 	//carica le truppe
-	for (i=0; i<2; i++)
+	for (i=0; i<MAXGIOCATORI; i++)
 		for(j=0; j<=Lan; j++)
 		{
 			sprintf(Buf,"img/t/t%d%d.xpm",i,j);
