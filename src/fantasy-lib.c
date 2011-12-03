@@ -799,7 +799,7 @@ t_infotruppa** puntacasellalibera (int Pos)
 t_infotruppa* puntacasellaoccupata (int Pos, int C)
 {
 	int x, y;
-	int i,j,k=0;
+	int i=0,j,k=0;
 	int hi,hj,bj,bi,m;
 	x=Pos%LARGHEZZA;
 	y=Pos/LARGHEZZA;
