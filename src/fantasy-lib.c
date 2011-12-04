@@ -362,6 +362,11 @@ int percorsominimo(int Sx, int Sy, int Dx,int Dy, int vel)
 		int d;
 		int p;
 	} V[Mx][My];
+	if(Sx<0 || Sy<0 || Dx<0 || Dy<0 || vel!=10 )
+	{
+		fprintf(stderr,"Errore! sx:%d sy:%d dx:%d dy:%d vel:%d\n", Sx,Sy, Dx,Dy, vel );
+		return 0;
+	}
 	//prepara grafo
 	for(i=0;i<Mx; i++)
 	{
@@ -384,21 +389,23 @@ int percorsominimo(int Sx, int Sy, int Dx,int Dy, int vel)
 	for(i=1; i<Mx-1;i++)
 		for(j=1; j<My-1;j++)
 		{
-			if((i-Is)*(i-Is)+(j-Js)*(j-Js)>vel*vel && infomappa.mappa[posiziona(Sx,Sy,i-Is,j-Js)]!= ' ' && infomappa.truppe[posiziona(Sx,Sy,i-Is,j-Js)]!=NULL) G[i][j]='#';
+			if((Sx+i-Is)<0 || (Sx+i-Is)>=LARGHEZZA || (Sy+j-Js)<0 || (Sy+j-Js)>=ALTEZZA) G[i][j]='#';
+			else if((i-Is)*(i-Is)+(j-Js)*(j-Js)>vel*vel && infomappa.mappa[posiziona(Sx,Sy,i-Is,j-Js)]!= ' ' && infomappa.truppe[posiziona(Sx,Sy,i-Is,j-Js)]!=NULL) G[i][j]='#';
 			else G[i][j]='.';
 			V[i][j].d=vel*10+1;
 			V[i][j].p=-1;
 		}
 	G[Is][Js]='S';
-	G[Is+Lx][Js+Ly]='D';
+	G[Is+((Sx>Dx)?(Lx):(-Lx))][Js+((Sy>Dy)?(Ly):(-Ly))]='D';
 	// grafo creato e inizializzato
 	#ifdef DEBUG
 	for(i=0;i<Mx;i++)
 	{
 		for(j=0;j<My;j++)
-			printf("%c ",G[i][j]);
-		printf("\n");
+			fprintf(stderr,"%c ",G[i][j]);
+		fprintf(stderr,"\n");
 	}
+	fprintf(stderr,"\n");
 	#endif
 	//inizializzo algoritmo
 	
