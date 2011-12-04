@@ -392,6 +392,14 @@ int percorsominimo(int Sx, int Sy, int Dx,int Dy, int vel)
 	G[Is][Js]='S';
 	G[Is+Lx][Js+Ly]='D';
 	// grafo creato e inizializzato
+	#ifdef DEBUG
+	for(i=0;i<Mx;i++)
+	{
+		for(j=0;j<My;j++)
+			printf("%c ",G[i][j]);
+		printf("\n");
+	}
+	#endif
 	//inizializzo algoritmo
 	
 	//comincio algoritmo
@@ -407,7 +415,11 @@ int spostalecito (int PosT, int PosC )
 	int x= PosT%LARGHEZZA-PosC%LARGHEZZA;
 	int y= PosT/LARGHEZZA-PosC/LARGHEZZA;
 
+	#ifdef DEBUG
+	if(x*x+y*y<=Vel*Vel && percorsominimo(PosT%LARGHEZZA,PosT/LARGHEZZA,PosC%LARGHEZZA,PosC/LARGHEZZA,Vel)) return 1;
+	#else
 	if(x*x+y*y<=Vel*Vel) return 1;
+	#endif
 	else return 0;
 }
 
