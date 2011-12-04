@@ -352,10 +352,10 @@ int percorsominimo(int Sx, int Sy, int Dx,int Dy, int vel)
 	int i,j;
 	int Lx=(Sx>Dx)?(Sx-Dx):(Dx-Sx);
 	int Ly=(Sy>Dy)?(Sy-Dy):(Dy-Sy);
-	const int Mx=2*vel-Lx+2;
-	const int My=2*vel-Ly+2;
-	const int Is=(Sx>Dx)?(vel+1):(vel-Lx);
-	const int Js=(Sy>Dy)?(vel+1):(vel-Ly);
+	const int Mx=2*vel-Lx+3;
+	const int My=2*vel-Ly+3;
+	const int Is=(Sx<Dx)?(vel+1):(vel-Lx+1);
+	const int Js=(Sy<Dy)?(vel+1):(vel-Ly+1);
 	char G[Mx][My];
 	struct s_v
 	{
@@ -390,7 +390,7 @@ int percorsominimo(int Sx, int Sy, int Dx,int Dy, int vel)
 		for(j=1; j<My-1;j++)
 		{
 			if((Sx+i-Is)<0 || (Sx+i-Is)>=LARGHEZZA || (Sy+j-Js)<0 || (Sy+j-Js)>=ALTEZZA) G[i][j]='#';
-			else if((i-Is)*(i-Is)+(j-Js)*(j-Js)>vel*vel && infomappa.mappa[posiziona(Sx,Sy,i-Is,j-Js)]!= ' ' && infomappa.truppe[posiziona(Sx,Sy,i-Is,j-Js)]!=NULL) G[i][j]='#';
+			else if((i-Is)*(i-Is)+(j-Js)*(j-Js)>vel*vel || infomappa.mappa[posiziona(Is-i,Js-j,Sx,Sy)]!=' ' || infomappa.truppe[posiziona(Is-i,Js-j,Sx,Sy)]!=NULL) G[i][j]='#';
 			else G[i][j]='.';
 			V[i][j].d=vel*10+1;
 			V[i][j].p=-1;
@@ -412,7 +412,7 @@ int percorsominimo(int Sx, int Sy, int Dx,int Dy, int vel)
 	//comincio algoritmo
 	
 	//fine!
-	return 0;
+	return 1;
 }
 // calcola se lo spostamento è lecito
 int spostalecito (int PosT, int PosC )
@@ -423,7 +423,8 @@ int spostalecito (int PosT, int PosC )
 	int y= PosT/LARGHEZZA-PosC/LARGHEZZA;
 
 	#ifdef DEBUG
-	if(x*x+y*y<=Vel*Vel && percorsominimo(PosT%LARGHEZZA,PosT/LARGHEZZA,PosC%LARGHEZZA,PosC/LARGHEZZA,Vel)) return 1;
+	if(x*x+y*y>Vel*Vel) return 0;
+	else if(percorsominimo(PosT%LARGHEZZA,PosT/LARGHEZZA,PosC%LARGHEZZA,PosC/LARGHEZZA,Vel)) return 1;
 	#else
 	if(x*x+y*y<=Vel*Vel) return 1;
 	#endif
