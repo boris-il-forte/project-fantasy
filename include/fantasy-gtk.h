@@ -40,6 +40,7 @@ GtkWidget *Notebook[4];
 GtkWidget *Counter[NUMRISORSE];
 GtkWidget *Listacastelli[NUMCASTELLI];
 GtkWidget *Coordinate;
+GtkWidget *GioCurrent;
 int Mossa;
 int Dim_casella;
 struct Immagini
@@ -95,3 +96,7 @@ GtkWidget *gtk_crea_pulsanti_editor_u();
 // funzioni contarisorse
 GtkWidget *gtk_crea_contarisorse();
 void gtk_aggiorna_contarisorse();
+
+// funzioni giocatore attuale
+GtkWidget *gtk_crea_giocatore_c();
+void gtk_aggiorna_giocatore_c();

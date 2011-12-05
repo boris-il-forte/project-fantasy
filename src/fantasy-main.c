@@ -147,6 +147,7 @@ static void click_turno ()
 	if(giocatore[CurrentPlayer]!=NULL)
 	{
 		fineturno();
+		gtk_aggiorna_giocatore_c();
 		gtk_aggiorna_contarisorse();
 		gtk_aggiorna_tab_castelli();
 		gtk_aggiorna_tab_strutture();
@@ -169,6 +170,7 @@ int main(int argc, char *argv[])
 	GtkWidget *Frame;
 	GtkWidget *Frecce;
 	GtkWidget *Risorse;
+	GtkWidget *Footer;
 //	inizializza
 	gtk_init(&argc, &argv);
 	partita_in_corso=0;
@@ -221,15 +223,23 @@ int main(int argc, char *argv[])
 	Frecce= gtk_crea_4_frecce();
 	gtk_box_pack_start( GTK_BOX(Vbox), Frecce, FALSE, FALSE, 0);
 	gtk_widget_show (Frecce);
+	//crea etichetta giocatore attuale
+	GioCurrent=gtk_crea_giocatore_c();
+	gtk_box_pack_start(GTK_BOX(Vbox), GioCurrent, FALSE, FALSE, 0);
+	gtk_widget_show(GioCurrent);
 // 	crea zona conteggio risorse
 	Risorse=gtk_crea_contarisorse();
 	gtk_box_pack_start( GTK_BOX(Vbox), Risorse, FALSE, FALSE, 0);
 	gtk_widget_show (Risorse);
 // 	crea pulsante fine turno
 	pulsante=gtk_button_new_with_label ("Fine Turno");
-	gtk_box_pack_start( GTK_BOX(Vbox), pulsante, FALSE, FALSE, 15);
+	gtk_box_pack_start( GTK_BOX(Vbox), pulsante, FALSE, FALSE, 10);
 	g_signal_connect_swapped(pulsante, "clicked", G_CALLBACK (click_turno),NULL);
 	gtk_widget_show (pulsante);
+	//crea etichetta giocatore attuale
+	Footer=gtk_crea_giocatore_c();
+	gtk_box_pack_start(GTK_BOX(Vbox), Footer, FALSE, FALSE, 5);
+	gtk_widget_show(Footer);
 // 	crea mappa
 	gtk_genera_mappa (Hbox);
 // 	crea zona riepilogo
