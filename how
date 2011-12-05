@@ -1,0 +1,113 @@
+Boris_il_forte (75):
+      FANTASY CORE 1.0     gioco di startegia a turni     I° commit     -motore grafico quais completo by Boris_il_forte     -versione iniziale del motore del gioco by Boris_il_forte     -Pacchetto grafico iniziale by NintendOtaku
+      -aggiunto TODO file
+      - La funzione salva_carica ora legge correttamente i file salvati e caricati, e apre il dialogo nella cartella Home.
+      -preparato l'ambiente ideale per carica (in linea di massima, serve comunque debug)     -aggiunta funzione gtk_aggiorna_tab_strutture per aggiornare i tab delle strutture
+      - aggiunte funzioni per conquistare le altre strutture     - corretto bub cambiaproprietario (prima struttura inesistente)
+      -Corretto bug in gtk_azzera_tab che non inizializzava a NULL Listastrutture
+      - aggiornato TODO
+      - Aggiustato bug dimensione casella spostamento     - Aggiustato bug mancato riconoscimento di parte della scuderia.     - Aggiunte parte delle funzionalità necessarie ad addestrare e evacuare truppe dalle altre strutture
+      - Aggiunta funzione per inizializzazione comune di tr_callback in tutte le funzioni click (anche se ridondante, meglio una funzione standard che ottimizzata)
+      - Creata nuova funzione controllodiversotruppe per controllare correttamente il collegamento di click_bersaglio     - Aggiornato TODO
+      - Aggiustata carica_salva. Overwrite confirmation settata correttamente ma non funzionante
+      - Aggiornate immagini castello, grotta, nido, scuderia by NintendOtaku     - Piccole modifiche a salva_carica
+      - Prima implementazione del callback click_entrastruttura. con bug (causa crash nei tab, quando si evacua nuovamente l'unità). da controllare quale funzione è sbagliata se quelle per i tab o il callback.     - piccole correzioni stilistiche e collegamento del callback click_entrastruttura in gtk_stampa_mappa
+      - Trovato bug in gtk_aggiorna_tab_armate e gtk_aggiorna_tab_strutture: lista non inizializzata a NULL alla fine della pulizia. persiste bug della non visualizzazione del primo elemento
+      - Implementata correttamente funzione controllotipostruttura. Ora riconosce correttamente ogni tipo di struttura in Pos, o -1 se non c'è nessuna struttura.     - Aggiunte icone ai dialoghi creati da muovi_unita e combatti_unita. corretto typo. l'unità che ha combattuto ora diventa anche stanca.
+      - Corretto bug unità non stanca che se veniva schiacciato combatti e veniva annullato il combattimento, diventava stanca anche se non lo era.
+      - Corretto bug teletrasporto al primo castello della lista quando si entra in un'altro castello     - Primo tentativo di implementare l'ingresso nelle altre strutture, presenta bug quando si evacua una truppa dalla struttura.
+      - Corretto sigfault quando si cliccava su evacua <truppa>, g_signal_connect al posto di g_signal_connect_swapped
+      - Aggiornato TODO     - Tolte alcune fprintf di debug
+      - Modificati permessi immagini     - Aggiornato TODO     - Iniziata implementazione click_unisci per unire due unità dello stesso giocatore
+      - Creata macro per controllare che le unità che si desidera unire siano diverse.     - Corretto bug persistenza del dialogo di unione delle unità
+      - Aggiunto reale effetto all'unione di due unità. da rivedere limite massimo dell'unità
+      Merge branch 'master' of forzazzurri.mine.nu:/var/git/fantasy
+      - Aggiunto abbozzo di funzione per creare una lista struttura
+      - Picocle modifiche a click_unisci
+      - eliminati file oggetto
+      Merge branch 'master' of forzazzurri.mine.nu:/var/git/fantasy
+      - Aggiustato comportamento spin button per unire le unità simili. cambiato politica di unione da spostalecito (distanza=vel) a assaltolecito (distanza=1)
+      - Corretto bug click_unisci
+      - implementato e debugguato l'eliminatruppe. da rivedere suo uso per truppe in strutture, serve altra funzione.
+      - Terminata funzione eliminamorti     - Creata funzione eliminamorti struttura     - Piccoli cambiamenti nel codice
+      - Aggiunto supporto a spostare mappa con freccie. da rivedere: se premute costantemente non mostrano l'aggiornamento. credo sia un problema di parallelismo tra thread.
+      - Commentato gli errori più evidenti per facilitare debug. aggiunte anche alcune osservazioni più o meno utili. corretto un palese errore.
+      - corretto una chiamata a g_signal_connect che causava segmentation fault (mancava _swapped)
+      - Segnalati errori di assegnamento valori alle variabili globali ancora presenti. La variabile giocatori non va mai a sinistra di un assegnamento in una funzione che salva, altrimenti modifica lo stato del gioco.
+      - inizializzato nuova->in in aggiungi_struttura_in_coda per evitare crash se si addestrava una truppa dopo aver caricato se la struttura era vuota
+      - Trovati errori in salva
+      - Risolti molti dei bug di salva e carica, i principali:     -- Mancava allocazione memoria di t_infotruppa     -- assegnamenti a variabili globali in salva     - Scoperto curioso bug mappa post-caricamento. forse qualcosa che non va... probabilmente necessario salvare cx e cy o altri parametri per la mappa.
+      - Aggiunti i callback per i pulsanti prossima truppa e prossimo castello.     - Aggiunta variabile globale partita_in_corso e implementato suo utilizzo per fermare i callback che non devono funzionare se non c'è una partita in corso
+      - Piccola modifica
+      - Piccoli cambiamenti
+      - Piccole modifiche     - Aggiunto stampa mappa rigenerata per debug. trovato bug mappa
+      - Inizializzata variabile giocatore[i]->truppa a NULL in carica. Se lanciato su gdb non crasha più, mentre con l'avvio normale proseguono i crash al carica.
+      - Ancora debug
+      Nuovo progetto, Fantasy Core editor     - Aggiunto primo abbozzo di main
+      - Modificato makefile
+      - Aggiunta variabile globale CurrentPlayer. Deve essere salvata e caricata!
+      - Altri preparativi per il multyplayer: trasformato array delle strutture in matrici     - Aggiustato makefile
+      - Separata libreria grafica & callback dal main. da rivedere l'uso degli header (potrebbero esserci ridondanze)
+      - Pirmo abbozzo dell'interfaccia grafica per l'editor
+      - Piccole aggiunte all'interfaccia grafica dell'editor
+      - Inseriti pulsanti per creare strutture e unità nell'editor.
+      - Aggiunta gestione della morte per fame delle truppe e conseguente gestione del cibo
+      - Risolto bug stanchezza per spostamento mappa
+      - Risolto bug unità in combattimento con sposta mappa
+      - Implementato il multyplayer a 2 Giocatori
+      - Fixati alcuni bug del multyplayer
+      - Inserito indicatore coordinate cx|cy
+      - Piccole modifiche     - aggiustate coordinate
+      - piccole modifiche, risolto buffer overflow
+      - Corretti i bug dovuti alla conquista di strutture, migliorata gestione del cambiostruttura per crollo di morale
+      - possibile attivare il movimento e spostare la mappa
+      - Corretto warning
+      - eliminato static int inutile nella funzione gtk_crea-elemento_tab. aggiunta lettura di un buffer pre la descrizione.
+      - Cominciato algoritmo di ricerca del percorso minimo
+      - Inserite le immagini delle 12 unità del gioco     - Aggiunto file di salvataggio dimostrativo
+      - Debug di percorsominimo. crasha ancora!
+      - Debug del Dijkstra continuato. non crasha più. tempo esecuzione 2 Secondi, spero colpa dell'Output. Errori nell'attribuzione delle caselle occupate.
+      - Inserite le immegini dei castelli e degli scudi
+      - Implementato il colore del castello diverso per ogni giocatore
+      - Implementati colori castelli per giocatore.     - Implementata barra giocatore corrente. Manca aggiornamento a fine turno.
+      - Picocle modifiche grafiche e alla funzione che stampa il grafo (indici invertiti)
+      Merge branch 'master' of forzazzurri.mine.nu:/var/git/fantasy
+      - Merge fatto bene... che casino xD
+      - Inseriti tutte le fattorie colorate     - Aggiusteti scudi     - corretti alcuni bug     - Piccole modifiche
+
+gionnico (34):
+      risolto difetto printf
+      uniformato header. corretto typo. creato README.
+      implementato salva/carica
+      pulizia generale di ogni genere
+      solo percorsi relativi (per immagini)
+      aggiunte define, corretto typo freccia al plurale
+      funzione salva, prima implementazione completata. compila. richiede testing.
+      aggiunti filtri (prima rev)
+      Merge branch 'master' of 192.168.1.101:/var/git/fantasy
+      accetta .fc e .FC
+      conferma overwrite
+      overwrite solo nel salva: risolve warning runtime
+      preparazione del campo per la funzione carica()
+      funzione carica scritta di getto. testata zero.
+      Merge branch 'master' of 192.168.1.101:/var/git/fantasy
+      coerenza.
+      pulito
+      - debug iniziato
+      - debug continuato
+      - debug prosegue. carica non sigfault più
+      - ancora debug carica
+      - debug carica completato?
+      - inizio debug salvacontruppe
+      - debug salva continuato. da testare gli effetti.
+      - tentativi risolvere crash file. corrette sizeof() nelle fwrite
+      - risolto salva (?)
+      - salvo posizione nella mappa.
+      - sistemato Sptr sbagliato. sigfaulta ancora
+      - salva carica funzionanti
+      - strutturato in directory
+      - rimosso rigeneramappa() da carica, immagini->img
+      - rigeneramappa() al posto giusto
+      - poca roba
+      - printf grafo e inclusione nel calcolo spostalecito (se definito DEBUG). SIGFAULTA linea #387
+
