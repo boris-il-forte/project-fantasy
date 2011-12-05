@@ -147,6 +147,7 @@ static void click_turno ()
 	if(giocatore[CurrentPlayer]!=NULL)
 	{
 		fineturno();
+		gtk_aggiorna_giocatore_c();
 		gtk_aggiorna_contarisorse();
 		gtk_aggiorna_tab_castelli();
 		gtk_aggiorna_tab_strutture();
@@ -221,6 +222,10 @@ int main(int argc, char *argv[])
 	Frecce= gtk_crea_4_frecce();
 	gtk_box_pack_start( GTK_BOX(Vbox), Frecce, FALSE, FALSE, 0);
 	gtk_widget_show (Frecce);
+	//crea etichetta giocatore attuale
+	GioCurrent=gtk_crea_giocatore_c();
+	gtk_box_pack_start(GTK_BOX(Vbox), GioCurrent, FALSE, FALSE, 0);
+	gtk_widget_show(GioCurrent);
 // 	crea zona conteggio risorse
 	Risorse=gtk_crea_contarisorse();
 	gtk_box_pack_start( GTK_BOX(Vbox), Risorse, FALSE, FALSE, 0);

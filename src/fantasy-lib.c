@@ -362,7 +362,7 @@ int percorsominimo(int Sx, int Sy, int Dx,int Dy, int vel)
 		int d;
 		int p;
 	} V[Mx][My];
-	if(Sx<0 || Sy<0 || Dx<0 || Dy<0 || vel!=10 )
+	if(Sx<0 || Sy<0 || Dx<0 || Dy<0 || vel<0)
 	{
 		fprintf(stderr,"Errore! sx:%d sy:%d dx:%d dy:%d vel:%d\n", Sx,Sy, Dx,Dy, vel );
 		return 0;
