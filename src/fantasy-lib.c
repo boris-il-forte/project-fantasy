@@ -399,9 +399,9 @@ int percorsominimo(int Sx, int Sy, int Dx,int Dy, int vel)
 	G[Is+((Sx>Dx)?(Lx):(-Lx))][Js+((Sy>Dy)?(Ly):(-Ly))]='D';
 	// grafo creato e inizializzato
 	#ifdef DEBUG
-	for(i=0;i<Mx;i++)
+	for(j=0;j<My;j++)
 	{
-		for(j=0;j<My;j++)
+		for(i=0;i<Mx;i++)
 			fprintf(stderr,"%c ",G[i][j]);
 		fprintf(stderr,"\n");
 	}

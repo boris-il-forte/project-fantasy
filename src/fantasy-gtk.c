@@ -2036,11 +2036,11 @@ GtkWidget *gtk_crea_giocatore_c()
 	gtk_table_attach_defaults (GTK_TABLE (Table),Label,1,2,0,1);
 	gtk_widget_show(Label);
 	Icon=gtk_image_new_from_pixbuf (Immagine.err);
-	gtk_widget_set_size_request(Icon, DIM_FRECCIA, DIM_FRECCIA);
+	gtk_widget_set_size_request(Icon, DIM_FRECCIA-15, DIM_FRECCIA-15);
 	gtk_table_attach_defaults (GTK_TABLE (Table),Icon,0,1,0,1);
 	gtk_widget_show(Icon);
 	Icon=gtk_image_new_from_pixbuf (Immagine.err);
-	gtk_widget_set_size_request(Icon, DIM_FRECCIA, DIM_FRECCIA);
+	gtk_widget_set_size_request(Icon, DIM_FRECCIA-15, DIM_FRECCIA-15);
 	gtk_table_attach_defaults (GTK_TABLE (Table),Icon,2,3,0,1);
 	gtk_widget_show(Icon);
 	return Table;

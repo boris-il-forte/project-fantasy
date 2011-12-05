@@ -170,6 +170,7 @@ int main(int argc, char *argv[])
 	GtkWidget *Frame;
 	GtkWidget *Frecce;
 	GtkWidget *Risorse;
+	GtkWidget *Footer;
 //	inizializza
 	gtk_init(&argc, &argv);
 	partita_in_corso=0;
@@ -232,9 +233,13 @@ int main(int argc, char *argv[])
 	gtk_widget_show (Risorse);
 // 	crea pulsante fine turno
 	pulsante=gtk_button_new_with_label ("Fine Turno");
-	gtk_box_pack_start( GTK_BOX(Vbox), pulsante, FALSE, FALSE, 15);
+	gtk_box_pack_start( GTK_BOX(Vbox), pulsante, FALSE, FALSE, 10);
 	g_signal_connect_swapped(pulsante, "clicked", G_CALLBACK (click_turno),NULL);
 	gtk_widget_show (pulsante);
+	//crea etichetta giocatore attuale
+	Footer=gtk_crea_giocatore_c();
+	gtk_box_pack_start(GTK_BOX(Vbox), Footer, FALSE, FALSE, 5);
+	gtk_widget_show(Footer);
 // 	crea mappa
 	gtk_genera_mappa (Hbox);
 // 	crea zona riepilogo
