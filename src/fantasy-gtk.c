@@ -102,6 +102,7 @@ static void salva_carica(int Data)
 			gtk_pulisci_mappa();
 			gtk_stampa_mappa(cx,cy, 'n');
 			gtk_aggiorna_contarisorse();
+			gtk_aggiorna_giocatore_c();
 			gtk_aggiorna_tab_castelli();
 			gtk_aggiorna_tab_strutture();
 			gtk_aggiorna_tab_armate();
@@ -164,6 +165,7 @@ static void nuova_partita ()
 		gtk_pulisci_mappa ();
 		gtk_stampa_mappa(cx,cy, 'n');
 		gtk_aggiorna_contarisorse();
+		gtk_aggiorna_giocatore_c();
 		Listacastelli[0]=gtk_riempi_tab_castelli (1, "Capitale");
 		gtk_aggiorna_tab_armate();
 		gtk_aggiorna_tab_strutture();
@@ -1104,6 +1106,12 @@ void gtk_carica_immagini ()
 	sprintf(Buf,"img/atk.xpm");
 	Immagine.attacco=gdk_pixbuf_new_from_file_at_size (Buf,Dim_casella,Dim_casella,NULL);
 	
+	//carica gli scudi colorati
+	for (i=0; i<MAXGIOCATORI; i++)
+	{
+		sprintf(Buf,"img/a/%d.xpm",i);
+		Immagine.a[i]=gdk_pixbuf_new_from_file (Buf,NULL);
+	}
 	//carica il castello
 	for (i=0;i<=MAXGIOCATORI;i++)
 		for (j=0; j<9; j++)
@@ -1126,10 +1134,10 @@ void gtk_carica_immagini ()
 			Immagine.s[i][j]=gdk_pixbuf_new_from_file_at_size (Buf,Dim_casella,Dim_casella,NULL);
 		}
 	//carica la fattoria
-	for (i=0;i<1;i++)
+	for (i=0;i<MAXGIOCATORI;i++)
 		for (j=0; j<4; j++)
 		{
-			sprintf(Buf,"img/f/f%d.xpm",j);
+			sprintf(Buf,"img/f/%d/f%d.xpm",i,j);
 			Immagine.f[i][j]=gdk_pixbuf_new_from_file_at_size (Buf,Dim_casella,Dim_casella,NULL);
 		}
 	//carica il nido
@@ -1410,9 +1418,10 @@ void gtk_stampa_mappa(int x, int y, char m)
 					break;
 				/*stampa la fattoria*/
 				case 'C':
-					Thumb[Pos]=gtk_image_new_from_pixbuf (Immagine.f[0][0]);
+					G=controlloedificio (posiziona(0,0,C,R),Fat);
+					Thumb[Pos]=gtk_image_new_from_pixbuf (Immagine.f[G+1][0]);
 					gtk_container_add(GTK_CONTAINER(Casella[Pos]), Thumb[Pos]);
-					if(m=='n' && controlloedificio (posiziona(0,0,C,R),Fat)==CurrentPlayer) 
+					if(m=='n' && G==CurrentPlayer) 
 						g_signal_connect_swapped (Casella[Pos], "button_press_event", G_CALLBACK (click_fattoria), (gpointer) &infomappa.mappa[posiziona(0,0,C,R)]);
 					if(m=='c' && assaltolecito(Mossa,posiziona(0,0,C,R))==1 && controllodiverso(Mossa,posiziona(0,0,C,R),Fat)==1)
 						g_signal_connect_swapped (Casella[Pos], "button_press_event", G_CALLBACK (click_assaltostruttura), (gpointer) &infomappa.mappa[posiziona(0,0,C,R)]);
@@ -1421,9 +1430,10 @@ void gtk_stampa_mappa(int x, int y, char m)
 					gtk_widget_show(Thumb[Pos]);
 					break;
 				case 'D':
-					Thumb[Pos]=gtk_image_new_from_pixbuf (Immagine.f[0][1]);
+					G=controlloedificio (posiziona(1,0,C,R),Fat);
+					Thumb[Pos]=gtk_image_new_from_pixbuf (Immagine.f[G+1][1]);
 					gtk_container_add(GTK_CONTAINER(Casella[Pos]), Thumb[Pos]);
-					if(m=='n' && controlloedificio (posiziona(1,0,C,R),Fat)==CurrentPlayer) 
+					if(m=='n' && G==CurrentPlayer) 
 						g_signal_connect_swapped (Casella[Pos], "button_press_event", G_CALLBACK (click_fattoria), (gpointer) &infomappa.mappa[posiziona(1,0,C,R)]);
 					if(m=='c' && assaltolecito(Mossa,posiziona(0,0,C,R))==1 && controllodiverso(Mossa,posiziona(1,0,C,R),Fat)==1)
 						g_signal_connect_swapped (Casella[Pos], "button_press_event", G_CALLBACK (click_assaltostruttura), (gpointer) &infomappa.mappa[posiziona(1,0,C,R)]);
@@ -1432,9 +1442,10 @@ void gtk_stampa_mappa(int x, int y, char m)
 					gtk_widget_show(Thumb[Pos]);
 					break;
 				case 'E':
-					Thumb[Pos]=gtk_image_new_from_pixbuf (Immagine.f[0][2]);
+					G=controlloedificio (posiziona(0,1,C,R),Fat);
+					Thumb[Pos]=gtk_image_new_from_pixbuf (Immagine.f[G+1][2]);
 					gtk_container_add(GTK_CONTAINER(Casella[Pos]), Thumb[Pos]);
-					if(m=='n' && controlloedificio (posiziona(0,1,C,R),Fat)==CurrentPlayer) 
+					if(m=='n' && G==CurrentPlayer) 
 						g_signal_connect_swapped (Casella[Pos], "button_press_event", G_CALLBACK (click_fattoria), (gpointer) &infomappa.mappa[posiziona(0,1,C,R)]);
 					if(m=='c' && assaltolecito(Mossa,posiziona(0,0,C,R))==1 && controllodiverso(Mossa,posiziona(0,1,C,R),Fat)==1)
 						g_signal_connect_swapped (Casella[Pos], "button_press_event", G_CALLBACK (click_assaltostruttura), (gpointer) &infomappa.mappa[posiziona(0,1,C,R)]);
@@ -1443,9 +1454,10 @@ void gtk_stampa_mappa(int x, int y, char m)
 					gtk_widget_show(Thumb[Pos]);
 					break;
 				case 'F':
-					Thumb[Pos]=gtk_image_new_from_pixbuf (Immagine.f[0][3]);
+					G=controlloedificio (posiziona(1,1,C,R),Fat);
+					Thumb[Pos]=gtk_image_new_from_pixbuf (Immagine.f[G+1][3]);
 					gtk_container_add(GTK_CONTAINER(Casella[Pos]), Thumb[Pos]);
-					if(m=='n' && controlloedificio (posiziona(1,1,C,R),Fat)==CurrentPlayer) 
+					if(m=='n' && G==CurrentPlayer) 
 						g_signal_connect_swapped (Casella[Pos], "button_press_event", G_CALLBACK (click_fattoria), (gpointer) &infomappa.mappa[posiziona(1,1,C,R)]);
 					if(m=='c' && assaltolecito(Mossa,posiziona(0,0,C,R))==1 && controllodiverso(Mossa,posiziona(1,1,C,R),Fat)==1)
 						g_signal_connect_swapped (Casella[Pos], "button_press_event", G_CALLBACK (click_assaltostruttura), (gpointer) &infomappa.mappa[posiziona(1,1,C,R)]);
@@ -2026,11 +2038,41 @@ void gtk_aggiorna_contarisorse()
 	}
 }
 
+//crea tag con il giocatore corrente
 GtkWidget *gtk_crea_giocatore_c()
 {
 	GtkWidget *Table;
-	GtkWidget *Label;
+	Table=gtk_table_new( 3, 1, FALSE);
+	CurrentL=gtk_label_new("Fantasy Core");
+	gtk_table_attach_defaults (GTK_TABLE (Table),CurrentL,1,2,0,1);
+	gtk_widget_show(CurrentL);
+	CurrentI1=gtk_image_new_from_pixbuf (Immagine.err);
+	gtk_widget_set_size_request(CurrentI1, DIM_FRECCIA-15, DIM_FRECCIA-15);
+	gtk_table_attach_defaults (GTK_TABLE (Table),CurrentI1,0,1,0,1);
+	gtk_widget_show(CurrentI1);
+	CurrentI2=gtk_image_new_from_pixbuf (Immagine.err);
+	gtk_widget_set_size_request(CurrentI2, DIM_FRECCIA-15, DIM_FRECCIA-15);
+	gtk_table_attach_defaults (GTK_TABLE (Table),CurrentI2,2,3,0,1);
+	gtk_widget_show_all(CurrentI2);
+	return Table;
+}
+
+//aggiorna il tag con il giocatore corrente
+void gtk_aggiorna_giocatore_c()
+{
+	char buf[20];
+	gtk_image_set_from_pixbuf (GTK_IMAGE(CurrentI1),Immagine.a[CurrentPlayer]);
+	gtk_image_set_from_pixbuf (GTK_IMAGE(CurrentI2),Immagine.a[CurrentPlayer]);
+	sprintf(buf,"Giocatore %d",CurrentPlayer+1);
+	gtk_label_set_text(GTK_LABEL(CurrentL),buf);
+}
+
+//crea un footer
+GtkWidget *gtk_crea_footer()
+{
+	GtkWidget *Table;
 	GtkWidget *Icon;
+	GtkWidget *Label;
 	Table=gtk_table_new( 3, 1, FALSE);
 	Label=gtk_label_new("Fantasy Core");
 	gtk_table_attach_defaults (GTK_TABLE (Table),Label,1,2,0,1);
@@ -2042,25 +2084,7 @@ GtkWidget *gtk_crea_giocatore_c()
 	Icon=gtk_image_new_from_pixbuf (Immagine.err);
 	gtk_widget_set_size_request(Icon, DIM_FRECCIA-15, DIM_FRECCIA-15);
 	gtk_table_attach_defaults (GTK_TABLE (Table),Icon,2,3,0,1);
-	gtk_widget_show(Icon);
+	gtk_widget_show_all(Icon);
 	return Table;
 }
 
-void gtk_aggiorna_giocatore_c()
-{
-	/*
-	char buf[20];
-	GtkWidget *Icon;
-	Icon=gtk_image_new_from_pixbuf (Immagine.err);
-	gtk_widget_set_size_request(Icon, DIM_FRECCIA, DIM_FRECCIA);
-	gtk_table_attach_defaults (GTK_TABLE (Table),Icon,0,1,0,1);
-	gtk_widget_show(Icon);
-	Icon=gtk_image_new_from_pixbuf (Immagine.err);
-	gtk_widget_set_size_request(Icon, DIM_FRECCIA, DIM_FRECCIA);
-	gtk_table_attach_defaults (GTK_TABLE (Table),Icon,2,3,0,1);
-	gtk_widget_show(Icon);
-	sprintf(buf,"(%d|%d)",x+L_SCHERMO/2-1,y+A_SCHERMO/2-1);
-	gtk_label_set_text(GTK_LABEL(),buf);
-	*/
-	return;
-}

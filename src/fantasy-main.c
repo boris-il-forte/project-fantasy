@@ -170,7 +170,7 @@ int main(int argc, char *argv[])
 	GtkWidget *Frame;
 	GtkWidget *Frecce;
 	GtkWidget *Risorse;
-	GtkWidget *Footer;
+	GtkWidget *Tag;
 //	inizializza
 	gtk_init(&argc, &argv);
 	partita_in_corso=0;
@@ -224,9 +224,9 @@ int main(int argc, char *argv[])
 	gtk_box_pack_start( GTK_BOX(Vbox), Frecce, FALSE, FALSE, 0);
 	gtk_widget_show (Frecce);
 	//crea etichetta giocatore attuale
-	GioCurrent=gtk_crea_giocatore_c();
-	gtk_box_pack_start(GTK_BOX(Vbox), GioCurrent, FALSE, FALSE, 0);
-	gtk_widget_show(GioCurrent);
+	Tag=gtk_crea_giocatore_c();
+	gtk_box_pack_start(GTK_BOX(Vbox),Tag , FALSE, FALSE, 0);
+	gtk_widget_show(Tag);
 // 	crea zona conteggio risorse
 	Risorse=gtk_crea_contarisorse();
 	gtk_box_pack_start( GTK_BOX(Vbox), Risorse, FALSE, FALSE, 0);
@@ -236,10 +236,10 @@ int main(int argc, char *argv[])
 	gtk_box_pack_start( GTK_BOX(Vbox), pulsante, FALSE, FALSE, 10);
 	g_signal_connect_swapped(pulsante, "clicked", G_CALLBACK (click_turno),NULL);
 	gtk_widget_show (pulsante);
-	//crea etichetta giocatore attuale
-	Footer=gtk_crea_giocatore_c();
-	gtk_box_pack_start(GTK_BOX(Vbox), Footer, FALSE, FALSE, 5);
-	gtk_widget_show(Footer);
+	//crea footer
+	Tag=gtk_crea_footer();
+	gtk_box_pack_start(GTK_BOX(Vbox), Tag, FALSE, FALSE, 5);
+	gtk_widget_show(Tag);
 // 	crea mappa
 	gtk_genera_mappa (Hbox);
 // 	crea zona riepilogo

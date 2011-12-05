@@ -40,7 +40,9 @@ GtkWidget *Notebook[4];
 GtkWidget *Counter[NUMRISORSE];
 GtkWidget *Listacastelli[NUMCASTELLI];
 GtkWidget *Coordinate;
-GtkWidget *GioCurrent;
+GtkWidget *CurrentI1;
+GtkWidget *CurrentL;
+GtkWidget *CurrentI2;
 int Mossa;
 int Dim_casella;
 struct Immagini
@@ -56,6 +58,7 @@ struct Immagini
 	GdkPixbuf* n[MAXGIOCATORI+1][4]; // matrice che contiene i pezzi dei 12 nidi di proprietà + il nido vuoto
 	GdkPixbuf* f[MAXGIOCATORI+1][4]; // matrice che contiene i pezzi delle 12 fattorie di proprietà + la fattoria vuota
 	GdkPixbuf* t[MAXGIOCATORI][Fen]; // matrice che contiene le truppe dei 12 giocatori
+	GdkPixbuf* a[MAXGIOCATORI]; // array con gli scudi dei giocatori
 	GdkPixbuf* err;
 } Immagine;
 t_listapertab* Listastrutture;
@@ -88,6 +91,9 @@ void gtk_azzera_tab ();
 
 //funzioni frecce
 GtkWidget *gtk_crea_4_frecce();
+
+//funzioni footer
+GtkWidget *gtk_crea_footer();
 
 //funzioni editor
 GtkWidget *gtk_crea_pulsanti_editor_s();
