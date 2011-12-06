@@ -422,6 +422,7 @@ static void click_bersaglio (char* pos)
 	{
 		infomappa.truppe[Src]->combattuto=1;
 		combatti(A, D, 'n');
+		if(D->numero==0 || D->morale==0) eliminamorti(D);
 		gtk_aggiorna_tab_armate ();
 		gtk_pulisci_mappa();
 		gtk_stampa_mappa(cx,cy,'n');
@@ -1161,7 +1162,7 @@ void gtk_calcola_dimensioni ()
 	int w;
 	w=gdk_screen_get_width (gdk_screen_get_default ());
 	if (w>1500) Dim_casella=40;
-	else if (w>1200) Dim_casella=28;
+	else if (w>1200) Dim_casella=29;
 	else if (w>800) Dim_casella=15;
 	else Dim_casella=10;
 	printf("\nlarghezza: %d\naltezza: %d\n",w, Dim_casella);

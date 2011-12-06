@@ -463,7 +463,7 @@ void eliminamorti (t_infotruppa* M)
 	t_lista_t* T=giocatore[G]->truppe;
 	t_lista_t* Tp=NULL;
 	fprintf(stderr,"debug: eliminamorti\n");
-	while(T!=NULL && T->truppa->numero!=0)
+	while(T!=NULL && T->truppa->numero!=0 && T->truppa->morale!=0)
 	{
 		Tp=T;
 		T=T->next;
@@ -560,7 +560,6 @@ void combatti(t_infotruppa* Attaccante, t_infotruppa* Difensore, char m)
 	//gestisce il morale
 	if (n<Difensore->numero/2) Difensore->morale/=2;
 	Difensore->numero=n;
-	if(Difensore->numero==0 || Difensore->morale==0) eliminamorti(Difensore);
 	return;
 }
 //fa combattere gli attaccanti contro i difensori di una struttura
