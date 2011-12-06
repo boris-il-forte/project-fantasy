@@ -492,7 +492,6 @@ void eliminamortistrutture (int Pos)
 	t_lista_t* Tp=NULL;
 	S=puntastruttura(Pos);
 	T=S->in;
-	
 	while(T!=NULL && T->truppa->numero!=0 && T->truppa->morale!=0)
 	{
 		Tp=T;
@@ -610,6 +609,7 @@ int assaltamura(t_lista_s* Castello)
 	t_infotruppa* Difensori[12];
 	t_lista_t* T;
 	T=Castello->in;
+	fprintf(stderr,"debug: assaltamura: Pos= %d\n", Pos);
 	if (T==NULL) return 1;
 	for(i=0; i<12; i++) Difensori[i]=NULL;
 	for(i=0; i<12; i++) Attaccanti[i]=NULL;
@@ -617,7 +617,7 @@ int assaltamura(t_lista_s* Castello)
 	{
 		Attaccanti[j]=puntacasellaoccupata(Pos,j);
 		j++;
-	}while(Attaccanti[j-1]==NULL && j<12);
+	}while(Attaccanti[j-1]!=NULL && j<12);
 	for (i=0; T!=NULL && i<j && i<12; i++)
 	{
 		Difensori[i]=T->truppa;
@@ -643,10 +643,23 @@ int assaltamura(t_lista_s* Castello)
 int assaltabreccia(t_infotruppa* Attaccante,t_lista_t* Difensori)
 {
 	t_lista_t* Temp;
+	t_lista_t* Secondalinea;
 	fprintf(stderr,"debug: assaltabreccia\n");
 	while (Difensori!=NULL)
 	{
-		combatti(Attaccante,Difensori->truppa,'n');
+		Secondalinea=Difensori;
+		while(Secondalinea!=NULL && Secondalinea->truppa->combattuto==1) Secondalinea=Secondalinea->next;
+		if(Secondalinea==NULL && Difensori!=NULL)
+		{
+			Secondalinea=Difensori;
+			while (Secondalinea!=NULL) 
+			{
+				Secondalinea->truppa->morale/=3;
+				Secondalinea=Secondalinea->next;
+			}
+			Secondalinea=Difensori;
+		}
+		combatti(Attaccante,Secondalinea->truppa,'n');
 		if(Difensori->truppa->numero==0 || Difensori->truppa->morale==0)
 		{
 			//abbassa il morale dei difensori
@@ -661,13 +674,17 @@ int assaltabreccia(t_infotruppa* Attaccante,t_lista_t* Difensori)
 			Temp=Difensori;
 			while(Temp!=NULL)
 			{
-				if(Temp->truppa->morale==0 || Temp->truppa->numero==0) eliminamortistrutture(Temp->pos);
+				if(Temp->truppa->morale==0 || Temp->truppa->numero==0) 
+				{
+					if(Temp==Difensori) Difensori=Temp->next;
+					eliminamortistrutture(Temp->pos);
+				}
 				Temp=Temp->next;
 			}
 		}
 		else
 		{
-			combatti(Difensori->truppa,Attaccante,'n');
+			combatti(Secondalinea->truppa,Attaccante,'n');
 			if(Attaccante->numero==0 || Attaccante->morale==0) eliminamorti(Attaccante);
 			return 0;
 		}
@@ -782,17 +799,19 @@ int controllodiversotruppe (int PosA, int PosD)
 //punta alla lista struttura della struttura nella posizione desiderata
 t_lista_s* puntastruttura (int Pos)
 {
+	int G;
 	t_struttura i;
 	t_lista_s* L;
-	for(i=Cas; i<=Nid; i++)
-	{
-		L=giocatore[CurrentPlayer]->struttura[i];
-		while(L!=NULL)
+	for(G=0; G<MAXGIOCATORI && giocatore[G]!=NULL; G++)
+		for(i=Cas; i<=Nid; i++)
 		{
-			if(L->pos==Pos) return L;
-			else L=L->next;
+			L=giocatore[G]->struttura[i];
+			while(L!=NULL)
+			{
+				if(L->pos==Pos) return L;
+				else L=L->next;
+			}
 		}
-	}
 	return NULL;
 }
 

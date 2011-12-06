@@ -861,7 +861,6 @@ static void click_assediocastello (char* pos)
 	int g;
 	int C=0;
 	t_lista_s* Castello;
-	t_lista_t* Secondalinea;
 	infomappa.truppe[Mossa]->combattuto=1;
 	g=controlloedificio (Pos,Cas);
 	if (g>=0)
@@ -869,21 +868,7 @@ static void click_assediocastello (char* pos)
 		Castello=giocatore[g]->struttura[Cas];
 		while(Castello->pos!=Pos) Castello=Castello->next;
 		if(assaltamura(Castello)==1)
-		{
-			Secondalinea=Castello->in;
-			while(Secondalinea!=NULL && Secondalinea->truppa->combattuto==1) Secondalinea=Secondalinea->next;
-			if(Secondalinea==NULL && Castello->in!=NULL)
-			{
-				Secondalinea=Castello->in;
-				while (Secondalinea!=NULL) 
-				{
-					Secondalinea->truppa->morale/=3;
-					Secondalinea=Secondalinea->next;
-				}
-				Secondalinea=Castello->in;
-			}
-			if(assaltabreccia(puntacasellaoccupata (Pos,C++),Secondalinea)==1) cambiaproprietario (CurrentPlayer, g,Pos,Cas);
-		}
+			if(assaltabreccia(puntacasellaoccupata (Pos,C++),Castello->in)==1) cambiaproprietario (CurrentPlayer, g,Pos,Cas);
 	}
 	else
 	{
