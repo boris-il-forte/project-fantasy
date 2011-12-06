@@ -560,6 +560,7 @@ void combatti(t_infotruppa* Attaccante, t_infotruppa* Difensore, char m)
 	//gestisce il morale
 	if (n<Difensore->numero/2) Difensore->morale/=2;
 	Difensore->numero=n;
+	if(Difensore->numero==0 || Difensore->morale==0) eliminamorti(Difensore);
 	return;
 }
 //fa combattere gli attaccanti contro i difensori di una struttura

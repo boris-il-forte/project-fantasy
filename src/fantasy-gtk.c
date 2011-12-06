@@ -248,7 +248,7 @@ static void addestra_truppa (t_callback_s* Struct)
 	t_lista_s* S;
 	t_lista_t* N;
 	t_lista_t* Np;
-	U=generatruppa (T, 0, 100);
+	U=generatruppa (T, CurrentPlayer, 100);
 	S=puntastruttura(P);
 	if(S==NULL)
 	{
