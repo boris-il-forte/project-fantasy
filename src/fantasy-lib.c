@@ -923,8 +923,9 @@ t_infotruppa* puntacasellaoccupata (int Pos, int C)
 	x=Pos%LARGHEZZA;
 	y=Pos/LARGHEZZA;
 	fprintf(stderr,"debug: puntacasellaoccupata\n");
-	if(infomappa.mappa[Pos-1]!=' ')
+	if(infomappa.mappa[Pos-1]!=' ') //se è un castello
 	{
+		fprintf(stderr,"debug: puntacasellaoccupata prova lato\n");
 		bi=-2;
 		bj=-2;
 		m=-2;
@@ -935,11 +936,11 @@ t_infotruppa* puntacasellaoccupata (int Pos, int C)
 		for (hi=1;x+hi<LARGHEZZA && hi<2;hi++);
 		for (hj=1;y+hj<ALTEZZA && hj<2;hj++);
 	}
-	else
+	else // se è una struttura
 	{
 		bi=-1;
 		bj=-1;
-		m=-2;
+		m=-1;
 		//evita di andare fuori dal limite basso
 		if (x+bi<0) bi++;
 		if (y+bj<0) bj++;

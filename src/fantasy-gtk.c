@@ -888,13 +888,11 @@ static void click_assaltostruttura (char* pos)
 	t_lista_s* Struttura;
 	t_lista_t* Difensori;
 	fprintf(stderr,"debug: click_assaltostruttura\n");
-	infomappa.truppe[Mossa]->combattuto=1;
 	for(i=1;i<NUMSTRUTTURE && g<0;i++) g=controlloedificio (Pos,i);
 	if (g>=0)
 	{
 		fprintf(stderr,"debug: di qualcuno\n");
-		Struttura=giocatore[g]->struttura[i];
-		while(Struttura->pos!=Pos) Struttura=Struttura->next;
+		Struttura=puntastruttura (Pos);
 		Difensori=Struttura->in;
 		if(assaltaedificio(Struttura)==1) 
 		{
