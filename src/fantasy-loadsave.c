@@ -30,6 +30,27 @@ void ckfwrite(void *ptr, size_t size, size_t nitems, FILE *stream)
 	if(fwrite(ptr,size,nitems,stream) < nitems) { perror("fwrite non riuscita"); exit(1); }
 }
 
+int caricaconfig(char* buf1)
+{
+	FILE *fp;
+	char b[4];
+	int i=0;
+	fp=fopen("fantasy.config","r");
+	if(fp == NULL) 
+	{
+		perror("fopen fallita");
+		return 1;
+	}
+	do
+	{
+		if(fscanf(fp,"%c",&b[i])>0) i++;
+		else break;
+	}while(b[i]!='\n' && i<3);
+	b[i+1]='\0';
+	sprintf(buf1,b);
+	return 0;
+}
+
 t_lista_t * inserisci_truppe_in_coda(t_lista_t *testa,FILE *fp, char from) //# stavolta faccio notare che è meglio in questa funzione fare solo l'inserimento e non cercare la coda! inutile cercare la coda in quanto nessun'altra parte del codice usa la suddetta funzione.
 {
 	t_lista_t *temp, *nuova;

@@ -134,6 +134,29 @@ int conflittomappa(int x, int y)
 	else return 1;
 	return 0;
 }
+
+// assegna un valore di prato
+int tipoprato (int Pos)
+{
+	return infomappa.prato[Pos];
+}
+//genera un prato vario
+void pratoacaso ()
+{
+	int n,i,j;
+	srand((unsigned)time(NULL));
+	for (i=0; i<ALTEZZA; i++)
+		for(j=0; j<LARGHEZZA; j++)
+		{
+			n=rand()%20;
+			if (n<12) n=0;
+			else if (n<16) n=1;
+			else if (n<18) n=2;
+			else if (n==18)n=3;
+			else n=4;
+			accedi(j,i,infomappa.prato)=n;
+		}
+}
 //genera la mappa casuale
 void generamappa ()
 {
@@ -208,6 +231,8 @@ void generamappa ()
 		while (conflittomappa(x,y));
 		disegna(x,y,'N');
 	}
+	//crea prato vario
+	pratoacaso ();
 }
 
 //genera la mappa caricata
@@ -253,6 +278,9 @@ void rigeneramappa ()
 		y=infomappa.nidi[i]/LARGHEZZA;
 		disegna(x,y,'N');
 	}
+	//crea prato vario
+	pratoacaso ();
+	//visualizza su terminale
 	visualizza_su_terminale();
 }
 

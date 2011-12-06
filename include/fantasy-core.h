@@ -57,6 +57,7 @@ typedef struct s_dtruppa
 typedef struct s_infomappa
 {
 	char mappa[ALTEZZA*LARGHEZZA];
+	char prato[ALTEZZA*LARGHEZZA];
 	t_infotruppa* truppe[ALTEZZA*LARGHEZZA];
 	int castelli[NUMCASTELLI];
 	int fattorie[MAXFATTORIE];
@@ -95,6 +96,10 @@ typedef struct s_player
 	int smeraldi;
 } t_player;
 
+//funzioni file
+int caricaconfig(char* buf1);
+int carica(char *);
+int salva(char *);
 //funzioni
 void caricadati ();
 void inizializza ();
@@ -123,9 +128,9 @@ t_struttura controllotipostruttura (int Pos);
 int controllodiverso(int PosT, int PosS, t_struttura tipo);
 int controllodiversotruppe (int PosA, int PosD);
 void fineturno();
-int carica(char *);
-int salva(char *);
 void aggiorna_tr_callback(char* pos);
+int tipoprato (int Pos);
+void pratoacaso ();
 
 //variabili globali
 int cx,cy; // posizione della mappa visibile

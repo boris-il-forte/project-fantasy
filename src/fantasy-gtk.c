@@ -1080,17 +1080,27 @@ void gtk_carica_immagini ()
 {
 	int i,j;
 	char Buf[100];
+	char ext[5];
+	//carico il file di configurazione
+	caricaconfig(ext);
+	//carico immagini
 	sprintf(Buf,"img/Fantasy-icon.xpm");
 	Immagine.err=gdk_pixbuf_new_from_file_at_size (Buf,30,30,NULL);
 	Immagine.logo=gdk_pixbuf_new_from_file (Buf,NULL);
 	sprintf(Buf,"img/Freccia.xpm");
 	Immagine.freccia=gdk_pixbuf_new_from_file_at_size (Buf,30,30,NULL);
-	sprintf(Buf,"img/p/p1.xpm");
-	Immagine.p=gdk_pixbuf_new_from_file (Buf,NULL);
 	sprintf(Buf,"img/mov.xpm");
 	Immagine.movimento=gdk_pixbuf_new_from_file_at_size (Buf,Dim_casella,Dim_casella,NULL);
 	sprintf(Buf,"img/atk.xpm");
 	Immagine.attacco=gdk_pixbuf_new_from_file_at_size (Buf,Dim_casella,Dim_casella,NULL);
+	
+	//carica le immagini del prato
+	for (i=0; i<5; i++)
+	{
+		sprintf(Buf,"img/p/p%d.",i);
+		strcat(Buf,ext);
+		Immagine.p[i]=gdk_pixbuf_new_from_file_at_size (Buf,Dim_casella,Dim_casella,NULL);
+	}
 	
 	//carica gli scudi colorati
 	for (i=0; i<MAXGIOCATORI; i++)
@@ -1607,7 +1617,7 @@ void gtk_stampa_mappa(int x, int y, char m)
 					}
 					else
 					{
-						Thumb[Pos]=gtk_image_new_from_pixbuf (Immagine.p);
+						Thumb[Pos]=gtk_image_new_from_pixbuf (Immagine.p[tipoprato (posiziona(0,0,C,R))]);
 						gtk_container_add(GTK_CONTAINER(Casella[Pos]), Thumb[Pos]);
 						gtk_widget_show(Thumb[Pos]);
 					}
