@@ -646,7 +646,7 @@ int assaltamura(t_lista_s* Castello)
 		Attaccanti[j]=puntacasellaoccupata(Pos,j);
 		j++;
 	}while(Attaccanti[j-1]!=NULL && j<12);
-	for (i=0; T!=NULL && i<j && i<12; i++)
+	for (i=0; T!=NULL && i<j-1 && i<12; i++)
 	{
 		Difensori[i]=T->truppa;
 		T=T->next;

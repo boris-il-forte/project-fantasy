@@ -1,23 +1,24 @@
 TODO
 
 Gionnico:
+- Salva e carica aggiornate ai nuovi standard: giocatore corrente, prato casuale			| Urgente! 
+- File config serio per pacchetti grafici e contestuale lettore						| priorità molto alta
 - funzione void gtk_calcola_dimensioni () -> da controllare per più risoluzioni possibili		| priorità alta
 - Editor di mappe & scenari										| priorità media
 
 Boris_il_forte:
-- aggiustare dati unità speciali 									| priorità media 
+- Debug vario												| Urgente!
+- Bilanciamento unità											| Urgente!
+- Lista truppe presenti in evacua anzichè unità evacuabili						| priorità alta
+- Gestione via Mouse											| priorità alta
 - Evacua subito truppe  appena reclutate								| priorità media
-- Lista truppe presenti in evacua anzichè unità evacuabili						| priorità bassa
+- Minimappa												| priorità bassa
 - IA 													| priorità molto bassa
-- multiplayer												| priorità molto alta
 
 NintendOtaku:
 - unità mitiche
-- truppe mancanti per ogni colore
-- castelli per ogni colore
 
 Chiunque: 												| priorità molto bassa
 - Zoom in & out
-- Minimappa
 - frecce con pressione costante che spostano la mappa fino al rilascio
 - sposta mappa da tatstiera

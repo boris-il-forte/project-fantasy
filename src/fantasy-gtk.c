@@ -861,7 +861,6 @@ static void click_assediocastello (char* pos)
 	int g;
 	int C=0;
 	t_lista_s* Castello;
-	infomappa.truppe[Mossa]->combattuto=1;
 	g=controlloedificio (Pos,Cas);
 	if (g>=0)
 	{
