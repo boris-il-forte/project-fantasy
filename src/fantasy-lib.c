@@ -757,9 +757,19 @@ void cambiaproprietario (int g1, int g2, int Pos,t_struttura Tipo)
 		if(Sp!=NULL) Sp->next=S->next;
 		else giocatore[g2]->struttura[Tipo]=NULL;
 		Sp=giocatore[g1]->struttura[Tipo];
-		while(Sp->next!=NULL) Sp=Sp->next;
-		Sp->next=S;
-		S->next=NULL;
+		if(Sp!=NULL)
+		{
+			while(Sp->next!=NULL) Sp=Sp->next;
+			Sp->next=S;
+			S->next=NULL;
+		}
+		else
+		{
+			giocatore[g1]->struttura[Tipo]=(t_lista_s*)malloc(sizeof(t_lista_s));
+			giocatore[g1]->struttura[Tipo]->in=NULL;
+			giocatore[g1]->struttura[Tipo]->pos=Pos;
+			giocatore[g1]->struttura[Tipo]->next=NULL;
+		}
 	}
 }
 

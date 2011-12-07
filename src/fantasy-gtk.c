@@ -889,6 +889,7 @@ static void click_assaltostruttura (char* pos)
 	t_lista_t* Difensori;
 	fprintf(stderr,"debug: click_assaltostruttura\n");
 	for(i=1;i<NUMSTRUTTURE && g<0;i++) g=controlloedificio (Pos,i);
+	i--;
 	if (g>=0)
 	{
 		fprintf(stderr,"debug: di qualcuno\n");
