@@ -1158,7 +1158,7 @@ void gtk_calcola_dimensioni ()
 	int w;
 	w=gdk_screen_get_width (gdk_screen_get_default ());
 	if (w>1500) Dim_casella=40;
-	else if (w>1200) Dim_casella=29;
+	else if (w>1200) Dim_casella=30;
 	else if (w>800) Dim_casella=15;
 	else Dim_casella=10;
 	printf("\nlarghezza: %d\naltezza: %d\n",w, Dim_casella);
@@ -1647,7 +1647,7 @@ void gtk_genera_mappa (GtkWidget *Hbox)
 			Casella[i+j*L_SCHERMO]=gtk_event_box_new();
 			gtk_widget_set_events (Casella[i+j*L_SCHERMO], GDK_BUTTON_PRESS_MASK);
 			gtk_widget_set_size_request(Casella[i+j*L_SCHERMO], Dim_casella,Dim_casella);
-			gtk_table_attach_defaults (GTK_TABLE (Mappa), Casella[i+j*L_SCHERMO], i, i+1, j, j+1);
+			gtk_table_attach (GTK_TABLE (Mappa), Casella[i+j*L_SCHERMO], i, i+1, j, j+1,!GTK_EXPAND,!GTK_EXPAND,0,0);
 			gtk_widget_show (Casella[i+j*L_SCHERMO]);
 			gtk_widget_realize (Casella[i+j*L_SCHERMO]);
 			
