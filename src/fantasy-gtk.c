@@ -1081,6 +1081,9 @@ void gtk_carica_immagini ()
 	char ext[5];
 	//carico il file di configurazione
 	caricaconfig(ext);
+	#ifdef DEBUG
+	printf("ext: %s\n",ext);
+	#endif
 	//carico immagini
 	sprintf(Buf,"img/Fantasy-icon.xpm");
 	Immagine.err=gdk_pixbuf_new_from_file_at_size (Buf,30,30,NULL);
