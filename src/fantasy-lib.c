@@ -374,6 +374,34 @@ void liberaheap ()
 	}
 	for (i=0; i<ALTEZZA*LARGHEZZA; i++) free(infomappa.truppe[i]);
 }
+
+//calcola se esiste un percorso banale alla destinazione
+int percorsolibero (int Sx, int Sy, int Dx,int Dy, int vel)
+{
+	int i,j=0;
+	int Lx=(Sx>Dx)?(Sx-Dx):(Dx-Sx);
+	int Ly=(Sy>Dy)?(Sy-Dy):(Dy-Sy);
+	int mx=(Sx>Dx)?-1:1;
+	int my=(Sy>Dy)?-1:1;
+	if(Lx+Ly<=vel)
+	{
+		for(i=1;i<=Lx; i++)
+			if(infomappa.mappa[posiziona(mx*i,my*j,Sx,Sy)]!=' ' || infomappa.truppe[posiziona(mx*i,my*j,Sx,Sy)]!=NULL) 
+			{
+				printf("nopercorsolibero\n");
+				return 0;
+			}
+		for(j=1;j<=Lx; j++)
+			if(infomappa.mappa[posiziona(mx*i,my*j,Sx,Sy)]!=' ' || infomappa.truppe[posiziona(mx*i,my*j,Sx,Sy)]!=NULL || i+j>vel) 
+			{
+				printf("nopercorsolibero\n");
+				return 0;
+			}
+		printf("percorsolibero!!!\n");
+		return 1;
+	}
+	else return 0;
+}
 //calcola il costo del percorso più breve utilizzando l'algoritmo di Dijkstra
 int percorsominimo(int Sx, int Sy, int Dx,int Dy, int vel)
 {
@@ -452,7 +480,8 @@ int spostalecito (int PosT, int PosC )
 
 	#ifdef DEBUG
 	if(x*x+y*y>Vel*Vel) return 0;
-	else if(percorsominimo(PosT%LARGHEZZA,PosT/LARGHEZZA,PosC%LARGHEZZA,PosC/LARGHEZZA,Vel)) return 1;
+	else if (percorsolibero(PosT%LARGHEZZA,PosT/LARGHEZZA,PosC%LARGHEZZA,PosC/LARGHEZZA,Vel)) return 1;
+	else if (percorsominimo(PosT%LARGHEZZA,PosT/LARGHEZZA,PosC%LARGHEZZA,PosC/LARGHEZZA,Vel)) return 1;
 	#else
 	if(x*x+y*y<=Vel*Vel) return 1;
 	#endif

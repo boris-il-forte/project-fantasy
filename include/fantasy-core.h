@@ -100,37 +100,52 @@ typedef struct s_player
 int caricaconfig(char* buf1);
 int carica(char *);
 int salva(char *);
-//funzioni
-void caricadati ();
-void inizializza ();
-void generamappa ();
-void rigeneramappa ();
-void visualizza_su_terminale ();
-void creagiocatori (int n);
-t_infotruppa* generatruppa (t_truppa Tipo, char Giocatore, int Numero);
-t_infotruppa** puntacasellalibera (int Pos);
-t_infotruppa* puntacasellaoccupata (int Pos, int C);
-t_lista_s* puntastruttura (int Pos);
+
+//funzioni di controllo spostamento e attacco
+int percorsolibero (int Sx, int Sy, int Dx,int Dy, int vel);
+int percorsominimo(int Sx, int Sy, int Dx,int Dy, int vel);
+int bersagliolecito (int PosT, int PosC );
+int assaltolecito (int PosT, int PosC );
+int spostalecito (int PosT, int PosC );
+
+//funzioni di combattimento
 void combatti(t_infotruppa* Attaccante, t_infotruppa* Difensore, char m);
 int assaltamura(t_lista_s* Castello);
 int assaltabreccia(t_infotruppa* Attaccante,t_lista_t* Difensori);
 int assaltaedificio(t_lista_s* Edificio);
-int spostalecito (int PosT, int PosC );
-int bersagliolecito (int PosT, int PosC );
-int assaltolecito (int PosT, int PosC );
-void eliminamorti (t_infotruppa* M);
-void eliminamortistrutture (int Pos);
-void cambiaproprietario (int g1, int g2, int Pos,t_struttura Tipo);
-void liberaheap ();
+
+//funzioni di puntamento
+t_infotruppa** puntacasellalibera (int Pos);
+t_infotruppa* puntacasellaoccupata (int Pos, int C);
+t_lista_s* puntastruttura (int Pos);
+
+//funzioni di controllo
 int controlloedificio (int Pos, t_struttura s);
 int controllounita (int Pos);
 t_struttura controllotipostruttura (int Pos);
 int controllodiverso(int PosT, int PosS, t_struttura tipo);
 int controllodiversotruppe (int PosA, int PosD);
-void fineturno();
-void aggiorna_tr_callback(char* pos);
+
+//funzioni di gestione dei dati di gioco
+void creagiocatori (int n);
+t_infotruppa* generatruppa (t_truppa Tipo, char Giocatore, int Numero);
+void eliminamorti (t_infotruppa* M);
+void eliminamortistrutture (int Pos);
+void cambiaproprietario (int g1, int g2, int Pos,t_struttura Tipo);
+
+// funzioni per il prato
 int tipoprato (int Pos);
 void pratoacaso ();
+
+//funzioni generiche
+void caricadati ();
+void inizializza ();
+void generamappa ();
+void rigeneramappa ();
+void visualizza_su_terminale ();
+void liberaheap ();
+void fineturno();
+void aggiorna_tr_callback(char* pos);
 
 //variabili globali
 int cx,cy; // posizione della mappa visibile
