@@ -35,19 +35,21 @@ int caricaconfig(char* buf1)
 	FILE *fp;
 	char b[4];
 	int i=0;
+
 	fp=fopen("fantasy.config","r");
 	if(fp == NULL) 
 	{
 		perror("fopen fallita");
 		return 1;
 	}
-	do
+	while(fscanf(fp,"%c",&b[i]) && i<3)
 	{
-		if(fscanf(fp,"%c",&b[i])>0) i++;
-		else break;
-	}while(b[i]!='\n' && i<3);
-	b[i+1]='\0';
-	sprintf(buf1,b);
+		if(b[0]=='#') while(b[0] != '\n') fscanf(fp,"%c",&b[0]);
+		else if(b[i]=='\n') break;
+		else i++;
+	};
+	b[i]='\0';
+	sprintf(buf1,"%s",b);
 	return 0;
 }
 
