@@ -97,7 +97,6 @@ static void salva_carica(int Data)
 			inizializza();
 			carica(buf);
 			rigeneramappa();
-			CurrentPlayer=0;
 			gtk_azzera_tab ();
 			gtk_pulisci_mappa();
 			gtk_stampa_mappa(cx,cy, 'n');
@@ -1155,13 +1154,14 @@ void gtk_carica_immagini ()
 
 void gtk_calcola_dimensioni ()
 {
-	int w;
-	w=gdk_screen_get_width (gdk_screen_get_default ());
-	if (w>1500) Dim_casella=40;
-	else if (w>1200) Dim_casella=30;
-	else if (w>800) Dim_casella=15;
-	else Dim_casella=10;
-	printf("\nlarghezza: %d\naltezza: %d\n",w, Dim_casella);
+	int h;
+	h=gdk_screen_get_height (gdk_screen_get_default ());
+	Dim_casella=h*0.05;
+//	if (h>=960) Dim_casella=40;
+//	else if (h>=720) Dim_casella=30;
+//	else if (h>=480) Dim_casella=20;
+//	else Dim_casella=10;
+	printf("\naltezza: %d\ncasella: %d\n",h, Dim_casella);
 		
 }
 
@@ -1928,7 +1928,7 @@ GtkWidget *gtk_crea_4_frecce()
 	for (i=1; i<9;i=i+2)
 	{
 		Pulsante=gtk_button_new();
-		gtk_widget_set_size_request(Pulsante, DIM_FRECCIA,DIM_FRECCIA);
+		gtk_widget_set_size_request(Pulsante, Dim_casella,Dim_casella);
 		g_signal_connect_swapped (Pulsante, "button_press_event", G_CALLBACK (sposta_mappa), (gpointer) &infomappa.mappa[i]);
 		gtk_table_attach_defaults (GTK_TABLE (Pulsantiera), Pulsante, i/3, i/3+1, i%3, i%3+1);
 		switch (i)
@@ -1954,7 +1954,7 @@ GtkWidget *gtk_crea_4_frecce()
 		gtk_widget_show (Pulsante);
 	}
 		Coordinate=gtk_label_new("(0|0)");
-		gtk_widget_set_size_request(Coordinate, DIM_FRECCIA,DIM_FRECCIA);
+		gtk_widget_set_size_request(Coordinate, Dim_casella,Dim_casella);
 		gtk_table_attach_defaults (GTK_TABLE (Pulsantiera), Coordinate, 1, 2, 1, 2);
 		gtk_widget_show (Coordinate);
 	return Pulsantiera;
@@ -1971,7 +1971,7 @@ GtkWidget *gtk_crea_pulsanti_editor_s()
 	for (i=0; i<NUMSTRUTTURE;i++)
 	{
 		Pulsante=gtk_button_new();
-		gtk_widget_set_size_request(Pulsante, DIM_FRECCIA,DIM_FRECCIA);
+		gtk_widget_set_size_request(Pulsante, Dim_casella,Dim_casella);
 		g_signal_connect_swapped (Pulsante, "button_press_event", G_CALLBACK (menuitem_response),NULL);
 		gtk_table_attach (GTK_TABLE (Pulsantiera), Pulsante, i%2, i%2+1, i/2, i/2+1,GTK_SHRINK,GTK_SHRINK,0,0);
 		gtk_widget_show (Pulsante);
@@ -1990,7 +1990,7 @@ GtkWidget *gtk_crea_pulsanti_editor_u()
 	for (i=0; i<NUMTRUPPE;i++)
 	{
 		Pulsante=gtk_button_new();
-		gtk_widget_set_size_request(Pulsante, DIM_FRECCIA,DIM_FRECCIA);
+		gtk_widget_set_size_request(Pulsante, Dim_casella,Dim_casella);
 		g_signal_connect_swapped (Pulsante, "button_press_event", G_CALLBACK (menuitem_response),NULL);
 		gtk_table_attach (GTK_TABLE (Pulsantiera), Pulsante, i%2, i%2+1, i/2, i/2+1,GTK_SHRINK,GTK_SHRINK,0,0);
 		gtk_widget_show (Pulsante);
@@ -2056,11 +2056,11 @@ GtkWidget *gtk_crea_giocatore_c()
 	gtk_table_attach_defaults (GTK_TABLE (Table),CurrentL,1,2,0,1);
 	gtk_widget_show(CurrentL);
 	CurrentI1=gtk_image_new_from_pixbuf (Immagine.err);
-	gtk_widget_set_size_request(CurrentI1, DIM_FRECCIA-15, DIM_FRECCIA-15);
+	gtk_widget_set_size_request(CurrentI1, Dim_casella/2, Dim_casella/2);
 	gtk_table_attach_defaults (GTK_TABLE (Table),CurrentI1,0,1,0,1);
 	gtk_widget_show(CurrentI1);
 	CurrentI2=gtk_image_new_from_pixbuf (Immagine.err);
-	gtk_widget_set_size_request(CurrentI2, DIM_FRECCIA-15, DIM_FRECCIA-15);
+	gtk_widget_set_size_request(CurrentI2, Dim_casella/2, Dim_casella/2);
 	gtk_table_attach_defaults (GTK_TABLE (Table),CurrentI2,2,3,0,1);
 	gtk_widget_show_all(CurrentI2);
 	return Table;
@@ -2087,11 +2087,11 @@ GtkWidget *gtk_crea_footer()
 	gtk_table_attach_defaults (GTK_TABLE (Table),Label,1,2,0,1);
 	gtk_widget_show(Label);
 	Icon=gtk_image_new_from_pixbuf (Immagine.err);
-	gtk_widget_set_size_request(Icon, DIM_FRECCIA-15, DIM_FRECCIA-15);
+	gtk_widget_set_size_request(Icon, Dim_casella/2, Dim_casella/2);
 	gtk_table_attach_defaults (GTK_TABLE (Table),Icon,0,1,0,1);
 	gtk_widget_show(Icon);
 	Icon=gtk_image_new_from_pixbuf (Immagine.err);
-	gtk_widget_set_size_request(Icon, DIM_FRECCIA-15, DIM_FRECCIA-15);
+	gtk_widget_set_size_request(Icon, Dim_casella/2, Dim_casella/2);
 	gtk_table_attach_defaults (GTK_TABLE (Table),Icon,2,3,0,1);
 	gtk_widget_show_all(Icon);
 	return Table;

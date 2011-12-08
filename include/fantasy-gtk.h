@@ -15,9 +15,10 @@
  * GNU General Public License for more details.
  */
 
+// L_SCHERMO = larghezza/dim_casella-3 (massimo)
+// A_SCHERMO = altezza/dim-casella-3-3 (massimo)
 #define L_SCHERMO 36
 #define A_SCHERMO 18
-#define DIM_FRECCIA 40
 
 //struct per tab
 typedef struct s_listapertab

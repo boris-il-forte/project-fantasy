@@ -136,9 +136,10 @@ int carica(char *nomefile)
 		return 1;
 	}
 	// FINE controllo header standard
-	// Cx,Cy
+	// Cx,Cy, CurrentPlayer
 	ckfread(&cx,sizeof(cx),1,fp);
 	ckfread(&cy,sizeof(cy),1,fp);
+	ckfread(&CurrentPlayer,sizeof(CurrentPlayer),1,fp);
 	// infomappa
 	ckfread(&infomappa.castelli,sizeof(infomappa.castelli),1,fp);
 	ckfread(&infomappa.fattorie,sizeof(infomappa.fattorie),1,fp);
@@ -200,9 +201,10 @@ int salva(char *nomefile)
 	}
 	ckfwrite(ver,1,3,fp);
 
-	// Cx,Cy
+	// Cx,Cy, CurrentPlayer
 	ckfwrite(&cx,sizeof(cx),1,fp);
 	ckfwrite(&cy,sizeof(cy),1,fp);
+	ckfwrite(&CurrentPlayer,sizeof(CurrentPlayer),1,fp);
 	// infomappa
 	ckfwrite(&infomappa.castelli,sizeof(infomappa.castelli),1,fp);
 	ckfwrite(&infomappa.fattorie,sizeof(infomappa.fattorie),1,fp);
