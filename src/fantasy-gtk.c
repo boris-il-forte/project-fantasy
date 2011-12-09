@@ -277,77 +277,61 @@ static void addestra_truppa (t_callback_s* Struct)
 	}
 }
 
-static void evacua_truppa (t_callback_s* Struct)
+static void evacua_truppa (t_lista_t *T)
 {
 	int L;
-	int P=Struct->pos;
-	t_truppa Tipo=Struct->tipo; 
-	t_lista_s* S;
-	t_lista_t* T;
-	t_lista_t* Tp;
+	int P=T->pos; 
+	t_lista_s *S;
+	t_lista_t *Tp;
 	t_infotruppa** Libera;
 	S=puntastruttura(P);
-	T=S->in;
-	Tp=T;
-	while (T!=NULL)
+	Tp=puntatruppaprecedente (T,S);
+	Libera=puntacasellalibera(P);
+	if(Libera!=NULL)
 	{
-		if(T->truppa->tipo==Tipo)
+		L=(int) (Libera-infomappa.truppe);
+		infomappa.truppe[L]=T->truppa;
+		if(Tp!=NULL)
 		{
-			Libera=puntacasellalibera(P);
-			if(Libera!=NULL)
-			{
-				L=(int) (Libera-infomappa.truppe);
-				infomappa.truppe[L]=T->truppa;
-				if(Tp!=T)
-				{
-					Tp->next=T->next;
-					free(T);
-				}
-				else
-				{
-					Tp=T->next;
-					free(T);
-					S->in=Tp;
-				}
-				if(giocatore[CurrentPlayer]->truppe==NULL)
-				{
-					giocatore[CurrentPlayer]->truppe=(t_lista_t*)malloc(sizeof(t_lista_t));
-					giocatore[CurrentPlayer]->truppe->truppa=infomappa.truppe[L];
-					giocatore[CurrentPlayer]->truppe->pos=L;
-					giocatore[CurrentPlayer]->truppe->next=NULL;
-				}
-				else
-				{
-					Tp=giocatore[CurrentPlayer]->truppe;
-					T=giocatore[CurrentPlayer]->truppe->next;
-					while(T!=NULL)
-					{
-						Tp=T;
-						T=T->next;
-					}
-					Tp->next=(t_lista_t*)malloc(sizeof(t_lista_t));
-					Tp->next->truppa=infomappa.truppe[L];
-					Tp->next->pos=L;
-					Tp->next->next=NULL;
-				}
-				gtk_aggiorna_tab_armate ();
-				gtk_pulisci_mappa ();
-				gtk_stampa_mappa(cx,cy,'n');
-			}
-			else
-			{
-				printf("caselle occupate!\n");
-				return;
-			}
-			return;
+			Tp->next=T->next;
+			free(T);
 		}
 		else
 		{
-			Tp=T;
-			T=T->next;
+			S->in=T->next;
+			free(T);
 		}
+		if(giocatore[CurrentPlayer]->truppe==NULL)
+		{
+			giocatore[CurrentPlayer]->truppe=(t_lista_t*)malloc(sizeof(t_lista_t));
+			giocatore[CurrentPlayer]->truppe->truppa=infomappa.truppe[L];
+			giocatore[CurrentPlayer]->truppe->pos=L;
+			giocatore[CurrentPlayer]->truppe->next=NULL;
+		}
+		else
+		{
+			Tp=giocatore[CurrentPlayer]->truppe;
+			T=giocatore[CurrentPlayer]->truppe->next;
+			while(T!=NULL)
+			{
+				Tp=T;
+				T=T->next;
+			}
+			Tp->next=(t_lista_t*)malloc(sizeof(t_lista_t));
+			Tp->next->truppa=infomappa.truppe[L];
+			Tp->next->pos=L;
+			Tp->next->next=NULL;
+		}
+		gtk_aggiorna_tab_armate ();
+		gtk_pulisci_mappa ();
+		gtk_stampa_mappa(cx,cy,'n');
+		return;
 	}
-	return;
+	else
+	{
+		printf("caselle occupate!\n");
+		return;
+	}
 }
 
 static void muovi_unita (char* pos)
@@ -503,7 +487,7 @@ static void click_castello(char* pos)
 		identificatruppa(T->truppa, buf);
 		oggetto=gtk_menu_item_new_with_label (buf);
 		gtk_menu_shell_append (GTK_MENU_SHELL (lista), oggetto);
-		g_signal_connect_swapped (oggetto, "activate", G_CALLBACK (evacua_truppa), (gpointer) &tr_callback[T->truppa->tipo]);
+		g_signal_connect_swapped (oggetto, "activate", G_CALLBACK (evacua_truppa), (gpointer) T);
 		gtk_widget_show (oggetto);
 		T=T->next;
 	}
@@ -561,7 +545,7 @@ static void click_scuderia(char* pos)
 		identificatruppa(T->truppa, buf);
 		oggetto=gtk_menu_item_new_with_label (buf);
 		gtk_menu_shell_append (GTK_MENU_SHELL (lista), oggetto);
-		g_signal_connect_swapped (oggetto, "activate", G_CALLBACK (evacua_truppa), (gpointer) &tr_callback[T->truppa->tipo]);
+		g_signal_connect_swapped (oggetto, "activate", G_CALLBACK (evacua_truppa), (gpointer) T);
 		gtk_widget_show (oggetto);
 		T=T->next;
 	}
@@ -619,7 +603,7 @@ static void click_fattoria(char* pos)
 		identificatruppa(T->truppa, buf);
 		oggetto=gtk_menu_item_new_with_label (buf);
 		gtk_menu_shell_append (GTK_MENU_SHELL (lista), oggetto);
-		g_signal_connect_swapped (oggetto, "activate", G_CALLBACK (evacua_truppa), (gpointer) &tr_callback[T->truppa->tipo]);
+		g_signal_connect_swapped (oggetto, "activate", G_CALLBACK (evacua_truppa), (gpointer) T);
 		gtk_widget_show (oggetto);
 		T=T->next;
 	}
@@ -672,7 +656,7 @@ static void click_grotta(char* pos)
 		identificatruppa(T->truppa, buf);
 		oggetto=gtk_menu_item_new_with_label (buf);
 		gtk_menu_shell_append (GTK_MENU_SHELL (lista), oggetto);
-		g_signal_connect_swapped (oggetto, "activate", G_CALLBACK (evacua_truppa), (gpointer) &tr_callback[T->truppa->tipo]);
+		g_signal_connect_swapped (oggetto, "activate", G_CALLBACK (evacua_truppa), (gpointer) T);
 		gtk_widget_show (oggetto);
 		T=T->next;
 	}
@@ -725,7 +709,7 @@ static void click_nido(char* pos)
 		identificatruppa(T->truppa, buf);
 		oggetto=gtk_menu_item_new_with_label (buf);
 		gtk_menu_shell_append (GTK_MENU_SHELL (lista), oggetto);
-		g_signal_connect_swapped (oggetto, "activate", G_CALLBACK (evacua_truppa), (gpointer) &tr_callback[T->truppa->tipo]);
+		g_signal_connect_swapped (oggetto, "activate", G_CALLBACK (evacua_truppa), (gpointer) T);
 		gtk_widget_show (oggetto);
 		T=T->next;
 	}
@@ -910,6 +894,7 @@ static void click_entrastruttura (char* pos)
 		Ts->next=T;
 	}
 	T->pos=Pos;
+	T->truppa->stanca=1;
 	T->next=NULL;
 	infomappa.truppe[Mossa]=NULL;
 	gtk_aggiorna_tab_armate ();

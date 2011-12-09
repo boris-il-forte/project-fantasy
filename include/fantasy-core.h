@@ -118,6 +118,7 @@ int assaltaedificio(t_lista_s* Edificio);
 t_infotruppa** puntacasellalibera (int Pos);
 t_infotruppa* puntacasellaoccupata (int Pos, int C);
 t_lista_s* puntastruttura (int Pos);
+t_lista_t* puntatruppaprecedente (t_lista_t *T, t_lista_s *S);
 
 //funzioni di controllo
 int controlloedificio (int Pos, t_struttura s);

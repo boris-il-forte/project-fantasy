@@ -896,6 +896,18 @@ int controllodiversotruppe (int PosA, int PosD)
 	else return 1;
 }
 
+//punta alla truppa precedente nella struttura scelta
+t_lista_t* puntatruppaprecedente (t_lista_t *T, t_lista_s *S)
+{
+	t_lista_t *Tp;
+	if(S->in==T) return NULL;
+	else
+	{
+		Tp=S->in;
+		while(Tp->next!=T) Tp=Tp->next;
+		return Tp;
+	}
+}
 //punta alla lista struttura della struttura nella posizione desiderata
 t_lista_s* puntastruttura (int Pos)
 {
