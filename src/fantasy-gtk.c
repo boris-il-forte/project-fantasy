@@ -287,7 +287,6 @@ static void evacua_truppa (t_callback_s* Struct)
 	t_lista_t* Tp;
 	t_infotruppa** Libera;
 	S=puntastruttura(P);
-	fprintf(stderr,"pos:  %d", P);
 	T=S->in;
 	Tp=T;
 	while (T!=NULL)
@@ -462,6 +461,9 @@ static void click_castello(char* pos)
 	GtkWidget *scelta;
 	GtkWidget *lista;
 	GtkWidget *oggetto;
+	t_lista_s *S;
+	t_lista_t *T;
+	char buf[50];
 	aggiorna_tr_callback(pos);
 	/*crea menu*/
 	menu=gtk_menu_new();
@@ -490,32 +492,28 @@ static void click_castello(char* pos)
 	gtk_widget_show (scelta);
 	/*etichetta evacua*/
 	scelta=gtk_menu_item_new_with_label ("Evacua:");
-	/*crea pulsanti per addestrare unità*/
+	/*crea pulsanti per evacuare unità*/
 	lista=gtk_menu_new();
-	//reclute
-	oggetto=gtk_menu_item_new_with_label ("Reclute");
-	gtk_menu_shell_append (GTK_MENU_SHELL (lista), oggetto);
-	g_signal_connect_swapped (oggetto, "activate", G_CALLBACK (evacua_truppa), (gpointer) &tr_callback[Rec]);
-	gtk_widget_show (oggetto);
-	//fanteria
-	oggetto=gtk_menu_item_new_with_label ("Fanteria");
-	gtk_menu_shell_append (GTK_MENU_SHELL (lista), oggetto);
-	g_signal_connect_swapped (oggetto, "activate", G_CALLBACK (evacua_truppa), (gpointer) &tr_callback[Fan]);
-	gtk_widget_show (oggetto);
-	//lanceri
-	oggetto=gtk_menu_item_new_with_label ("Lancieri");
-	gtk_menu_shell_append (GTK_MENU_SHELL (lista), oggetto);
-	g_signal_connect_swapped (oggetto, "activate", G_CALLBACK (evacua_truppa), (gpointer) &tr_callback[Lan]);
-	gtk_widget_show (oggetto);
-	//Arcieri
-	oggetto=gtk_menu_item_new_with_label ("Arcieri");
-	gtk_menu_shell_append (GTK_MENU_SHELL (lista), oggetto);
-	g_signal_connect_swapped (oggetto, "activate", G_CALLBACK (evacua_truppa), (gpointer) &tr_callback[Arc]);
-	gtk_widget_show (oggetto);
+	//inizializza la lista truppe
+	S=puntastruttura (pos-infomappa.mappa);
+	T=S->in;
+	//lista le unità nella struttura
+	while (T!=NULL)
+	{
+		identificatruppa(T->truppa, buf);
+		oggetto=gtk_menu_item_new_with_label (buf);
+		gtk_menu_shell_append (GTK_MENU_SHELL (lista), oggetto);
+		g_signal_connect_swapped (oggetto, "activate", G_CALLBACK (evacua_truppa), (gpointer) &tr_callback[T->truppa->tipo]);
+		gtk_widget_show (oggetto);
+		T=T->next;
+	}
 	//attacca la lista alla scelta
-	gtk_menu_item_set_submenu (GTK_MENU_ITEM (scelta), lista);
-	gtk_menu_shell_append (GTK_MENU_SHELL (menu), scelta);
-	gtk_widget_show (scelta);
+	if(S->in!=NULL)
+	{
+		gtk_menu_item_set_submenu (GTK_MENU_ITEM (scelta), lista);
+		gtk_menu_shell_append (GTK_MENU_SHELL (menu), scelta);
+		gtk_widget_show (scelta);
+	}
 	//mostra il menu
 	gtk_menu_popup (GTK_MENU (menu), NULL, NULL, NULL, NULL,1, gtk_get_current_event_time());
 }
@@ -526,6 +524,9 @@ static void click_scuderia(char* pos)
 	GtkWidget *scelta;
 	GtkWidget *lista;
 	GtkWidget *oggetto;
+	t_lista_s *S;
+	t_lista_t *T;
+	char buf[50];
 	aggiorna_tr_callback(pos);
 	/*crea menu*/
 	menu=gtk_menu_new();
@@ -549,32 +550,28 @@ static void click_scuderia(char* pos)
 	gtk_widget_show (scelta);
 	/*etichetta evacua*/
 	scelta=gtk_menu_item_new_with_label ("Evacua:");
-	/*crea pulsanti per addestrare unità*/
+	/*crea pulsanti per evacuare unità*/
 	lista=gtk_menu_new();
-	//reclute
-	oggetto=gtk_menu_item_new_with_label ("Reclute");
-	gtk_menu_shell_append (GTK_MENU_SHELL (lista), oggetto);
-	g_signal_connect_swapped (oggetto, "activate", G_CALLBACK (evacua_truppa), (gpointer) &tr_callback[Rec]);
-	gtk_widget_show (oggetto);
-	//fanteria
-	oggetto=gtk_menu_item_new_with_label ("Fanteria");
-	gtk_menu_shell_append (GTK_MENU_SHELL (lista), oggetto);
-	g_signal_connect_swapped (oggetto, "activate", G_CALLBACK (evacua_truppa), (gpointer) &tr_callback[Fan]);
-	gtk_widget_show (oggetto);
-	//lanceri
-	oggetto=gtk_menu_item_new_with_label ("Lancieri");
-	gtk_menu_shell_append (GTK_MENU_SHELL (lista), oggetto);
-	g_signal_connect_swapped (oggetto, "activate", G_CALLBACK (evacua_truppa), (gpointer) &tr_callback[Lan]);
-	gtk_widget_show (oggetto);
-	//Cavalleria
-	oggetto=gtk_menu_item_new_with_label ("Cavalleria");
-	gtk_menu_shell_append (GTK_MENU_SHELL (lista), oggetto);
-	g_signal_connect_swapped (oggetto, "activate", G_CALLBACK (evacua_truppa), (gpointer) &tr_callback[Cav]);
-	gtk_widget_show (oggetto);
+	//inizializza la lista truppe
+	S=puntastruttura (pos-infomappa.mappa);
+	T=S->in;
+	//lista le unità nella struttura
+	while (T!=NULL)
+	{
+		identificatruppa(T->truppa, buf);
+		oggetto=gtk_menu_item_new_with_label (buf);
+		gtk_menu_shell_append (GTK_MENU_SHELL (lista), oggetto);
+		g_signal_connect_swapped (oggetto, "activate", G_CALLBACK (evacua_truppa), (gpointer) &tr_callback[T->truppa->tipo]);
+		gtk_widget_show (oggetto);
+		T=T->next;
+	}
 	//attacca la lista alla scelta
-	gtk_menu_item_set_submenu (GTK_MENU_ITEM (scelta), lista);
-	gtk_menu_shell_append (GTK_MENU_SHELL (menu), scelta);
-	gtk_widget_show (scelta);
+	if(S->in!=NULL)
+	{
+		gtk_menu_item_set_submenu (GTK_MENU_ITEM (scelta), lista);
+		gtk_menu_shell_append (GTK_MENU_SHELL (menu), scelta);
+		gtk_widget_show (scelta);
+	}
 	//mostra il menu
 	gtk_menu_popup (GTK_MENU (menu), NULL, NULL, NULL, NULL,1, gtk_get_current_event_time());
 }
@@ -585,6 +582,9 @@ static void click_fattoria(char* pos)
 	GtkWidget *scelta;
 	GtkWidget *lista;
 	GtkWidget *oggetto;
+	t_lista_s *S;
+	t_lista_t *T;
+	char buf[50];
 	aggiorna_tr_callback(pos);
 	/*crea menu*/
 	menu=gtk_menu_new();
@@ -610,30 +610,26 @@ static void click_fattoria(char* pos)
 	scelta=gtk_menu_item_new_with_label ("Evacua:");
 	/*crea pulsanti per evacuare unità*/
 	lista=gtk_menu_new();
-	//reclute
-	oggetto=gtk_menu_item_new_with_label ("Reclute");
-	gtk_menu_shell_append (GTK_MENU_SHELL (lista), oggetto);
-	g_signal_connect_swapped(oggetto, "activate", G_CALLBACK (evacua_truppa), (gpointer) &tr_callback[Rec]);
-	gtk_widget_show (oggetto);
-	//fanteria
-	oggetto=gtk_menu_item_new_with_label ("Fanteria");
-	gtk_menu_shell_append (GTK_MENU_SHELL (lista), oggetto);
-	g_signal_connect_swapped(oggetto, "activate", G_CALLBACK (evacua_truppa), (gpointer) &tr_callback[Fan]);
-	gtk_widget_show (oggetto);
-	//lanceri
-	oggetto=gtk_menu_item_new_with_label ("Lancieri");
-	gtk_menu_shell_append (GTK_MENU_SHELL (lista), oggetto);
-	g_signal_connect_swapped(oggetto, "activate", G_CALLBACK (evacua_truppa), (gpointer) &tr_callback[Lan]);
-	gtk_widget_show (oggetto);
-	//Arcieri
-	oggetto=gtk_menu_item_new_with_label ("Arcieri");
-	gtk_menu_shell_append (GTK_MENU_SHELL (lista), oggetto);
-	g_signal_connect_swapped(oggetto, "activate", G_CALLBACK (evacua_truppa), (gpointer) &tr_callback[Arc]);
-	gtk_widget_show (oggetto);
+	//inizializza la lista truppe
+	S=puntastruttura (pos-infomappa.mappa);
+	T=S->in;
+	//lista le unità nella struttura
+	while (T!=NULL)
+	{
+		identificatruppa(T->truppa, buf);
+		oggetto=gtk_menu_item_new_with_label (buf);
+		gtk_menu_shell_append (GTK_MENU_SHELL (lista), oggetto);
+		g_signal_connect_swapped (oggetto, "activate", G_CALLBACK (evacua_truppa), (gpointer) &tr_callback[T->truppa->tipo]);
+		gtk_widget_show (oggetto);
+		T=T->next;
+	}
 	//attacca la lista alla scelta
-	gtk_menu_item_set_submenu (GTK_MENU_ITEM (scelta), lista);
-	gtk_menu_shell_append (GTK_MENU_SHELL (menu), scelta);
-	gtk_widget_show (scelta);
+	if(S->in!=NULL)
+	{
+		gtk_menu_item_set_submenu (GTK_MENU_ITEM (scelta), lista);
+		gtk_menu_shell_append (GTK_MENU_SHELL (menu), scelta);
+		gtk_widget_show (scelta);
+	}
 	//mostra il menu
 	gtk_menu_popup (GTK_MENU (menu), NULL, NULL, NULL, NULL,1, gtk_get_current_event_time());
 }
@@ -644,6 +640,9 @@ static void click_grotta(char* pos)
 	GtkWidget *scelta;
 	GtkWidget *lista;
 	GtkWidget *oggetto;
+	t_lista_s *S;
+	t_lista_t *T;
+	char buf[50];
 	aggiorna_tr_callback(pos);
 	/*crea menu*/
 	menu=gtk_menu_new();
@@ -664,35 +663,26 @@ static void click_grotta(char* pos)
 	scelta=gtk_menu_item_new_with_label ("Evacua:");
 	/*crea pulsanti per evacuare unità*/
 	lista=gtk_menu_new();
-	//reclute
-	oggetto=gtk_menu_item_new_with_label ("Reclute");
-	gtk_menu_shell_append (GTK_MENU_SHELL (lista), oggetto);
-	g_signal_connect_swapped(oggetto, "activate", G_CALLBACK (evacua_truppa), (gpointer) &tr_callback[Rec]);
-	gtk_widget_show (oggetto);
-	//fanteria
-	oggetto=gtk_menu_item_new_with_label ("Fanteria");
-	gtk_menu_shell_append (GTK_MENU_SHELL (lista), oggetto);
-	g_signal_connect_swapped(oggetto, "activate", G_CALLBACK (evacua_truppa), (gpointer) &tr_callback[Fan]);
-	gtk_widget_show (oggetto);
-	//lanceri
-	oggetto=gtk_menu_item_new_with_label ("Lancieri");
-	gtk_menu_shell_append (GTK_MENU_SHELL (lista), oggetto);
-	g_signal_connect_swapped(oggetto, "activate", G_CALLBACK (evacua_truppa), (gpointer) &tr_callback[Lan]);
-	gtk_widget_show (oggetto);
-	//Arcieri
-	oggetto=gtk_menu_item_new_with_label ("Arcieri");
-	gtk_menu_shell_append (GTK_MENU_SHELL (lista), oggetto);
-	g_signal_connect_swapped(oggetto, "activate", G_CALLBACK (evacua_truppa), (gpointer) &tr_callback[Arc]);
-	gtk_widget_show (oggetto);
-	//Draghi
-	oggetto=gtk_menu_item_new_with_label ("Draghi");
-	gtk_menu_shell_append (GTK_MENU_SHELL (lista), oggetto);
-	g_signal_connect_swapped(oggetto, "activate", G_CALLBACK (evacua_truppa), (gpointer) &tr_callback[Dra]);
-	gtk_widget_show (oggetto);
+	//inizializza la lista truppe
+	S=puntastruttura (pos-infomappa.mappa);
+	T=S->in;
+	//lista le unità nella struttura
+	while (T!=NULL)
+	{
+		identificatruppa(T->truppa, buf);
+		oggetto=gtk_menu_item_new_with_label (buf);
+		gtk_menu_shell_append (GTK_MENU_SHELL (lista), oggetto);
+		g_signal_connect_swapped (oggetto, "activate", G_CALLBACK (evacua_truppa), (gpointer) &tr_callback[T->truppa->tipo]);
+		gtk_widget_show (oggetto);
+		T=T->next;
+	}
 	//attacca la lista alla scelta
-	gtk_menu_item_set_submenu (GTK_MENU_ITEM (scelta), lista);
-	gtk_menu_shell_append (GTK_MENU_SHELL (menu), scelta);
-	gtk_widget_show (scelta);
+	if(S->in!=NULL)
+	{
+		gtk_menu_item_set_submenu (GTK_MENU_ITEM (scelta), lista);
+		gtk_menu_shell_append (GTK_MENU_SHELL (menu), scelta);
+		gtk_widget_show (scelta);
+	}
 	//mostra il menu
 	gtk_menu_popup (GTK_MENU (menu), NULL, NULL, NULL, NULL,1, gtk_get_current_event_time());
 }
@@ -703,6 +693,9 @@ static void click_nido(char* pos)
 	GtkWidget *scelta;
 	GtkWidget *lista;
 	GtkWidget *oggetto;
+	t_lista_s *S;
+	t_lista_t *T;
+	char buf[50];
 	aggiorna_tr_callback(pos);
 	/*crea menu*/
 	menu=gtk_menu_new();
@@ -723,35 +716,26 @@ static void click_nido(char* pos)
 	scelta=gtk_menu_item_new_with_label ("Evacua:");
 	/*crea pulsanti per evacuare unità*/
 	lista=gtk_menu_new();
-	//reclute
-	oggetto=gtk_menu_item_new_with_label ("Reclute");
-	gtk_menu_shell_append (GTK_MENU_SHELL (lista), oggetto);
-	g_signal_connect_swapped(oggetto, "activate", G_CALLBACK (evacua_truppa), (gpointer) &tr_callback[Rec]);
-	gtk_widget_show (oggetto);
-	//fanteria
-	oggetto=gtk_menu_item_new_with_label ("Fanteria");
-	gtk_menu_shell_append (GTK_MENU_SHELL (lista), oggetto);
-	g_signal_connect_swapped(oggetto, "activate", G_CALLBACK (evacua_truppa), (gpointer) &tr_callback[Fan]);
-	gtk_widget_show (oggetto);
-	//lanceri
-	oggetto=gtk_menu_item_new_with_label ("Lancieri");
-	gtk_menu_shell_append (GTK_MENU_SHELL (lista), oggetto);
-	g_signal_connect_swapped(oggetto, "activate", G_CALLBACK (evacua_truppa), (gpointer) &tr_callback[Lan]);
-	gtk_widget_show (oggetto);
-	//Arceri
-	oggetto=gtk_menu_item_new_with_label ("Arcieri");
-	gtk_menu_shell_append (GTK_MENU_SHELL (lista), oggetto);
-	g_signal_connect_swapped(oggetto, "activate", G_CALLBACK (evacua_truppa), (gpointer) &tr_callback[Arc]);
-	gtk_widget_show (oggetto);
-	//Fenici
-	oggetto=gtk_menu_item_new_with_label ("Fenici");
-	gtk_menu_shell_append (GTK_MENU_SHELL (lista), oggetto);
-	g_signal_connect_swapped(oggetto, "activate", G_CALLBACK (evacua_truppa), (gpointer) &tr_callback[Fen]);
-	gtk_widget_show (oggetto);
+	//inizializza la lista truppe
+	S=puntastruttura (pos-infomappa.mappa);
+	T=S->in;
+	//lista le unità nella struttura
+	while (T!=NULL)
+	{
+		identificatruppa(T->truppa, buf);
+		oggetto=gtk_menu_item_new_with_label (buf);
+		gtk_menu_shell_append (GTK_MENU_SHELL (lista), oggetto);
+		g_signal_connect_swapped (oggetto, "activate", G_CALLBACK (evacua_truppa), (gpointer) &tr_callback[T->truppa->tipo]);
+		gtk_widget_show (oggetto);
+		T=T->next;
+	}
 	//attacca la lista alla scelta
-	gtk_menu_item_set_submenu (GTK_MENU_ITEM (scelta), lista);
-	gtk_menu_shell_append (GTK_MENU_SHELL (menu), scelta);
-	gtk_widget_show (scelta);
+	if(S->in!=NULL)
+	{
+		gtk_menu_item_set_submenu (GTK_MENU_ITEM (scelta), lista);
+		gtk_menu_shell_append (GTK_MENU_SHELL (menu), scelta);
+		gtk_widget_show (scelta);
+	}
 	//mostra il menu
 	gtk_menu_popup (GTK_MENU (menu), NULL, NULL, NULL, NULL,1, gtk_get_current_event_time());
 }
@@ -760,36 +744,10 @@ static void click_unita (char* pos)
 {
 	GtkWidget *menu;
 	GtkWidget *oggetto;
-	char buf[50];
+	char buf[30];
 	int Pos=(int) (pos-infomappa.mappa);
 	t_infotruppa* T=infomappa.truppe[Pos];
-	switch(T->tipo)
-	{
-		case Rec:
-			sprintf(buf,"-%d Reclute (%d)-",T->numero,T->morale);
-			break;
-		case Fan:
-			sprintf(buf,"-%d Fanteria (%d)-",T->numero,T->morale);
-			break;
-		case Lan:
-			sprintf(buf,"-%d Lancieri (%d)-",T->numero,T->morale);
-			break;
-		case Arc:
-			sprintf(buf,"-%d Arcieri (%d)-",T->numero,T->morale);
-			break;
-		case Cav:
-			sprintf(buf,"-%d Cavalieri (%d)-",T->numero,T->morale);
-			break;
-		case Dra:
-			sprintf(buf,"-%d Draghi (%d)-",T->numero,T->morale);
-			break;
-		case Fen:
-			sprintf(buf,"-%d Fenici (%d)-",T->numero,T->morale);
-			break;
-		default:
-			sprintf(buf,"-%d ERRORE! (%d)-",T->numero,T->morale);
-			break;
-	}
+	identificatruppa(T, buf);
 	/*crea menu*/
 	menu=gtk_menu_new();
 	/*info*/
@@ -812,37 +770,11 @@ static void click_unita (char* pos)
 static void click_nemico (char* pos)
 {
 	int Pos=(int) (pos-infomappa.mappa);
-	char buf[50];
+	char buf[30];
 	t_infotruppa* T=infomappa.truppe[Pos];
 	GtkWidget *menu;
 	GtkWidget *oggetto;
-	switch(T->tipo)
-	{
-		case Rec:
-			sprintf(buf,"-%d Reclute (%d)-",T->numero,T->morale);
-			break;
-		case Fan:
-			sprintf(buf,"-%d Fanteria (%d)-",T->numero,T->morale);
-			break;
-		case Lan:
-			sprintf(buf,"-%d Lancieri (%d)-",T->numero,T->morale);
-			break;
-		case Arc:
-			sprintf(buf,"-%d Arcieri (%d)-",T->numero,T->morale);
-			break;
-		case Cav:
-			sprintf(buf,"-%d Cavalieri (%d)-",T->numero,T->morale);
-			break;
-		case Dra:
-			sprintf(buf,"-%d Draghi (%d)-",T->numero,T->morale);
-			break;
-		case Fen:
-			sprintf(buf,"-%d Fenici (%d)-",T->numero,T->morale);
-			break;
-		default:
-			sprintf(buf,"-%d ERRORE! (%d)-",T->numero,T->morale);
-			break;
-	}
+	identificatruppa(T, buf);
 	/*crea menu*/
 	menu=gtk_menu_new();
 	/*info*/
@@ -1157,7 +1089,7 @@ void gtk_calcola_dimensioni ()
 	int h;
 	h=gdk_screen_get_height (gdk_screen_get_default ());
 	Dim_casella=h*0.05;
-//	if (h>=960) Dim_casella=40;
+	if (h>=960) Dim_casella=40;
 //	else if (h>=720) Dim_casella=30;
 //	else if (h>=480) Dim_casella=20;
 //	else Dim_casella=10;

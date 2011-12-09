@@ -336,6 +336,39 @@ t_infotruppa* generatruppa (t_truppa Tipo, char Giocatore, int Numero)
 	return T;
 }
 
+void identificatruppa(t_infotruppa* T, char* buf)
+{
+	switch(T->tipo)
+	{
+		case Rec:
+			sprintf(buf,"-%d Reclute (%d)-",T->numero,T->morale);
+			break;
+		case Fan:
+			sprintf(buf,"-%d Fanteria (%d)-",T->numero,T->morale);
+			break;
+		case Lan:
+			sprintf(buf,"-%d Lancieri (%d)-",T->numero,T->morale);
+			break;
+		case Arc:
+			sprintf(buf,"-%d Arcieri (%d)-",T->numero,T->morale);
+			break;
+		case Cav:
+			sprintf(buf,"-%d Cavalieri (%d)-",T->numero,T->morale);
+			break;
+		case Dra:
+			sprintf(buf,"-%d Draghi (%d)-",T->numero,T->morale);
+			break;
+		case Fen:
+			sprintf(buf,"-%d Fenici (%d)-",T->numero,T->morale);
+			break;
+		default:
+			sprintf(buf,"-%d ERRORE! (%d)-",T->numero,T->morale);
+			break;
+	}
+	return;
+}
+
+
 //libera le strutture dati allocate
 void liberaheap ()
 {
