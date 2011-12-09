@@ -733,70 +733,59 @@ static void click_unita (char* pos, GdkEventButton *Event)
 	t_infotruppa* T;
 	char buf[30];
 	int Pos=(int) (pos-infomappa.mappa);
+	T=infomappa.truppe[Pos];
 	if(Event-> button==3)
 	{
-		t_infotruppa* T=infomappa.truppe[Pos];
-		identificatruppa(T, buf);
-		/*crea menu*/
-		menu=gtk_menu_new();
-		/*info*/
-		oggetto=gtk_menu_item_new_with_label (buf);
-		gtk_menu_shell_append (GTK_MENU_SHELL (menu), oggetto);
-		gtk_widget_show (oggetto);
-		/*pulsanti*/
-		oggetto=gtk_menu_item_new_with_label ("Muovi");
-		gtk_menu_shell_append (GTK_MENU_SHELL (menu), oggetto);
-		g_signal_connect_swapped (oggetto, "activate", G_CALLBACK (muovi_unita), (gpointer) pos);
-		gtk_widget_show (oggetto);
-		oggetto=gtk_menu_item_new_with_label ("Combatti");
-		gtk_menu_shell_append (GTK_MENU_SHELL (menu), oggetto);
-		g_signal_connect_swapped (oggetto, "activate", G_CALLBACK (combatti_unita), (gpointer) pos);
-		gtk_widget_show (oggetto);
-		gtk_menu_popup (GTK_MENU (menu), NULL, NULL, NULL, NULL,1, gtk_get_current_event_time());
-		printf("unità cliccata!\n");
+		if(T->combattuto==0)
+		{
+			Mossa=Pos;
+			gtk_pulisci_mappa ();
+			gtk_stampa_mappa(cx,cy,'c');
+			return;
+		}
+		else
+		{
+			Dialogo=gtk_dialog_new_with_buttons("F.C.",NULL,GTK_DIALOG_DESTROY_WITH_PARENT,GTK_STOCK_OK);
+			gtk_window_set_icon (GTK_WINDOW (Dialogo),Immagine.logo);
+			Label=gtk_label_new("unità in combattimento!");
+			gtk_widget_show(Label);
+			gtk_box_pack_start (GTK_BOX (gtk_dialog_get_content_area (GTK_DIALOG(Dialogo))),Label, TRUE, TRUE, 0);
+			gtk_dialog_run(GTK_DIALOG(Dialogo));
+			gtk_widget_destroy(Dialogo);
+			return;
+		}
 	}
 	else
 	{
-	T=infomappa.truppe[Pos];
-	if(T->stanca==0 && T->combattuto==0)
-	{
-		Mossa=Pos;
-		gtk_pulisci_mappa ();
-		gtk_stampa_mappa(cx,cy,'s');
-		return;
-	}
-	else
-	{
-		Dialogo=gtk_dialog_new_with_buttons("F.C.",NULL,GTK_DIALOG_DESTROY_WITH_PARENT,GTK_STOCK_OK);
-		gtk_window_set_icon (GTK_WINDOW (Dialogo),Immagine.logo);
-		if(T->stanca==1)Label=gtk_label_new("unità stanca!");
-		else Label=gtk_label_new("unità in combattimento!");
-		gtk_widget_show(Label);
-		gtk_box_pack_start (GTK_BOX (gtk_dialog_get_content_area (GTK_DIALOG(Dialogo))),Label, TRUE, TRUE, 0);
-		gtk_dialog_run(GTK_DIALOG(Dialogo));
-		gtk_widget_destroy(Dialogo);
-		return;
-	}
+		if(T->stanca==0 && T->combattuto==0)
+		{
+			Mossa=Pos;
+			gtk_pulisci_mappa ();
+			gtk_stampa_mappa(cx,cy,'s');
+			return;
+		}
+		else
+		{
+			Dialogo=gtk_dialog_new_with_buttons("F.C.",NULL,GTK_DIALOG_DESTROY_WITH_PARENT,GTK_STOCK_OK);
+			gtk_window_set_icon (GTK_WINDOW (Dialogo),Immagine.logo);
+			if(T->stanca==1)Label=gtk_label_new("unità stanca!");
+			else Label=gtk_label_new("unità in combattimento!");
+			gtk_widget_show(Label);
+			gtk_box_pack_start (GTK_BOX (gtk_dialog_get_content_area (GTK_DIALOG(Dialogo))),Label, TRUE, TRUE, 0);
+			gtk_dialog_run(GTK_DIALOG(Dialogo));
+			gtk_widget_destroy(Dialogo);
+			return;
+		}
 	}
 }
 
-static void click_nemico (char* pos)
+static void su_unita (GtkWidget *Truppa, GdkEvent *event, char* pos)
 {
 	int Pos=(int) (pos-infomappa.mappa);
 	char buf[30];
 	t_infotruppa* T=infomappa.truppe[Pos];
-	GtkWidget *menu;
-	GtkWidget *oggetto;
 	identificatruppa(T, buf);
-	/*crea menu*/
-	menu=gtk_menu_new();
-	/*info*/
-	oggetto=gtk_menu_item_new_with_label (buf);
-	gtk_menu_shell_append (GTK_MENU_SHELL (menu), oggetto);
-	gtk_widget_show (oggetto);
-	/*pulsanti*/
-	gtk_menu_popup (GTK_MENU (menu), NULL, NULL, NULL, NULL,1, gtk_get_current_event_time());
-	printf("unità cliccata!\n");
+	gtk_widget_set_tooltip_text(Truppa,buf);
 }
 
 static void click_assediocastello (char* pos)
@@ -1187,7 +1176,7 @@ void gtk_pulisci_mappa ()
 			g_signal_handlers_disconnect_matched(Casella[Pos],G_SIGNAL_MATCH_FUNC,0,0,0, click_assaltostruttura, 0);
 			g_signal_handlers_disconnect_matched(Casella[Pos],G_SIGNAL_MATCH_FUNC,0,0,0, click_entrastruttura, 0);
 			g_signal_handlers_disconnect_matched(Casella[Pos],G_SIGNAL_MATCH_FUNC,0,0,0, click_unisci, 0);
-			g_signal_handlers_disconnect_matched(Casella[Pos],G_SIGNAL_MATCH_FUNC,0,0,0, click_nemico, 0);
+			g_signal_handlers_disconnect_matched(Casella[Pos],G_SIGNAL_MATCH_FUNC,0,0,0, su_unita, 0);
 			gtk_widget_destroy(Thumb[Pos]);
 		}
 }
@@ -1541,8 +1530,7 @@ void gtk_stampa_mappa(int x, int y, char m)
 						{
 							if (G==CurrentPlayer)
 								g_signal_connect_swapped (Casella[Pos], "button_press_event", G_CALLBACK (click_unita), (gpointer) &infomappa.mappa[posiziona(0,0,C,R)]);
-							else
-								g_signal_connect_swapped (Casella[Pos], "button_press_event", G_CALLBACK (click_nemico), (gpointer) &infomappa.mappa[posiziona(0,0,C,R)]);
+							g_signal_connect (Casella[Pos], "enter-notify-event", G_CALLBACK (su_unita), (gpointer) &infomappa.mappa[posiziona(0,0,C,R)]);
 						}
 						else if(m=='c' && bersagliolecito(Mossa,posiziona(0,0,C,R))==1 && controllodiversotruppe(Mossa,posiziona(0,0,C,R))==1)
 							g_signal_connect_swapped (Casella[Pos], "button_press_event", G_CALLBACK (click_bersaglio), (gpointer) &infomappa.mappa[posiziona(0,0,C,R)]);
@@ -1591,7 +1579,7 @@ void gtk_genera_mappa (GtkWidget *Hbox)
 		for (j=0; j<A_SCHERMO; j++)
 		{
 			Casella[i+j*L_SCHERMO]=gtk_event_box_new();
-			gtk_widget_set_events (Casella[i+j*L_SCHERMO], GDK_BUTTON_PRESS_MASK);
+			gtk_widget_set_events (Casella[i+j*L_SCHERMO], GDK_BUTTON_PRESS_MASK |  GDK_ENTER_NOTIFY_MASK);
 			gtk_widget_set_size_request(Casella[i+j*L_SCHERMO], Dim_casella,Dim_casella);
 			gtk_table_attach (GTK_TABLE (Mappa), Casella[i+j*L_SCHERMO], i, i+1, j, j+1,!GTK_EXPAND,!GTK_EXPAND,0,0);
 			gtk_widget_show (Casella[i+j*L_SCHERMO]);
