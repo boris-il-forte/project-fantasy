@@ -29,7 +29,7 @@ static gboolean delete_event()
 	return TRUE;
 }
 
-static void sposta_datastiera(GtkWidget* Window, GdkEventKey* K)
+static void input_tastiera(GtkWidget* Window, GdkEventKey* K)
 {
 	if(partita_in_corso==0) return;
 	if(K->type == GDK_KEY_PRESS && Window!=NULL)
@@ -77,12 +77,19 @@ static void sposta_datastiera(GtkWidget* Window, GdkEventKey* K)
 					gtk_stampa_mappa(cx,cy,'p');
 				}
 				break;
+			case GDK_KEY_Escape:
+				gtk_pulisci_mappa();
+				gtk_stampa_mappa(cx,cy,'n');
+				return;
+				break;
+				
 			default:
 				break;
 		}
 	}
 	return;
 }
+
 
 static void click_nt ()
 {
@@ -180,7 +187,7 @@ int main(int argc, char *argv[])
 // 	crea finestra
 	finestra=gtk_window_new (GTK_WINDOW_TOPLEVEL);
 	g_signal_connect (finestra, "delete-event", G_CALLBACK (delete_event), NULL);
-	g_signal_connect (finestra, "key-press-event", G_CALLBACK (sposta_datastiera),NULL);
+	g_signal_connect (finestra, "key-press-event", G_CALLBACK (input_tastiera),NULL);
 	gtk_window_set_title (GTK_WINDOW (finestra), "Fantasy Core");
 	gtk_window_set_icon (GTK_WINDOW (finestra),Immagine.logo);
 // 	crea box principale del layout
