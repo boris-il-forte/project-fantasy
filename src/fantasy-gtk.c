@@ -336,11 +336,11 @@ static void evacua_truppa (t_lista_t *T)
 
 static void muovi_unita (char* pos)
 {
+	GtkWidget* Dialogo;
+	GtkWidget* Label;
 	int Pos= (int) (pos-infomappa.mappa);
 	t_infotruppa* T;
 	T=infomappa.truppe[Pos];
-	GtkWidget* Dialogo;
-	GtkWidget* Label;
 	if(T->stanca==0 && T->combattuto==0)
 	{
 		Mossa=Pos;
@@ -724,31 +724,60 @@ static void click_nido(char* pos)
 	gtk_menu_popup (GTK_MENU (menu), NULL, NULL, NULL, NULL,1, gtk_get_current_event_time());
 }
 
-static void click_unita (char* pos)
+static void click_unita (char* pos, GdkEventButton *Event)
 {
 	GtkWidget *menu;
 	GtkWidget *oggetto;
+	GtkWidget* Dialogo;
+	GtkWidget* Label;
+	t_infotruppa* T;
 	char buf[30];
 	int Pos=(int) (pos-infomappa.mappa);
-	t_infotruppa* T=infomappa.truppe[Pos];
-	identificatruppa(T, buf);
-	/*crea menu*/
-	menu=gtk_menu_new();
-	/*info*/
-	oggetto=gtk_menu_item_new_with_label (buf);
-	gtk_menu_shell_append (GTK_MENU_SHELL (menu), oggetto);
-	gtk_widget_show (oggetto);
-	/*pulsanti*/
-	oggetto=gtk_menu_item_new_with_label ("Muovi");
-	gtk_menu_shell_append (GTK_MENU_SHELL (menu), oggetto);
-	g_signal_connect_swapped (oggetto, "activate", G_CALLBACK (muovi_unita), (gpointer) pos);
-	gtk_widget_show (oggetto);
-	oggetto=gtk_menu_item_new_with_label ("Combatti");
-	gtk_menu_shell_append (GTK_MENU_SHELL (menu), oggetto);
-	g_signal_connect_swapped (oggetto, "activate", G_CALLBACK (combatti_unita), (gpointer) pos);
-	gtk_widget_show (oggetto);
-	gtk_menu_popup (GTK_MENU (menu), NULL, NULL, NULL, NULL,1, gtk_get_current_event_time());
-	printf("unità cliccata!\n");
+	if(Event-> button==3)
+	{
+		t_infotruppa* T=infomappa.truppe[Pos];
+		identificatruppa(T, buf);
+		/*crea menu*/
+		menu=gtk_menu_new();
+		/*info*/
+		oggetto=gtk_menu_item_new_with_label (buf);
+		gtk_menu_shell_append (GTK_MENU_SHELL (menu), oggetto);
+		gtk_widget_show (oggetto);
+		/*pulsanti*/
+		oggetto=gtk_menu_item_new_with_label ("Muovi");
+		gtk_menu_shell_append (GTK_MENU_SHELL (menu), oggetto);
+		g_signal_connect_swapped (oggetto, "activate", G_CALLBACK (muovi_unita), (gpointer) pos);
+		gtk_widget_show (oggetto);
+		oggetto=gtk_menu_item_new_with_label ("Combatti");
+		gtk_menu_shell_append (GTK_MENU_SHELL (menu), oggetto);
+		g_signal_connect_swapped (oggetto, "activate", G_CALLBACK (combatti_unita), (gpointer) pos);
+		gtk_widget_show (oggetto);
+		gtk_menu_popup (GTK_MENU (menu), NULL, NULL, NULL, NULL,1, gtk_get_current_event_time());
+		printf("unità cliccata!\n");
+	}
+	else
+	{
+	T=infomappa.truppe[Pos];
+	if(T->stanca==0 && T->combattuto==0)
+	{
+		Mossa=Pos;
+		gtk_pulisci_mappa ();
+		gtk_stampa_mappa(cx,cy,'s');
+		return;
+	}
+	else
+	{
+		Dialogo=gtk_dialog_new_with_buttons("F.C.",NULL,GTK_DIALOG_DESTROY_WITH_PARENT,GTK_STOCK_OK);
+		gtk_window_set_icon (GTK_WINDOW (Dialogo),Immagine.logo);
+		if(T->stanca==1)Label=gtk_label_new("unità stanca!");
+		else Label=gtk_label_new("unità in combattimento!");
+		gtk_widget_show(Label);
+		gtk_box_pack_start (GTK_BOX (gtk_dialog_get_content_area (GTK_DIALOG(Dialogo))),Label, TRUE, TRUE, 0);
+		gtk_dialog_run(GTK_DIALOG(Dialogo));
+		gtk_widget_destroy(Dialogo);
+		return;
+	}
+	}
 }
 
 static void click_nemico (char* pos)
