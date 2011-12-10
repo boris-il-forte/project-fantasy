@@ -975,12 +975,10 @@ void gtk_carica_immagini ()
 	sprintf(Buf,"skin/");
 	strcat(Buf,infogioco.skin);
 	strcat(Buf,"/mov.xpm");
-		printf("%s\n",Buf); //debug
 	Immagine.movimento=gdk_pixbuf_new_from_file_at_size (Buf,Dim_casella,Dim_casella,NULL);
 	sprintf(Buf,"skin/");
 	strcat(Buf,infogioco.skin);
 	strcat(Buf,"/atk.xpm");
-		printf("%s\n",Buf); //debug
 	Immagine.attacco=gdk_pixbuf_new_from_file_at_size (Buf,Dim_casella,Dim_casella,NULL);
 	
 	//carica le immagini del prato
@@ -991,7 +989,6 @@ void gtk_carica_immagini ()
 		strcat(Buf,infogioco.skin);
 		strcat(Buf,Buf2);
 		strcat(Buf,infogioco.ext); // non esistono XPM ancora. colossale standardizzazione richiesta per le skin.
-		printf("%s\n",Buf); //debug
 		Immagine.p[i]=gdk_pixbuf_new_from_file_at_size (Buf,Dim_casella,Dim_casella,NULL);
 	}
 	
@@ -1003,7 +1000,6 @@ void gtk_carica_immagini ()
 		strcat(Buf,infogioco.skin);
 		strcat(Buf,Buf2);
 		strcat(Buf,infogioco.ext);
-		printf("%s\n",Buf); //debug
 		Immagine.a[i]=gdk_pixbuf_new_from_file (Buf,NULL);
 	}
 	//carica il castello
@@ -1015,7 +1011,6 @@ void gtk_carica_immagini ()
 			strcat(Buf,infogioco.skin);
 			strcat(Buf,Buf2);
 			strcat(Buf,infogioco.ext);
-		printf("%s\n",Buf); //debug
 			Immagine.c[i][j]=gdk_pixbuf_new_from_file_at_size (Buf,Dim_casella,Dim_casella,NULL);
 		}
 	//carica la grotta
@@ -1027,7 +1022,6 @@ void gtk_carica_immagini ()
 			strcat(Buf,infogioco.skin);
 			strcat(Buf,Buf2);
 			strcat(Buf,infogioco.ext);
-		printf("%s\n",Buf); //debug
 			Immagine.g[i][j]=gdk_pixbuf_new_from_file_at_size (Buf,Dim_casella,Dim_casella,NULL);
 		}
 	//carica la stalla
@@ -1039,7 +1033,6 @@ void gtk_carica_immagini ()
 			strcat(Buf,infogioco.skin);
 			strcat(Buf,Buf2);
 			strcat(Buf,infogioco.ext);
-		printf("%s\n",Buf); //debug
 			Immagine.s[i][j]=gdk_pixbuf_new_from_file_at_size (Buf,Dim_casella,Dim_casella,NULL);
 		}
 	//carica la fattoria
@@ -1051,7 +1044,6 @@ void gtk_carica_immagini ()
 			strcat(Buf,infogioco.skin);
 			strcat(Buf,Buf2);
 			strcat(Buf,infogioco.ext);
-		printf("%s\n",Buf); //debug
 			Immagine.f[i][j]=gdk_pixbuf_new_from_file_at_size (Buf,Dim_casella,Dim_casella,NULL);
 		}
 	//carica il nido
@@ -1063,19 +1055,17 @@ void gtk_carica_immagini ()
 			strcat(Buf,infogioco.skin);
 			strcat(Buf,Buf2);
 			strcat(Buf,infogioco.ext);
-		printf("%s\n",Buf); //debug
 			Immagine.n[i][j]=gdk_pixbuf_new_from_file_at_size (Buf,Dim_casella,Dim_casella,NULL);
 		}
 	//carica le truppe
 	for (i=0; i<MAXGIOCATORI; i++)
 		for(j=0; j<=Lan; j++)
 		{
-			sprintf(Buf2,"t/t%d%d.",i,j);
+			sprintf(Buf2,"/t/t%d%d.",i,j);
 			sprintf(Buf,"skin/");
 			strcat(Buf,infogioco.skin);
 			strcat(Buf,Buf2);
 			strcat(Buf,infogioco.ext);
-		printf("truppe %s\n",Buf); //debug
 			Immagine.t[i][j]=gdk_pixbuf_new_from_file_at_size (Buf,Dim_casella,Dim_casella,NULL);
 		}
 }
