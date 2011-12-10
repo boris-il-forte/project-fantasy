@@ -278,8 +278,6 @@ void rigeneramappa ()
 		y=infomappa.nidi[i]/LARGHEZZA;
 		disegna(x,y,'N');
 	}
-	//crea prato vario
-	pratoacaso ();
 	//visualizza su terminale
 	visualizza_su_terminale();
 }
