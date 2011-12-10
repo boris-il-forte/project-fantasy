@@ -35,6 +35,12 @@
 typedef enum e_truppa {Rec,Fan,Lan,Arc,Cav,Dra,Fen} t_truppa;
 typedef enum e_struttura {Cas,Fat,Scu,Gro,Nid} t_struttura;
 
+typedef struct s_infogioco
+{
+	char skin[32];
+	char ext[5]; // estensione della skin (xpm, png, ...) // da fare: indovina automatico
+} t_infogioco;
+
 typedef struct s_infotruppa
 {
 	t_truppa tipo;
@@ -97,9 +103,10 @@ typedef struct s_player
 } t_player;
 
 //funzioni file
-int caricaconfig(char* buf1);
-int carica(char *);
-int salva(char *);
+int caricaconfig(char *nomefile);
+int salvaconfig(char *nomefile);
+int carica(char *nomefile);
+int salva(char *nomefile);
 
 //funzioni di controllo spostamento e attacco
 int percorsolibero (int Sx, int Sy, int Dx,int Dy, int vel);
@@ -153,6 +160,7 @@ void aggiorna_tr_callback(char* pos);
 int cx,cy; // posizione della mappa visibile
 char partita_in_corso;
 int CurrentPlayer;
+t_infogioco infogioco;
 t_infomappa infomappa;
 t_dtruppa Dtruppa[NUMTRUPPE];
 t_player* giocatore[MAXGIOCATORI];

@@ -20,6 +20,8 @@
 #include <string.h>
 #include "fantasy-core.h"
 
+#define BUFSIZE 64
+
 void ckfread(void *ptr, size_t size, size_t nitems, FILE *stream)
 {
 	if(fread(ptr,size,nitems,stream) < nitems) { perror("fread non riuscita"); exit(1); }
@@ -30,26 +32,63 @@ void ckfwrite(void *ptr, size_t size, size_t nitems, FILE *stream)
 	if(fwrite(ptr,size,nitems,stream) < nitems) { perror("fwrite non riuscita"); exit(1); }
 }
 
-int caricaconfig(char* buf1)
+int caricaconfig(char *nomefile)
 {
 	FILE *fp;
-	char b[4];
-	int i=0;
+	char Buf[BUFSIZE];
+	char *Buf2; // ritorno strtok. controlla memleaks
 
-	fp=fopen("fantasy.config","r");
+	fp=fopen(nomefile,"r");
 	if(fp == NULL) 
 	{
-		perror("fopen fallita");
-		return 1;
+		sprintf(infogioco.skin,"NintendOtaku");
+		sprintf(infogioco.ext,"xpm");
+		salvaconfig(nomefile);
+		return 0;
 	}
-	while(fscanf(fp,"%c",&b[i]) && i<3)
+	while(fgets(Buf,BUFSIZE,fp) != NULL)
 	{
-		if(b[0]=='#') while(b[0] != '\n') fscanf(fp,"%c",&b[0]);
-		else if(b[i]=='\n') break;
-		else i++;
-	};
-	b[i]='\0';
-	sprintf(buf1,"%s",b);
+		if(Buf[0] != '#')
+		{
+			Buf[strlen(Buf)-1]='\0';
+			Buf2=strtok(Buf,"=");
+			if(strcmp(Buf2,"skin") == 0)
+			{
+				Buf2=strtok(NULL,"="); // memleak sicuro.
+				sprintf(infogioco.skin,Buf2);
+			}
+			else if(strcmp(Buf2,"ext") == 0)
+			{
+				Buf2=strtok(NULL,"="); // memleak sicuro.
+				sprintf(infogioco.ext,Buf2);
+			}
+			else
+			{
+				fprintf(stderr,"Parametro sconosciuto: \"%s\"\n",Buf2);
+				exit(1); // enforce strict config file
+			}
+		}
+	}
+
+	return 0;
+}
+
+int salvaconfig(char *nomefile)
+{
+	FILE *fp;
+
+	fp=fopen("fantasy.config","w");
+	if(fp == NULL) {
+		perror("fopen write fallita");
+		exit(1); // da sostituire con return appropriatamente gestita
+	}
+	fputs("skin=",fp); // controlla ritorno
+	fputs(infogioco.skin,fp);
+	fputs("\n",fp);
+	fputs("ext=",fp); // controlla ritorno
+	fputs(infogioco.ext,fp);
+	fputs("\n",fp);
+
 	return 0;
 }
 

@@ -168,6 +168,8 @@ static void click_turno ()
 // main
 int main(int argc, char *argv[])
 {
+	/* variabili */
+	FILE *fp;
 	/*variabili widget*/
 	GtkWidget *finestra;
 	GtkWidget *pulsante;
@@ -181,6 +183,11 @@ int main(int argc, char *argv[])
 //	inizializza
 	gtk_init(&argc, &argv);
 	partita_in_corso=0;
+	caricaconfig("fantasy.config");
+	#ifdef DEBUG
+	printf("infogioco.skin=%s\n",infogioco.skin);
+	printf("infogioco.ext=%s\n",infogioco.ext);
+	#endif
 	gtk_calcola_dimensioni ();
 	gtk_carica_immagini();
 	gtk_inizializza_widget();

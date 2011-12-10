@@ -961,78 +961,122 @@ void gtk_inizializza_widget()
 void gtk_carica_immagini ()
 {
 	int i,j;
-	char Buf[100];
-	char ext[5];
+	char Buf[64];
+	char Buf2[64];
 	//carico il file di configurazione
-	caricaconfig(ext);
-	#ifdef DEBUG
-	printf("ext: %s\n",ext);
-	#endif
-	//carico immagini
+	caricaconfig("fantasy.config");
+	//carico immagini del gioco
 	sprintf(Buf,"img/Fantasy-icon.xpm");
 	Immagine.err=gdk_pixbuf_new_from_file_at_size (Buf,30,30,NULL);
 	Immagine.logo=gdk_pixbuf_new_from_file (Buf,NULL);
 	sprintf(Buf,"img/Freccia.xpm");
 	Immagine.freccia=gdk_pixbuf_new_from_file_at_size (Buf,30,30,NULL);
-	sprintf(Buf,"img/mov.xpm");
+	// carico immagini da skin
+	sprintf(Buf,"skin/");
+	strcat(Buf,infogioco.skin);
+	strcat(Buf,"/mov.xpm");
+		printf("%s\n",Buf); //debug
 	Immagine.movimento=gdk_pixbuf_new_from_file_at_size (Buf,Dim_casella,Dim_casella,NULL);
-	sprintf(Buf,"img/atk.xpm");
+	sprintf(Buf,"skin/");
+	strcat(Buf,infogioco.skin);
+	strcat(Buf,"/atk.xpm");
+		printf("%s\n",Buf); //debug
 	Immagine.attacco=gdk_pixbuf_new_from_file_at_size (Buf,Dim_casella,Dim_casella,NULL);
 	
 	//carica le immagini del prato
 	for (i=0; i<5; i++)
 	{
-		sprintf(Buf,"img/p/p%d.",i);
-		strcat(Buf,ext);
+		sprintf(Buf2,"/p/p%d.",i);
+		sprintf(Buf,"skin/");
+		strcat(Buf,infogioco.skin);
+		strcat(Buf,Buf2);
+//		strcat(Buf,infogioco.ext); // non esistono XPM ancora. colossale standardizzazione richiesta per le skin.
+		strcat(Buf,"png"); // workaround
+		printf("%s\n",Buf); //debug
 		Immagine.p[i]=gdk_pixbuf_new_from_file_at_size (Buf,Dim_casella,Dim_casella,NULL);
 	}
 	
 	//carica gli scudi colorati
 	for (i=0; i<MAXGIOCATORI; i++)
 	{
-		sprintf(Buf,"img/a/%d.xpm",i);
+		sprintf(Buf2,"/a/%d.xpm",i);
+		sprintf(Buf,"skin/");
+		strcat(Buf,infogioco.skin);
+		strcat(Buf,Buf2);
+		strcat(Buf,infogioco.ext);
+		printf("%s\n",Buf); //debug
 		Immagine.a[i]=gdk_pixbuf_new_from_file (Buf,NULL);
 	}
 	//carica il castello
 	for (i=0;i<=MAXGIOCATORI;i++)
 		for (j=0; j<9; j++)
 		{
-			sprintf(Buf,"img/c/%d/c%d.xpm",i,j);
+			sprintf(Buf2,"/c/%d/c%d.",i,j);
+			sprintf(Buf,"skin/");
+			strcat(Buf,infogioco.skin);
+			strcat(Buf,Buf2);
+			strcat(Buf,infogioco.ext);
+		printf("%s\n",Buf); //debug
 			Immagine.c[i][j]=gdk_pixbuf_new_from_file_at_size (Buf,Dim_casella,Dim_casella,NULL);
 		}
 	//carica la grotta
 	for (i=0;i<=MAXGIOCATORI;i++)
 		for (j=0; j<4; j++)
 		{
-			sprintf(Buf,"img/g/%d/g%d.xpm",i,j);
+			sprintf(Buf2,"/g/%d/g%d.",i,j);
+			sprintf(Buf,"skin/");
+			strcat(Buf,infogioco.skin);
+			strcat(Buf,Buf2);
+			strcat(Buf,infogioco.ext);
+		printf("%s\n",Buf); //debug
 			Immagine.g[i][j]=gdk_pixbuf_new_from_file_at_size (Buf,Dim_casella,Dim_casella,NULL);
 		}
 	//carica la stalla
 	for (i=0;i<=MAXGIOCATORI;i++)
 		for (j=0; j<4; j++)
 		{
-			sprintf(Buf,"img/s/%d/s%d.xpm",i,j);
+			sprintf(Buf2,"/s/%d/s%d.",i,j);
+			sprintf(Buf,"skin/");
+			strcat(Buf,infogioco.skin);
+			strcat(Buf,Buf2);
+			strcat(Buf,infogioco.ext);
+		printf("%s\n",Buf); //debug
 			Immagine.s[i][j]=gdk_pixbuf_new_from_file_at_size (Buf,Dim_casella,Dim_casella,NULL);
 		}
 	//carica la fattoria
 	for (i=0;i<=MAXGIOCATORI;i++)
 		for (j=0; j<4; j++)
 		{
-			sprintf(Buf,"img/f/%d/f%d.xpm",i,j);
+			sprintf(Buf2,"/f/%d/f%d.",i,j);
+			sprintf(Buf,"skin/");
+			strcat(Buf,infogioco.skin);
+			strcat(Buf,Buf2);
+			strcat(Buf,infogioco.ext);
+		printf("%s\n",Buf); //debug
 			Immagine.f[i][j]=gdk_pixbuf_new_from_file_at_size (Buf,Dim_casella,Dim_casella,NULL);
 		}
 	//carica il nido
 	for (i=0;i<MAXGIOCATORI;i++)
 		for (j=0; j<4; j++)
 		{
-			sprintf(Buf,"img/n/%d/n%d.xpm",i,j);
+			sprintf(Buf2,"/n/%d/n%d.",i,j);
+			sprintf(Buf,"skin/");
+			strcat(Buf,infogioco.skin);
+			strcat(Buf,Buf2);
+			strcat(Buf,infogioco.ext);
+		printf("%s\n",Buf); //debug
 			Immagine.n[i][j]=gdk_pixbuf_new_from_file_at_size (Buf,Dim_casella,Dim_casella,NULL);
 		}
 	//carica le truppe
 	for (i=0; i<MAXGIOCATORI; i++)
 		for(j=0; j<=Lan; j++)
 		{
-			sprintf(Buf,"img/t/t%d%d.xpm",i,j);
+			sprintf(Buf2,"t/t%d%d.",i,j);
+			sprintf(Buf,"skin/");
+			strcat(Buf,infogioco.skin);
+			strcat(Buf,Buf2);
+			strcat(Buf,infogioco.ext);
+		printf("truppe %s\n",Buf); //debug
 			Immagine.t[i][j]=gdk_pixbuf_new_from_file_at_size (Buf,Dim_casella,Dim_casella,NULL);
 		}
 }
@@ -1055,7 +1099,7 @@ void gtk_crea_menu (GtkWidget *Vbox)
 	GtkWidget *menu;
 	GtkWidget *oggetto_menu;
 	GtkWidget *barra_menu;
-	GtkWidget *menu_file, *menu_help;
+	GtkWidget *menu_file, *menu_modifica, *menu_help;
 	//genera menu file
 	menu=gtk_menu_new();
 	// 	genera scelta 1
@@ -1082,6 +1126,17 @@ void gtk_crea_menu (GtkWidget *Vbox)
 	menu_file=gtk_menu_item_new_with_label ("File");
 	gtk_widget_show (menu_file);
 	gtk_menu_item_set_submenu (GTK_MENU_ITEM (menu_file), menu);
+	//  genera menu modifica
+	menu=gtk_menu_new();
+	//  genera scelta 1
+	oggetto_menu=gtk_menu_item_new_with_label ("Preferenze");
+	gtk_menu_shell_append (GTK_MENU_SHELL (menu), oggetto_menu);
+	g_signal_connect (oggetto_menu, "activate", G_CALLBACK (menuitem_response), (gpointer) NULL);
+	gtk_widget_show (oggetto_menu);
+	//  genera etichetta modifica
+	menu_modifica=gtk_menu_item_new_with_label ("Modifica");
+	gtk_widget_show (menu_modifica);
+	gtk_menu_item_set_submenu (GTK_MENU_ITEM (menu_modifica), menu);
 	// 	genera menu help 
 	menu=gtk_menu_new();
 	// 	genera scelta 1
@@ -1103,6 +1158,7 @@ void gtk_crea_menu (GtkWidget *Vbox)
 	gtk_box_pack_start( GTK_BOX(Vbox), barra_menu, FALSE, FALSE, 0);
 	gtk_widget_show (barra_menu);
 	gtk_menu_shell_append (GTK_MENU_SHELL (barra_menu), menu_file);
+	gtk_menu_shell_append (GTK_MENU_SHELL (barra_menu), menu_modifica);
 	gtk_menu_shell_append (GTK_MENU_SHELL (barra_menu), menu_help);
 	// 	fine menu 
 }
