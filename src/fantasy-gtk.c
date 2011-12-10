@@ -990,8 +990,7 @@ void gtk_carica_immagini ()
 		sprintf(Buf,"skin/");
 		strcat(Buf,infogioco.skin);
 		strcat(Buf,Buf2);
-//		strcat(Buf,infogioco.ext); // non esistono XPM ancora. colossale standardizzazione richiesta per le skin.
-		strcat(Buf,"png"); // workaround
+		strcat(Buf,infogioco.ext); // non esistono XPM ancora. colossale standardizzazione richiesta per le skin.
 		printf("%s\n",Buf); //debug
 		Immagine.p[i]=gdk_pixbuf_new_from_file_at_size (Buf,Dim_casella,Dim_casella,NULL);
 	}
@@ -999,7 +998,7 @@ void gtk_carica_immagini ()
 	//carica gli scudi colorati
 	for (i=0; i<MAXGIOCATORI; i++)
 	{
-		sprintf(Buf2,"/a/%d.xpm",i);
+		sprintf(Buf2,"/a/%d.",i);
 		sprintf(Buf,"skin/");
 		strcat(Buf,infogioco.skin);
 		strcat(Buf,Buf2);
