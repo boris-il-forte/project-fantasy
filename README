@@ -27,7 +27,7 @@ make
 ESECUZIONE
 ----------
 
-./gbin
+./fantasy
 
 ENJOY !
 
@@ -46,30 +46,20 @@ Inoltre il binario compilato funzionerà solo su una macchina, quindi
 la flag non si adatta alla ridistribuzione binaria del pacchetto.
 
 E' consigliabile per un binario più snello dare
-$ strip -s -R .comment gbin
+$ strip -s -R .comment fantasy
 
 Per il debug, è utile utilizzare (alternativamente):
 CFLAGS=-Wall -Wextra -ggdb3 -pipe
 E quindi eseguire il programma con
-$ gdb ./gbin
+$ gdb ./fantasy
 (gdb) run
-
-
-FILES
------
-
-* fantasy-main.c: la main routine del gioco
-* fantasy-lib.c: le funzioni principali del gioco
-* fantasy-loadsave.c: le funzioni per caricamento/salvataggio da/su file
-* fantasy-core.h: la definzione dei tipi di struttura, variabili globali; incluso in fantasy-main.c e fantasy-lib.c
-* fantasy-gtk.h: i prototipi delle funzioni grafiche; incluso nel fantasy-main.c
 
 
 COPYRIGHT
 ---------
 
 Il progetto è distribuito sotto licenza GNU GPL versione 2.
-(C) 2011 Davide Tateo
+(C) 2011 Davide Tateo, gionnico
 
 
 SITO INTERNET

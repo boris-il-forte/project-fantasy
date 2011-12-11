@@ -6,8 +6,10 @@
 *.exe
 *.o
 *.so
-gbin
+# More
+fantasy
 editor
+fantasy.config # ognuno ha il suo. anche se siamo in development
 
 # Packages #
 ############
@@ -22,11 +24,20 @@ editor
 *.tar
 *.zip
 
+# Logs and databases #
+######################
+*.log
+*.sql
+*.sqlite
+
 # OS generated files #
 ######################
 .DS_Store*
 ehthumbs.db
 Icon?
 Thumbs.db
+# More
 desktop.ini
-*~
+*~ # gedit
+*.swp # vim
+.directory # dolphin

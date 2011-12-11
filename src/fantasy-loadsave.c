@@ -50,17 +50,21 @@ int caricaconfig(char *nomefile)
 	{
 		if(Buf[0] != '#')
 		{
-			Buf[strlen(Buf)-1]='\0';
+			Buf2=strtok(Buf," "); // accetta commenti inline dopo uno spazio.
+			Buf2=strtok(Buf,"#"); // .. o dopo un cancelletto anche attaccato.
+			if(Buf[strlen(Buf)-1] == '\n')
+				Buf[strlen(Buf)-1]='\0';
+			printf("Buf2 vale \"%s\"\n",Buf2);
 			Buf2=strtok(Buf,"=");
 			if(strcmp(Buf2,"skin") == 0)
 			{
 				Buf2=strtok(NULL,"="); // memleak sicuro.
-				sprintf(infogioco.skin,Buf2);
+			sprintf(infogioco.skin,"%s",Buf2);
 			}
 			else if(strcmp(Buf2,"ext") == 0)
 			{
 				Buf2=strtok(NULL,"="); // memleak sicuro.
-				sprintf(infogioco.ext,Buf2);
+				sprintf(infogioco.ext,"%s",Buf2);
 			}
 			else
 			{
@@ -77,7 +81,7 @@ int salvaconfig(char *nomefile)
 {
 	FILE *fp;
 
-	fp=fopen("fantasy.config","w");
+	fp=fopen(nomefile,"w");
 	if(fp == NULL) {
 		perror("fopen write fallita");
 		exit(1); // da sostituire con return appropriatamente gestita
@@ -150,6 +154,7 @@ t_lista_s * inserisci_strutture_in_coda(t_lista_s *testa,FILE *fp)
 	return testa;
 }
 
+
 int carica(char *nomefile)
 {
 	FILE *fp;
@@ -175,6 +180,12 @@ int carica(char *nomefile)
 		return 1;
 	}
 	// FINE controllo header standard
+
+	// INIZIO reset e inizializzazioni - PARTE INIZIALE
+	caricadati();
+	inizializza();
+	// FINE reset e inizializzazioni - PARTE INIZIALE
+
 	// Cx,Cy, CurrentPlayer
 	ckfread(&cx,sizeof(cx),1,fp);
 	ckfread(&cy,sizeof(cy),1,fp);
@@ -216,6 +227,10 @@ int carica(char *nomefile)
 		i++;
 	}
 	fclose(fp);
+
+	// INIZIO reset e inizializzazioni - PARTE FINALE
+	rigeneramappa();
+	// FINE reset e inizializzazioni - PARTE FINALE
 
 	return 0;
 }

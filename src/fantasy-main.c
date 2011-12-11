@@ -2,7 +2,7 @@
  * Project Fantasy, gioco di strategia a turni
  *
  *
- * Copyright (C) 2011 Davide Tateo
+ * Copyright (C) 2011 Davide Tateo, gionnico
  * Versione 1.0
  *
  * This program is free software; you can redistribute it and/or
@@ -168,8 +168,6 @@ static void click_turno ()
 // main
 int main(int argc, char *argv[])
 {
-	/* variabili */
-	FILE *fp;
 	/*variabili widget*/
 	GtkWidget *finestra;
 	GtkWidget *pulsante;
@@ -262,6 +260,9 @@ int main(int argc, char *argv[])
 	gtk_widget_show (Frame);
 	gtk_crea_notebook (Frame);
 	gtk_widget_show(Notebook[0]);
+// carica_all_avvio
+	if(argc > 1)
+		gtk_carica_avvio(argv[argc-1]);
 // 	visualizza finestra
 	gtk_widget_show (finestra);
 	gtk_main();

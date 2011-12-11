@@ -2,7 +2,7 @@
  * Project Fantasy, gioco di strategia a turni
  *
  *
- * Copyright (C) 2011 Davide Tateo
+ * Copyright (C) 2011 Davide Tateo, gionnico
  * Versione 1.0
  *
  * This program is free software; you can redistribute it and/or
@@ -91,12 +91,9 @@ static void salva_carica(int Data)
 	if (gtk_dialog_run (GTK_DIALOG(Fselect))==GTK_RESPONSE_ACCEPT)
 	{
 		buf=gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(Fselect));
-		if(Data==0) 
+		if(Data==0)
 		{
-			caricadati();
-			inizializza();
 			carica(buf);
-			rigeneramappa();
 			gtk_azzera_tab ();
 			gtk_pulisci_mappa();
 			gtk_stampa_mappa(cx,cy, 'n');
@@ -107,10 +104,7 @@ static void salva_carica(int Data)
 			gtk_aggiorna_tab_armate();
 			partita_in_corso=1;
 		}
-		else 
-		{
-			salva(buf);
-		}
+		else salva(buf);
 		gtk_widget_destroy(Fselect);
 	}
 	else
@@ -1825,6 +1819,20 @@ void gtk_pulisci_tab (GtkWidget *Target)
 {
 	if (Target==NULL) return;
 	else gtk_widget_destroy (Target);
+}
+
+void gtk_carica_avvio(char *nomefile)
+{
+	carica(nomefile);
+	gtk_azzera_tab ();
+	gtk_pulisci_mappa();
+	gtk_stampa_mappa(cx,cy, 'n');
+	gtk_aggiorna_contarisorse();
+	gtk_aggiorna_giocatore_c();
+	gtk_aggiorna_tab_castelli();
+	gtk_aggiorna_tab_strutture();
+	gtk_aggiorna_tab_armate();
+	partita_in_corso=1;
 }
 
 //azzera tab

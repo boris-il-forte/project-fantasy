@@ -2,7 +2,7 @@
  * Project Fantasy, gioco di strategia a turni
  *
  *
- * Copyright (C) 2011 Davide Tateo
+ * Copyright (C) 2011 Davide Tateo, gionnico
  * Versione 1.0
  *
  * This program is free software; you can redistribute it and/or
@@ -84,11 +84,10 @@ void caricadati ()
 }
 
 //inizializza le strutture dati 
-void inizializza ()
+void inizializza()
 {
 	int i,j;
 	if(partita_in_corso!=0) liberaheap ();
-	srand((unsigned)time(NULL));
 	for (i=0; i<NUMCASTELLI; i++) infomappa.castelli[i]=-1;
 	for (i=0; i<MAXSTALLE; i++) infomappa.stalle[i]=-1;
 	for (i=0; i<MAXGROTTE; i++) infomappa.grotte[i]=-1;
@@ -100,10 +99,6 @@ void inizializza ()
 			accedi(j,i,infomappa.mappa)=' ';
 			accedi(j,i,infomappa.truppe)=NULL;
 		}
-	infomappa.numstalle=rand()%(MAXSTALLE/2)+(MAXSTALLE/2+1); //genera il numero delle stalle tra MAXSTALLE e MAXSTALLE/2;
-	infomappa.numfattorie=rand()%(MAXFATTORIE/2)+(MAXFATTORIE/2+1);//genera il numero delle stalle tra MAXFATTORIE e MAXFATTORIE/2;
-	infomappa.numgrotte=rand()%MAXGROTTE+1; //genera il numero delle grotte 
-	infomappa.numnidi=rand()%MAXNIDI+1; //genera il numero dei nidi	
 }
 
 // controlla che i castelli generati siano sufficentemente distanti l'uno dall'altro
@@ -162,7 +157,14 @@ void generamappa ()
 {
 	int i; //contatori 
 	int x,y; //variabili posizionamento
+
 	srand((unsigned)time(NULL)); //randomizza col tempo
+
+	infomappa.numstalle=rand()%(MAXSTALLE/2)+(MAXSTALLE/2+1); //genera il numero delle stalle tra MAXSTALLE e MAXSTALLE/2;
+	infomappa.numfattorie=rand()%(MAXFATTORIE/2)+(MAXFATTORIE/2+1);//genera il numero delle stalle tra MAXFATTORIE e MAXFATTORIE/2;
+	infomappa.numgrotte=rand()%MAXGROTTE+1; //genera il numero delle grotte 
+	infomappa.numnidi=rand()%MAXNIDI+1; //genera il numero dei nidi	
+
 	/*genero i castelli*/
 	for (i=0; i<NUMCASTELLI; i++) 
 	{

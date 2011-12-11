@@ -2,7 +2,7 @@
  * Project Fantasy, gioco di strategia a turni
  *
  *
- * Copyright (C) 2011 Davide Tateo
+ * Copyright (C) 2011 Davide Tateo, gionnico
  * Versione 1.0
  *
  * This program is free software; you can redistribute it and/or
@@ -67,9 +67,10 @@ t_listapertab* Listatruppe;
 /*header funzioni gtk*/
 
 //funzioni generiche
-void gtk_carica_immagini ();
-void gtk_calcola_dimensioni ();
-void gtk_inizializza_widget ();
+void gtk_carica_immagini();
+void gtk_calcola_dimensioni();
+void gtk_inizializza_widget();
+void gtk_carica_avvio(char *nomefile);
 
 //funzioni menu
 void gtk_crea_menu (GtkWidget *Vbox);
