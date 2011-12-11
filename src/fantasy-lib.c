@@ -438,7 +438,7 @@ int percorsolibero (int Sx, int Sy, int Dx,int Dy, int vel)
 //calcola il costo del percorso più breve utilizzando l'algoritmo di Dijkstra
 int percorsominimo(int Sx, int Sy, int Dx,int Dy, int vel)
 {
-	int i,j,v,k,l;
+	int i,j,v,vp,k,l;
 	int X,Y;
 	int w;
 	int Lx=(Sx>Dx)?(Sx-Dx):(Dx-Sx);
@@ -487,12 +487,14 @@ int percorsominimo(int Sx, int Sy, int Dx,int Dy, int vel)
 		}
 	if (G[Id][Jd]=='#') return 0;
 	printf("comincia algoritmo \n");
-	//comincia algoritmo
-	G[Is][Js]='S';
+	//inizializza algoritmo
+	G[Is][Js]='S'; //segna il source
 	S[0]=1;
 	S[1]=Is*Mx+Js;
 	v=1;
+	vp=0;
 	S[v]=Is*Mx+Js;
+	//comincia algoritmo
 	while(Q!=0 && v<=S[0]) //fino a che non hai considerato ogni casella libera...
 	{
 		//estrai minimi e impilali
@@ -509,14 +511,15 @@ int percorsominimo(int Sx, int Sy, int Dx,int Dy, int vel)
 						G[X][Y]='+'; //segnalo come contato
 						S[S[0]+1]=X*Mx+Y; //impilalo
 						S[0]++; //aumenta il puntatore alla pila
+						vp++;
 					}
 				}
 			}
 		printf("primo passo ok \n");
-		if(v>1)
+		for(i=S[0]-vp; i<=S[0]; i++)
 		{
-			X=S[v]/Mx; //calcola la x della casella
-			Y=S[v]%Mx; //calcola la y della casella
+			X=S[i]/Mx; //calcola la x della casella
+			Y=S[i]%Mx; //calcola la y della casella
 			//rilassa gli archi
 			for(k=-1; k<=1; k++)
 				for(l=-1; l<=1; l++)
@@ -524,9 +527,10 @@ int percorsominimo(int Sx, int Sy, int Dx,int Dy, int vel)
 					w=((k+l==1 || k+l==-1)?100:141); 
 					if (G[X+k][Y+l]!='#' && V[X][Y]>V[X+k][Y+l]+w) V[X][Y]=V[X+k][Y+l]+w;
 				}
-			printf("secondo passo ok \n");
 		}
+		printf("secondo passo ok \n");
 		v++; //passa al prossimo vertice
+		vp=0; //annulla il conteggio dei nuovi vertici
 	}
 	printf("fine algoritmo \n");
 	// dijkstra completato
