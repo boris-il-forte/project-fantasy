@@ -458,9 +458,7 @@ int percorsominimo(int Sx, int Sy, int Dx,int Dy, int vel)
 		fprintf(stderr,"Errore! sx:%d sy:%d dx:%d dy:%d vel:%d\n", Sx,Sy, Dx,Dy, vel );
 		return 0;
 	}
-	//prepara grafo e pile
-	S[0]=1;
-	S[1]=Is*Mx+Js;
+	//prepara grafo e contatore Q
 	for(i=0;i<Mx; i++)
 	{
 		G[i][0]='#';
@@ -491,9 +489,11 @@ int percorsominimo(int Sx, int Sy, int Dx,int Dy, int vel)
 	printf("comincia algoritmo \n");
 	//comincia algoritmo
 	G[Is][Js]='S';
+	S[0]=1;
+	S[1]=Is*Mx+Js;
 	v=1;
 	S[v]=Is*Mx+Js;
-	while(Q!=0 && v<S[0]) //fino a che non hai considerato ogni casella libera...
+	while(Q!=0 && v<=S[0]) //fino a che non hai considerato ogni casella libera...
 	{
 		//estrai minimi e impilali
 		for(i=-1; i<=1; i++)
