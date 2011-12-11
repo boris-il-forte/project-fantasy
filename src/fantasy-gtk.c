@@ -64,6 +64,8 @@ static void chiudi_da_menu()
 static void salva_carica(int Data)
 {
 	GtkWidget *Fselect;
+	GtkWidget *Dialogo;
+	GtkWidget *Label;
 	GtkFileFilter *filter = gtk_file_filter_new ();
 	GtkFileFilter *filter_all = gtk_file_filter_new ();
 	char* buf=NULL;
@@ -96,6 +98,16 @@ static void salva_carica(int Data)
 			if(carica(buf))
 			{
 				gtk_widget_destroy(Fselect);
+				Dialogo=gtk_dialog_new();
+				gtk_dialog_add_buttons (GTK_DIALOG(Dialogo),GTK_STOCK_OK,1,NULL);
+				gtk_window_set_icon (GTK_WINDOW (Dialogo),Immagine.logo);
+				gtk_window_set_title (GTK_WINDOW(Dialogo),"Errore!");
+				Label=gtk_label_new("File non valido!");
+				gtk_box_pack_start (GTK_BOX (gtk_dialog_get_content_area (GTK_DIALOG(Dialogo))),Label, TRUE, TRUE, 0);
+				gtk_widget_show(Label);
+				gtk_dialog_run(GTK_DIALOG(Dialogo));
+				gtk_widget_destroy(Dialogo);
+				salva_carica(0);
 				return;
 			}
 			gtk_azzera_tab ();
@@ -124,8 +136,8 @@ static void nuova_partita()
 	GtkWidget *Hbox, *Vbox;
 	GtkAdjustment *Giocatori, *IA;
 	fprintf(stderr,"debug nuova_partita\n");
-	Giocatori=gtk_adjustment_new(4, 2, MAXGIOCATORI, 1, 2, 0);
-	IA=gtk_adjustment_new(3, 0, MAXGIOCATORI-1, 1, 1, 0);
+	Giocatori=(GtkAdjustment *)gtk_adjustment_new(4, 2, MAXGIOCATORI, 1, 2, 0);
+	IA=(GtkAdjustment *)gtk_adjustment_new(3, 0, MAXGIOCATORI-1, 1, 1, 0);
 	g_signal_connect (Giocatori, "value_changed", G_CALLBACK (set_adjustmentmax), IA);
 	Dialogo=gtk_dialog_new();
 	gtk_dialog_add_buttons (GTK_DIALOG(Dialogo),"Inizia!",1,"Annulla",0,NULL);
@@ -175,7 +187,8 @@ static void nuova_partita()
 static void preferenze()
 {
 	int scelta;
-	GtkWidget *Dialogo, *pulsante;
+	GtkWidget *Dialogo;
+	//GtkWidget *pulsante;
 	GtkWidget *Opzioni;
 	GtkWidget *text_skin, *text_ext;
 	GtkWidget *Label;
@@ -189,15 +202,15 @@ static void preferenze()
 	gtk_box_pack_start (GTK_BOX (gtk_dialog_get_content_area (GTK_DIALOG(Dialogo))),Opzioni, TRUE, TRUE, 0);
 	Vbox=gtk_vbox_new(TRUE,0);
 	gtk_container_add (GTK_CONTAINER (Opzioni), Vbox);
-	//Hbox=gtk_hbox_new(TRUE,0);
-	//gtk_box_pack_start (GTK_BOX (Vbox),Hbox, TRUE, TRUE, 0);
-	//Label=gtk_label_new("Skin");
-	//gtk_box_pack_start (GTK_BOX (Hbox),Label, TRUE, TRUE, 0);
-	//text_skin=gtk_entry_new();
-	//gtk_entry_set_text(GTK_ENTRY(text_skin),infogioco.skin);
-	//gtk_box_pack_start (GTK_BOX (Hbox),text_skin, TRUE, TRUE,0);
-	Label=gtk_radio_button_new_with_label (NULL,infogioco.skin); //una modifica
-	gtk_box_pack_start (GTK_BOX (Vbox),Label, TRUE, TRUE, 0); //due modifiche
+	Hbox=gtk_hbox_new(TRUE,0);
+	gtk_box_pack_start (GTK_BOX (Vbox),Hbox, TRUE, TRUE, 0);
+	Label=gtk_label_new("Skin");
+	gtk_box_pack_start (GTK_BOX (Hbox),Label, TRUE, TRUE, 0);
+	text_skin=gtk_entry_new();
+	gtk_entry_set_text(GTK_ENTRY(text_skin),infogioco.skin);
+	gtk_box_pack_start (GTK_BOX (Hbox),text_skin, TRUE, TRUE,0);
+	//Label=gtk_radio_button_new_with_label (NULL,infogioco.skin); //una modifica
+	//gtk_box_pack_start (GTK_BOX (Vbox),Label, TRUE, TRUE, 0); //due modifiche
 	Hbox=gtk_hbox_new(TRUE,0);
 	gtk_box_pack_start (GTK_BOX (Vbox),Hbox, TRUE, TRUE, 0);
 	Label=gtk_label_new("Estensione");
@@ -958,8 +971,8 @@ static void click_unisci (char* pos)
 	}
 	somma=TA->numero+TB->numero;
 	min=(somma-max)>0?(somma-max):0;
-	UA=gtk_adjustment_new(TA->numero, min,max<somma?max:somma, 1, 0, 0);
-	UB=gtk_adjustment_new(TB->numero, min,max<somma?max:somma, 1, 0, 0);
+	UA=(GtkAdjustment*)gtk_adjustment_new(TA->numero, min,max<somma?max:somma, 1, 0, 0);
+	UB=(GtkAdjustment*)gtk_adjustment_new(TB->numero, min,max<somma?max:somma, 1, 0, 0);
 	S_Callback[a].A=UA;
 	S_Callback[a].somma=somma;
 	S_Callback[b].A=UB;
