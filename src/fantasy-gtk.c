@@ -176,23 +176,24 @@ static void preferenze()
 	GtkWidget *text_skin, *text_ext;
 	GtkWidget *Label;
 	GtkWidget *Hbox, *Vbox;
-
 	fprintf(stderr,"debug preferenze\n");
 	Dialogo=gtk_dialog_new();
 	gtk_dialog_add_buttons (GTK_DIALOG(Dialogo),"Salva",1,"Ripristina",2,"Annulla",0,NULL);
-//	gtk_window_set_icon (GTK_WINDOW (Dialogo),Immagine.logo); // ?
+	gtk_window_set_icon (GTK_WINDOW (Dialogo),Immagine.logo);
 	gtk_window_set_title (GTK_WINDOW(Dialogo),"Fantasy C Config");
 	Opzioni=gtk_frame_new("Opzioni Skins");
 	gtk_box_pack_start (GTK_BOX (gtk_dialog_get_content_area (GTK_DIALOG(Dialogo))),Opzioni, TRUE, TRUE, 0);
 	Vbox=gtk_vbox_new(TRUE,0);
 	gtk_container_add (GTK_CONTAINER (Opzioni), Vbox);
-	Hbox=gtk_hbox_new(TRUE,0);
-	gtk_box_pack_start (GTK_BOX (Vbox),Hbox, TRUE, TRUE, 0);
-	Label=gtk_label_new("Skin");
-	gtk_box_pack_start (GTK_BOX (Hbox),Label, TRUE, TRUE, 0);
-	text_skin=gtk_entry_new();
-	gtk_entry_set_text(GTK_ENTRY(text_skin),infogioco.skin);
-	gtk_box_pack_start (GTK_BOX (Hbox),text_skin, TRUE, TRUE,0);
+	//Hbox=gtk_hbox_new(TRUE,0);
+	//gtk_box_pack_start (GTK_BOX (Vbox),Hbox, TRUE, TRUE, 0);
+	//Label=gtk_label_new("Skin");
+	//gtk_box_pack_start (GTK_BOX (Hbox),Label, TRUE, TRUE, 0);
+	//text_skin=gtk_entry_new();
+	//gtk_entry_set_text(GTK_ENTRY(text_skin),infogioco.skin);
+	//gtk_box_pack_start (GTK_BOX (Hbox),text_skin, TRUE, TRUE,0);
+	Label=gtk_radio_button_new_with_label (NULL,infogioco.skin); //una modifica
+	gtk_box_pack_start (GTK_BOX (Vbox),Label, TRUE, TRUE, 0); //due modifiche
 	Hbox=gtk_hbox_new(TRUE,0);
 	gtk_box_pack_start (GTK_BOX (Vbox),Hbox, TRUE, TRUE, 0);
 	Label=gtk_label_new("Estensione");
