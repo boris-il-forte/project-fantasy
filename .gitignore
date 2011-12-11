@@ -9,7 +9,7 @@
 # More
 gbin
 editor
-fantasy.config # ognuno ha il suo. anche se siamo in development
+fantasy.config
 
 # Packages #
 ############
@@ -38,6 +38,6 @@ Icon?
 Thumbs.db
 # More
 desktop.ini
-*~ # gedit
-*.swp # vim
-.directory # dolphin
+*~
+*.swp
+.directory
