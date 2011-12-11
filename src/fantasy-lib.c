@@ -443,8 +443,8 @@ int percorsominimo(int Sx, int Sy, int Dx,int Dy, int vel)
 	int Ly=(Sy>Dy)?(Sy-Dy):(Dy-Sy);
 	const int Mx=2*vel-Lx+3;
 	const int My=2*vel-Ly+3;
-	const int Is=(Sx<Dx)?(vel+1):(vel-Lx+1);
-	const int Js=(Sy<Dy)?(vel+1):(vel-Ly+1);
+	const int Is=(Sx>Dx)?(vel+1):(vel-Lx+1);
+	const int Js=(Sy>Dy)?(vel+1):(vel-Ly+1);
 	char G[Mx][My];
 	struct s_v
 	{
@@ -485,7 +485,8 @@ int percorsominimo(int Sx, int Sy, int Dx,int Dy, int vel)
 			V[i][j].p=-1;
 		}
 	G[Is][Js]='S';
-	G[Is+((Sx>Dx)?(Lx):(-Lx))][Js+((Sy>Dy)?(Ly):(-Ly))]='D';
+	if (G[Is+((Sx<Dx)?(Lx):(-Lx))][Js+((Sy<Dy)?(Ly):(-Ly))]=='#') return 0;
+	else G[Is+((Sx<Dx)?(Lx):(-Lx))][Js+((Sy<Dy)?(Ly):(-Ly))]='D';
 	// grafo creato e inizializzato
 	#ifdef DEBUG
 	for(j=0;j<My;j++)
