@@ -1,7 +1,6 @@
 TODO
 
 Gionnico:
-- File config serio per pacchetti grafici e contestuale lettore				| priorità molto alta
 - funzione void gtk_calcola_dimensioni () -> da controllare per più risoluzioni possibili| priorità alta
 - Editor di mappe & scenari								| priorità media
 

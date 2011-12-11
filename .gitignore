@@ -7,7 +7,7 @@
 *.o
 *.so
 # More
-fantasy
+gbin
 editor
 fantasy.config # ognuno ha il suo. anche se siamo in development
 

@@ -74,6 +74,8 @@ int caricaconfig(char *nomefile)
 		}
 	}
 
+	fclose(fp);
+
 	return 0;
 }
 
@@ -92,6 +94,8 @@ int salvaconfig(char *nomefile)
 	fputs("ext=",fp); // controlla ritorno
 	fputs(infogioco.ext,fp);
 	fputs("\n",fp);
+
+	fclose(fp);
 
 	return 0;
 }

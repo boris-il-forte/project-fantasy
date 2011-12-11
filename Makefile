@@ -6,7 +6,7 @@ LIBS= $(LIBSGTK)
 #CFLAGS= -I./include -Wall -Wextra -O2 -march=native -pipe -fomit-frame-pointer  -Wno-unused-result 
 CFLAGS= -I./include -Wall -Wextra -ggdb3 -pipe -O2 -march=native -pipe -fomit-frame-pointer -D_FORTIFY_SOURCE=2 -DDEBUG
 
-TARGET=fantasy
+TARGET=gbin
 
 PROGRAM_OBJS=$(SRCPATH)fantasy-main.o $(SRCPATH)fantasy-lib.o $(SRCPATH)fantasy-loadsave.o $(SRCPATH)fantasy-gtk.o
 EDITOR_OBJS=$(SRCPATH)fantasy-editor.o $(SRCPATH)fantasy-gtk.o $(SRCPATH)fantasy-lib.o $(SRCPATH)fantasy-loadsave.o

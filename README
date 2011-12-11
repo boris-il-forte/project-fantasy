@@ -27,7 +27,7 @@ make
 ESECUZIONE
 ----------
 
-./fantasy
+./gbin
 
 ENJOY !
 
@@ -46,12 +46,12 @@ Inoltre il binario compilato funzionerà solo su una macchina, quindi
 la flag non si adatta alla ridistribuzione binaria del pacchetto.
 
 E' consigliabile per un binario più snello dare
-$ strip -s -R .comment fantasy
+$ strip -s -R .comment gbin
 
 Per il debug, è utile utilizzare (alternativamente):
 CFLAGS=-Wall -Wextra -ggdb3 -pipe
 E quindi eseguire il programma con
-$ gdb ./fantasy
+$ gdb ./gbin
 (gdb) run
 
 

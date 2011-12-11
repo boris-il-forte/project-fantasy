@@ -111,7 +111,7 @@ static void salva_carica(int Data)
 		gtk_widget_destroy(Fselect);
 }
 
-static void nuova_partita ()
+static void nuova_partita()
 {
 	GtkWidget* Dialogo;
 	GtkWidget* Opzioni;
@@ -165,8 +165,64 @@ static void nuova_partita ()
 		partita_in_corso=1;
 		gtk_widget_destroy (Dialogo);
 	}
-	else
-		gtk_widget_destroy (Dialogo);
+	else gtk_widget_destroy (Dialogo);
+}
+
+static void preferenze()
+{
+	int scelta;
+	GtkWidget *Dialogo;
+	GtkWidget *Opzioni;
+	GtkWidget *text_skin, *text_ext;
+	GtkWidget *Label;
+	GtkWidget *Hbox, *Vbox;
+
+	fprintf(stderr,"debug preferenze\n");
+	Dialogo=gtk_dialog_new();
+	gtk_dialog_add_buttons (GTK_DIALOG(Dialogo),"Salva",1,"Ripristina",2,"Annulla",0,NULL);
+//	gtk_window_set_icon (GTK_WINDOW (Dialogo),Immagine.logo); // ?
+	gtk_window_set_title (GTK_WINDOW(Dialogo),"Fantasy C Config");
+	Opzioni=gtk_frame_new("Opzioni Skins");
+	gtk_box_pack_start (GTK_BOX (gtk_dialog_get_content_area (GTK_DIALOG(Dialogo))),Opzioni, TRUE, TRUE, 0);
+	Vbox=gtk_vbox_new(TRUE,0);
+	gtk_container_add (GTK_CONTAINER (Opzioni), Vbox);
+	Hbox=gtk_hbox_new(TRUE,0);
+	gtk_box_pack_start (GTK_BOX (Vbox),Hbox, TRUE, TRUE, 0);
+	Label=gtk_label_new("Skin");
+	gtk_box_pack_start (GTK_BOX (Hbox),Label, TRUE, TRUE, 0);
+	text_skin=gtk_entry_new();
+	gtk_entry_set_text(GTK_ENTRY(text_skin),infogioco.skin);
+	gtk_box_pack_start (GTK_BOX (Hbox),text_skin, TRUE, TRUE,0);
+	Hbox=gtk_hbox_new(TRUE,0);
+	gtk_box_pack_start (GTK_BOX (Vbox),Hbox, TRUE, TRUE, 0);
+	Label=gtk_label_new("Estensione");
+	gtk_box_pack_start (GTK_BOX (Hbox),Label, TRUE, TRUE, 0);
+	text_ext=gtk_entry_new();
+	gtk_entry_set_text(GTK_ENTRY(text_ext),infogioco.ext);
+	gtk_box_pack_start (GTK_BOX (Hbox),text_ext, TRUE, TRUE,0);
+	gtk_widget_show_all (Opzioni);
+	scelta=gtk_dialog_run(GTK_DIALOG(Dialogo));
+	if(scelta==1) // salva
+	{
+		sprintf(infogioco.skin,"%s",gtk_entry_get_text(GTK_ENTRY(text_skin)));
+		sprintf(infogioco.ext,"%s",gtk_entry_get_text(GTK_ENTRY(text_ext)));
+		salvaconfig("fantasy.config");
+		gtk_widget_destroy(Dialogo);
+	}
+	else if(scelta==2) // reset
+	{
+		if(remove("fantasy.config"))
+		{
+			perror("cannot remove config file");
+			exit(1);
+		}
+		caricaconfig("fantasy.config");
+//		gtk_entry_set_text(GTK_ENTRY(text_skin),infogioco.skin);
+//		gtk_entry_set_text(GTK_ENTRY(text_ext),infogioco.ext);
+//		gtk_widget_show_all (Opzioni);
+		gtk_widget_destroy(Dialogo);
+	}
+	else gtk_widget_destroy(Dialogo);
 }
 
 static void centra_mappa(char* pos)
@@ -1114,7 +1170,7 @@ void gtk_crea_menu (GtkWidget *Vbox)
 	//  genera scelta 1
 	oggetto_menu=gtk_menu_item_new_with_label ("Preferenze");
 	gtk_menu_shell_append (GTK_MENU_SHELL (menu), oggetto_menu);
-	g_signal_connect (oggetto_menu, "activate", G_CALLBACK (menuitem_response), (gpointer) NULL);
+	g_signal_connect (oggetto_menu, "activate", G_CALLBACK (preferenze), (gpointer) NULL);
 	gtk_widget_show (oggetto_menu);
 	//  genera etichetta modifica
 	menu_modifica=gtk_menu_item_new_with_label ("Modifica");
