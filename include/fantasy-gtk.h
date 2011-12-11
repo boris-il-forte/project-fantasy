@@ -30,7 +30,7 @@ typedef struct s_listapertab
 //struct spin buton
 typedef struct s_spin
 {
-	GtkObject* A;
+	GtkAdjustment* A;
 	int somma;
 } t_spin;
 

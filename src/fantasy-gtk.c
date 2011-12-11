@@ -28,7 +28,7 @@ static void menuitem_response( )
 	printf ("bottone schiacciato\n");
 }
 
-static gboolean set_adjustmentmax (GtkObject* S, GtkObject* D)
+static gboolean set_adjustmentmax (GtkAdjustment* S, GtkAdjustment* D)
 {
 	int max=gtk_adjustment_get_value (GTK_ADJUSTMENT(S));
 	int n=gtk_adjustment_get_value (GTK_ADJUSTMENT(D));
@@ -37,11 +37,11 @@ static gboolean set_adjustmentmax (GtkObject* S, GtkObject* D)
 	return FALSE;
 }
 
-static gboolean set_adjustmentvalue (GtkObject* S,t_spin* C)
+static gboolean set_adjustmentvalue (GtkAdjustment* S,t_spin* C)
 {
 	int n=gtk_adjustment_get_value(GTK_ADJUSTMENT(S));
 	int max=C->somma;
-	GtkObject* D=C->A;
+	GtkAdjustment* D=C->A;
 	gtk_adjustment_set_value (GTK_ADJUSTMENT(D), max-n);
 	return FALSE;
 }
@@ -118,7 +118,7 @@ static void nuova_partita()
 	GtkWidget *SpinIA, *SpinGiocatori;
 	GtkWidget* Label;
 	GtkWidget *Hbox, *Vbox;
-	GtkObject *Giocatori, *IA;
+	GtkAdjustment *Giocatori, *IA;
 	fprintf(stderr,"debug nuova_partita\n");
 	Giocatori=gtk_adjustment_new(4, 2, MAXGIOCATORI, 1, 2, 0);
 	IA=gtk_adjustment_new(3, 0, MAXGIOCATORI-1, 1, 1, 0);
@@ -179,9 +179,17 @@ static void preferenze()
 
 	fprintf(stderr,"debug preferenze\n");
 	Dialogo=gtk_dialog_new();
-	gtk_dialog_add_buttons (GTK_DIALOG(Dialogo),"Salva",1,"Ripristina",2,"Annulla",0,NULL);
+	gtk_dialog_add_buttons (GTK_DIALOG(Dialogo),"Salva",1,"Annulla",0,NULL);
 //	gtk_window_set_icon (GTK_WINDOW (Dialogo),Immagine.logo); // ?
 	gtk_window_set_title (GTK_WINDOW(Dialogo),"Fantasy C Config");
+
+    //crea pulsante ripristina
+/*    pulsante=gtk_button_new_with_label ("Ripristina");
+    gtk_box_pack_start(GTK_BOX(Vbox), pulsante, FALSE, FALSE, 0);
+    g_signal_connect_swapped(pulsante, "clicked", G_CALLBACK (click_nt),NULL);
+    gtk_widget_show (pulsante);
+*/
+
 	Opzioni=gtk_frame_new("Opzioni Skins");
 	gtk_box_pack_start (GTK_BOX (gtk_dialog_get_content_area (GTK_DIALOG(Dialogo))),Opzioni, TRUE, TRUE, 0);
 	Vbox=gtk_vbox_new(TRUE,0);
@@ -930,7 +938,7 @@ static void click_unisci (char* pos)
 	GtkWidget * Label;
 	GtkWidget * Spin1;
 	GtkWidget * Spin2;
-	GtkObject *UA, *UB;
+	GtkAdjustment *UA, *UB;
 	t_infotruppa* TA=infomappa.truppe[Mossa];
 	t_infotruppa* TB=infomappa.truppe[Pos];
 	t_spin S_Callback[2];
