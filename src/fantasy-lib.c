@@ -438,71 +438,84 @@ int percorsolibero (int Sx, int Sy, int Dx,int Dy, int vel)
 //calcola il costo del percorso più breve utilizzando l'algoritmo di Dijkstra
 int percorsominimo(int Sx, int Sy, int Dx,int Dy, int vel)
 {
-	int i,j;
+	int i,j,v, k,l;
+	int X,Y;
+	int w;
 	int Lx=(Sx>Dx)?(Sx-Dx):(Dx-Sx);
 	int Ly=(Sy>Dy)?(Sy-Dy):(Dy-Sy);
 	const int Mx=2*vel-Lx+3;
 	const int My=2*vel-Ly+3;
 	const int Is=(Sx>Dx)?(vel+1):(vel-Lx+1);
 	const int Js=(Sy>Dy)?(vel+1):(vel-Ly+1);
+	const int Id=Is+((Sx<Dx)?(Lx):(-Lx));
+	const int Jd=Js+((Sy<Dy)?(Ly):(-Ly));
 	char G[Mx][My];
-	struct s_v
-	{
-		int d;
-		int p;
-	} V[Mx][My];
+	int S[Mx*My];
+	int Q=0;
+	int V[Mx][My];
 	if(Sx<0 || Sy<0 || Dx<0 || Dy<0 || vel<0)
 	{
 		fprintf(stderr,"Errore! sx:%d sy:%d dx:%d dy:%d vel:%d\n", Sx,Sy, Dx,Dy, vel );
 		return 0;
 	}
-	//prepara grafo
+	//prepara grafo e pile
+	S[0]=1;
 	for(i=0;i<Mx; i++)
 	{
 		G[i][0]='#';
 		G[i][My-1]='#';
-		V[i][0].d=vel*10+1;
-		V[i][My-1].d=vel*10+1;
-		V[i][0].p=-1;
-		V[i][My-1].p=-1;
+		V[i][0]=vel*10+1;
+		V[i][My-1]=vel*10+1;
 	}
 	for(i=0;i<My; i++) 
 	{
 		G[0][i]='#';
 		G[Mx-1][i]='#';
-		V[0][j].d=vel*10+1;
-		V[Mx-1][j].d=vel*10+1;
-		V[0][j].p=-1;
-		V[Mx-1][j].p=-1;
+		V[0][j]=vel*100+1;
+		V[Mx-1][j]=vel*100+1;
 	}
 	for(i=1; i<Mx-1;i++)
 		for(j=1; j<My-1;j++)
 		{
 			if((Sx+i-Is)<0 || (Sx+i-Is)>=LARGHEZZA || (Sy+j-Js)<0 || (Sy+j-Js)>=ALTEZZA) G[i][j]='#';
 			else if((i-Is)*(i-Is)+(j-Js)*(j-Js)>vel*vel || infomappa.mappa[posiziona(Is-i,Js-j,Sx,Sy)]!=' ' || infomappa.truppe[posiziona(Is-i,Js-j,Sx,Sy)]!=NULL) G[i][j]='#';
-			else G[i][j]='.';
-			V[i][j].d=vel*10+1;
-			V[i][j].p=-1;
+			else 
+			{
+				G[i][j]='.';
+				Q++;
+			}
+			V[i][j]=vel*100+1;
 		}
 	G[Is][Js]='S';
-	if (G[Is+((Sx<Dx)?(Lx):(-Lx))][Js+((Sy<Dy)?(Ly):(-Ly))]=='#') return 0;
-	else G[Is+((Sx<Dx)?(Lx):(-Lx))][Js+((Sy<Dy)?(Ly):(-Ly))]='D';
-	// grafo creato e inizializzato
-	#ifdef DEBUG
-	for(j=0;j<My;j++)
+	S[1]=Is*Mx+Js;
+	if (G[Id][Jd]=='#') return 0;
+	//comincia algoritmo
+	while(Q!=0)
 	{
-		for(i=0;i<Mx;i++)
-			fprintf(stderr,"%c ",G[i][j]);
-		fprintf(stderr,"\n");
+		for(v=0; v<S[0]; v++)
+			for(i=-1; i<=1; i++)
+				for(j=0; j<=1; j++)
+				{
+					if (G[Is+i][Js+j]!='#' && G[Is+i][Js+j]!='+' && G[Is+i][Js+j]!='S')
+					{
+						Q--;
+						X=S[v]/Mx+i;
+						Y=S[v]%Mx+j;
+						G[X][Y]='+';
+						S[S[0]+1]=X*Mx+Y;
+						S[0]++;
+						for(k=-1; k<=1; k++)
+							for(l=0; l<=1; l++)
+							{
+								w=((k+l==1 || k+l==-1)?100:141);
+								if (G[X+k][Y+l]!='#' && V[X][Y]>V[X+k][Y+l]+w)V[X][Y]=V[X+k][Y+l]+w;
+							}
+					}
+				}
 	}
-	fprintf(stderr,"\n");
-	#endif
-	//inizializzo algoritmo
-	
-	//comincio algoritmo
-	
-	//fine!
-	return 1;
+	// dijkstra completato
+	if(V[Id][Jd]<=vel*100)return 1;
+	else return 0;
 }
 // calcola se lo spostamento è lecito
 int spostalecito (int PosT, int PosC )
