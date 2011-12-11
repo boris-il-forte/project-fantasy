@@ -438,7 +438,7 @@ int percorsolibero (int Sx, int Sy, int Dx,int Dy, int vel)
 //calcola il costo del percorso più breve utilizzando l'algoritmo di Dijkstra
 int percorsominimo(int Sx, int Sy, int Dx,int Dy, int vel)
 {
-	int i,j,v, k,l;
+	int i,j,v,k,l;
 	int X,Y;
 	int w;
 	int Lx=(Sx>Dx)?(Sx-Dx):(Dx-Sx);
@@ -460,6 +460,7 @@ int percorsominimo(int Sx, int Sy, int Dx,int Dy, int vel)
 	}
 	//prepara grafo e pile
 	S[0]=1;
+	S[1]=Is*Mx+Js;
 	for(i=0;i<Mx; i++)
 	{
 		G[i][0]='#';
@@ -486,33 +487,48 @@ int percorsominimo(int Sx, int Sy, int Dx,int Dy, int vel)
 			}
 			V[i][j]=vel*100+1;
 		}
-	G[Is][Js]='S';
-	S[1]=Is*Mx+Js;
 	if (G[Id][Jd]=='#') return 0;
+	printf("comincia algoritmo \n");
 	//comincia algoritmo
-	while(Q!=0)
+	G[Is][Js]='S';
+	v=1;
+	S[v]=Is*Mx+Js;
+	while(Q!=0 && v<S[0]) //fino a che non hai considerato ogni casella libera...
 	{
-		for(v=0; v<S[0]; v++)
-			for(i=-1; i<=1; i++)
-				for(j=0; j<=1; j++)
+		//estrai minimi e impilali
+		for(i=-1; i<=1; i++)
+			for(j=-1; j<=1; j++)
+			{
+				if(i+j==1 || i+j==-1) //considera solo le caselle minime (distanza 1)
 				{
-					if (G[Is+i][Js+j]!='#' && G[Is+i][Js+j]!='+' && G[Is+i][Js+j]!='S')
+					X=S[v]/Mx+i; //calcola la x della casella
+					Y=S[v]%Mx+j; //calcola la y della casella
+					if (G[X][Y]=='.') //se non è stato ancora contato...
 					{
-						Q--;
-						X=S[v]/Mx+i;
-						Y=S[v]%Mx+j;
-						G[X][Y]='+';
-						S[S[0]+1]=X*Mx+Y;
-						S[0]++;
-						for(k=-1; k<=1; k++)
-							for(l=0; l<=1; l++)
-							{
-								w=((k+l==1 || k+l==-1)?100:141);
-								if (G[X+k][Y+l]!='#' && V[X][Y]>V[X+k][Y+l]+w)V[X][Y]=V[X+k][Y+l]+w;
-							}
+						Q--; //conta un elemento in meno dal totale
+						G[X][Y]='+'; //segnalo come contato
+						S[S[0]+1]=X*Mx+Y; //impilalo
+						S[0]++; //aumenta il puntatore alla pila
 					}
 				}
+			}
+		printf("primo passo ok \n");
+		if(v>1)
+		{
+			X=S[v]/Mx; //calcola la x della casella
+			Y=S[v]%Mx; //calcola la y della casella
+			//rilassa gli archi
+			for(k=-1; k<=1; k++)
+				for(l=-1; l<=1; l++)
+				{
+					w=((k+l==1 || k+l==-1)?100:141); 
+					if (G[X+k][Y+l]!='#' && V[X][Y]>V[X+k][Y+l]+w) V[X][Y]=V[X+k][Y+l]+w;
+				}
+			printf("secondo passo ok \n");
+		}
+		v++; //passa al prossimo vertice
 	}
+	printf("fine algoritmo \n");
 	// dijkstra completato
 	if(V[Id][Jd]<=vel*100)return 1;
 	else return 0;
