@@ -171,7 +171,7 @@ static void nuova_partita()
 static void preferenze()
 {
 	int scelta;
-	GtkWidget *Dialogo;
+	GtkWidget *Dialogo, *pulsante;
 	GtkWidget *Opzioni;
 	GtkWidget *text_skin, *text_ext;
 	GtkWidget *Label;
@@ -179,17 +179,9 @@ static void preferenze()
 
 	fprintf(stderr,"debug preferenze\n");
 	Dialogo=gtk_dialog_new();
-	gtk_dialog_add_buttons (GTK_DIALOG(Dialogo),"Salva",1,"Annulla",0,NULL);
+	gtk_dialog_add_buttons (GTK_DIALOG(Dialogo),"Salva",1,"Ripristina",2,"Annulla",0,NULL);
 //	gtk_window_set_icon (GTK_WINDOW (Dialogo),Immagine.logo); // ?
 	gtk_window_set_title (GTK_WINDOW(Dialogo),"Fantasy C Config");
-
-    //crea pulsante ripristina
-/*    pulsante=gtk_button_new_with_label ("Ripristina");
-    gtk_box_pack_start(GTK_BOX(Vbox), pulsante, FALSE, FALSE, 0);
-    g_signal_connect_swapped(pulsante, "clicked", G_CALLBACK (click_nt),NULL);
-    gtk_widget_show (pulsante);
-*/
-
 	Opzioni=gtk_frame_new("Opzioni Skins");
 	gtk_box_pack_start (GTK_BOX (gtk_dialog_get_content_area (GTK_DIALOG(Dialogo))),Opzioni, TRUE, TRUE, 0);
 	Vbox=gtk_vbox_new(TRUE,0);
@@ -225,9 +217,6 @@ static void preferenze()
 			exit(1);
 		}
 		caricaconfig("fantasy.config");
-//		gtk_entry_set_text(GTK_ENTRY(text_skin),infogioco.skin);
-//		gtk_entry_set_text(GTK_ENTRY(text_ext),infogioco.ext);
-//		gtk_widget_show_all (Opzioni);
 		gtk_widget_destroy(Dialogo);
 	}
 	else gtk_widget_destroy(Dialogo);
