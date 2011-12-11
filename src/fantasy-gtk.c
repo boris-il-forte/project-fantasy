@@ -218,25 +218,28 @@ static void preferenze()
 	gtk_entry_set_text(GTK_ENTRY(text_ext),infogioco.ext);
 	gtk_box_pack_start (GTK_BOX (Hbox),text_ext, TRUE, TRUE,0);
 	gtk_widget_show_all (Opzioni);
-	scelta=gtk_dialog_run(GTK_DIALOG(Dialogo));
-	if(scelta==1) // salva
+	do
 	{
-		sprintf(infogioco.skin,"%s",gtk_entry_get_text(GTK_ENTRY(text_skin)));
-		sprintf(infogioco.ext,"%s",gtk_entry_get_text(GTK_ENTRY(text_ext)));
-		salvaconfig("fantasy.config");
-		gtk_widget_destroy(Dialogo);
-	}
-	else if(scelta==2) // reset
-	{
-		if(remove("fantasy.config"))
+		scelta=gtk_dialog_run(GTK_DIALOG(Dialogo));
+		if(scelta==1) // salva
 		{
-			perror("cannot remove config file");
-			exit(1);
+			sprintf(infogioco.skin,"%s",gtk_entry_get_text(GTK_ENTRY(text_skin)));
+			sprintf(infogioco.ext,"%s",gtk_entry_get_text(GTK_ENTRY(text_ext)));
+			salvaconfig("fantasy.config");
 		}
-		caricaconfig("fantasy.config");
-		gtk_widget_destroy(Dialogo);
-	}
-	else gtk_widget_destroy(Dialogo);
+		else if(scelta==2) // reset
+		{
+			if(remove("fantasy.config"))
+			{
+				perror("cannot remove config file");
+				exit(1);
+			}
+			caricaconfig("fantasy.config");
+			gtk_entry_set_text(GTK_ENTRY(text_skin),infogioco.skin);
+			gtk_entry_set_text(GTK_ENTRY(text_ext),infogioco.ext);
+		}
+	} while(scelta==2);
+	gtk_widget_destroy(Dialogo);
 }
 
 static void centra_mappa(char* pos)
