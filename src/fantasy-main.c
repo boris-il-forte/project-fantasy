@@ -262,7 +262,7 @@ int main(int argc, char *argv[])
 	gtk_widget_show(Notebook[0]);
 // carica_all_avvio
 	if(argc > 1)
-		gtk_carica_avvio(argv[argc-1]);
+		if(gtk_carica_avvio(argv[argc-1])) return 1;
 // 	visualizza finestra
 	gtk_widget_show (finestra);
 	gtk_main();

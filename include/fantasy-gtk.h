@@ -70,7 +70,7 @@ t_listapertab* Listatruppe;
 void gtk_carica_immagini();
 void gtk_calcola_dimensioni();
 void gtk_inizializza_widget();
-void gtk_carica_avvio(char *nomefile);
+int gtk_carica_avvio(char *nomefile);
 
 //funzioni menu
 void gtk_crea_menu (GtkWidget *Vbox);

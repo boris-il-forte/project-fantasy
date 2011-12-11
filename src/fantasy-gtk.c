@@ -1874,9 +1874,9 @@ void gtk_pulisci_tab (GtkWidget *Target)
 	else gtk_widget_destroy (Target);
 }
 
-void gtk_carica_avvio(char *nomefile)
+int gtk_carica_avvio(char *nomefile)
 {
-	carica(nomefile);
+	if(carica(nomefile)) return 1;
 	gtk_azzera_tab ();
 	gtk_pulisci_mappa();
 	gtk_stampa_mappa(cx,cy, 'n');
@@ -1886,6 +1886,8 @@ void gtk_carica_avvio(char *nomefile)
 	gtk_aggiorna_tab_strutture();
 	gtk_aggiorna_tab_armate();
 	partita_in_corso=1;
+	
+	return 0;
 }
 
 //azzera tab
