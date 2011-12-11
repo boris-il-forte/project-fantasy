@@ -90,14 +90,13 @@ static void salva_carica(int Data)
 	gtk_file_filter_set_name(filter_all,"Tutti i file");
 	gtk_file_chooser_add_filter(GTK_FILE_CHOOSER(Fselect),filter);
 	gtk_file_chooser_add_filter(GTK_FILE_CHOOSER(Fselect),filter_all);
-	if (gtk_dialog_run (GTK_DIALOG(Fselect))==GTK_RESPONSE_ACCEPT)
+	while (gtk_dialog_run (GTK_DIALOG(Fselect))==GTK_RESPONSE_ACCEPT)
 	{
 		buf=gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(Fselect));
 		if(Data==0)
 		{
-			if(carica(buf))
+			if(carica(buf)!=0)
 			{
-				gtk_widget_destroy(Fselect);
 				Dialogo=gtk_dialog_new();
 				gtk_dialog_add_buttons (GTK_DIALOG(Dialogo),GTK_STOCK_OK,1,NULL);
 				gtk_window_set_icon (GTK_WINDOW (Dialogo),Immagine.logo);
@@ -107,24 +106,24 @@ static void salva_carica(int Data)
 				gtk_widget_show(Label);
 				gtk_dialog_run(GTK_DIALOG(Dialogo));
 				gtk_widget_destroy(Dialogo);
-				salva_carica(0);
-				return;
 			}
-			gtk_azzera_tab ();
-			gtk_pulisci_mappa();
-			gtk_stampa_mappa(cx,cy, 'n');
-			gtk_aggiorna_contarisorse();
-			gtk_aggiorna_giocatore_c();
-			gtk_aggiorna_tab_castelli();
-			gtk_aggiorna_tab_strutture();
-			gtk_aggiorna_tab_armate();
-			partita_in_corso=1;
+			else
+			{
+				gtk_azzera_tab ();
+				gtk_pulisci_mappa();
+				gtk_stampa_mappa(cx,cy, 'n');
+				gtk_aggiorna_contarisorse();
+				gtk_aggiorna_giocatore_c();
+				gtk_aggiorna_tab_castelli();
+				gtk_aggiorna_tab_strutture();
+				gtk_aggiorna_tab_armate();
+				partita_in_corso=1;
+				break;
+			}
 		}
 		else salva(buf);
-		gtk_widget_destroy(Fselect);
 	}
-	else
-		gtk_widget_destroy(Fselect);
+	gtk_widget_destroy(Fselect);
 }
 
 static void nuova_partita()
