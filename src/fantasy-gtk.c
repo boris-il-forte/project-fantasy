@@ -93,7 +93,11 @@ static void salva_carica(int Data)
 		buf=gtk_file_chooser_get_filename(GTK_FILE_CHOOSER(Fselect));
 		if(Data==0)
 		{
-			carica(buf);
+			if(carica(buf))
+			{
+				gtk_widget_destroy(Fselect);
+				return;
+			}
 			gtk_azzera_tab ();
 			gtk_pulisci_mappa();
 			gtk_stampa_mappa(cx,cy, 'n');
