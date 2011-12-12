@@ -409,7 +409,7 @@ void liberaheap ()
 }
 
 //calcola il costo del percorso più breve utilizzando l'algoritmo di Dijkstra
-void inizializza_dijkstra(int PosT, char **G, const int Mx, int vel)
+int inizializza_dijkstra(int PosT, char **G, const int Mx, int vel)
 {
 	const int Cs=vel+1;
 	int Sx,Sy;
@@ -454,25 +454,23 @@ void inizializza_dijkstra(int PosT, char **G, const int Mx, int vel)
 		printf("\n");
 	}
 	#endif
+	return Q;
 }
 
-void calcola_dijkstra(char **G, int Mx, int vel, int **V)
+void calcola_dijkstra(char **G, int Mx, int vel, int **V, int Q)
 {
+	const int Cs=vel+1;
 	int i,j,k,l;
 	int v=1;
 	int vp=0;
 	int X,Y;
 	int w;
 	int S[Mx*Mx];
-	int Q=0;
-
 	S[0]=1;
-	//S[v]=;
-
-for(i=0;i<Mx;i++)
-	for(j=0;j<Mx;j++)
-		V[i][j]=vel*100+1;
-
+	S[v]=Cs*Mx+Cs;
+	for(i=0;i<Mx;i++)
+		for(j=0;j<Mx;j++)
+			V[i][j]=vel*100+1;
 	while(Q!=0 && v<=S[0]) //fino a che non hai considerato ogni casella libera...
 	{
 		//estrai minimi e impilali

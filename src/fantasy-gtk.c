@@ -1251,13 +1251,15 @@ void gtk_stampa_mappa(int x, int y, char m)
 	int R;
 	int Pos=0;
 	int G;
-	char buf[10];
-	t_truppa Tipo;
-	char vel;
-	int Mx;
-	char Graph[Mx][Mx];
-	int **V;
+	int Mx=0;
+	int **V=NULL;
 	int i,j;
+	int Q;
+	char buf[10];
+	char vel;
+	char **Graph;
+	
+	t_truppa Tipo;
 	
 	sprintf(buf,"(%d|%d)",x+L_SCHERMO/2-1,y+A_SCHERMO/2-1);
 	gtk_label_set_text(GTK_LABEL(Coordinate),buf);
@@ -1269,7 +1271,8 @@ void gtk_stampa_mappa(int x, int y, char m)
 		vel=Dtruppa[Tipo].vel;
 		Mx=(vel+3)*(vel+3);
 		V=malloc(sizeof(int*)*Mx);
-		if(V==NULL)
+		Graph=malloc(sizeof(int*)*Mx);
+		if(V==NULL || Graph==NULL)
 		{
 			perror("malloc fallita");
 			exit(1);
@@ -1277,15 +1280,16 @@ void gtk_stampa_mappa(int x, int y, char m)
 		for(i=0;i<Mx;i++)
 		{
 			V[i]=malloc(sizeof(int)*Mx);
-			if(V[i]==NULL) 
+			Graph[i]=malloc(sizeof(int*)*Mx);
+			if(V[i]==NULL || Graph[i]==NULL) 
 			{
 				perror("malloc fallita");
 				exit(1);
 			}
 		}
 		printf("dbg Mossa=%d Mx=%d vel=%d V=%p\n",Mossa,Mx,vel,V); // Debug
-		inizializza_dijkstra(Mossa,Graph,Mx,vel);
-		calcola_dijkstra(Graph,Mx,vel,V);
+		Q=inizializza_dijkstra(Mossa,Graph,Mx,vel);
+		calcola_dijkstra(Graph,Mx,vel,V,Q);
 
 //		for(i=0;i<Mx;i++)
 //			for(j=0;j<Mx;j++)
@@ -1316,7 +1320,7 @@ void gtk_stampa_mappa(int x, int y, char m)
 						g_signal_connect_swapped (Casella[Pos], "button_press_event", G_CALLBACK (click_castello), (gpointer) &infomappa.mappa[posiziona(-1,-1,C,R)]);
 					if(m=='c' && assaltolecito(Mossa,posiziona(0,0,C,R))==1 && controllodiverso(Mossa,posiziona(-1,-1,C,R),Cas)==1)
 						g_signal_connect_swapped (Casella[Pos], "button_press_event", G_CALLBACK (click_assediocastello), (gpointer) &infomappa.mappa[posiziona(-1,-1,C,R)]);
-					if(m=='s' && spostalecito(Mossa,posiziona(0,0,C,R))==1 && controllodiverso(Mossa,posiziona(-1,-1,C,R),Cas)==0)
+					if(m=='s' && spostalecito(Mossa,posiziona(0,0,C,R),V)==1 && controllodiverso(Mossa,posiziona(-1,-1,C,R),Cas)==0)
 						g_signal_connect_swapped (Casella[Pos], "button_press_event", G_CALLBACK (click_entrastruttura), (gpointer) &infomappa.mappa[posiziona(-1,-1,C,R)]);
 					gtk_widget_show(Thumb[Pos]);
 					break;
