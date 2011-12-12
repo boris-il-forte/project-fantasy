@@ -470,7 +470,7 @@ int inizializza_dijkstra(int PosT, char ***G, int ***V, int *mx, char *vel)
 		for(j=0;j<Mx;j++)
 			(*V)[i][j]=Vel*100+1;
 	(*G)[Cs][Cs]='S'; //segna il source
-
+	(*V)[Cs][Cs]=0;
 	#ifdef DEBUG
 	// stampo il grafo
 	for(i=0;i<Mx;i++)
@@ -528,7 +528,7 @@ void calcola_dijkstra(char **G, int Mx, int vel, int **V, int Q)
 				for(l=-1; l<=1; l++)
 				{
 					w=((k+l==1 || k+l==-1)?100:141); 
-					if (G[X+k][Y+l]!='#' && V[X][Y]>V[X+k][Y+l]+w) V[X][Y]=V[X+k][Y+l]+w;
+					if (G[X+k][Y+l]!='#' && V[X+k][Y+l]>V[X][Y]+w) V[X+k][Y+l]=V[X][Y]+w;
 				}
 		}
 		//printf("secondo passo ok \n");
