@@ -408,76 +408,51 @@ void liberaheap ()
 	for (i=0; i<ALTEZZA*LARGHEZZA; i++) free(infomappa.truppe[i]);
 }
 
-//calcola se esiste un percorso banale alla destinazione
-int percorsolibero (int Sx, int Sy, int Dx,int Dy, int vel)
-{
-	int i,j=0;
-	int Lx=(Sx>Dx)?(Sx-Dx):(Dx-Sx);
-	int Ly=(Sy>Dy)?(Sy-Dy):(Dy-Sy);
-	int mx=(Sx>Dx)?-1:1;
-	int my=(Sy>Dy)?-1:1;
-	if(Lx+Ly<=vel)
-	{
-		for(i=1;i<=Lx; i++)
-			if(infomappa.mappa[posiziona(mx*i,my*j,Sx,Sy)]!=' ' || infomappa.truppe[posiziona(mx*i,my*j,Sx,Sy)]!=NULL) 
-			{
-				printf("nopercorsolibero\n");
-				return 0;
-			}
-		for(j=1;j<=Lx; j++)
-			if(infomappa.mappa[posiziona(mx*i,my*j,Sx,Sy)]!=' ' || infomappa.truppe[posiziona(mx*i,my*j,Sx,Sy)]!=NULL || i+j>vel) 
-			{
-				printf("nopercorsolibero\n");
-				return 0;
-			}
-		printf("percorsolibero!!!\n");
-		return 1;
-	}
-	else return 0;
-}
 //calcola il costo del percorso più breve utilizzando l'algoritmo di Dijkstra
-int percorsominimo(int Sx, int Sy, int Dx,int Dy, int vel)
+int dijkstra(int PosT, int **V)
 {
+	int Sx,Sy;
+	Sx=PosT%LARGHEZZA; // al posto giusto. controlla Is Js Id Jd..
+	Sy=PosT/LARGHEZZA;
 	int i,j,v,vp,k,l;
 	int X,Y;
 	int w;
-	int Lx=(Sx>Dx)?(Sx-Dx):(Dx-Sx);
-	int Ly=(Sy>Dy)?(Sy-Dy):(Dy-Sy);
-	const int Mx=2*vel-Lx+3;
-	const int My=2*vel-Ly+3;
-	const int Is=(Sx>Dx)?(vel+1):(vel-Lx+1);
-	const int Js=(Sy>Dy)?(vel+1):(vel-Ly+1);
-	const int Id=Is+((Sx<Dx)?(Lx):(-Lx));
-	const int Jd=Js+((Sy<Dy)?(Ly):(-Ly));
+	t_truppa Tipo=infomappa.truppe[PosT]->tipo;
+	char vel=Dtruppa[Tipo].vel;
+	const int Mx=(vel+3)*(vel+3);
+	const int My=(vel+3)*(vel+3);
+//	const int Is=(Sx>Dx)?(vel+1):(vel-Lx+1);
+//	const int Js=(Sy>Dy)?(vel+1):(vel-Ly+1);
+//	const int Id=Is+((Sx<Dx)?(Lx):(-Lx));
+//	const int Jd=Js+((Sy<Dy)?(Ly):(-Ly));
 	char G[Mx][My];
 	int S[Mx*My];
 	int Q=0;
-	int V[Mx][My];
-	if(Sx<0 || Sy<0 || Dx<0 || Dy<0 || vel<0)
-	{
-		fprintf(stderr,"Errore! sx:%d sy:%d dx:%d dy:%d vel:%d\n", Sx,Sy, Dx,Dy, vel );
-		return 0;
-	}
+//	int V[Mx][My];
+
+//	printf("dato vel=%d Mx=%d e My=%d\n",vel,Mx,My);
+
 	//prepara grafo e contatore Q
 	for(i=0;i<Mx; i++)
 	{
 		G[i][0]='#';
 		G[i][My-1]='#';
-		V[i][0]=vel*10+1;
-		V[i][My-1]=vel*10+1;
+		V[i][0]=vel*100+1; // corretto era vel*10+1
+		V[i][My-1]=vel*100+1; // corretto come sopra
 	}
 	for(i=0;i<My; i++) 
 	{
 		G[0][i]='#';
 		G[Mx-1][i]='#';
-		V[0][j]=vel*100+1;
-		V[Mx-1][j]=vel*100+1;
+		V[0][i]=vel*100+1;
+		V[Mx-1][i]=vel*100+1;
 	}
 	for(i=1; i<Mx-1;i++)
 		for(j=1; j<My-1;j++)
 		{
-			if((Sx+i-Is)<0 || (Sx+i-Is)>=LARGHEZZA || (Sy+j-Js)<0 || (Sy+j-Js)>=ALTEZZA) G[i][j]='#';
-			else if((i-Is)*(i-Is)+(j-Js)*(j-Js)>vel*vel || infomappa.mappa[posiziona(Is-i,Js-j,Sx,Sy)]!=' ' || infomappa.truppe[posiziona(Is-i,Js-j,Sx,Sy)]!=NULL) G[i][j]='#';
+//			if((Sx+i-Is)<0 || (Sx+i-Is)>=LARGHEZZA || (Sy+j-Js)<0 || (Sy+j-Js)>=ALTEZZA) G[i][j]='#';
+			if((Sx+i-Mx/2)<0 || (Sx+i-Mx/2)>=LARGHEZZA || (Sy+j-My/2)<0 || (Sy+j-My/2)>=ALTEZZA) G[i][j]='#';
+			else if((i-Mx/2)*(i-Mx/2)+(j-My/2)*(j-My/2)>vel*vel || infomappa.mappa[posiziona(Mx/2-i,My/2-j,Sx,Sy)]!=' ' || infomappa.truppe[posiziona(Mx/2-i,My/2-j,Sx,Sy)]!=NULL) G[i][j]='#';
 			else 
 			{
 				G[i][j]='.';
@@ -485,15 +460,16 @@ int percorsominimo(int Sx, int Sy, int Dx,int Dy, int vel)
 			}
 			V[i][j]=vel*100+1;
 		}
-	if (G[Id][Jd]=='#') return 0;
+	//if (G[Id][Jd]=='#') return 0; // controllo forse eccessivo?
 	printf("comincia algoritmo \n");
 	//inizializza algoritmo
-	G[Is][Js]='S'; //segna il source
+	G[Sx][Sy]='S'; //segna il source
 	S[0]=1;
-	S[1]=Is*Mx+Js;
+//	S[1]=Is*Mx+Js;
+	S[1]=Sx*Mx+Sy;
 	v=1;
 	vp=0;
-	S[v]=Is*Mx+Js;
+	S[v]=Sx*Mx+Sy;
 	//comincia algoritmo
 	while(Q!=0 && v<=S[0]) //fino a che non hai considerato ogni casella libera...
 	{
@@ -534,23 +510,23 @@ int percorsominimo(int Sx, int Sy, int Dx,int Dy, int vel)
 	}
 	printf("fine algoritmo \n");
 	// dijkstra completato
-	if(V[Id][Jd]<=vel*100)return 1;
-	else return 0;
+
+	return 0; // tutto ok
 }
+
 // calcola se lo spostamento è lecito
-int spostalecito (int PosT, int PosC )
+int spostalecito (int PosT, int PosC , int *V[])
 {
 	t_truppa Tipo= infomappa.truppe[PosT]->tipo;
-	char Vel=Dtruppa[Tipo].vel;
+	char vel=Dtruppa[Tipo].vel;
 	int x= PosT%LARGHEZZA-PosC%LARGHEZZA;
 	int y= PosT/LARGHEZZA-PosC/LARGHEZZA;
 
 	#ifdef DEBUG
-	if(x*x+y*y>Vel*Vel) return 0;
-	else if (percorsolibero(PosT%LARGHEZZA,PosT/LARGHEZZA,PosC%LARGHEZZA,PosC/LARGHEZZA,Vel)) return 1;
-	else if (percorsominimo(PosT%LARGHEZZA,PosT/LARGHEZZA,PosC%LARGHEZZA,PosC/LARGHEZZA,Vel)) return 1;
+	if(x*x+y*y>vel*vel) return 0;
+	else if(V[PosC%LARGHEZZA][PosC/LARGHEZZA]<=vel*100) return 1;
 	#else
-	if(x*x+y*y<=Vel*Vel) return 1;
+	if(x*x+y*y<=vel*vel) return 1;
 	#endif
 	else return 0;
 }

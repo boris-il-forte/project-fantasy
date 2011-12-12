@@ -1252,10 +1252,28 @@ void gtk_stampa_mappa(int x, int y, char m)
 	int Pos=0;
 	int G;
 	char buf[10];
+	t_truppa Tipo;
+	char vel;
+	int Mx;
+	int My;
+	int **V;
+	int i;
+	
 	sprintf(buf,"(%d|%d)",x+L_SCHERMO/2-1,y+A_SCHERMO/2-1);
 	gtk_label_set_text(GTK_LABEL(Coordinate),buf);
-	if (m=='p') m=pre;
+	if(m=='p') m=pre;
 	else pre=m;
+	if(m=='s')
+	{
+		Tipo=infomappa.truppe[Mossa]->tipo;
+		vel=Dtruppa[Tipo].vel;
+		Mx=(vel+3)*(vel+3);
+		My=(vel+3)*(vel+3);
+
+		V=malloc(sizeof(int*)*Mx);
+		for(i=0;i<Mx;i++) V[i]=malloc(sizeof(int)*My);
+		dijkstra(Mossa,V);
+	}
 	for(R=y;R<y+A_SCHERMO;R++)
 		for(C=x;C<x+L_SCHERMO;C++)
 		{
@@ -1270,7 +1288,7 @@ void gtk_stampa_mappa(int x, int y, char m)
 						g_signal_connect_swapped (Casella[Pos], "button_press_event", G_CALLBACK (click_castello), (gpointer) &infomappa.mappa[posiziona(-1,-1,C,R)]);
 					if(m=='c' && assaltolecito(Mossa,posiziona(0,0,C,R))==1 && controllodiverso(Mossa,posiziona(-1,-1,C,R),Cas)==1)
 						g_signal_connect_swapped (Casella[Pos], "button_press_event", G_CALLBACK (click_assediocastello), (gpointer) &infomappa.mappa[posiziona(-1,-1,C,R)]);
-					if(m=='s' && spostalecito(Mossa,posiziona(0,0,C,R))==1 && controllodiverso(Mossa,posiziona(-1,-1,C,R),Cas)==0)
+					if(m=='s' && spostalecito(Mossa,posiziona(0,0,C,R),V)==1 && controllodiverso(Mossa,posiziona(-1,-1,C,R),Cas)==0)
 						g_signal_connect_swapped (Casella[Pos], "button_press_event", G_CALLBACK (click_entrastruttura), (gpointer) &infomappa.mappa[posiziona(-1,-1,C,R)]);
 					gtk_widget_show(Thumb[Pos]);
 					break;
@@ -1282,7 +1300,7 @@ void gtk_stampa_mappa(int x, int y, char m)
 						g_signal_connect_swapped (Casella[Pos], "button_press_event", G_CALLBACK (click_castello), (gpointer) &infomappa.mappa[posiziona(0,-1,C,R)]);
 					if(m=='c' && assaltolecito(Mossa,posiziona(0,0,C,R))==1 && controllodiverso(Mossa,posiziona(0,-1,C,R),Cas)==1)
 						g_signal_connect_swapped (Casella[Pos], "button_press_event", G_CALLBACK (click_assediocastello), (gpointer) &infomappa.mappa[posiziona(0,-1,C,R)]);
-					if(m=='s' && spostalecito(Mossa,posiziona(0,0,C,R))==1 && controllodiverso(Mossa,posiziona(0,-1,C,R),Cas)==0)
+					if(m=='s' && spostalecito(Mossa,posiziona(0,0,C,R),V)==1 && controllodiverso(Mossa,posiziona(0,-1,C,R),Cas)==0)
 						g_signal_connect_swapped (Casella[Pos], "button_press_event", G_CALLBACK (click_entrastruttura), (gpointer) &infomappa.mappa[posiziona(0,-1,C,R)]);
 					gtk_widget_show(Thumb[Pos]);
 					break;
@@ -1294,7 +1312,7 @@ void gtk_stampa_mappa(int x, int y, char m)
 						g_signal_connect_swapped (Casella[Pos], "button_press_event", G_CALLBACK (click_castello), (gpointer) &infomappa.mappa[posiziona(1,-1,C,R)]);
 					if(m=='c' && assaltolecito(Mossa,posiziona(0,0,C,R))==1 && controllodiverso(Mossa,posiziona(1,-1,C,R),Cas)==1)
 						g_signal_connect_swapped (Casella[Pos], "button_press_event", G_CALLBACK (click_assediocastello), (gpointer) &infomappa.mappa[posiziona(1,-1,C,R)]);
-					if(m=='s' && spostalecito(Mossa,posiziona(0,0,C,R))==1 && controllodiverso(Mossa,posiziona(1,-1,C,R),Cas)==0)
+					if(m=='s' && spostalecito(Mossa,posiziona(0,0,C,R),V)==1 && controllodiverso(Mossa,posiziona(1,-1,C,R),Cas)==0)
 						g_signal_connect_swapped (Casella[Pos], "button_press_event", G_CALLBACK (click_entrastruttura), (gpointer) &infomappa.mappa[posiziona(1,-1,C,R)]);
 					gtk_widget_show(Thumb[Pos]);
 					break;
@@ -1306,7 +1324,7 @@ void gtk_stampa_mappa(int x, int y, char m)
 						g_signal_connect_swapped (Casella[Pos], "button_press_event", G_CALLBACK (click_castello), (gpointer) &infomappa.mappa[posiziona(-1,0,C,R)]);
 					if(m=='c' && assaltolecito(Mossa,posiziona(0,0,C,R))==1 && controllodiverso(Mossa,posiziona(-1,0,C,R),Cas)==1)
 						g_signal_connect_swapped (Casella[Pos], "button_press_event", G_CALLBACK (click_assediocastello), (gpointer) &infomappa.mappa[posiziona(-1,0,C,R)]);
-					if(m=='s' && spostalecito(Mossa,posiziona(0,0,C,R))==1 && controllodiverso(Mossa,posiziona(-1,0,C,R),Cas)==0)
+					if(m=='s' && spostalecito(Mossa,posiziona(0,0,C,R),V)==1 && controllodiverso(Mossa,posiziona(-1,0,C,R),Cas)==0)
 						g_signal_connect_swapped (Casella[Pos], "button_press_event", G_CALLBACK (click_entrastruttura), (gpointer) &infomappa.mappa[posiziona(-1,0,C,R)]);
 					gtk_widget_show(Thumb[Pos]);
 					break;
@@ -1326,7 +1344,7 @@ void gtk_stampa_mappa(int x, int y, char m)
 						g_signal_connect_swapped (Casella[Pos], "button_press_event", G_CALLBACK (click_castello), (gpointer) &infomappa.mappa[posiziona(1,0,C,R)]);
 					if(m=='c' && assaltolecito(Mossa,posiziona(0,0,C,R))==1 && controllodiverso(Mossa,posiziona(1,0,C,R),Cas)==1)
 						g_signal_connect_swapped (Casella[Pos], "button_press_event", G_CALLBACK (click_assediocastello), (gpointer) &infomappa.mappa[posiziona(1,0,C,R)]);
-					if(m=='s' && spostalecito(Mossa,posiziona(0,0,C,R))==1 && controllodiverso(Mossa,posiziona(1,0,C,R),Cas)==0)
+					if(m=='s' && spostalecito(Mossa,posiziona(0,0,C,R),V)==1 && controllodiverso(Mossa,posiziona(1,0,C,R),Cas)==0)
 						g_signal_connect_swapped (Casella[Pos], "button_press_event", G_CALLBACK (click_entrastruttura), (gpointer) &infomappa.mappa[posiziona(1,0,C,R)]);
 					gtk_widget_show(Thumb[Pos]);
 					break;
@@ -1338,7 +1356,7 @@ void gtk_stampa_mappa(int x, int y, char m)
 						g_signal_connect_swapped (Casella[Pos], "button_press_event", G_CALLBACK (click_castello), (gpointer) &infomappa.mappa[posiziona(-1,1,C,R)]);
 					if(m=='c' && assaltolecito(Mossa,posiziona(0,0,C,R))==1 && controllodiverso(Mossa,posiziona(-1,1,C,R),Cas)==1)
 						g_signal_connect_swapped (Casella[Pos], "button_press_event", G_CALLBACK (click_assediocastello), (gpointer) &infomappa.mappa[posiziona(-1,1,C,R)]);
-					if(m=='s' && spostalecito(Mossa,posiziona(0,0,C,R))==1 && controllodiverso(Mossa,posiziona(-1,1,C,R),Cas)==0)
+					if(m=='s' && spostalecito(Mossa,posiziona(0,0,C,R),V)==1 && controllodiverso(Mossa,posiziona(-1,1,C,R),Cas)==0)
 						g_signal_connect_swapped (Casella[Pos], "button_press_event", G_CALLBACK (click_entrastruttura), (gpointer) &infomappa.mappa[posiziona(-1,1,C,R)]);
 					gtk_widget_show(Thumb[Pos]);
 					break;
@@ -1350,7 +1368,7 @@ void gtk_stampa_mappa(int x, int y, char m)
 						g_signal_connect_swapped (Casella[Pos], "button_press_event", G_CALLBACK (click_castello), (gpointer) &infomappa.mappa[posiziona(0,1,C,R)]);
 					if(m=='c' && assaltolecito(Mossa,posiziona(0,0,C,R))==1 && controllodiverso(Mossa,posiziona(0,1,C,R),Cas)==1)
 						g_signal_connect_swapped (Casella[Pos], "button_press_event", G_CALLBACK (click_assediocastello), (gpointer) &infomappa.mappa[posiziona(0,1,C,R)]);
-					if(m=='s' && spostalecito(Mossa,posiziona(0,0,C,R))==1 && controllodiverso(Mossa,posiziona(0,1,C,R),Cas)==0)
+					if(m=='s' && spostalecito(Mossa,posiziona(0,0,C,R),V)==1 && controllodiverso(Mossa,posiziona(0,1,C,R),Cas)==0)
 						g_signal_connect_swapped (Casella[Pos], "button_press_event", G_CALLBACK (click_entrastruttura), (gpointer) &infomappa.mappa[posiziona(0,1,C,R)]);
 					gtk_widget_show(Thumb[Pos]);
 					break;
@@ -1362,7 +1380,7 @@ void gtk_stampa_mappa(int x, int y, char m)
 						g_signal_connect_swapped (Casella[Pos], "button_press_event", G_CALLBACK (click_castello), (gpointer) &infomappa.mappa[posiziona(1,1,C,R)]);
 					if(m=='c' && assaltolecito(Mossa,posiziona(0,0,C,R))==1 && controllodiverso(Mossa,posiziona(1,1,C,R),Cas)==1)
 						g_signal_connect_swapped (Casella[Pos], "button_press_event", G_CALLBACK (click_assediocastello), (gpointer) &infomappa.mappa[posiziona(1,1,C,R)]);
-					if(m=='s' && spostalecito(Mossa,posiziona(0,0,C,R))==1 && controllodiverso(Mossa,posiziona(1,1,C,R),Cas)==0)
+					if(m=='s' && spostalecito(Mossa,posiziona(0,0,C,R),V)==1 && controllodiverso(Mossa,posiziona(1,1,C,R),Cas)==0)
 						g_signal_connect_swapped (Casella[Pos], "button_press_event", G_CALLBACK (click_entrastruttura), (gpointer) &infomappa.mappa[posiziona(1,1,C,R)]);
 					gtk_widget_show(Thumb[Pos]);
 					break;
@@ -1375,7 +1393,7 @@ void gtk_stampa_mappa(int x, int y, char m)
 						g_signal_connect_swapped (Casella[Pos], "button_press_event", G_CALLBACK (click_grotta), (gpointer) &infomappa.mappa[posiziona(0,0,C,R)]);
 					if(m=='c' && assaltolecito(Mossa,posiziona(0,0,C,R))==1 && controllodiverso(Mossa,posiziona(0,0,C,R),Gro)==1)
 						g_signal_connect_swapped (Casella[Pos], "button_press_event", G_CALLBACK (click_assaltostruttura), (gpointer) &infomappa.mappa[posiziona(0,0,C,R)]);
-					if(m=='s' && spostalecito(Mossa,posiziona(0,0,C,R))==1 && controllodiverso(Mossa,posiziona(0,0,C,R),Gro)==0)
+					if(m=='s' && spostalecito(Mossa,posiziona(0,0,C,R),V)==1 && controllodiverso(Mossa,posiziona(0,0,C,R),Gro)==0)
 						g_signal_connect_swapped (Casella[Pos], "button_press_event", G_CALLBACK (click_entrastruttura), (gpointer) &infomappa.mappa[posiziona(0,0,C,R)]);
 					gtk_widget_show(Thumb[Pos]);
 					break;
@@ -1387,7 +1405,7 @@ void gtk_stampa_mappa(int x, int y, char m)
 						g_signal_connect_swapped (Casella[Pos], "button_press_event", G_CALLBACK (click_grotta), (gpointer) &infomappa.mappa[posiziona(1,0,C,R)]);
 					if(m=='c' && assaltolecito(Mossa,posiziona(0,0,C,R))==1 && controllodiverso(Mossa,posiziona(1,0,C,R),Gro)==1)
 						g_signal_connect_swapped (Casella[Pos], "button_press_event", G_CALLBACK (click_assaltostruttura), (gpointer) &infomappa.mappa[posiziona(1,0,C,R)]);
-					if(m=='s' && spostalecito(Mossa,posiziona(0,0,C,R))==1 && controllodiverso(Mossa,posiziona(1,0,C,R),Gro)==0)
+					if(m=='s' && spostalecito(Mossa,posiziona(0,0,C,R),V)==1 && controllodiverso(Mossa,posiziona(1,0,C,R),Gro)==0)
 						g_signal_connect_swapped (Casella[Pos], "button_press_event", G_CALLBACK (click_entrastruttura), (gpointer) &infomappa.mappa[posiziona(1,0,C,R)]);
 					gtk_widget_show(Thumb[Pos]);
 					break;
@@ -1399,7 +1417,7 @@ void gtk_stampa_mappa(int x, int y, char m)
 						g_signal_connect_swapped (Casella[Pos], "button_press_event", G_CALLBACK (click_grotta), (gpointer) &infomappa.mappa[posiziona(0,1,C,R)]);
 					if(m=='c' && assaltolecito(Mossa,posiziona(0,0,C,R))==1 && controllodiverso(Mossa,posiziona(0,1,C,R),Gro)==1)
 						g_signal_connect_swapped (Casella[Pos], "button_press_event", G_CALLBACK (click_assaltostruttura), (gpointer) &infomappa.mappa[posiziona(0,1,C,R)]);
-					if(m=='s' && spostalecito(Mossa,posiziona(0,0,C,R))==1 && controllodiverso(Mossa,posiziona(0,1,C,R),Gro)==0)
+					if(m=='s' && spostalecito(Mossa,posiziona(0,0,C,R),V)==1 && controllodiverso(Mossa,posiziona(0,1,C,R),Gro)==0)
 						g_signal_connect_swapped (Casella[Pos], "button_press_event", G_CALLBACK (click_entrastruttura), (gpointer) &infomappa.mappa[posiziona(0,1,C,R)]);
 					gtk_widget_show(Thumb[Pos]);
 					break;
@@ -1411,7 +1429,7 @@ void gtk_stampa_mappa(int x, int y, char m)
 						g_signal_connect_swapped (Casella[Pos], "button_press_event", G_CALLBACK (click_grotta), (gpointer) &infomappa.mappa[posiziona(1,1,C,R)]);
 					if(m=='c' && assaltolecito(Mossa,posiziona(0,0,C,R))==1 && controllodiverso(Mossa,posiziona(1,1,C,R),Gro)==1)
 						g_signal_connect_swapped (Casella[Pos], "button_press_event", G_CALLBACK (click_assaltostruttura), (gpointer) &infomappa.mappa[posiziona(1,1,C,R)]);
-					if(m=='s' && spostalecito(Mossa,posiziona(0,0,C,R))==1 && controllodiverso(Mossa,posiziona(1,1,C,R),Gro)==0)
+					if(m=='s' && spostalecito(Mossa,posiziona(0,0,C,R),V)==1 && controllodiverso(Mossa,posiziona(1,1,C,R),Gro)==0)
 						g_signal_connect_swapped (Casella[Pos], "button_press_event", G_CALLBACK (click_entrastruttura), (gpointer) &infomappa.mappa[posiziona(1,1,C,R)]);
 					gtk_widget_show(Thumb[Pos]);
 					break;
@@ -1424,7 +1442,7 @@ void gtk_stampa_mappa(int x, int y, char m)
 						g_signal_connect_swapped (Casella[Pos], "button_press_event", G_CALLBACK (click_fattoria), (gpointer) &infomappa.mappa[posiziona(0,0,C,R)]);
 					if(m=='c' && assaltolecito(Mossa,posiziona(0,0,C,R))==1 && controllodiverso(Mossa,posiziona(0,0,C,R),Fat)==1)
 						g_signal_connect_swapped (Casella[Pos], "button_press_event", G_CALLBACK (click_assaltostruttura), (gpointer) &infomappa.mappa[posiziona(0,0,C,R)]);
-					if(m=='s' && spostalecito(Mossa,posiziona(0,0,C,R))==1 && controllodiverso(Mossa,posiziona(0,0,C,R),Fat)==0)
+					if(m=='s' && spostalecito(Mossa,posiziona(0,0,C,R),V)==1 && controllodiverso(Mossa,posiziona(0,0,C,R),Fat)==0)
 						g_signal_connect_swapped (Casella[Pos], "button_press_event", G_CALLBACK (click_entrastruttura), (gpointer) &infomappa.mappa[posiziona(0,0,C,R)]);
 					gtk_widget_show(Thumb[Pos]);
 					break;
@@ -1436,7 +1454,7 @@ void gtk_stampa_mappa(int x, int y, char m)
 						g_signal_connect_swapped (Casella[Pos], "button_press_event", G_CALLBACK (click_fattoria), (gpointer) &infomappa.mappa[posiziona(1,0,C,R)]);
 					if(m=='c' && assaltolecito(Mossa,posiziona(0,0,C,R))==1 && controllodiverso(Mossa,posiziona(1,0,C,R),Fat)==1)
 						g_signal_connect_swapped (Casella[Pos], "button_press_event", G_CALLBACK (click_assaltostruttura), (gpointer) &infomappa.mappa[posiziona(1,0,C,R)]);
-					if(m=='s' && spostalecito(Mossa,posiziona(0,0,C,R))==1 && controllodiverso(Mossa,posiziona(1,0,C,R),Fat)==0)
+					if(m=='s' && spostalecito(Mossa,posiziona(0,0,C,R),V)==1 && controllodiverso(Mossa,posiziona(1,0,C,R),Fat)==0)
 						g_signal_connect_swapped (Casella[Pos], "button_press_event", G_CALLBACK (click_entrastruttura), (gpointer) &infomappa.mappa[posiziona(1,0,C,R)]);
 					gtk_widget_show(Thumb[Pos]);
 					break;
@@ -1448,7 +1466,7 @@ void gtk_stampa_mappa(int x, int y, char m)
 						g_signal_connect_swapped (Casella[Pos], "button_press_event", G_CALLBACK (click_fattoria), (gpointer) &infomappa.mappa[posiziona(0,1,C,R)]);
 					if(m=='c' && assaltolecito(Mossa,posiziona(0,0,C,R))==1 && controllodiverso(Mossa,posiziona(0,1,C,R),Fat)==1)
 						g_signal_connect_swapped (Casella[Pos], "button_press_event", G_CALLBACK (click_assaltostruttura), (gpointer) &infomappa.mappa[posiziona(0,1,C,R)]);
-					if(m=='s' && spostalecito(Mossa,posiziona(0,0,C,R))==1 && controllodiverso(Mossa,posiziona(0,1,C,R),Fat)==0)
+					if(m=='s' && spostalecito(Mossa,posiziona(0,0,C,R),V)==1 && controllodiverso(Mossa,posiziona(0,1,C,R),Fat)==0)
 						g_signal_connect_swapped (Casella[Pos], "button_press_event", G_CALLBACK (click_entrastruttura), (gpointer) &infomappa.mappa[posiziona(0,1,C,R)]);
 					gtk_widget_show(Thumb[Pos]);
 					break;
@@ -1460,7 +1478,7 @@ void gtk_stampa_mappa(int x, int y, char m)
 						g_signal_connect_swapped (Casella[Pos], "button_press_event", G_CALLBACK (click_fattoria), (gpointer) &infomappa.mappa[posiziona(1,1,C,R)]);
 					if(m=='c' && assaltolecito(Mossa,posiziona(0,0,C,R))==1 && controllodiverso(Mossa,posiziona(1,1,C,R),Fat)==1)
 						g_signal_connect_swapped (Casella[Pos], "button_press_event", G_CALLBACK (click_assaltostruttura), (gpointer) &infomappa.mappa[posiziona(1,1,C,R)]);
-					if(m=='s' && spostalecito(Mossa,posiziona(0,0,C,R))==1 && controllodiverso(Mossa,posiziona(1,1,C,R),Fat)==0)
+					if(m=='s' && spostalecito(Mossa,posiziona(0,0,C,R),V)==1 && controllodiverso(Mossa,posiziona(1,1,C,R),Fat)==0)
 						g_signal_connect_swapped (Casella[Pos], "button_press_event", G_CALLBACK (click_entrastruttura), (gpointer) &infomappa.mappa[posiziona(1,1,C,R)]);
 					gtk_widget_show(Thumb[Pos]);
 					break;
@@ -1473,7 +1491,7 @@ void gtk_stampa_mappa(int x, int y, char m)
 						g_signal_connect_swapped (Casella[Pos], "button_press_event", G_CALLBACK (click_scuderia), (gpointer) &infomappa.mappa[posiziona(0,0,C,R)]);
 					if(m=='c' && assaltolecito(Mossa,posiziona(0,0,C,R))==1 && controllodiverso(Mossa,posiziona(0,0,C,R),Scu)==1)
 						g_signal_connect_swapped (Casella[Pos], "button_press_event", G_CALLBACK (click_assaltostruttura), (gpointer) &infomappa.mappa[posiziona(0,0,C,R)]);
-					if(m=='s' && spostalecito(Mossa,posiziona(0,0,C,R))==1 && controllodiverso(Mossa,posiziona(0,0,C,R),Scu)==0)
+					if(m=='s' && spostalecito(Mossa,posiziona(0,0,C,R),V)==1 && controllodiverso(Mossa,posiziona(0,0,C,R),Scu)==0)
 						g_signal_connect_swapped (Casella[Pos], "button_press_event", G_CALLBACK (click_entrastruttura), (gpointer) &infomappa.mappa[posiziona(0,0,C,R)]);
 					gtk_widget_show(Thumb[Pos]);
 					break;
@@ -1485,7 +1503,7 @@ void gtk_stampa_mappa(int x, int y, char m)
 						g_signal_connect_swapped (Casella[Pos], "button_press_event", G_CALLBACK (click_scuderia), (gpointer) &infomappa.mappa[posiziona(1,0,C,R)]);
 					if(m=='c' && assaltolecito(Mossa,posiziona(0,0,C,R))==1 && controllodiverso(Mossa,posiziona(1,0,C,R),Scu)==1)
 						g_signal_connect_swapped (Casella[Pos], "button_press_event", G_CALLBACK (click_assaltostruttura), (gpointer) &infomappa.mappa[posiziona(1,0,C,R)]);
-					if(m=='s' && spostalecito(Mossa,posiziona(0,0,C,R))==1 && controllodiverso(Mossa,posiziona(1,0,C,R),Scu)==0)
+					if(m=='s' && spostalecito(Mossa,posiziona(0,0,C,R),V)==1 && controllodiverso(Mossa,posiziona(1,0,C,R),Scu)==0)
 						g_signal_connect_swapped (Casella[Pos], "button_press_event", G_CALLBACK (click_entrastruttura), (gpointer) &infomappa.mappa[posiziona(1,0,C,R)]);
 					gtk_widget_show(Thumb[Pos]);
 					break;
@@ -1497,7 +1515,7 @@ void gtk_stampa_mappa(int x, int y, char m)
 						g_signal_connect_swapped (Casella[Pos], "button_press_event", G_CALLBACK (click_scuderia), (gpointer) &infomappa.mappa[posiziona(0,1,C,R)]);
 					if(m=='c' && assaltolecito(Mossa,posiziona(0,0,C,R))==1 && controllodiverso(Mossa,posiziona(0,1,C,R),Scu)==1)
 						g_signal_connect_swapped (Casella[Pos], "button_press_event", G_CALLBACK (click_assaltostruttura), (gpointer) &infomappa.mappa[posiziona(0,1,C,R)]);
-					if(m=='s' && spostalecito(Mossa,posiziona(0,0,C,R))==1 && controllodiverso(Mossa,posiziona(0,1,C,R),Scu)==0)
+					if(m=='s' && spostalecito(Mossa,posiziona(0,0,C,R),V)==1 && controllodiverso(Mossa,posiziona(0,1,C,R),Scu)==0)
 						g_signal_connect_swapped (Casella[Pos], "button_press_event", G_CALLBACK (click_entrastruttura), (gpointer) &infomappa.mappa[posiziona(0,1,C,R)]);
 					gtk_widget_show(Thumb[Pos]);
 					break;
@@ -1509,7 +1527,7 @@ void gtk_stampa_mappa(int x, int y, char m)
 						g_signal_connect_swapped (Casella[Pos], "button_press_event", G_CALLBACK (click_scuderia), (gpointer) &infomappa.mappa[posiziona(1,1,C,R)]);
 					if(m=='c' && assaltolecito(Mossa,posiziona(0,0,C,R))==1 && controllodiverso(Mossa,posiziona(1,1,C,R),Scu)==1)
 						g_signal_connect_swapped (Casella[Pos], "button_press_event", G_CALLBACK (click_assaltostruttura), (gpointer) &infomappa.mappa[posiziona(1,1,C,R)]);
-					if(m=='s' && spostalecito(Mossa,posiziona(0,0,C,R))==1 && controllodiverso(Mossa,posiziona(1,1,C,R),Scu)==0)
+					if(m=='s' && spostalecito(Mossa,posiziona(0,0,C,R),V)==1 && controllodiverso(Mossa,posiziona(1,1,C,R),Scu)==0)
 						g_signal_connect_swapped (Casella[Pos], "button_press_event", G_CALLBACK (click_entrastruttura), (gpointer) &infomappa.mappa[posiziona(1,1,C,R)]);
 					gtk_widget_show(Thumb[Pos]);
 					break;				
@@ -1522,7 +1540,7 @@ void gtk_stampa_mappa(int x, int y, char m)
 						g_signal_connect_swapped (Casella[Pos], "button_press_event", G_CALLBACK (click_nido), (gpointer) &infomappa.mappa[posiziona(0,0,C,R)]);
 					if(m=='c' && assaltolecito(Mossa,posiziona(0,0,C,R))==1 && controllodiverso(Mossa,posiziona(0,0,C,R),Nid)==1)
 						g_signal_connect_swapped (Casella[Pos], "button_press_event", G_CALLBACK (click_assaltostruttura), (gpointer) &infomappa.mappa[posiziona(0,0,C,R)]);
-					if(m=='s' && spostalecito(Mossa,posiziona(0,0,C,R))==1 && controllodiverso(Mossa,posiziona(0,0,C,R),Nid)==0)
+					if(m=='s' && spostalecito(Mossa,posiziona(0,0,C,R),V)==1 && controllodiverso(Mossa,posiziona(0,0,C,R),Nid)==0)
 						g_signal_connect_swapped (Casella[Pos], "button_press_event", G_CALLBACK (click_entrastruttura), (gpointer) &infomappa.mappa[posiziona(0,0,C,R)]);
 					gtk_widget_show(Thumb[Pos]);
 					break;
@@ -1534,7 +1552,7 @@ void gtk_stampa_mappa(int x, int y, char m)
 						g_signal_connect_swapped (Casella[Pos], "button_press_event", G_CALLBACK (click_nido), (gpointer) &infomappa.mappa[posiziona(1,0,C,R)]);
 					if(m=='c' && assaltolecito(Mossa,posiziona(0,0,C,R))==1 && controllodiverso(Mossa,posiziona(1,0,C,R),Nid)==1)
 						g_signal_connect_swapped (Casella[Pos], "button_press_event", G_CALLBACK (click_assaltostruttura), (gpointer) &infomappa.mappa[posiziona(1,0,C,R)]);
-					if(m=='s' && spostalecito(Mossa,posiziona(0,0,C,R))==1 && controllodiverso(Mossa,posiziona(1,0,C,R),Nid)==0)
+					if(m=='s' && spostalecito(Mossa,posiziona(0,0,C,R),V)==1 && controllodiverso(Mossa,posiziona(1,0,C,R),Nid)==0)
 						g_signal_connect_swapped (Casella[Pos], "button_press_event", G_CALLBACK (click_entrastruttura), (gpointer) &infomappa.mappa[posiziona(1,0,C,R)]);
 					gtk_widget_show(Thumb[Pos]);
 					break;
@@ -1546,7 +1564,7 @@ void gtk_stampa_mappa(int x, int y, char m)
 						g_signal_connect_swapped (Casella[Pos], "button_press_event", G_CALLBACK (click_nido), (gpointer) &infomappa.mappa[posiziona(0,1,C,R)]);
 					if(m=='c' && assaltolecito(Mossa,posiziona(0,0,C,R))==1 && controllodiverso(Mossa,posiziona(0,1,C,R),Nid)==1)
 						g_signal_connect_swapped (Casella[Pos], "button_press_event", G_CALLBACK (click_assaltostruttura), (gpointer) &infomappa.mappa[posiziona(0,1,C,R)]);
-					if(m=='s' && spostalecito(Mossa,posiziona(0,0,C,R))==1 && controllodiverso(Mossa,posiziona(0,1,C,R),Nid)==0)
+					if(m=='s' && spostalecito(Mossa,posiziona(0,0,C,R),V)==1 && controllodiverso(Mossa,posiziona(0,1,C,R),Nid)==0)
 						g_signal_connect_swapped (Casella[Pos], "button_press_event", G_CALLBACK (click_entrastruttura), (gpointer) &infomappa.mappa[posiziona(0,1,C,R)]);
 					gtk_widget_show(Thumb[Pos]);
 					break;
@@ -1558,7 +1576,7 @@ void gtk_stampa_mappa(int x, int y, char m)
 						g_signal_connect_swapped (Casella[Pos], "button_press_event", G_CALLBACK (click_nido), (gpointer) &infomappa.mappa[posiziona(1,1,C,R)]);
 					if(m=='c' && assaltolecito(Mossa,posiziona(0,0,C,R))==1 && controllodiverso(Mossa,posiziona(1,1,C,R),Nid)==1)
 						g_signal_connect_swapped (Casella[Pos], "button_press_event", G_CALLBACK (click_assaltostruttura), (gpointer) &infomappa.mappa[posiziona(1,1,C,R)]);
-					if(m=='s' && spostalecito(Mossa,posiziona(0,0,C,R))==1 && controllodiverso(Mossa,posiziona(1,1,C,R),Nid)==0)
+					if(m=='s' && spostalecito(Mossa,posiziona(0,0,C,R),V)==1 && controllodiverso(Mossa,posiziona(1,1,C,R),Nid)==0)
 						g_signal_connect_swapped (Casella[Pos], "button_press_event", G_CALLBACK (click_entrastruttura), (gpointer) &infomappa.mappa[posiziona(1,1,C,R)]);
 					gtk_widget_show(Thumb[Pos]);
 					break;
@@ -1610,7 +1628,7 @@ void gtk_stampa_mappa(int x, int y, char m)
 							g_signal_connect_swapped (Casella[Pos], "button_press_event", G_CALLBACK (annulla_mossa), (gpointer) &infomappa.mappa[posiziona(0,0,C,R)]);
 						}
 					}
-					else if (m=='s' && spostalecito(Mossa,posiziona(0,0,C,R))==1)
+					else if (m=='s' && spostalecito(Mossa,posiziona(0,0,C,R),V)==1)
 					{
 						Thumb[Pos]=gtk_image_new_from_pixbuf (Immagine.movimento);
 						gtk_container_add(GTK_CONTAINER(Casella[Pos]), Thumb[Pos]);
@@ -1642,6 +1660,11 @@ void gtk_stampa_mappa(int x, int y, char m)
 			}
 			Pos++;
 		}
+	if(m=='s') // grazie dijkstra
+	{
+		for(i=0;i<Mx;i++) free(V[i]);
+		free(V);
+	}
 }
 
 void gtk_genera_mappa (GtkWidget *Hbox)

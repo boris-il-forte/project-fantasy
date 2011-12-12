@@ -112,8 +112,9 @@ int salva(char *nomefile);
 int percorsolibero (int Sx, int Sy, int Dx,int Dy, int vel);
 int percorsominimo(int Sx, int Sy, int Dx,int Dy, int vel);
 int bersagliolecito (int PosT, int PosC );
-int assaltolecito (int PosT, int PosC );
-int spostalecito (int PosT, int PosC );
+int assaltolecito (int PosT, int PosC);
+int spostalecito (int PosT, int PosC , int **V);
+int dijkstra(int PosT, int **V);
 
 //funzioni di combattimento
 void combatti(t_infotruppa* Attaccante, t_infotruppa* Difensore, char m);
