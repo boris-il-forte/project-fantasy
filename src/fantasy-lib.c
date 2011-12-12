@@ -546,7 +546,7 @@ int spostalecito (int PosT, int PosC , int **V)
 	int y= PosT/LARGHEZZA-PosC/LARGHEZZA;
 	if(x*x+y*y<=Vel*Vel)
 	{
-		if(V[Vel+1+x][Vel+1+y]<=(Vel*100))
+		if(V[Vel+1-x][Vel+1-y]<=(Vel*100))
 		{
 			return 1;
 		}
