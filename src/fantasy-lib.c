@@ -524,7 +524,7 @@ int spostalecito (int PosT, int PosC , int *V[])
 
 	#ifdef DEBUG
 	if(x*x+y*y>vel*vel) return 0;
-	else if(V[PosC%LARGHEZZA][PosC/LARGHEZZA]<=vel*100) return 1;
+	else if(V[PosC%LARGHEZZA][PosC/LARGHEZZA]<=vel*100) return 1; // <- V = 1001
 	#else
 	if(x*x+y*y<=vel*vel) return 1;
 	#endif

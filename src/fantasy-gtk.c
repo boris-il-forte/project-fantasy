@@ -1257,7 +1257,7 @@ void gtk_stampa_mappa(int x, int y, char m)
 	int Mx;
 	int My;
 	int **V;
-	int i;
+	int i,j;
 	
 	sprintf(buf,"(%d|%d)",x+L_SCHERMO/2-1,y+A_SCHERMO/2-1);
 	gtk_label_set_text(GTK_LABEL(Coordinate),buf);
@@ -1273,6 +1273,10 @@ void gtk_stampa_mappa(int x, int y, char m)
 		V=malloc(sizeof(int*)*Mx);
 		for(i=0;i<Mx;i++) V[i]=malloc(sizeof(int)*My);
 		dijkstra(Mossa,V);
+
+		for(i=0;i<Mx;i++)
+			for(j=0;j<My;j++)
+				printf("V[%d][%d]=%d\n",i,j,V[i][j]);
 	}
 	for(R=y;R<y+A_SCHERMO;R++)
 		for(C=x;C<x+L_SCHERMO;C++)
