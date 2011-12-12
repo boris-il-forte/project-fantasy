@@ -1308,6 +1308,18 @@ void gtk_stampa_mappa(int x, int y, char m)
 						g_signal_connect_swapped (Casella[Pos], "button_press_event", G_CALLBACK (click_entrastruttura), (gpointer) &infomappa.mappa[posiziona(-1,-1,C,R)]);
 					gtk_widget_show(Thumb[Pos]);
 					break;
+				case '0':
+					G=controlloedificio (posiziona(-1,-1,C,R), Cas);
+					Thumb[Pos]=gtk_image_new_from_pixbuf (Immagine.c[G+1][0]);
+					gtk_container_add(GTK_CONTAINER(Casella[Pos]), Thumb[Pos]);
+					if(m=='n' && G==CurrentPlayer) 
+						g_signal_connect_swapped (Casella[Pos], "button_press_event", G_CALLBACK (click_castello), (gpointer) &infomappa.mappa[posiziona(-1,-1,C,R)]);
+					if(m=='c' && assaltolecito(Mossa,posiziona(0,0,C,R))==1 && controllodiverso(Mossa,posiziona(-1,-1,C,R),Cas)==1)
+						g_signal_connect_swapped (Casella[Pos], "button_press_event", G_CALLBACK (click_assediocastello), (gpointer) &infomappa.mappa[posiziona(-1,-1,C,R)]);
+					if(m=='s' && spostalecito(Mossa,posiziona(0,0,C,R))==1 && controllodiverso(Mossa,posiziona(-1,-1,C,R),Cas)==0)
+						g_signal_connect_swapped (Casella[Pos], "button_press_event", G_CALLBACK (click_entrastruttura), (gpointer) &infomappa.mappa[posiziona(-1,-1,C,R)]);
+					gtk_widget_show(Thumb[Pos]);
+					break;
 				case '1':
 					G=controlloedificio (posiziona(0,-1,C,R), Cas);
 					Thumb[Pos]=gtk_image_new_from_pixbuf (Immagine.c[G+1][1]);
