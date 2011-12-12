@@ -541,14 +541,18 @@ void calcola_dijkstra(char **G, int Mx, int vel, int **V, int Q)
 int spostalecito (int PosT, int PosC , int **V)
 {
 	t_truppa Tipo= infomappa.truppe[PosT]->tipo;
-	char vel=Dtruppa[Tipo].vel;
-	int sx=PosT%LARGHEZZA;
-	int sy=PosT/LARGHEZZA;
-	int x=sx-PosC%LARGHEZZA;
-	int y=sy-PosC/LARGHEZZA;
-	if((x*x)+(y*y)>(vel*vel)) return 0;
-	else if(V[sx+x][sy+y]<=vel*100) return 1;
-	else return 0;
+	int Vel=(int)Dtruppa[Tipo].vel;
+	int x= PosT%LARGHEZZA-PosC%LARGHEZZA;
+	int y= PosT/LARGHEZZA-PosC/LARGHEZZA;
+	if(x*x+y*y<=Vel*Vel)
+	{
+		if(V[Vel+1+x][Vel+1+y]<=(Vel*100))
+		{
+			return 1;
+		}
+	}
+	else
+		return 0;
 }
 
 //calcola area bersaglio
