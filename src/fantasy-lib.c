@@ -487,7 +487,7 @@ int inizializza_dijkstra(int PosT, char ***G, int ***V, int *mx, char *vel)
 	return Q;
 }
 
-void calcola_dijkstra(char **G, int Mx, int vel, int **V, int Q)
+void calcola_dijkstra(char **G, int Mx, int vel, int ***V, int Q)
 {
 	const int Cs=vel+1;
 	int i,j,k,l;
@@ -546,9 +546,15 @@ int spostalecito (int PosT, int PosC , int **V)
 	int sy=PosT/LARGHEZZA;
 	int X=sx-PosC%LARGHEZZA;
 	int Y=sy-PosC/LARGHEZZA;
-	if((X*X)+(Y*Y)>(vel*vel)) return 0;
+//	if((X*X)+(Y*Y)>(vel*vel)) return 0;
+	printf("sx=%d",sx);
+	printf(" X=%d",X);
+	printf(" sy=%d",sy);
+	printf(" Y=%d",Y);
+	printf("V[sx+X][sx+Y]=%d\n",V[sx+X][sy+Y]);
+	printf(" vel=%d son qui\n",vel);
 	if(V[sx+X][sy+Y]<=vel*100) return 1;
-	else return 0;
+	return 0;
 }
 
 //calcola area bersaglio
