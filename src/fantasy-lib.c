@@ -409,18 +409,12 @@ void liberaheap ()
 }
 
 //calcola il costo del percorso più breve utilizzando l'algoritmo di Dijkstra
-<<<<<<< HEAD
-int dijkstra(int PosT, const int Mx,int vel, int **V)
+void inizializza_dijkstra(int PosT, char **G, const int Mx, int vel)
 {
-	int Sx,Sy;
-	int i,j,v,vp,k,l;
-	int X,Y;
-	int w;
 	const int Cs=vel+1;
-//	const int Id=Is+((Sx<Dx)?(Lx):(-Lx));
-//	const int Jd=Js+((Sy<Dy)?(Ly):(-Ly));
+	int Sx,Sy;
+	int i,j;
 	int Q=0;
-//	int V[Mx][Mx];
 	Sx=PosT%LARGHEZZA; // al posto giusto. controlla Is Js Id Jd..
 	Sy=PosT/LARGHEZZA;
 
@@ -437,11 +431,9 @@ int dijkstra(int PosT, const int Mx,int vel, int **V)
 		G[Mx-1][i]='#';
 	}
 	for(i=1; i<Mx-1;i++)
-		for(j=1; j<My-1;j++)
+		for(j=1; j<Mx-1;j++)
 		{
-//			if((Sx+i-Is)<0 || (Sx+i-Is)>=LARGHEZZA || (Sy+j-Js)<0 || (Sy+j-Js)>=ALTEZZA) G[i][j]='#';
-//			if((Sx+i-Mx/2)<0 || (Sx+i-Mx/2)>=LARGHEZZA || (Sy+j-My/2)<0 || (Sy+j-My/2)>=ALTEZZA) G[i][j]='#';
-			if((Sx+i)<0 || (Sx+i)>=LARGHEZZA || (Sy+j)<0 || (Sy+j)>=ALTEZZA) G[i][j]='#';
+			if((Sx+i-Cs)<0 || (Sx+i-Cs)>=LARGHEZZA || (Sy+j-Cs)<0 || (Sy+j-Cs)>=ALTEZZA) G[i][j]='#';
 			else if((i)*(i)+(j)*(j)>vel*vel || infomappa.mappa[posiziona(i,j,Sx,Sy)]!=' ' || infomappa.truppe[posiziona(i,j,Sx,Sy)]!=NULL) G[i][j]='#';
 			else 
 			{
@@ -451,35 +443,34 @@ int dijkstra(int PosT, const int Mx,int vel, int **V)
 		}
 	printf("comincia algoritmo \n");
 	//inizializza algoritmo
-	//G[Is][Js]='S';
-	G[Sx][Sy]='S'; //segna il source
+	G[Cs][Cs]='S'; //segna il source
 
 	#ifdef DEBUG
 	// stampo il grafo
 	for(i=0;i<Mx;i++)
 	{
-		for(j=0;j<My;j++)
+		for(j=0;j<Mx;j++)
 			printf("%c",G[i][j]);
 		printf("\n");
 	}
 	#endif
 }
 
-void calcola_dijkstra(char **G, int Mx, int My, int vel, int **V)
+void calcola_dijkstra(char **G, int Mx, int vel, int **V)
 {
 	int i,j,k,l;
 	int v=1;
 	int vp=0;
 	int X,Y;
 	int w;
-	int S[Mx*My];
+	int S[Mx*Mx];
 	int Q=0;
 
 	S[0]=1;
 	//S[v]=;
 
 for(i=0;i<Mx;i++)
-	for(j=0;j<My;j++)
+	for(j=0;j<Mx;j++)
 		V[i][j]=vel*100+1;
 
 	while(Q!=0 && v<=S[0]) //fino a che non hai considerato ogni casella libera...

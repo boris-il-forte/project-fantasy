@@ -1255,6 +1255,7 @@ void gtk_stampa_mappa(int x, int y, char m)
 	t_truppa Tipo;
 	char vel;
 	int Mx;
+	char Graph[Mx][Mx];
 	int **V;
 	int i,j;
 	
@@ -1282,10 +1283,9 @@ void gtk_stampa_mappa(int x, int y, char m)
 				exit(1);
 			}
 		}
-		char Graph[Mx][My];
-		printf("dbg Mossa=%d Mx=%d My=%d vel=%d V=%p\n",Mossa,Mx,My,vel,V); // Debug
-		inizializza_dijkstra(Mossa,Graph,Mx,My,vel);
-		calcola_dijkstra(Graph,Mx,My,vel,V);
+		printf("dbg Mossa=%d Mx=%d vel=%d V=%p\n",Mossa,Mx,vel,V); // Debug
+		inizializza_dijkstra(Mossa,Graph,Mx,vel);
+		calcola_dijkstra(Graph,Mx,vel,V);
 
 //		for(i=0;i<Mx;i++)
 //			for(j=0;j<Mx;j++)
