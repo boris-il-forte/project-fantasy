@@ -1283,8 +1283,10 @@ void gtk_stampa_mappa(int x, int y, char m)
 				exit(1);
 			}
 		}
+		char Graph[Mx][My];
 		printf("dbg Mossa=%d Mx=%d My=%d vel=%d V=%p\n",Mossa,Mx,My,vel,V); // Debug
-		dijkstra(Mossa,Mx,My,vel,V);
+		inizializza_dijkstra(Mossa,Graph,Mx,My,vel);
+		calcola_dijkstra(Graph,Mx,My,vel,V);
 
 //		for(i=0;i<Mx;i++)
 //			for(j=0;j<My;j++)
