@@ -487,7 +487,7 @@ int inizializza_dijkstra(int PosT, char ***G, int ***V, int *mx, char *vel)
 	return Q;
 }
 
-void calcola_dijkstra(char **G, int Mx, int vel, int ***V, int Q)
+void calcola_dijkstra(char **G, int Mx, int vel, int **V, int Q)
 {
 	const int Cs=vel+1;
 	int i,j,k,l;
