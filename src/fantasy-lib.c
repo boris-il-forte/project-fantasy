@@ -457,7 +457,7 @@ int inizializza_dijkstra(int PosT, char ***G, int ***V, int *mx, char *vel)
 		for(j=1; j<Mx-1;j++)
 		{
 			if((Sx+i-Cs)<0 || (Sx+i-Cs)>=LARGHEZZA || (Sy+j-Cs)<0 || (Sy+j-Cs)>=ALTEZZA) (*G)[i][j]='#';
-			else if((i)*(i)+(j)*(j)>Vel*Vel || infomappa.mappa[posiziona(i,j,Sx,Sy)]!=' ' || infomappa.truppe[posiziona(i,j,Sx,Sy)]!=NULL) (*G)[i][j]='#';
+			else if((i-Cs)*(i-Cs)+(j-Cs)*(j-Cs)>Vel*Vel || infomappa.mappa[posiziona(i-Cs,j-Cs,Sx,Sy)]!=' ' || infomappa.truppe[posiziona(i-Cs,j-Cs,Sx,Sy)]!=NULL) (*G)[i][j]='#';
 			else 
 			{
 				(*G)[i][j]='.';
