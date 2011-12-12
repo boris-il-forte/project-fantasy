@@ -1271,12 +1271,24 @@ void gtk_stampa_mappa(int x, int y, char m)
 		My=(vel+3)*(vel+3);
 
 		V=malloc(sizeof(int*)*Mx);
-		for(i=0;i<Mx;i++) V[i]=malloc(sizeof(int)*My);
-		dijkstra(Mossa,V);
-
+		if(V==NULL) {
+			perror("malloc fallita");
+			exit(1);
+		}
 		for(i=0;i<Mx;i++)
-			for(j=0;j<My;j++)
-				printf("V[%d][%d]=%d\n",i,j,V[i][j]);
+		{
+			V[i]=malloc(sizeof(int)*My);
+			if(V[i]==NULL) {
+				perror("malloc fallita");
+				exit(1);
+			}
+		}
+		printf("dbg Mossa=%d Mx=%d My=%d vel=%d V=%p\n",Mossa,Mx,My,vel,V); // Debug
+		dijkstra(Mossa,Mx,My,vel,V);
+
+//		for(i=0;i<Mx;i++)
+//			for(j=0;j<My;j++)
+//				printf("V[%d][%d]=%d\n",i,j,V[i][j]);
 	}
 	for(R=y;R<y+A_SCHERMO;R++)
 		for(C=x;C<x+L_SCHERMO;C++)
