@@ -544,25 +544,11 @@ int spostalecito (int PosT, int PosC , int **V)
 	char vel=Dtruppa[Tipo].vel;
 	int sx=PosT%LARGHEZZA;
 	int sy=PosT/LARGHEZZA;
-<<<<<<< HEAD
-	int X=sx-PosC%LARGHEZZA;
-	int Y=sy-PosC/LARGHEZZA;
-//	if((X*X)+(Y*Y)>(vel*vel)) return 0;
-	printf("sx=%d",sx);
-	printf(" X=%d",X);
-	printf(" sy=%d",sy);
-	printf(" Y=%d",Y);
-	printf("V[sx+X][sx+Y]=%d\n",V[sx+X][sy+Y]);
-	printf(" vel=%d son qui\n",vel);
-	if(V[sx+X][sy+Y]<=vel*100) return 1;
-	return 0;
-=======
 	int x=sx-PosC%LARGHEZZA;
 	int y=sy-PosC/LARGHEZZA;
 	if((x*x)+(y*y)>(vel*vel)) return 0;
 	else if(V[sx+x][sy+y]<=vel*100) return 1;
 	else return 0;
->>>>>>> ac6fd533354274e26f0eacd33ce868ace11a662d
 }
 
 //calcola area bersaglio
