@@ -544,9 +544,22 @@ int spostalecito (int PosT, int PosC , int **V)
 	int Vel=(int)Dtruppa[Tipo].vel;
 	int x= PosT%LARGHEZZA-PosC%LARGHEZZA;
 	int y= PosT/LARGHEZZA-PosC/LARGHEZZA;
+	int s;
+	int c=Vel+1;
+	if(infomappa.mappa[PosC]!=' ')
+	{
+		if(x*x+y*y<=Vel*Vel)
+		{
+			s=(Vel*100-10);
+			if(V[c-x-1][c-y]<=s || V[c-x+1][c-y]<=s || V[c-x][c-y-1]<=s || V[c-x][c-y+1]<=s)
+			{
+				return 1;
+			}
+		}
+	}
 	if(x*x+y*y<=Vel*Vel)
 	{
-		if(V[Vel+1-x][Vel+1-y]<=(Vel*100))
+		if(V[c-x][c-y]<=(Vel*100))
 		{
 			return 1;
 		}
