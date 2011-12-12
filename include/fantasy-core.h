@@ -109,12 +109,11 @@ int carica(char *nomefile);
 int salva(char *nomefile);
 
 //funzioni di controllo spostamento e attacco
-int percorsolibero (int Sx, int Sy, int Dx,int Dy, int vel);
-int percorsominimo(int Sx, int Sy, int Dx,int Dy, int vel);
+void inizializza_dijkstra(int PosT, char **G, const int Mx, int vel);
+void calcola_dijkstra(char **G, int Mx, int vel, int **V);
 int bersagliolecito (int PosT, int PosC );
 int assaltolecito (int PosT, int PosC);
 int spostalecito (int PosT, int PosC , int **V);
-int dijkstra(int PosT, const int Mx, int vel, int **V);
 
 //funzioni di combattimento
 void combatti(t_infotruppa* Attaccante, t_infotruppa* Difensore, char m);

@@ -1268,7 +1268,7 @@ void gtk_stampa_mappa(int x, int y, char m)
 		vel=Dtruppa[Tipo].vel;
 		Mx=(vel+3)*(vel+3);
 		V=malloc(sizeof(int*)*Mx);
-		if(V==NULL) 
+		if(V==NULL)
 		{
 			perror("malloc fallita");
 			exit(1);
@@ -1282,8 +1282,10 @@ void gtk_stampa_mappa(int x, int y, char m)
 				exit(1);
 			}
 		}
-		printf("dbg Mossa=%d Mx=%d vel=%d V=%p\n",Mossa,Mx,vel,V); // Debug
-		dijkstra(Mossa,Mx,vel,V);
+		char Graph[Mx][My];
+		printf("dbg Mossa=%d Mx=%d My=%d vel=%d V=%p\n",Mossa,Mx,My,vel,V); // Debug
+		inizializza_dijkstra(Mossa,Graph,Mx,My,vel);
+		calcola_dijkstra(Graph,Mx,My,vel,V);
 
 //		for(i=0;i<Mx;i++)
 //			for(j=0;j<Mx;j++)
@@ -1295,7 +1297,6 @@ void gtk_stampa_mappa(int x, int y, char m)
 			switch (accedi(C,R,infomappa.mappa))
 			{
 				/*stampa il castello*/
-				case '0':
 					G=controlloedificio (posiziona(-1,-1,C,R), Cas);
 					Thumb[Pos]=gtk_image_new_from_pixbuf (Immagine.c[G+1][0]);
 					gtk_container_add(GTK_CONTAINER(Casella[Pos]), Thumb[Pos]);

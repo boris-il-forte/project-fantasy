@@ -409,6 +409,7 @@ void liberaheap ()
 }
 
 //calcola il costo del percorso più breve utilizzando l'algoritmo di Dijkstra
+<<<<<<< HEAD
 int dijkstra(int PosT, const int Mx,int vel, int **V)
 {
 	int Sx,Sy;
@@ -416,62 +417,71 @@ int dijkstra(int PosT, const int Mx,int vel, int **V)
 	int X,Y;
 	int w;
 	const int Cs=vel+1;
-	char G[Mx][Mx];
-	int S[Mx*Mx];
+//	const int Id=Is+((Sx<Dx)?(Lx):(-Lx));
+//	const int Jd=Js+((Sy<Dy)?(Ly):(-Ly));
 	int Q=0;
 //	int V[Mx][Mx];
 	Sx=PosT%LARGHEZZA; // al posto giusto. controlla Is Js Id Jd..
 	Sy=PosT/LARGHEZZA;
 
-	printf("dato vel=%d Mx=%d V=%p\n",vel,Mx,V);
 
 	//prepara grafo e contatore Q
 	for(i=0;i<Mx; i++)
 	{
 		G[i][0]='#';
 		G[i][Mx-1]='#';
-		V[i][0]=vel*100+1; // corretto era vel*10+1
-		V[i][Mx-1]=vel*100+1; // corretto come sopra
 	}
 	for(i=0;i<Mx; i++) 
 	{
 		G[0][i]='#';
 		G[Mx-1][i]='#';
-		V[0][i]=vel*100+1;
-		V[Mx-1][i]=vel*100+1;
 	}
 	for(i=1; i<Mx-1;i++)
-		for(j=1; j<Mx-1;j++)
+		for(j=1; j<My-1;j++)
 		{
-			if((Sx+i-Cs)<0 || (Sx+i-Cs)>=LARGHEZZA || (Sy+j-Cs)<0 || (Sy+j-Cs)>=ALTEZZA) G[i][j]='#';
+//			if((Sx+i-Is)<0 || (Sx+i-Is)>=LARGHEZZA || (Sy+j-Js)<0 || (Sy+j-Js)>=ALTEZZA) G[i][j]='#';
+//			if((Sx+i-Mx/2)<0 || (Sx+i-Mx/2)>=LARGHEZZA || (Sy+j-My/2)<0 || (Sy+j-My/2)>=ALTEZZA) G[i][j]='#';
+			if((Sx+i)<0 || (Sx+i)>=LARGHEZZA || (Sy+j)<0 || (Sy+j)>=ALTEZZA) G[i][j]='#';
 			else if((i)*(i)+(j)*(j)>vel*vel || infomappa.mappa[posiziona(i,j,Sx,Sy)]!=' ' || infomappa.truppe[posiziona(i,j,Sx,Sy)]!=NULL) G[i][j]='#';
 			else 
 			{
 				G[i][j]='.';
 				Q++;
 			}
-			V[i][j]=vel*100+1;
 		}
 	printf("comincia algoritmo \n");
 	//inizializza algoritmo
-	G[Cs][Cs]='S';
-	v=1;
-	vp=0;
-	S[0]=1;
-	S[v]=Cs*Mx+Cs;
+	//G[Is][Js]='S';
+	G[Sx][Sy]='S'; //segna il source
+
 	#ifdef DEBUG
 	// stampo il grafo
 	for(i=0;i<Mx;i++)
 	{
-		for(j=0;j<Mx;j++)
+		for(j=0;j<My;j++)
 			printf("%c",G[i][j]);
 		printf("\n");
 	}
 	#endif
+}
 
-// break - spezzare QUI la funzione: ^ init | v calc
+void calcola_dijkstra(char **G, int Mx, int My, int vel, int **V)
+{
+	int i,j,k,l;
+	int v=1;
+	int vp=0;
+	int X,Y;
+	int w;
+	int S[Mx*My];
+	int Q=0;
 
-	//comincia algoritmo
+	S[0]=1;
+	//S[v]=;
+
+for(i=0;i<Mx;i++)
+	for(j=0;j<My;j++)
+		V[i][j]=vel*100+1;
+
 	while(Q!=0 && v<=S[0]) //fino a che non hai considerato ogni casella libera...
 	{
 		//estrai minimi e impilali
@@ -509,10 +519,6 @@ int dijkstra(int PosT, const int Mx,int vel, int **V)
 		v++; //passa al prossimo vertice
 		vp=0; //annulla il conteggio dei nuovi vertici
 	}
-	printf("fine algoritmo \n");
-	// dijkstra completato
-
-	return 0; // tutto ok
 }
 
 // calcola se lo spostamento è lecito
@@ -520,16 +526,8 @@ int spostalecito (int PosT, int PosC , int *V[])
 {
 	t_truppa Tipo= infomappa.truppe[PosT]->tipo;
 	char vel=Dtruppa[Tipo].vel;
-	int x= PosT%LARGHEZZA-PosC%LARGHEZZA;
-	int y= PosT/LARGHEZZA-PosC/LARGHEZZA;
 
-	#ifdef DEBUG
-//	if(x*x+y*y>vel*vel) return 0;
-//	else if(V[PosC%LARGHEZZA][PosC/LARGHEZZA]<=vel*100) return 1; // <- V = 1001
-	if(V[PosC%LARGHEZZA][PosC/LARGHEZZA]<=vel*100) return 1; // <- V = 1001
-	#else
-	if(x*x+y*y<=vel*vel) return 1;
-	#endif
+	if(V[PosC%LARGHEZZA][PosC/LARGHEZZA]<=vel*100) return 1;
 	else return 0;
 }
 
