@@ -551,7 +551,14 @@ int spostalecito (int PosT, int PosC , int **V)
 			return 1;
 		}
 	}
+<<<<<<< HEAD
 	return 0;
+=======
+	else
+	{
+		return 0;
+	}
+>>>>>>> 6c96fd32fbc63bc6db4b3b4c90030873923a63b9
 }
 
 //calcola area bersaglio
