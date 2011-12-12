@@ -109,7 +109,7 @@ int carica(char *nomefile);
 int salva(char *nomefile);
 
 //funzioni di controllo spostamento e attacco
-int inizializza_dijkstra(int PosT, char **G, const int Mx, int vel);
+int inizializza_dijkstra(int PosT, char ***G, int ***V, int *mx, char *vel);
 void calcola_dijkstra(char **G, int Mx, int vel, int **V, int Q);
 int bersagliolecito (int PosT, int PosC );
 int assaltolecito (int PosT, int PosC);

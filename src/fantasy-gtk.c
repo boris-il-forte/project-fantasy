@@ -1252,49 +1252,27 @@ void gtk_stampa_mappa(int x, int y, char m)
 	int Pos=0;
 	int G;
 	int Mx=0;
-	int **V=NULL;
 	int i,j;
 	int Q;
+	int **V=NULL;
+	char **Graph=NULL;
 	char buf[10];
 	char vel;
-	char **Graph;
-	
-	t_truppa Tipo;
-	
 	sprintf(buf,"(%d|%d)",x+L_SCHERMO/2-1,y+A_SCHERMO/2-1);
 	gtk_label_set_text(GTK_LABEL(Coordinate),buf);
+	//gestisce memorizzazione del modo stampa
 	if(m=='p') m=pre;
 	else pre=m;
+	//lancia il dijkstra se si sta muovendo una unità
 	if(m=='s')
 	{
-		Tipo=infomappa.truppe[Mossa]->tipo;
-		vel=Dtruppa[Tipo].vel;
-		Mx=(vel+3)*(vel+3);
-		V=malloc(sizeof(int*)*Mx);
-		Graph=malloc(sizeof(int*)*Mx);
-		if(V==NULL || Graph==NULL)
-		{
-			perror("malloc fallita");
-			exit(1);
-		}
-		for(i=0;i<Mx;i++)
-		{
-			V[i]=malloc(sizeof(int)*Mx);
-			Graph[i]=malloc(sizeof(int*)*Mx);
-			if(V[i]==NULL || Graph[i]==NULL) 
-			{
-				perror("malloc fallita");
-				exit(1);
-			}
-		}
-		printf("dbg Mossa=%d Mx=%d vel=%d V=%p\n",Mossa,Mx,vel,V); // Debug
-		Q=inizializza_dijkstra(Mossa,Graph,Mx,vel);
+		Q=inizializza_dijkstra(Mossa,&Graph,&V,&Mx,&vel);
 		calcola_dijkstra(Graph,Mx,vel,V,Q);
-
-//		for(i=0;i<Mx;i++)
-//			for(j=0;j<Mx;j++)
-//				printf("V[%d][%d]=%d\n",i,j,V[i][j]);
+	//	for(i=0;i<Mx;i++)
+	//		for(j=0;j<Mx;j++)
+	//			printf("V[%d][%d]=%d\n",i,j,V[i][j]);
 	}
+	//stampa ogni casella
 	for(R=y;R<y+A_SCHERMO;R++)
 		for(C=x;C<x+L_SCHERMO;C++)
 		{
