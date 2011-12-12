@@ -457,7 +457,7 @@ int inizializza_dijkstra(int PosT, char ***G, int ***V, int *mx, char *vel)
 		for(j=1; j<Mx-1;j++)
 		{
 			if((Sx+i-Cs)<0 || (Sx+i-Cs)>=LARGHEZZA || (Sy+j-Cs)<0 || (Sy+j-Cs)>=ALTEZZA) (*G)[i][j]='#';
-			else if((i-Cs)*(i-Cs)+(j-Cs)*(j-Cs)>Vel*Vel || infomappa.mappa[posiziona(i-Cs,j-Cs,Sx,Sy)]!=' ' || infomappa.truppe[posiziona(i-Cs,j-Cs,Sx,Sy)]!=NULL) (*G)[i][j]='#';
+			else if((Cs-i)*(Cs-i)+(Cs-j)*(Cs-j)>Vel*Vel || infomappa.mappa[posiziona(Cs-i,Cs-j,Sx,Sy)]!=' ' || infomappa.truppe[posiziona(Cs-i,Cs-j,Sx,Sy)]!=NULL) (*G)[i][j]='#';
 			else 
 			{
 				(*G)[i][j]='.';
@@ -544,6 +544,7 @@ int spostalecito (int PosT, int PosC , int **V)
 	char vel=Dtruppa[Tipo].vel;
 	int sx=PosT%LARGHEZZA;
 	int sy=PosT/LARGHEZZA;
+<<<<<<< HEAD
 	int X=sx-PosC%LARGHEZZA;
 	int Y=sy-PosC/LARGHEZZA;
 //	if((X*X)+(Y*Y)>(vel*vel)) return 0;
@@ -555,6 +556,13 @@ int spostalecito (int PosT, int PosC , int **V)
 	printf(" vel=%d son qui\n",vel);
 	if(V[sx+X][sy+Y]<=vel*100) return 1;
 	return 0;
+=======
+	int x=sx-PosC%LARGHEZZA;
+	int y=sy-PosC/LARGHEZZA;
+	if((x*x)+(y*y)>(vel*vel)) return 0;
+	else if(V[sx+x][sy+y]<=vel*100) return 1;
+	else return 0;
+>>>>>>> ac6fd533354274e26f0eacd33ce868ace11a662d
 }
 
 //calcola area bersaglio
