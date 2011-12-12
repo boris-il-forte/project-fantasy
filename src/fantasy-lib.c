@@ -409,34 +409,31 @@ void liberaheap ()
 }
 
 //calcola il costo del percorso più breve utilizzando l'algoritmo di Dijkstra
-int dijkstra(int PosT, const int Mx, const int My, int vel, int **V)
+int dijkstra(int PosT, const int Mx,int vel, int **V)
 {
 	int Sx,Sy;
 	int i,j,v,vp,k,l;
 	int X,Y;
 	int w;
-//	const int Is=(Sx>Dx)?(vel+1):(vel-Lx+1);
-//	const int Js=(Sy>Dy)?(vel+1):(vel-Ly+1);
-//	const int Id=Is+((Sx<Dx)?(Lx):(-Lx));
-//	const int Jd=Js+((Sy<Dy)?(Ly):(-Ly));
-	char G[Mx][My];
-	int S[Mx*My];
+	const int Cs=vel+1;
+	char G[Mx][Mx];
+	int S[Mx*Mx];
 	int Q=0;
-//	int V[Mx][My];
+//	int V[Mx][Mx];
 	Sx=PosT%LARGHEZZA; // al posto giusto. controlla Is Js Id Jd..
 	Sy=PosT/LARGHEZZA;
 
-	printf("dato vel=%d Mx=%d My=%d V=%p\n",vel,Mx,My,V);
+	printf("dato vel=%d Mx=%d V=%p\n",vel,Mx,V);
 
 	//prepara grafo e contatore Q
 	for(i=0;i<Mx; i++)
 	{
 		G[i][0]='#';
-		G[i][My-1]='#';
+		G[i][Mx-1]='#';
 		V[i][0]=vel*100+1; // corretto era vel*10+1
-		V[i][My-1]=vel*100+1; // corretto come sopra
+		V[i][Mx-1]=vel*100+1; // corretto come sopra
 	}
-	for(i=0;i<My; i++) 
+	for(i=0;i<Mx; i++) 
 	{
 		G[0][i]='#';
 		G[Mx-1][i]='#';
@@ -444,11 +441,9 @@ int dijkstra(int PosT, const int Mx, const int My, int vel, int **V)
 		V[Mx-1][i]=vel*100+1;
 	}
 	for(i=1; i<Mx-1;i++)
-		for(j=1; j<My-1;j++)
+		for(j=1; j<Mx-1;j++)
 		{
-//			if((Sx+i-Is)<0 || (Sx+i-Is)>=LARGHEZZA || (Sy+j-Js)<0 || (Sy+j-Js)>=ALTEZZA) G[i][j]='#';
-//			if((Sx+i-Mx/2)<0 || (Sx+i-Mx/2)>=LARGHEZZA || (Sy+j-My/2)<0 || (Sy+j-My/2)>=ALTEZZA) G[i][j]='#';
-			if((Sx+i)<0 || (Sx+i)>=LARGHEZZA || (Sy+j)<0 || (Sy+j)>=ALTEZZA) G[i][j]='#';
+			if((Sx+i-Cs)<0 || (Sx+i-Cs)>=LARGHEZZA || (Sy+j-Cs)<0 || (Sy+j-Cs)>=ALTEZZA) G[i][j]='#';
 			else if((i)*(i)+(j)*(j)>vel*vel || infomappa.mappa[posiziona(i,j,Sx,Sy)]!=' ' || infomappa.truppe[posiziona(i,j,Sx,Sy)]!=NULL) G[i][j]='#';
 			else 
 			{
@@ -457,24 +452,18 @@ int dijkstra(int PosT, const int Mx, const int My, int vel, int **V)
 			}
 			V[i][j]=vel*100+1;
 		}
-	//if (G[Id][Jd]=='#') return 0; // controllo forse eccessivo?
 	printf("comincia algoritmo \n");
 	//inizializza algoritmo
-	//G[Is][Js]='S';
-	G[Sx][Sy]='S'; //segna il source
-	S[0]=1;
-//	S[1]=Is*Mx+Js;
-	S[1]=Sx*Mx+Sy;
+	G[Cs][Cs]='S';
 	v=1;
 	vp=0;
-	//S[v]=Is*Mx+Js;
-	S[v]=Sx*Mx+Sy;
-
+	S[0]=1;
+	S[v]=Cs*Mx+Cs;
 	#ifdef DEBUG
 	// stampo il grafo
 	for(i=0;i<Mx;i++)
 	{
-		for(j=0;j<My;j++)
+		for(j=0;j<Mx;j++)
 			printf("%c",G[i][j]);
 		printf("\n");
 	}

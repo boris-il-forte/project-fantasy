@@ -114,7 +114,7 @@ int percorsominimo(int Sx, int Sy, int Dx,int Dy, int vel);
 int bersagliolecito (int PosT, int PosC );
 int assaltolecito (int PosT, int PosC);
 int spostalecito (int PosT, int PosC , int **V);
-int dijkstra(int PosT, const int Mx, const int My, int vel, int **V);
+int dijkstra(int PosT, const int Mx, int vel, int **V);
 
 //funzioni di combattimento
 void combatti(t_infotruppa* Attaccante, t_infotruppa* Difensore, char m);

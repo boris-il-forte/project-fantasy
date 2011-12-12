@@ -1143,7 +1143,7 @@ void gtk_calcola_dimensioni ()
 	h=gdk_screen_get_height (gdk_screen_get_default ());
 	Dim_casella=h*0.05;
 	if (h>=960) Dim_casella=40;
-//	else if (h>=720) Dim_casella=30;
+	else if (h>=720) Dim_casella=30;
 //	else if (h>=480) Dim_casella=20;
 //	else Dim_casella=10;
 	printf("\naltezza: %d\ncasella: %d\n",h, Dim_casella);
@@ -1255,7 +1255,6 @@ void gtk_stampa_mappa(int x, int y, char m)
 	t_truppa Tipo;
 	char vel;
 	int Mx;
-	int My;
 	int **V;
 	int i,j;
 	
@@ -1268,26 +1267,26 @@ void gtk_stampa_mappa(int x, int y, char m)
 		Tipo=infomappa.truppe[Mossa]->tipo;
 		vel=Dtruppa[Tipo].vel;
 		Mx=(vel+3)*(vel+3);
-		My=(vel+3)*(vel+3);
-
 		V=malloc(sizeof(int*)*Mx);
-		if(V==NULL) {
+		if(V==NULL) 
+		{
 			perror("malloc fallita");
 			exit(1);
 		}
 		for(i=0;i<Mx;i++)
 		{
-			V[i]=malloc(sizeof(int)*My);
-			if(V[i]==NULL) {
+			V[i]=malloc(sizeof(int)*Mx);
+			if(V[i]==NULL) 
+			{
 				perror("malloc fallita");
 				exit(1);
 			}
 		}
-		printf("dbg Mossa=%d Mx=%d My=%d vel=%d V=%p\n",Mossa,Mx,My,vel,V); // Debug
-		dijkstra(Mossa,Mx,My,vel,V);
+		printf("dbg Mossa=%d Mx=%d vel=%d V=%p\n",Mossa,Mx,vel,V); // Debug
+		dijkstra(Mossa,Mx,vel,V);
 
 //		for(i=0;i<Mx;i++)
-//			for(j=0;j<My;j++)
+//			for(j=0;j<Mx;j++)
 //				printf("V[%d][%d]=%d\n",i,j,V[i][j]);
 	}
 	for(R=y;R<y+A_SCHERMO;R++)
