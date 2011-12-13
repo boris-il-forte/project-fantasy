@@ -751,7 +751,7 @@ static void click_assaltostruttura (char* pos)
 	gtk_stampa_mappa(cx,cy,'n');
 }
 
-static void click_entrastruttura (char* pos)
+static void click_entrastruttura (char* pos) //manca
 {
 	int Pos=(int) (pos-infomappa.mappa);
 	int g=controllounita(Mossa);
