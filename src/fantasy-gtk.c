@@ -812,21 +812,7 @@ static void su_unita (GtkWidget *Truppa, GdkEvent *event, char* pos)
 static void click_assediocastello (char* pos)
 {
 	int Pos=(int) (pos-infomappa.mappa);
-	int g;
-	int C=0;
-	t_lista_s* Castello;
-	g=controlloedificio (Pos,Cas);
-	if (g>=0)
-	{
-		Castello=giocatore[g]->struttura[Cas];
-		while(Castello->pos!=Pos) Castello=Castello->next;
-		if(assaltamura(Castello)==1)
-			if(assaltabreccia(puntacasellaoccupata (Pos,C++),Castello->in)==1) cambiaproprietario (CurrentPlayer, g,Pos,Cas);
-	}
-	else
-	{
-		cambiaproprietario (CurrentPlayer, g,Pos,Cas);
-	}
+	assediocastello(Pos);
 	gtk_aggiorna_tab_armate ();
 	gtk_aggiorna_tab_castelli ();
 	gtk_pulisci_mappa();
@@ -836,68 +822,7 @@ static void click_assediocastello (char* pos)
 static void click_assaltostruttura (char* pos)
 {
 	int Pos=(int) (pos-infomappa.mappa);
-	int g=-1;
-	int morale=0;
-	t_struttura i;
-	t_lista_s* Struttura;
-	t_lista_t* Difensori;
-	fprintf(stderr,"debug: click_assaltostruttura\n");
-	for(i=1;i<NUMSTRUTTURE && g<0;i++) g=controlloedificio (Pos,i);
-	i--;
-	if (g>=0)
-	{
-		fprintf(stderr,"debug: di qualcuno\n");
-		Struttura=puntastruttura (Pos);
-		Difensori=Struttura->in;
-		if(assaltaedificio(Struttura)==1) 
-		{
-			while (Difensori!=NULL)
-			{
-				Difensori->truppa->morale-=10;
-				if(Difensori->truppa->morale<0) Difensori->truppa->morale=0;
-				morale+=Difensori->truppa->morale;
-				Difensori=Difensori->next;
-			}
-			Difensori=Struttura->in;
-			if(morale==0) 
-			{
-				while(Struttura->in!=NULL) eliminamortistrutture (Struttura->pos);
-				cambiaproprietario (CurrentPlayer, g,Pos,i);
-			}
-		}
-		else
-		{
-			while (Difensori!=NULL)
-			{
-				Difensori->truppa->morale+=10;
-				Difensori=Difensori->next;
-			}
-		}
-	}
-	else
-	{
-		fprintf(stderr,"debug: di nessuno, %d\n", g);
-		switch(infomappa.mappa[Pos])
-		{
-			case 'G':
-				i=Gro;
-				break;
-			case 'S':
-				i=Scu;
-				break;
-			case 'N':
-				i=Nid;
-				break;
-			case 'C':
-				i=Fat;
-				break;
-			default:
-				fprintf(stderr,"c'è un bug!\n");
-				i=Cas;
-				break;
-		}
-		cambiaproprietario (CurrentPlayer, g,Pos,i);
-	}
+	assediostruttura(Pos);
 	gtk_aggiorna_tab_strutture ();
 	gtk_aggiorna_tab_armate ();
 	gtk_pulisci_mappa();

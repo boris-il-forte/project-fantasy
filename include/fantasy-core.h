@@ -117,6 +117,8 @@ int spostalecito (int PosT, int PosC , int **V);
 
 //funzioni di combattimento
 void combatti(t_infotruppa* Attaccante, t_infotruppa* Difensore, char m);
+void assediocastello(int Pos);
+void assediostruttura(int Pos);
 int assaltamura(t_lista_s* Castello);
 int assaltabreccia(t_infotruppa* Attaccante,t_lista_t* Difensori);
 int assaltaedificio(t_lista_s* Edificio);
