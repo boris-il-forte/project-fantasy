@@ -1269,12 +1269,8 @@ void gtk_stampa_mappa(int x, int y, char m)
 		Q=inizializza_dijkstra(Mossa,&Graph,&V,&Mx,&vel);
 		calcola_dijkstra(Graph,Mx,vel,V,Q);
 		for(i=0;i<Mx;i++)
-		{
 			for(j=0;j<Mx;j++)
-				printf("%2d ",V[i][j]/100);
-			if(i/10==0) printf(" (i=%d j=%d)\n",i,j);
-		}
-
+				printf("V[%d][%d]=%d\n",i,j,V[i][j]);
 	}
 	//stampa ogni casella
 	for(R=y;R<y+A_SCHERMO;R++)
