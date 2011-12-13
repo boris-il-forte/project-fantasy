@@ -333,7 +333,7 @@ static void evacua_truppa (t_lista_t *T)
 	}
 }
 
-static void click_bersaglio (char* pos)
+static void click_bersaglio (char* pos) //manca
 {
 	int Dst= (int) (pos-infomappa.mappa);
 	int Src= Mossa;
@@ -721,10 +721,11 @@ static void click_unita (char* pos, GdkEventButton *Event)
 static void su_unita (GtkWidget *Truppa, GdkEvent *event, char* pos)
 {
 	int Pos=(int) (pos-infomappa.mappa);
+	t_infotruppa* T;
 	char buf[30];
 	if(event!=NULL)
 	{
-		t_infotruppa* T=infomappa.truppe[Pos];
+		T=infomappa.truppe[Pos];
 		identificatruppa(T, buf);
 		gtk_widget_set_tooltip_text(Truppa,buf);
 	}
