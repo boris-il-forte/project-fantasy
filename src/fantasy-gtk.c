@@ -2021,10 +2021,10 @@ GtkWidget *gtk_crea_4_frecce()
 		gtk_widget_show (Freccia);
 		gtk_widget_show (Pulsante);
 	}
-		Coordinate=gtk_label_new("(0|0)");
-		gtk_widget_set_size_request(Coordinate, Dim_casella,Dim_casella);
-		gtk_table_attach_defaults (GTK_TABLE (Pulsantiera), Coordinate, 1, 2, 1, 2);
-		gtk_widget_show (Coordinate);
+	Coordinate=gtk_label_new("(0|0)");
+	gtk_widget_set_size_request(Coordinate, Dim_casella,Dim_casella);
+	gtk_table_attach_defaults (GTK_TABLE (Pulsantiera), Coordinate, 1, 2, 1, 2);
+	gtk_widget_show (Coordinate);
 	return Pulsantiera;
 }
 
