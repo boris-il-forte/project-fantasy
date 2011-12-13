@@ -530,7 +530,7 @@ void calcola_dijkstra(char **G, int Mx, int vel, int **V, int Q)
 					w=((k+l==1 || k+l==-1)?100:141); 
 					if (G[X+k][Y+l]!='#' && V[X+k][Y+l]>V[X][Y]+w)
 					{
-						if(w==100 || !(V[X+k][Y]=='#' && V[X][Y+l]=='#'))
+						if(w==100 || !(G[X+k][Y]=='#' && G[X][Y+l]=='#'))
 						{
 							V[X+k][Y+l]=V[X][Y]+w;
 						}
