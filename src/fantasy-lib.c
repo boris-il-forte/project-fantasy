@@ -528,7 +528,13 @@ void calcola_dijkstra(char **G, int Mx, int vel, int **V, int Q)
 				for(l=-1; l<=1; l++)
 				{
 					w=((k+l==1 || k+l==-1)?100:141); 
-					if (G[X+k][Y+l]!='#' && V[X+k][Y+l]>V[X][Y]+w) V[X+k][Y+l]=V[X][Y]+w;
+					if (G[X+k][Y+l]!='#' && V[X+k][Y+l]>V[X][Y]+w)
+					{
+						if(w==100 || !(V[X+k][Y]=='#' && V[X][Y+l]=='#'))
+						{
+							V[X+k][Y+l]=V[X][Y]+w;
+						}
+					}
 				}
 		}
 		//printf("secondo passo ok \n");

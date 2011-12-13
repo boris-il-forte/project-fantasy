@@ -1271,8 +1271,10 @@ void gtk_stampa_mappa(int x, int y, char m)
 		for(i=0;i<Mx;i++)
 		{
 			for(j=0;j<Mx;j++)
+			{
 				printf("%2d ",V[i][j]/100);
-			if(i/10==0) printf(" (i=%d j=%d)\n",i,j);
+			}
+			if(i/Mx==0) printf(" (i=%d j=%d)\n",i,j);
 		}
 
 	}
