@@ -413,6 +413,23 @@ int evacuatruppa(t_lista_t *T)
 		return 1;
 	}
 }
+
+//muove la truppa da Src a Dst
+void spostatruppa(int Src, int Dst)
+{
+	t_lista_t *T=giocatore[CurrentPlayer]->truppe;
+	infomappa.truppe[Src]->stanca=1;
+	infomappa.truppe[Dst]=infomappa.truppe[Src];
+	infomappa.truppe[Src]=NULL;
+	while (T!=NULL)
+	{
+		if(T->pos==Src)
+			T->pos=Dst;
+		else
+			T=T->next;
+	}
+}
+
 //genera l'unità desiderata
 t_infotruppa* generatruppa (t_truppa Tipo, char Giocatore, int Numero)
 {

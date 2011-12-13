@@ -359,26 +359,19 @@ static void click_destinazione (char* pos)
 {
 	int Dst= (int) (pos-infomappa.mappa);
 	int Src= Mossa;
-	t_lista_t *T=giocatore[CurrentPlayer]->truppe;
 	if (Src==Dst)
 	{
 		gtk_pulisci_mappa();
 		gtk_stampa_mappa(cx,cy,'n');
 		return;
 	}
-	infomappa.truppe[Src]->stanca=1;
-	infomappa.truppe[Dst]=infomappa.truppe[Src];
-	infomappa.truppe[Src]=NULL;
-	while (T!=NULL)
+	else
 	{
-		if(T->pos==Src)
-			T->pos=Dst;
-		else
-			T=T->next;
+		spostatruppa(Src,Dst);
+		gtk_aggiorna_tab_armate ();
+		gtk_pulisci_mappa();
+		gtk_stampa_mappa(cx,cy,'n');
 	}
-	gtk_aggiorna_tab_armate ();
-	gtk_pulisci_mappa();
-	gtk_stampa_mappa(cx,cy,'n');
 }
 
 static void annulla_mossa ()

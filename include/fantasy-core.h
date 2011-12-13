@@ -141,6 +141,7 @@ void creagiocatori (int n);
 void addestratruppa(int P, t_truppa T);
 t_infotruppa* generatruppa (t_truppa Tipo, char Giocatore, int Numero);
 int evacuatruppa(t_lista_t *T);
+void spostatruppa(int Src, int Dst);
 void identificatruppa(t_infotruppa* T, char* buf);
 void eliminamorti (t_infotruppa* M);
 void eliminamortistrutture (int Pos);
