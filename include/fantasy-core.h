@@ -140,6 +140,7 @@ int controllodiversotruppe (int PosA, int PosD);
 void creagiocatori (int n);
 void addestratruppa(int P, t_truppa T);
 t_infotruppa* generatruppa (t_truppa Tipo, char Giocatore, int Numero);
+int evacuatruppa(t_lista_t *T);
 void identificatruppa(t_infotruppa* T, char* buf);
 void eliminamorti (t_infotruppa* M);
 void eliminamortistrutture (int Pos);

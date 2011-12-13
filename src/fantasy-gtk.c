@@ -319,58 +319,17 @@ static void addestra_truppa (t_callback_s* Struct)
 
 static void evacua_truppa (t_lista_t *T)
 {
-	int L;
-	int P=T->pos; 
-	t_lista_s *S;
-	t_lista_t *Tp;
-	t_infotruppa** Libera;
-	S=puntastruttura(P);
-	Tp=puntatruppaprecedente (T,S);
-	Libera=puntacasellalibera(P);
-	if(Libera!=NULL)
+	int Occupata;
+	Occupata=evacuatruppa(T);
+	if(Occupata)
 	{
-		L=(int) (Libera-infomappa.truppe);
-		infomappa.truppe[L]=T->truppa;
-		if(Tp!=NULL)
-		{
-			Tp->next=T->next;
-			free(T);
-		}
-		else
-		{
-			S->in=T->next;
-			free(T);
-		}
-		if(giocatore[CurrentPlayer]->truppe==NULL)
-		{
-			giocatore[CurrentPlayer]->truppe=(t_lista_t*)malloc(sizeof(t_lista_t));
-			giocatore[CurrentPlayer]->truppe->truppa=infomappa.truppe[L];
-			giocatore[CurrentPlayer]->truppe->pos=L;
-			giocatore[CurrentPlayer]->truppe->next=NULL;
-		}
-		else
-		{
-			Tp=giocatore[CurrentPlayer]->truppe;
-			T=giocatore[CurrentPlayer]->truppe->next;
-			while(T!=NULL)
-			{
-				Tp=T;
-				T=T->next;
-			}
-			Tp->next=(t_lista_t*)malloc(sizeof(t_lista_t));
-			Tp->next->truppa=infomappa.truppe[L];
-			Tp->next->pos=L;
-			Tp->next->next=NULL;
-		}
-		gtk_aggiorna_tab_armate ();
-		gtk_pulisci_mappa ();
-		gtk_stampa_mappa(cx,cy,'n');
 		return;
 	}
 	else
 	{
-		printf("caselle occupate!\n");
-		return;
+		gtk_aggiorna_tab_armate ();
+		gtk_pulisci_mappa ();
+		gtk_stampa_mappa(cx,cy,'n');
 	}
 }
 
