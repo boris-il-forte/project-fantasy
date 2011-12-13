@@ -121,7 +121,11 @@ static void salva_carica(int Data)
 				break;
 			}
 		}
-		else salva(buf);
+		else 
+		{
+			salva(buf);
+			break;
+		}
 	}
 	gtk_widget_destroy(Fselect);
 }
