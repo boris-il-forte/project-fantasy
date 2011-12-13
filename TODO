@@ -1,16 +1,14 @@
 TODO
 
 Gionnico:
-- funzione void gtk_calcola_dimensioni () -> da controllare per più risoluzioni possibili| priorità alta
-- Editor di mappe & scenari								| priorità media
+- Debug salva e carica										| priorità alta
+- Carica skin figo con gestione avanzata delle skin						| priorità alta
+- funzione void gtk_calcola_dimensioni () -> da controllare per più risoluzioni possibili	| priorità alta
+- Editor di mappe & scenari									| priorità media
 
 Boris_il_forte:
-- Standardizza skin ed estensioni!					| Urgente!
 - Debug vario										| Urgente!
 - Bilanciamento unità									| Urgente!
-- Lista truppe presenti in evacua anzichè unità evacuabili				| priorità alta
-- Gestione via Mouse									| priorità alta
-- Evacua subito truppe  appena reclutate						| priorità media
 - Minimappa										| priorità bassa
 - IA 											| priorità molto bassa
 
@@ -22,7 +20,6 @@ Il_RatMan:
 Chiunque: 										| priorità molto bassa
 - Zoom in & out
 - frecce con pressione costante che spostano la mappa fino al rilascio
-- sposta mappa da tatstiera
 
 NintendOtaku:
 - unità mitiche
