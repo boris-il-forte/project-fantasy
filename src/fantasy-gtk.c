@@ -684,7 +684,7 @@ static void click_unita (char* pos, GdkEventButton *Event)
 		}
 		else
 		{
-			Dialogo=gtk_dialog_new_with_buttons("F.C.",NULL,GTK_DIALOG_DESTROY_WITH_PARENT,GTK_STOCK_OK);
+			Dialogo=gtk_dialog_new_with_buttons("F.C.",NULL,GTK_DIALOG_DESTROY_WITH_PARENT,GTK_STOCK_OK,NULL);
 			gtk_window_set_icon (GTK_WINDOW (Dialogo),Immagine.logo);
 			Label=gtk_label_new("unità in combattimento!");
 			gtk_widget_show(Label);
@@ -705,7 +705,7 @@ static void click_unita (char* pos, GdkEventButton *Event)
 		}
 		else
 		{
-			Dialogo=gtk_dialog_new_with_buttons("F.C.",NULL,GTK_DIALOG_DESTROY_WITH_PARENT,GTK_STOCK_OK);
+			Dialogo=gtk_dialog_new_with_buttons("F.C.",NULL,GTK_DIALOG_DESTROY_WITH_PARENT,GTK_STOCK_OK,NULL);
 			gtk_window_set_icon (GTK_WINDOW (Dialogo),Immagine.logo);
 			if(T->stanca==1)Label=gtk_label_new("unità stanca!");
 			else Label=gtk_label_new("unità in combattimento!");
