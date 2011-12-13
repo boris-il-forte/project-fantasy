@@ -322,6 +322,43 @@ void creagiocatori (int n)
 	}
 }
  
+//addestra una unità
+void addestratruppa(int P, t_truppa T)
+{
+	t_infotruppa* U;
+	t_lista_s* S;
+	t_lista_t* N;
+	t_lista_t* Np;
+	U=generatruppa (T, CurrentPlayer, 100);
+	S=puntastruttura(P);
+	if(S==NULL)
+	{
+		fprintf(stderr,"c'è un bug!\n");
+		return;
+	}
+	N=S->in;
+	if(N!=NULL)
+	{
+		do
+		{
+			Np=N;
+			N=N->next;
+		} while (N!=NULL);
+		N=(t_lista_t*)malloc(sizeof(t_lista_t));
+		N->truppa=U;
+		N->pos=P;
+		Np->next=N;
+		N->next=NULL;
+	}
+	else
+	{
+		S->in=(t_lista_t*)malloc(sizeof(t_lista_t));
+		S->in->truppa=U;
+		S->in->pos=P;
+		S->in->next=NULL;
+	}
+}
+
 //genera l'unità desiderata
 t_infotruppa* generatruppa (t_truppa Tipo, char Giocatore, int Numero)
 {

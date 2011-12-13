@@ -138,6 +138,7 @@ int controllodiversotruppe (int PosA, int PosD);
 
 //funzioni di gestione dei dati di gioco
 void creagiocatori (int n);
+void addestratruppa(int P, t_truppa T);
 t_infotruppa* generatruppa (t_truppa Tipo, char Giocatore, int Numero);
 void identificatruppa(t_infotruppa* T, char* buf);
 void eliminamorti (t_infotruppa* M);

@@ -314,38 +314,7 @@ static void addestra_truppa (t_callback_s* Struct)
 {
 	int P=Struct->pos;
 	t_truppa T=Struct->tipo;
-	t_infotruppa* U;
-	t_lista_s* S;
-	t_lista_t* N;
-	t_lista_t* Np;
-	U=generatruppa (T, CurrentPlayer, 100);
-	S=puntastruttura(P);
-	if(S==NULL)
-	{
-		fprintf(stderr,"c'è un bug!\n");
-		return;
-	}
-	N=S->in;
-	if(N!=NULL)
-	{
-		do
-		{
-			Np=N;
-			N=N->next;
-		} while (N!=NULL);
-		N=(t_lista_t*)malloc(sizeof(t_lista_t));
-		N->truppa=U;
-		N->pos=P;
-		Np->next=N;
-		N->next=NULL;
-	}
-	else
-	{
-		S->in=(t_lista_t*)malloc(sizeof(t_lista_t));
-		S->in->truppa=U;
-		S->in->pos=P;
-		S->in->next=NULL;
-	}
+	addestratruppa(P,T);
 }
 
 static void evacua_truppa (t_lista_t *T)
