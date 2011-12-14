@@ -58,7 +58,7 @@ static void input_tastiera(GtkWidget* Window, GdkEventKey* K)
 				}
 				break;
 			case GDK_KEY_Down:
-				if(cy+1>ALTEZZA-A_SCHERMO)
+				if(cy+1>ALTEZZA-caselle_verticali)
 					return;
 				else
 				{
@@ -68,7 +68,7 @@ static void input_tastiera(GtkWidget* Window, GdkEventKey* K)
 				}
 				break;
 			case GDK_KEY_Right:
-				if(cx+1>LARGHEZZA-L_SCHERMO)
+				if(cx+1>LARGHEZZA-caselle_orizzontali)
 					return;
 				else
 				{
@@ -112,12 +112,12 @@ static void click_nt ()
 	else
 	{
 		P=T->pos;
-		cx=P%LARGHEZZA+1-L_SCHERMO/2;
-		cy=P/LARGHEZZA+1-A_SCHERMO/2;
+		cx=P%LARGHEZZA+1-caselle_orizzontali/2;
+		cy=P/LARGHEZZA+1-caselle_verticali/2;
 		if(cx<0) cx=0;
 		if(cy<0) cy=0;
-		if(cx>LARGHEZZA-L_SCHERMO) cx=(LARGHEZZA-L_SCHERMO);
-		if(cy>ALTEZZA-A_SCHERMO) cy=(ALTEZZA-A_SCHERMO);
+		if(cx>LARGHEZZA-caselle_orizzontali) cx=(LARGHEZZA-caselle_orizzontali);
+		if(cy>ALTEZZA-caselle_verticali) cy=(ALTEZZA-caselle_verticali);
 		gtk_pulisci_mappa ();
 		gtk_stampa_mappa(cx,cy,'n');
 		T=T->next;
@@ -137,12 +137,12 @@ static void click_nc ()
 	else
 	{
 		P=S->pos;
-		cx=P%LARGHEZZA+1-L_SCHERMO/2;
-		cy=P/LARGHEZZA+1-A_SCHERMO/2;
+		cx=P%LARGHEZZA+1-caselle_orizzontali/2;
+		cy=P/LARGHEZZA+1-caselle_verticali/2;
 		if(cx<0) cx=0;
 		if(cy<0) cy=0;
-		if(cx>LARGHEZZA-L_SCHERMO) cx=(LARGHEZZA-L_SCHERMO);
-		if(cy>ALTEZZA-A_SCHERMO) cy=(ALTEZZA-A_SCHERMO);
+		if(cx>LARGHEZZA-caselle_orizzontali) cx=(LARGHEZZA-caselle_orizzontali);
+		if(cy>ALTEZZA-caselle_verticali) cy=(ALTEZZA-caselle_verticali);
 		gtk_pulisci_mappa ();
 		gtk_stampa_mappa(cx,cy,'n');
 		S=S->next;

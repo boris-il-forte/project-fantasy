@@ -26,6 +26,7 @@
 #define NUMTRUPPE 7
 #define NUMSTRUTTURE 5
 #define NUMRISORSE 3
+#define MIN(a,b) (((a) < (b)) ? (a) : (b))
 #define accedi(x,y,z) z[(x)+LARGHEZZA*(y)] /*accede ad un array come se fosse una matrice*/
 #define posiziona(x,y,z,k) (z)+LARGHEZZA*k-((x)+LARGHEZZA*(y))
 #define disegna(x,y,z) accedi(x,y,infomappa.mappa)=z; accedi(x+1,y,infomappa.mappa)=z+1; accedi(x+1,y+1,infomappa.mappa)=z+3; accedi(x,y+1,infomappa.mappa)=z+2 /*disegna la struttura di simbolo z*/

@@ -249,12 +249,12 @@ static void preferenze()
 static void centra_mappa(char* pos)
 {
 	int P= (int) (pos-infomappa.mappa);
-	cx=P%LARGHEZZA+1-L_SCHERMO/2;
-	cy=P/LARGHEZZA+1-A_SCHERMO/2;
+	cx=P%LARGHEZZA+1-caselle_orizzontali/2;
+	cy=P/LARGHEZZA+1-caselle_verticali/2;
 	if(cx<0) cx=0;
 	if(cy<0) cy=0;
-	if(cx>LARGHEZZA-L_SCHERMO) cx=(LARGHEZZA-L_SCHERMO);
-	if(cy>ALTEZZA-A_SCHERMO) cy=(ALTEZZA-A_SCHERMO);
+	if(cx>LARGHEZZA-caselle_orizzontali) cx=(LARGHEZZA-caselle_orizzontali);
+	if(cy>ALTEZZA-caselle_verticali) cy=(ALTEZZA-caselle_verticali);
 	gtk_pulisci_mappa ();
 	gtk_stampa_mappa(cx,cy,'n');
 }
@@ -286,7 +286,7 @@ static void sposta_mappa(char* v)
 			}
 			break;
 		case 5:
-			if(cy+1>ALTEZZA-A_SCHERMO)
+			if(cy+1>ALTEZZA-caselle_verticali)
 				return;
 			else
 			{
@@ -296,7 +296,7 @@ static void sposta_mappa(char* v)
 			}
 			break;
 		case 7:
-			if(cx+1>LARGHEZZA-L_SCHERMO)
+			if(cx+1>LARGHEZZA-caselle_orizzontali)
 				return;
 			else
 			{
@@ -856,7 +856,7 @@ void gtk_carica_immagini ()
 	Immagine.err=gdk_pixbuf_new_from_file_at_size (Buf,30,30,NULL);
 	Immagine.logo=gdk_pixbuf_new_from_file (Buf,NULL);
 	sprintf(Buf,"img/Freccia.xpm");
-	Immagine.freccia=gdk_pixbuf_new_from_file_at_size (Buf,30,30,NULL);
+	Immagine.freccia=gdk_pixbuf_new_from_file_at_size (Buf,Dim_casella,Dim_casella,NULL); // DIM FRECCIA
 	// carico immagini da skin
 	sprintf(Buf,"skin/");
 	strcat(Buf,infogioco.skin);
@@ -958,15 +958,17 @@ void gtk_carica_immagini ()
 
 void gtk_calcola_dimensioni ()
 {
-	int h;
+	int w,h;
+	w=gdk_screen_get_width (gdk_screen_get_default ());
 	h=gdk_screen_get_height (gdk_screen_get_default ());
-	Dim_casella=h*0.05;
-	if (h>=960) Dim_casella=40;
-	else if (h>=720) Dim_casella=30;
+	Dim_casella=MIN(w,h)*0.05;
+	caselle_orizzontali=w/Dim_casella-6; // 27 eee
+	caselle_verticali=h/Dim_casella-4; // 16 eee
+//	if (h>=960) Dim_casella=40;
+//	else if (h>=720) Dim_casella=30;
 //	else if (h>=480) Dim_casella=20;
 //	else Dim_casella=10;
-	printf("\naltezza: %d\ncasella: %d\n",h, Dim_casella);
-		
+	printf("\nCasella: %d\nOrizzontali: %d Verticali: %d\n",Dim_casella,caselle_orizzontali,caselle_verticali);
 }
 
 void gtk_crea_menu (GtkWidget *Vbox)
@@ -1042,7 +1044,7 @@ void gtk_pulisci_mappa ()
 {
 	int Pos;
 	if(partita_in_corso==1)
-		for (Pos=0; Pos<L_SCHERMO*A_SCHERMO; Pos++) 
+		for (Pos=0; Pos<caselle_orizzontali*caselle_verticali; Pos++) 
 		{
 			
 			g_signal_handlers_disconnect_matched(Casella[Pos],G_SIGNAL_MATCH_FUNC,0,0,0, click_castello, 0);
@@ -1077,7 +1079,7 @@ void gtk_stampa_mappa(int x, int y, char m)
 	char **Graph=NULL;
 	char buf[10];
 	char vel;
-	sprintf(buf,"(%d|%d)",x+L_SCHERMO/2-1,y+A_SCHERMO/2-1);
+	sprintf(buf,"(%d|%d)",x+caselle_orizzontali/2-1,y+caselle_verticali/2-1);
 	gtk_label_set_text(GTK_LABEL(Coordinate),buf);
 	//gestisce memorizzazione del modo stampa
 	if(m=='p') m=pre;
@@ -1098,8 +1100,8 @@ void gtk_stampa_mappa(int x, int y, char m)
 
 	}
 	//stampa ogni casella
-	for(R=y;R<y+A_SCHERMO;R++)
-		for(C=x;C<x+L_SCHERMO;C++)
+	for(R=y;R<y+caselle_verticali;R++)
+		for(C=x;C<x+caselle_orizzontali;C++)
 		{
 			switch (accedi(C,R,infomappa.mappa))
 			{
@@ -1506,17 +1508,17 @@ void gtk_genera_mappa (GtkWidget *Hbox)
 {
 	GtkWidget *Mappa;
 	int i,j;
-	Mappa=gtk_table_new( L_SCHERMO, A_SCHERMO, FALSE);
+	Mappa=gtk_table_new( caselle_orizzontali, caselle_verticali, FALSE);
 	gtk_box_pack_start( GTK_BOX(Hbox), Mappa, FALSE, FALSE, 0);
-	for (i=0;i<L_SCHERMO;i++)
-		for (j=0; j<A_SCHERMO; j++)
+	for (i=0;i<caselle_orizzontali;i++)
+		for (j=0; j<caselle_verticali; j++)
 		{
-			Casella[i+j*L_SCHERMO]=gtk_event_box_new();
-			gtk_widget_set_events (Casella[i+j*L_SCHERMO], GDK_BUTTON_PRESS_MASK |  GDK_ENTER_NOTIFY_MASK);
-			gtk_widget_set_size_request(Casella[i+j*L_SCHERMO], Dim_casella,Dim_casella);
-			gtk_table_attach (GTK_TABLE (Mappa), Casella[i+j*L_SCHERMO], i, i+1, j, j+1,!GTK_EXPAND,!GTK_EXPAND,0,0);
-			gtk_widget_show (Casella[i+j*L_SCHERMO]);
-			gtk_widget_realize (Casella[i+j*L_SCHERMO]);
+			Casella[i+j*caselle_orizzontali]=gtk_event_box_new();
+			gtk_widget_set_events (Casella[i+j*caselle_orizzontali], GDK_BUTTON_PRESS_MASK |  GDK_ENTER_NOTIFY_MASK);
+			gtk_widget_set_size_request(Casella[i+j*caselle_orizzontali], Dim_casella,Dim_casella);
+			gtk_table_attach (GTK_TABLE (Mappa), Casella[i+j*caselle_orizzontali], i, i+1, j, j+1,!GTK_EXPAND,!GTK_EXPAND,0,0);
+			gtk_widget_show (Casella[i+j*caselle_orizzontali]);
+			gtk_widget_realize (Casella[i+j*caselle_orizzontali]);
 			
 		}
 	gtk_widget_show (Mappa);

@@ -56,7 +56,7 @@ static void sposta_datastiera(GtkWidget* Window, GdkEventKey* K)
 				}
 				break;
 			case GDK_KEY_Down:
-				if(cy+1>ALTEZZA-A_SCHERMO)
+				if(cy+1>ALTEZZA-caselle_verticali)
 					return;
 				else
 				{
@@ -66,7 +66,7 @@ static void sposta_datastiera(GtkWidget* Window, GdkEventKey* K)
 				}
 				break;
 			case GDK_KEY_Right:
-				if(cx+1>LARGHEZZA-L_SCHERMO)
+				if(cx+1>LARGHEZZA-caselle_orizzontali)
 					return;
 				else
 				{

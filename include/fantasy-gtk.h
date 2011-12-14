@@ -15,13 +15,16 @@
  * GNU General Public License for more details.
  */
 
-// L_SCHERMO = larghezza/dim_casella-3 (massimo)
-// A_SCHERMO = altezza/dim-casella-3-3 (massimo)
-#define L_SCHERMO 36
-#define A_SCHERMO 18
+// caselle_orizzontali = larghezza/dim_casella-3 (massimo)
+// caselle_verticali = altezza/dim-casella-3-3 (massimo)
+//#ifdef EEE
+//#define caselle_orizzontali 27 // volevo 29 ma prima è da ridurre il menu.
+//#define caselle_verticali 16
+//#else
+//#define caselle_orizzontali 36
+//#define caselle_verticali 18
+//#endif
 // per eeepc
-//#define L_SCHERMO 27 // volevo 29 ma prima è da ridurre il menu.
-//#define A_SCHERMO 16
 
 //struct per tab
 typedef struct s_listapertab
@@ -38,8 +41,8 @@ typedef struct s_spin
 } t_spin;
 
 //variabili globali
-GtkWidget *Casella[L_SCHERMO*A_SCHERMO];
-GtkWidget *Thumb[L_SCHERMO*A_SCHERMO];
+GtkWidget *Casella[LARGHEZZA*ALTEZZA];
+GtkWidget *Thumb[LARGHEZZA*ALTEZZA];
 GtkWidget *Notebook[4];
 GtkWidget *Counter[NUMRISORSE];
 GtkWidget *Listacastelli[NUMCASTELLI];
@@ -49,6 +52,7 @@ GtkWidget *CurrentL;
 GtkWidget *CurrentI2;
 int Mossa;
 int Dim_casella;
+int caselle_orizzontali,caselle_verticali;
 struct Immagini
 {
 	GdkPixbuf* logo;
