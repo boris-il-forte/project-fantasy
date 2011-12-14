@@ -117,6 +117,7 @@ int spostalecito (int PosT, int PosC , int **V);
 
 //funzioni di combattimento
 void combatti(t_infotruppa* Attaccante, t_infotruppa* Difensore, char m);
+void combatticampoaperto(int Dst, int Src);
 void assediocastello(int Pos);
 void assediostruttura(int Pos);
 int assaltamura(t_lista_s* Castello);
@@ -142,6 +143,7 @@ void addestratruppa(int P, t_truppa T);
 t_infotruppa* generatruppa (t_truppa Tipo, char Giocatore, int Numero);
 int evacuatruppa(t_lista_t *T);
 void spostatruppa(int Src, int Dst);
+void spostainstruttura (int Src, int Dst);
 void identificatruppa(t_infotruppa* T, char* buf);
 void eliminamorti (t_infotruppa* M);
 void eliminamortistrutture (int Pos);

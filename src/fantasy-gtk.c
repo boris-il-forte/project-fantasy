@@ -333,12 +333,10 @@ static void evacua_truppa (t_lista_t *T)
 	}
 }
 
-static void click_bersaglio (char* pos) //manca
+static void click_bersaglio (char* pos)
 {
 	int Dst= (int) (pos-infomappa.mappa);
 	int Src= Mossa;
-	t_infotruppa* A=infomappa.truppe[Src];
-	t_infotruppa* D=infomappa.truppe[Dst];
 	if (Src==Dst)
 	{
 		gtk_pulisci_mappa();
@@ -346,9 +344,7 @@ static void click_bersaglio (char* pos) //manca
 	}
 	else
 	{
-		infomappa.truppe[Src]->combattuto=1;
-		combatti(A, D, 'n');
-		if(D->numero==0 || D->morale==0) eliminamorti(D);
+		combatticampoaperto(Dst,Src);
 		gtk_aggiorna_tab_armate ();
 		gtk_pulisci_mappa();
 		gtk_stampa_mappa(cx,cy,'n');
@@ -751,38 +747,10 @@ static void click_assaltostruttura (char* pos)
 	gtk_stampa_mappa(cx,cy,'n');
 }
 
-static void click_entrastruttura (char* pos) //manca
+static void click_entrastruttura (char* pos)
 {
 	int Pos=(int) (pos-infomappa.mappa);
-	int g=controllounita(Mossa);
-	t_lista_t* T;
-	t_lista_t* Tp=NULL;
-	t_lista_t* Ts;
-	t_lista_s* S;
-	fprintf(stderr,"debug: click_entrastruttura\n");
-	//cerca la struttura
-	S=puntastruttura (Pos);
-	//cerca l'unità nella lista unità
-	T=giocatore[g]->truppe;
-	while (T->pos!=Mossa && T->next!=NULL)
-	{
-		Tp=T;
-		T=T->next;
-	}
-	if (Tp==NULL) giocatore[g]->truppe=T->next;
-	else Tp->next=T->next;
-	//cerca la coda della lista struttura e sposta dentro l'unità
-	Ts=S->in;
-	if(Ts==NULL) S->in=T;
-	else
-	{
-		while(Ts->next!=NULL) Ts=Ts->next;
-		Ts->next=T;
-	}
-	T->pos=Pos;
-	T->truppa->stanca=1;
-	T->next=NULL;
-	infomappa.truppe[Mossa]=NULL;
+	spostainstruttura (Mossa, Pos);
 	gtk_aggiorna_tab_armate ();
 	gtk_pulisci_mappa();
 	gtk_stampa_mappa(cx,cy,'n');

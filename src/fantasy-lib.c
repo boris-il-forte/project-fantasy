@@ -430,6 +430,39 @@ void spostatruppa(int Src, int Dst)
 	}
 }
 
+//muove la truppa in Src nella struttura in Dst
+void spostainstruttura (int Src, int Dst)
+{
+	int g=controllounita(Src);
+	t_lista_t* T;
+	t_lista_t* Tp=NULL;
+	t_lista_t* Ts;
+	t_lista_s* S;
+	//cerca la struttura
+	S=puntastruttura (Dst);
+	//cerca l'unità nella lista unità
+	T=giocatore[g]->truppe;
+	while (T->pos!=Src && T->next!=NULL)
+	{
+		Tp=T;
+		T=T->next;
+	}
+	if (Tp==NULL) giocatore[g]->truppe=T->next;
+	else Tp->next=T->next;
+	//cerca la coda della lista struttura e sposta dentro l'unità
+	Ts=S->in;
+	if(Ts==NULL) S->in=T;
+	else
+	{
+		while(Ts->next!=NULL) Ts=Ts->next;
+		Ts->next=T;
+	}
+	T->pos=Dst;
+	T->truppa->stanca=1;
+	T->next=NULL;
+	infomappa.truppe[Src]=NULL;
+}
+
 //genera l'unità desiderata
 t_infotruppa* generatruppa (t_truppa Tipo, char Giocatore, int Numero)
 {
@@ -810,6 +843,16 @@ void combatti(t_infotruppa* Attaccante, t_infotruppa* Difensore, char m)
 	if (n<Difensore->numero/2) Difensore->morale/=2;
 	Difensore->numero=n;
 	return;
+}
+
+//attacca un bersaglio in campo aperto
+void combatticampoaperto(int Dst, int Src)
+{
+	t_infotruppa* A=infomappa.truppe[Src];
+	t_infotruppa* D=infomappa.truppe[Dst];
+	infomappa.truppe[Src]->combattuto=1;
+	combatti(A, D, 'n');
+	if(D->numero==0 || D->morale==0) eliminamorti(D);
 }
 
 //gestisce tutto l'assedio a una struttura
