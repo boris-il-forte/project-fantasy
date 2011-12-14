@@ -856,7 +856,7 @@ void gtk_carica_immagini ()
 	Immagine.err=gdk_pixbuf_new_from_file_at_size (Buf,30,30,NULL);
 	Immagine.logo=gdk_pixbuf_new_from_file (Buf,NULL);
 	sprintf(Buf,"img/Freccia.xpm");
-	Immagine.freccia=gdk_pixbuf_new_from_file_at_size (Buf,Dim_casella,Dim_casella,NULL); // DIM FRECCIA
+	Immagine.freccia=gdk_pixbuf_new_from_file_at_size (Buf,Dim_casella-8,Dim_casella-8,NULL); // DIM FRECCIA
 	// carico immagini da skin
 	sprintf(Buf,"skin/");
 	strcat(Buf,infogioco.skin);
@@ -961,9 +961,9 @@ void gtk_calcola_dimensioni ()
 	int w,h;
 	w=gdk_screen_get_width (gdk_screen_get_default ());
 	h=gdk_screen_get_height (gdk_screen_get_default ());
-	Dim_casella=MIN(w,h)*0.05;
+	Dim_casella=0.045*MIN(w,h)+3;
 	caselle_orizzontali=w/Dim_casella-6; // 27 eee
-	caselle_verticali=h/Dim_casella-4; // 16 eee
+	caselle_verticali=h/Dim_casella-5; // 16 eee
 //	if (h>=960) Dim_casella=40;
 //	else if (h>=720) Dim_casella=30;
 //	else if (h>=480) Dim_casella=20;
