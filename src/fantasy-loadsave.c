@@ -2,7 +2,7 @@
  * Project Fantasy, gioco di strategia a turni
  *
  *
- * Copyright (C) 2011 gionnico
+ * Copyright(C) 2011 gionnico
  * Versione 1.0
  *
  * This program is free software; you can redistribute it and/or
@@ -120,7 +120,7 @@ t_lista_t * inserisci_truppe_in_coda(t_lista_t *testa,FILE *fp, char from) //# s
 
 	temp=testa;
 
-	if (temp == NULL)
+	if(temp == NULL)
 		return nuova;
 	while(temp->next != NULL) {
 		temp=temp->next;
@@ -141,14 +141,14 @@ t_lista_s * inserisci_strutture_in_coda(t_lista_s *testa,FILE *fp)
 	ckfread(&nuova->pos,sizeof(nuova->pos),1,fp);
 	ckfread(&num_truppestruttura,sizeof(num_truppestruttura),1,fp); // intruso .. che ci vuoi fare? che nassa!
 	nuova->in=NULL;
-	for(l=0;l<num_truppestruttura;l++) { // *in (scorri)
+	for(l=0;l<num_truppestruttura;l++) { // *in(scorri)
 		nuova->in=inserisci_truppe_in_coda(nuova->in,fp,1);
 	} // END *in
 	nuova->next=NULL;
 
 	temp=testa;
 
-	if (temp == NULL)
+	if(temp == NULL)
 		return nuova;
 	while(temp->next != NULL) {
 		temp=temp->next;
@@ -171,7 +171,7 @@ int carica(char *nomefile)
 		perror("fopen fallita");
 		return 1;
 	}
-	// INIZIO controllo header standard: FC1 (1 come intero)
+	// INIZIO controllo header standard: FC1(1 come intero)
 	ckfread(ver,1,2,fp);
 	ver[2]='\0';
 	ckfread(&ver[3],1,1,fp);
@@ -180,7 +180,7 @@ int carica(char *nomefile)
 		return 1;
 	}
 	if(ver[3] != 1) {
-		fprintf(stderr,"Formato FantasyCore sconosciuto (supportato: v1). Versione: v%u ?\n",ver[2]);
+		fprintf(stderr,"Formato FantasyCore sconosciuto(supportato: v1). Versione: v%u ?\n",ver[2]);
 		return 1;
 	}
 	// FINE controllo header standard
@@ -213,13 +213,13 @@ int carica(char *nomefile)
 			giocatore[i]->struttura[j]=NULL;
 		for(j=0;j<NUMSTRUTTURE; j++) { // **struttura
 			ckfread(&num_strutture,sizeof(num_strutture),1,fp);
-			for(k=0;k<num_strutture;k++) { // *struttura (scorri)
+			for(k=0;k<num_strutture;k++) { // *struttura(scorri)
 					giocatore[i]->struttura[j]=inserisci_strutture_in_coda(giocatore[i]->struttura[j],fp);
 			} // END *struttura
 		}
 		ckfread(&num_truppe,sizeof(num_truppe),1,fp);
 		giocatore[i]->truppe=NULL;
-		for(j=0;j<num_truppe;j++) { // *truppe (scorri)
+		for(j=0;j<num_truppe;j++) { // *truppe(scorri)
 			giocatore[i]->truppe=inserisci_truppe_in_coda(giocatore[i]->truppe,fp,0);
 		} // END *truppe
 		ckfread(&giocatore[i]->oro,sizeof(giocatore[i]->oro),1,fp);
@@ -276,28 +276,28 @@ int salva(char *nomefile)
 	ckfwrite(&infomappa.numgrotte,sizeof(infomappa.numgrotte),1,fp);
 	ckfwrite(&infomappa.numfattorie,sizeof(infomappa.numfattorie),1,fp);
 	// END infomappa
-	for(i=0;i<MAXGIOCATORI && giocatore[i] != NULL;i++); // *giocatore (conta)
+	for(i=0;i<MAXGIOCATORI && giocatore[i] != NULL;i++); // *giocatore(conta)
 	num_giocatori=i;
 	ckfwrite(&num_giocatori,sizeof(num_giocatori),1,fp);
-	for(i=0;i<num_giocatori;i++) { // *giocatore (scorri)
+	for(i=0;i<num_giocatori;i++) { // *giocatore(scorri)
 		for(j=0;j<NUMSTRUTTURE; j++) { // **struttura
 			Sptr=giocatore[i]->struttura[j];
-			for(k=0; Sptr != NULL; k++) { // *struttura (conta lista)
+			for(k=0; Sptr != NULL; k++) { // *struttura(conta lista)
 				Sptr = Sptr->next;
 			}
 			num_strutture=k;
 			ckfwrite(&num_strutture,sizeof(num_strutture),1,fp);
 			Sptr=giocatore[i]->struttura[j];
-			for(k=0;k<num_strutture;k++) { // *struttura (scorri)
+			for(k=0;k<num_strutture;k++) { // *struttura(scorri)
 				ckfwrite(&Sptr->pos,sizeof(Sptr->pos),1,fp);
 				Sptrbis=Sptr->in;
-				for(l=0; Sptrbis != NULL; l++) { // *in (conta lista)
+				for(l=0; Sptrbis != NULL; l++) { // *in(conta lista)
 					Sptrbis = Sptrbis->next;
 				}
 				num_truppestruttura=l;
 				ckfwrite(&num_truppestruttura,sizeof(num_truppestruttura),1,fp);
 				Sptrbis=Sptr->in;
-				for(l=0;l<num_truppestruttura;l++) { // *in (scorri)
+				for(l=0;l<num_truppestruttura;l++) { // *in(scorri)
 					ckfwrite(&Sptrbis->truppa->tipo,sizeof(Sptrbis->truppa->tipo),1,fp);
 					ckfwrite(&Sptrbis->truppa->giocatore,sizeof(Sptrbis->truppa->giocatore),1,fp);
 					ckfwrite(&Sptrbis->truppa->numero,sizeof(Sptrbis->truppa->numero),1,fp);
@@ -311,13 +311,13 @@ int salva(char *nomefile)
 			} // END *struttura
 		} // END **struttura
 		Tptr=giocatore[i]->truppe;
-		for(j=0; Tptr != NULL; j++) { // *truppe (conta lista)
+		for(j=0; Tptr != NULL; j++) { // *truppe(conta lista)
 			Tptr = Tptr->next;
 		}
 		num_truppe=j;
 		ckfwrite(&num_truppe,sizeof(num_truppe),1,fp);
 		Tptr=giocatore[i]->truppe;
-		for(j=0;j<num_truppe;j++) { // *truppe (scorri)
+		for(j=0;j<num_truppe;j++) { // *truppe(scorri)
 			ckfwrite(&Tptr->truppa->tipo,sizeof(Tptr->truppa->tipo),1,fp);
 			ckfwrite(&Tptr->truppa->giocatore,sizeof(Tptr->truppa->giocatore),1,fp);
 			ckfwrite(&Tptr->truppa->numero,sizeof(Tptr->truppa->numero),1,fp);

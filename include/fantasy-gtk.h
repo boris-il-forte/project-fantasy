@@ -2,7 +2,7 @@
  * Project Fantasy, gioco di strategia a turni
  *
  *
- * Copyright (C) 2011 Davide Tateo, gionnico
+ * Copyright(C) 2011 Davide Tateo, gionnico
  * Versione 1.0
  *
  * This program is free software; you can redistribute it and/or
@@ -14,17 +14,6 @@
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU General Public License for more details.
  */
-
-// caselle_orizzontali = larghezza/dim_casella-3 (massimo)
-// caselle_verticali = altezza/dim-casella-3-3 (massimo)
-//#ifdef EEE
-//#define caselle_orizzontali 27 // volevo 29 ma prima è da ridurre il menu.
-//#define caselle_verticali 16
-//#else
-//#define caselle_orizzontali 36
-//#define caselle_verticali 18
-//#endif
-// per eeepc
 
 //struct per tab
 typedef struct s_listapertab
@@ -80,23 +69,23 @@ void gtk_inizializza_widget();
 int gtk_carica_avvio(char *nomefile);
 
 //funzioni menu
-void gtk_crea_menu (GtkWidget *Vbox);
+void gtk_crea_menu(GtkWidget *Vbox);
 
 //funzioni mappa
-void gtk_pulisci_mappa ();
+void gtk_pulisci_mappa();
 void gtk_stampa_mappa(int x, int y, char m);
-void gtk_genera_mappa (GtkWidget *Hbox);
+void gtk_genera_mappa(GtkWidget *Hbox);
 
 //funzioni tab
-GtkWidget *gtk_crea_notebook_tab (GtkWidget *Notebook,char *buf);
-void gtk_crea_notebook (GtkWidget *Frame);
+GtkWidget *gtk_crea_notebook_tab(GtkWidget *Notebook,char *buf);
+void gtk_crea_notebook(GtkWidget *Frame);
 GtkWidget *gtk_crea_elemento_tab(GtkWidget *tab,int x, int y,char *nome, char *buf);
-GtkWidget * gtk_riempi_tab_castelli (int i, char* buf);
-void gtk_aggiorna_tab_armate ();
-void gtk_aggiorna_tab_castelli ();
-void gtk_aggiorna_tab_strutture ();
-void gtk_pulisci_tab (GtkWidget *Target);
-void gtk_azzera_tab ();
+GtkWidget * gtk_riempi_tab_castelli(int i, char* buf);
+void gtk_aggiorna_tab_armate();
+void gtk_aggiorna_tab_castelli();
+void gtk_aggiorna_tab_strutture();
+void gtk_pulisci_tab(GtkWidget *Target);
+void gtk_azzera_tab();
 
 //funzioni frecce
 GtkWidget *gtk_crea_4_frecce();

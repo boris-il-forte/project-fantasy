@@ -2,7 +2,7 @@
  * Project Fantasy, gioco di strategia a turni
  *
  *
- * Copyright (C) 2011 Davide Tateo, gionnico
+ * Copyright(C) 2011 Davide Tateo, gionnico
  * Versione 1.0
  *
  * This program is free software; you can redistribute it and/or
@@ -26,9 +26,9 @@
 #define NUMTRUPPE 7
 #define NUMSTRUTTURE 5
 #define NUMRISORSE 3
-#define MIN(a,b) (((a) < (b)) ? (a) : (b))
+#define MIN(a,b)(((a) <(b)) ?(a) :(b))
 #define accedi(x,y,z) z[(x)+LARGHEZZA*(y)] /*accede ad un array come se fosse una matrice*/
-#define posiziona(x,y,z,k) (z)+LARGHEZZA*k-((x)+LARGHEZZA*(y))
+#define posiziona(x,y,z,k)(z)+LARGHEZZA*k-((x)+LARGHEZZA*(y))
 #define disegna(x,y,z) accedi(x,y,infomappa.mappa)=z; accedi(x+1,y,infomappa.mappa)=z+1; accedi(x+1,y+1,infomappa.mappa)=z+3; accedi(x,y+1,infomappa.mappa)=z+2 /*disegna la struttura di simbolo z*/
 #define tipouguale(x,y) accedi(x,y,infomappa.truppe)->tipo==infomappa.truppe[Mossa]->tipo
 
@@ -39,7 +39,7 @@ typedef enum e_struttura {Cas,Fat,Scu,Gro,Nid} t_struttura;
 typedef struct s_infogioco
 {
 	char skin[32];
-	char ext[5]; // estensione della skin (xpm, png, ...) // da fare: indovina automatico
+	char ext[5]; // estensione della skin(xpm, png, ...) // da fare: indovina automatico
 } t_infogioco;
 
 typedef struct s_infotruppa
@@ -112,9 +112,9 @@ int salva(char *nomefile);
 //funzioni di controllo spostamento e attacco
 int inizializza_dijkstra(int PosT, char ***G, int ***V, int *mx, char *vel);
 void calcola_dijkstra(char **G, int Mx, int vel, int **V, int Q);
-int bersagliolecito (int PosT, int PosC );
-int assaltolecito (int PosT, int PosC);
-int spostalecito (int PosT, int PosC , int **V);
+int bersagliolecito(int PosT, int PosC );
+int assaltolecito(int PosT, int PosC);
+int spostalecito(int PosT, int PosC , int **V);
 
 //funzioni di combattimento
 void combatti(t_infotruppa* Attaccante, t_infotruppa* Difensore, char m);
@@ -126,41 +126,41 @@ int assaltabreccia(t_infotruppa* Attaccante,t_lista_t* Difensori);
 int assaltaedificio(t_lista_s* Edificio);
 
 //funzioni di puntamento
-t_infotruppa** puntacasellalibera (int Pos);
-t_infotruppa* puntacasellaoccupata (int Pos, int C);
-t_lista_s* puntastruttura (int Pos);
-t_lista_t* puntatruppaprecedente (t_lista_t *T, t_lista_s *S);
+t_infotruppa** puntacasellalibera(int Pos);
+t_infotruppa* puntacasellaoccupata(int Pos, int C);
+t_lista_s* puntastruttura(int Pos);
+t_lista_t* puntatruppaprecedente(t_lista_t *T, t_lista_s *S);
 
 //funzioni di controllo
-int controlloedificio (int Pos, t_struttura s);
-int controllounita (int Pos);
-t_struttura controllotipostruttura (int Pos);
+int controlloedificio(int Pos, t_struttura s);
+int controllounita(int Pos);
+t_struttura controllotipostruttura(int Pos);
 int controllodiverso(int PosT, int PosS, t_struttura tipo);
-int controllodiversotruppe (int PosA, int PosD);
+int controllodiversotruppe(int PosA, int PosD);
 
 //funzioni di gestione dei dati di gioco
-void creagiocatori (int n);
+void creagiocatori(int n);
 void addestratruppa(int P, t_truppa T);
-t_infotruppa* generatruppa (t_truppa Tipo, char Giocatore, int Numero);
+t_infotruppa* generatruppa(t_truppa Tipo, char Giocatore, int Numero);
 int evacuatruppa(t_lista_t *T);
 void spostatruppa(int Src, int Dst);
-void spostainstruttura (int Src, int Dst);
+void spostainstruttura(int Src, int Dst);
 void identificatruppa(t_infotruppa* T, char* buf);
-void eliminamorti (t_infotruppa* M);
-void eliminamortistrutture (int Pos);
-void cambiaproprietario (int g1, int g2, int Pos,t_struttura Tipo);
+void eliminamorti(t_infotruppa* M);
+void eliminamortistrutture(int Pos);
+void cambiaproprietario(int g1, int g2, int Pos,t_struttura Tipo);
 
 // funzioni per il prato
-int tipoprato (int Pos);
-void pratoacaso ();
+int tipoprato(int Pos);
+void pratoacaso();
 
 //funzioni generiche
-void caricadati ();
-void inizializza ();
-void generamappa ();
-void rigeneramappa ();
-void visualizza_su_terminale ();
-void liberaheap ();
+void caricadati();
+void inizializza();
+void generamappa();
+void rigeneramappa();
+void visualizza_su_terminale();
+void liberaheap();
 void fineturno();
 void aggiorna_tr_callback(char* pos);
 
