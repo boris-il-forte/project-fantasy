@@ -1940,6 +1940,7 @@ GtkWidget *gtk_crea_giocatore_c()
 	Table=gtk_table_new( 3, 1, FALSE);
 	CurrentL=gtk_label_new("Fantasy Core");
 	gtk_table_attach_defaults(GTK_TABLE(Table),CurrentL,1,2,0,1);
+	gtk_widget_set_size_request(CurrentL, 2*Dim_casella, 2*Dim_casella);
 	gtk_widget_show(CurrentL);
 	CurrentI1=gtk_image_new_from_pixbuf(Immagine.err);
 	gtk_widget_set_size_request(CurrentI1, Dim_casella/2, Dim_casella/2);
@@ -1970,6 +1971,7 @@ GtkWidget *gtk_crea_footer()
 	GtkWidget *Label;
 	Table=gtk_table_new( 3, 1, FALSE);
 	Label=gtk_label_new("Fantasy Core");
+	gtk_widget_set_size_request(Label, 2*Dim_casella, 2*Dim_casella);
 	gtk_table_attach_defaults(GTK_TABLE(Table),Label,1,2,0,1);
 	gtk_widget_show(Label);
 	Icon=gtk_image_new_from_pixbuf(Immagine.err);

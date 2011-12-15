@@ -796,20 +796,26 @@ void eliminamortistrutture(int Pos)
 void combatti(t_infotruppa* Attaccante, t_infotruppa* Difensore, char m)
 {
 	int Pa,Pd;
-	int Bp,Bm;
-	int n;
-	float p;
+	int Bpa,Bma;
+	int Bpd,Bmd;
+	int na, nd;
+	float E;
+	float M;
+	int D;
 	fprintf(stderr,"debug: combatti\n");
 	//calcolo potenza attacco attaccante
-	n=Attaccante->numero;
-	Bp=Dtruppa[Attaccante->tipo].att;
-	Bm=Attaccante->morale;
-	Pa=Bp*n+Bm*n/10;
+	na=Attaccante->numero;
+	Bpa=Dtruppa[Attaccante->tipo].att;
+	Bma=Attaccante->morale;
+	Pa=Bpa*na+Bma*na/10;
 	//calcolo potenza difesa difensore
-	n=Difensore->numero;
-	Bp=Dtruppa[Difensore->tipo].dif;
-	Bm=Difensore->morale;
-	Pd=Bp*n+Bm*n/10;
+	nd=Difensore->numero;
+	Bpd=Dtruppa[Difensore->tipo].dif;
+	Bmd=Difensore->morale;
+	Pd=Bpd*nd+Bmd*nd/10;
+	//calcolo dell'efficenza con la funzione versiera
+	E=(float)(1600)/((na-100)*(na-100)+1600); //calcola versiera in x (a=20 x=X-100) moltiplicata per 1/40
+	E*=1.25*Bpa; //calcola efficenza d'attacco truppa
 	switch(m)
 	{
 		case 's':
@@ -822,26 +828,17 @@ void combatti(t_infotruppa* Attaccante, t_infotruppa* Difensore, char m)
 		default:
 		break;
 	}
-	//calcola danni
-	p=(float)Pd/(float)Pa;
-	if(p<0.95) p*=n;
-	else p=0.95*n;
-	//evita creazione di truppe da combattimento
-	if(p>=n) p=n;
+	//calcola moltiplicatore
+	M=(float)Pd/(float)Pa;
+	//calcola danni netti
+	D=(int) (M*E);
+	if(D>5) nd-=D;
+	else nd-=5;
 	// gestisce le unità di pochi uomini
-	if(Difensore->tipo<Dra)
-	{
-		if(p<5) n=0;
-		else if(Difensore->tipo<Dra) n=(int)p;
-	}
-	else
-	{
-		if(p-0.5<(int)p) n=(int)p;
-		else n=(int)p+1;
-	}
-	//gestisce il morale
-	if(n<Difensore->numero/2) Difensore->morale/=2;
-	Difensore->numero=n;
+	if(Difensore->tipo<Dra && nd<5) nd=0;
+	//gestisce il morale e assegna il nuovo valore alle unità
+	if(nd<Difensore->numero/2) Difensore->morale/=2;
+	Difensore->numero=nd;
 	return;
 }
 
