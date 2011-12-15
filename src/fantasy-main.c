@@ -219,7 +219,7 @@ int main(int argc, char *argv[])
 	gtk_container_add(GTK_CONTAINER(Frame), Vbox);
 	//gtk_widget_show(Vbox); // *ero qui
 	// crea box orizzontale per 4 pulsanti fast switch
-	Hbox=gtk_hbox_new(FALSE,10);
+	Hbox=gtk_hbox_new(FALSE,0);
 	gtk_box_pack_start(GTK_BOX(Vbox), Hbox, FALSE, FALSE, 0);
 	gtk_widget_show(Hbox);
 // 	crea 4 pulsanti
