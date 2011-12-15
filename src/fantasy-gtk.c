@@ -964,12 +964,12 @@ void gtk_calcola_dimensioni()
 	h=gdk_screen_get_height(gdk_screen_get_default());
 	Dim_casella=0.045*MIN(w,h)+3;
 	caselle_orizzontali=w/Dim_casella-8; // 27 eee
-	caselle_verticali=h/Dim_casella-5; // 16 eee
+	caselle_verticali=h/Dim_casella-9; // 16 eee
 //	if(h>=960) Dim_casella=40;
 //	else if(h>=720) Dim_casella=30;
 //	else if(h>=480) Dim_casella=20;
 //	else Dim_casella=10;
-	printf("\nCasella: %d\nOrizzontali: %d Verticali: %d\n",Dim_casella,caselle_orizzontali,caselle_verticali);
+	printf("\nCasella: %dpx\nOrizzontali: %d Verticali: %d\n",Dim_casella,caselle_orizzontali,caselle_verticali);
 }
 
 void gtk_crea_menu(GtkWidget *Vbox)
