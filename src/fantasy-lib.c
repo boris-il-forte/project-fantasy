@@ -46,13 +46,13 @@ void caricadati()
 	Dtruppa[Rec].vel=10;
 	Dtruppa[Rec].mor=25;
 	//dati fante
-	Dtruppa[Fan].att=40;
+	Dtruppa[Fan].att=20;
 	Dtruppa[Fan].dif=15;
 	Dtruppa[Fan].git=1;
 	Dtruppa[Fan].vel=5;
 	Dtruppa[Fan].mor=50;
 	//dati lanciere
-	Dtruppa[Lan].att=15;
+	Dtruppa[Lan].att=10;
 	Dtruppa[Lan].dif=25;
 	Dtruppa[Lan].git=1;
 	Dtruppa[Lan].vel=5;
