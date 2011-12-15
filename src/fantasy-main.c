@@ -224,19 +224,19 @@ int main(int argc, char *argv[])
 	gtk_widget_show(Hbox);
 // 	crea 4 pulsanti
 	//crea pulsante seleziona truppa
-	pulsante=gtk_button_new_with_label("->T"); // Prossima Truppa
+	pulsante=gtk_button_new_with_label("Prossima Truppa"); // Prossima Truppa
 	gtk_box_pack_start( GTK_BOX(Hbox), pulsante, FALSE, FALSE, 2);
 	//gtk_widget_set_size_request(pulsante, Dim_casella,Dim_casella);
 	g_signal_connect_swapped(pulsante, "clicked", G_CALLBACK(click_nt),NULL);
 	gtk_widget_show(pulsante);
 	//crea pulsante seleziona castello
-	pulsante=gtk_button_new_with_label("->C"); // Prossimo Castello
+	pulsante=gtk_button_new_with_label("prossimo castello"); // Prossimo Castello
 	gtk_box_pack_start( GTK_BOX(Hbox), pulsante, FALSE, FALSE, 2);
 	//gtk_widget_set_size_request(pulsante, Dim_casella,Dim_casella);
 	g_signal_connect_swapped(pulsante, "clicked", G_CALLBACK(click_nc),NULL);
 	gtk_widget_show(pulsante);
 	//crea pulsante ricerca minaccie
-	pulsante=gtk_button_new_with_label("->M"); // Mostra Minacce
+	pulsante=gtk_button_new_with_label("Mostra Minacce"); // Mostra Minacce
 	gtk_box_pack_start( GTK_BOX(Hbox), pulsante, FALSE, FALSE, 2);
 	//gtk_widget_set_size_request(pulsante, Dim_casella,Dim_casella);
 	gtk_widget_show(pulsante);
