@@ -104,7 +104,7 @@ static void click_nt()
 	if(T==NULL) T=giocatore[CurrentPlayer]->truppe;
 	if(giocatore[CurrentPlayer]->truppe==NULL)
 	{
-		Dialogo=gtk_dialog_new_with_buttons("F.C.",NULL,GTK_DIALOG_DESTROY_WITH_PARENT,GTK_STOCK_OK);
+		Dialogo=gtk_dialog_new_with_buttons("F.C.",NULL,GTK_DIALOG_DESTROY_WITH_PARENT,GTK_STOCK_OK,NULL);
 		gtk_window_set_icon(GTK_WINDOW(Dialogo),Immagine.logo);
 		Label=gtk_label_new("Non ci sono unità!");
 		gtk_widget_show(Label);
@@ -219,7 +219,7 @@ int main(int argc, char *argv[])
 	gtk_container_add(GTK_CONTAINER(Frame), Vbox);
 	//gtk_widget_show(Vbox); // *ero qui
 	// crea box orizzontale per 4 pulsanti fast switch
-	Hbox=gtk_hbox_new(FALSE,0);
+	Hbox=gtk_vbox_new(FALSE,0);
 	gtk_box_pack_start(GTK_BOX(Vbox), Hbox, FALSE, FALSE, 0);
 	gtk_widget_show(Hbox);
 // 	crea 4 pulsanti
