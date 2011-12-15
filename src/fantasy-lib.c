@@ -815,7 +815,7 @@ void combatti(t_infotruppa* Attaccante, t_infotruppa* Difensore, char m)
 	Pd=Bpd*nd+Bmd*nd/10;
 	//calcolo dell'efficenza con la funzione versiera
 	E=(float)(1600)/((na-100)*(na-100)+1600); //calcola versiera in x (a=20 x=X-100) moltiplicata per 1/40
-	E*=1.25*Bpa; //calcola efficenza d'attacco truppa
+	E*=Bpa; //calcola efficenza d'attacco truppa
 	switch(m)
 	{
 		case 's':
@@ -829,7 +829,7 @@ void combatti(t_infotruppa* Attaccante, t_infotruppa* Difensore, char m)
 		break;
 	}
 	//calcola moltiplicatore
-	M=(float)Pd/(float)Pa;
+	M=(float)Pa/(float)Pd;
 	//calcola danni netti
 	D=(int) (M*E);
 	if(D>5) nd-=D;
