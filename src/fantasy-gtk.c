@@ -854,10 +854,10 @@ void gtk_carica_immagini()
 	caricaconfig("fantasy.config");
 	//carico immagini del gioco
 	sprintf(Buf,"img/fantasy-icon.xpm");
-	Immagine.err=gdk_pixbuf_new_from_file_at_size(Buf,30,30,NULL);
-	Immagine.logo=gdk_pixbuf_new_from_file_at_size(Buf,Dim_casella-8,Dim_casella-8,NULL);
+	Immagine.err=gdk_pixbuf_new_from_file_at_size(Buf,Dim_casella-4,Dim_casella-4,NULL);
+	Immagine.logo=gdk_pixbuf_new_from_file_at_size(Buf,Dim_casella-4,Dim_casella-4,NULL);
 	sprintf(Buf,"img/freccia.xpm");
-	Immagine.freccia=gdk_pixbuf_new_from_file_at_size(Buf,Dim_casella-8,Dim_casella-8,NULL); // DIM FRECCIA
+	Immagine.freccia=gdk_pixbuf_new_from_file_at_size(Buf,Dim_casella-4,Dim_casella-4,NULL); // DIM FRECCIA
 	// carico immagini da skin
 	sprintf(Buf,"skin/");
 	strcat(Buf,infogioco.skin);
@@ -887,7 +887,7 @@ void gtk_carica_immagini()
 		strcat(Buf,infogioco.skin);
 		strcat(Buf,Buf2);
 		strcat(Buf,infogioco.ext);
-		Immagine.a[i]=gdk_pixbuf_new_from_file_at_size(Buf,Dim_casella-8,Dim_casella-8,NULL);
+		Immagine.a[i]=gdk_pixbuf_new_from_file_at_size(Buf,Dim_casella-4,Dim_casella-4,NULL);
 	}
 	//carica il castello
 	for(i=0;i<=MAXGIOCATORI;i++)

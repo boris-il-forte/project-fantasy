@@ -264,7 +264,7 @@ int main(int argc, char *argv[])
 	gtk_widget_show(pulsante);
 	//crea footer
 	Tag=gtk_crea_footer();
-	gtk_box_pack_start(GTK_BOX(Vbox), Tag, FALSE, FALSE, 5);
+	gtk_box_pack_end(GTK_BOX(Vbox), Tag, FALSE, FALSE, 5);
 	gtk_widget_show(Tag);
 // dividi spazio mappa in verticale
 	gtk_widget_show(Vbox); // *ora qui
@@ -275,7 +275,7 @@ int main(int argc, char *argv[])
 	gtk_genera_mappa(Vbox);
 	//crea zona riepilogo
 	Frame=gtk_frame_new("Riepilogo Giocatore");
-	gtk_box_pack_start(GTK_BOX(Vbox), Frame, FALSE, FALSE, 0);
+	gtk_box_pack_end(GTK_BOX(Vbox), Frame, FALSE, FALSE, 0);
 	gtk_widget_show(Frame);
 	gtk_crea_notebook(Frame);
 	gtk_widget_show(Notebook[0]);
