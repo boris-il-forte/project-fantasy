@@ -1476,8 +1476,6 @@ void gtk_stampa_mappa(int x, int y, char m)
 							g_signal_connect_swapped(Casella[Pos], "button_press_event", G_CALLBACK(annulla_mossa),(gpointer) &infomappa.mappa[posiziona(0,0,C,R)]);
 						gtk_widget_show(Thumb[Pos]);
 					}
-					if(m=='s' && posiziona(0,0,C,R)==Mossa)
-						g_signal_connect_swapped(Casella[Pos], "button_press_event", G_CALLBACK(click_destinazione),(gpointer) &infomappa.mappa[posiziona(0,0,C,R)]);
 					break;
 				default:
 					Thumb[Pos]=gtk_image_new_from_pixbuf(Immagine.err);
