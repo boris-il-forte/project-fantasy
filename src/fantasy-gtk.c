@@ -230,8 +230,12 @@ static void preferenze()
 			sprintf(infogioco.skin,"%s",sottodir[i]);
 			salvaconfig("fantasy.config");
 			gtk_carica_immagini();
-			gtk_pulisci_mappa();
-			if(partita_in_corso!=0) gtk_stampa_mappa(cx,cy,'n');
+			
+			if(partita_in_corso!=0)
+			{
+				gtk_pulisci_mappa();
+				gtk_stampa_mappa(cx,cy,'n');
+			}
 		}
 		else if(scelta==2) // reset
 		{
