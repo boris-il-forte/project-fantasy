@@ -45,6 +45,7 @@ int caselle_orizzontali,caselle_verticali;
 struct Immagini
 {
 	GdkPixbuf* logo;
+	GdkPixbuf* decorazione;
 	GdkPixbuf* freccia;
 	GdkPixbuf* movimento;
 	GdkPixbuf* attacco;

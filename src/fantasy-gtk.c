@@ -32,7 +32,7 @@ static gboolean set_adjustmentmax(GtkAdjustment* S, GtkAdjustment* D)
 {
 	int max=gtk_adjustment_get_value(GTK_ADJUSTMENT(S));
 	int n=gtk_adjustment_get_value(GTK_ADJUSTMENT(D));
-	gtk_adjustment_set_value(GTK_ADJUSTMENT(D), n<(max-1)? n :(max-1));
+	gtk_adjustment_set_value(GTK_ADJUSTMENT(D), n<(max-1) ? n : (max-1));
 	gtk_adjustment_set_upper(GTK_ADJUSTMENT(D), max-1);
 	return FALSE;
 }
@@ -76,7 +76,7 @@ static void salva_carica(int Data)
 	} 
 	else 
 	{
-		if(partita_in_corso==0)return;
+		if(partita_in_corso==0) return;
 		Fselect=gtk_file_chooser_dialog_new("Salva", NULL,GTK_FILE_CHOOSER_ACTION_SAVE,GTK_STOCK_CANCEL,GTK_RESPONSE_CANCEL,GTK_STOCK_SAVE,GTK_RESPONSE_ACCEPT,NULL);
 		gtk_file_chooser_set_do_overwrite_confirmation(GTK_FILE_CHOOSER(Fselect),TRUE);
 		gtk_file_chooser_set_current_name(GTK_FILE_CHOOSER(Fselect),".fc");
@@ -221,12 +221,12 @@ static void preferenze()
 	do
 	{
 		scelta=gtk_dialog_run(GTK_DIALOG(Dialogo));
-		if(scelta==1)// salva
+		if(scelta==1) // salva
 		{
 			//sprintf(infogioco.skin,"%s",gtk_entry_get_text(GTK_ENTRY(text_skin))); // evento: get radio selezionato? serve un array di Radio[] come temo? e poi gtk_toggle_button_get_active()..
 			salvaconfig("fantasy.config");
 		}
-		else if(scelta==2)// reset
+		else if(scelta==2) // reset
 		{
 			if(remove("fantasy.config"))
 			{
@@ -245,8 +245,8 @@ static void centra_mappa(char* pos)
 	int P=(int)(pos-infomappa.mappa);
 	cx=P%LARGHEZZA+1-caselle_orizzontali/2;
 	cy=P/LARGHEZZA+1-caselle_verticali/2;
-	if(cx<0)cx=0;
-	if(cy<0)cy=0;
+	if(cx<0) cx=0;
+	if(cy<0) cy=0;
 	if(cx>LARGHEZZA-caselle_orizzontali)cx=(LARGHEZZA-caselle_orizzontali);
 	if(cy>ALTEZZA-caselle_verticali)cy=(ALTEZZA-caselle_verticali);
 	gtk_pulisci_mappa();
@@ -256,7 +256,7 @@ static void centra_mappa(char* pos)
 static void sposta_mappa(char* v)
 {
 	int V=(int)(v-infomappa.mappa);
-	if(partita_in_corso==0)return;
+	if(partita_in_corso==0) return;
 	switch(V)
 	{
 		case 1:
@@ -847,10 +847,11 @@ void gtk_carica_immagini()
 	caricaconfig("fantasy.config");
 	//carico immagini del gioco
 	sprintf(Buf,"img/fantasy-icon.xpm");
-	Immagine.err=gdk_pixbuf_new_from_file_at_size(Buf,Dim_casella-4,Dim_casella-4,NULL);
-	Immagine.logo=gdk_pixbuf_new_from_file_at_size(Buf,Dim_casella-4,Dim_casella-4,NULL);
+	Immagine.err=gdk_pixbuf_new_from_file_at_size(Buf,Dim_casella,Dim_casella,NULL);
+	Immagine.logo=gdk_pixbuf_new_from_file_at_size(Buf,Dim_casella,Dim_casella,NULL);
+	Immagine.decorazione=gdk_pixbuf_new_from_file_at_size(Buf,Dim_casella/2,Dim_casella/2,NULL);
 	sprintf(Buf,"img/freccia.xpm");
-	Immagine.freccia=gdk_pixbuf_new_from_file_at_size(Buf,Dim_casella-4,Dim_casella-4,NULL); // DIM FRECCIA
+	Immagine.freccia=gdk_pixbuf_new_from_file_at_size(Buf,Dim_casella-7,Dim_casella-7,NULL); // DIM FRECCIA
 	// carico immagini da skin
 	sprintf(Buf,"skin/");
 	strcat(Buf,infogioco.skin);
@@ -880,7 +881,7 @@ void gtk_carica_immagini()
 		strcat(Buf,infogioco.skin);
 		strcat(Buf,Buf2);
 		strcat(Buf,infogioco.ext);
-		Immagine.a[i]=gdk_pixbuf_new_from_file_at_size(Buf,Dim_casella-4,Dim_casella-4,NULL);
+		Immagine.a[i]=gdk_pixbuf_new_from_file_at_size(Buf,Dim_casella/2,Dim_casella/2,NULL);
 	}
 	//carica il castello
 	for(i=0;i<=MAXGIOCATORI;i++)
@@ -953,14 +954,17 @@ void gtk_carica_immagini()
 void gtk_calcola_dimensioni()
 {
 	int w,h;
+	int wof, hof;
 	w=gdk_screen_get_width(gdk_screen_get_default());
 	h=gdk_screen_get_height(gdk_screen_get_default());
 	Dim_casella=0.045*MIN(w,h)+3;
-	caselle_orizzontali=w/Dim_casella-8; // 27 eee
-	caselle_verticali=h/Dim_casella-9; // 16 eee
-//	if(h>=960)Dim_casella=40;
-//	else if(h>=720)Dim_casella=30;
-//	else if(h>=480)Dim_casella=20;
+	wof=4*Dim_casella;
+	hof=(h>500)?(6*Dim_casella):(10*Dim_casella);
+	caselle_orizzontali=(w-wof)/Dim_casella; // 27 eee
+	caselle_verticali=(h-hof)/Dim_casella; // 16 eee
+//	if(h>=960) Dim_casella=40;
+//	else if(h>=720) Dim_casella=30;
+//	else if(h>=480) Dim_casella=20;
 //	else Dim_casella=10;
 	printf("\nCasella: %dpx\nOrizzontali: %d Verticali: %d\n",Dim_casella,caselle_orizzontali,caselle_verticali);
 }
@@ -1478,7 +1482,7 @@ void gtk_stampa_mappa(int x, int y, char m)
 			}
 			Pos++;
 		}
-	if(m=='s')// grazie dijkstra
+	if(m=='s') // grazie dijkstra
 	{
 		for(i=0;i<Mx;i++)free(V[i]);
 		free(V);
@@ -1525,6 +1529,7 @@ GtkWidget *gtk_crea_notebook_tab(GtkWidget *Notebook,char *buf)
 void gtk_crea_notebook(GtkWidget *Frame)
 {
 	Notebook[0]=gtk_notebook_new();
+	gtk_widget_set_size_request(Notebook[0], -1,3*Dim_casella);
 	gtk_container_add(GTK_CONTAINER(Frame), Notebook[0]);
 	Notebook[1]=(GtkWidget *)gtk_crea_notebook_tab(Notebook[0],"Castelli");
 	Notebook[2]=(GtkWidget *)gtk_crea_notebook_tab(Notebook[0],"Strutture");
@@ -1870,19 +1875,21 @@ GtkWidget *gtk_crea_contarisorse()
 	GtkWidget *Vbox;
 	GtkWidget *Hbox[NUMRISORSE];
 	GtkWidget *Label[NUMRISORSE];
-	Label[0]=gtk_label_new("Oro:");
-	Label[1]=gtk_label_new("Cibo:");
-	Label[2]=gtk_label_new("Smeraldi:");
-	Vbox=gtk_vbox_new(FALSE,10);
+	Label[0]=gtk_label_new("Oro: ");
+	Label[1]=gtk_label_new("Cibo: ");
+	Label[2]=gtk_label_new("Smeraldi: ");
+	Vbox=gtk_vbox_new(FALSE,5);
 	for(i=0; i<NUMRISORSE; i++)
 	{
-		Hbox[i]=gtk_hbox_new(TRUE,10);
+		Hbox[i]=gtk_hbox_new(FALSE,0);
 		gtk_box_pack_start(GTK_BOX(Vbox), Hbox[i], FALSE, FALSE, 0);
 		gtk_box_pack_start(GTK_BOX(Hbox[i]), Label[i], FALSE, FALSE, 0);
+		gtk_widget_set_size_request(Label[i],2*Dim_casella,-1);
 		Counter[i]=gtk_entry_new();
 		gtk_editable_set_editable(GTK_EDITABLE(Counter[i]),FALSE);
 		gtk_entry_set_text(GTK_ENTRY(Counter[i]),"0");
 		gtk_entry_set_width_chars(GTK_ENTRY(Counter[i]),6);
+		gtk_widget_set_size_request(Counter[i],Dim_casella,-1);
 		gtk_box_pack_start(GTK_BOX(Hbox[i]), Counter[i], FALSE, FALSE, 0);
 		gtk_widget_show_all(Hbox[i]);
 	}
@@ -1908,7 +1915,7 @@ void gtk_aggiorna_contarisorse()
 			nk++;
 		}
 		sprintf(Buf,"%.2f",n);
-		for(j=0;nk>0 && j<6; j++, nk--)strcat(Buf,"k");
+		for(j=0;nk>0 && j<6; j++, nk--) strcat(Buf,"k");
 		gtk_entry_set_text(GTK_ENTRY(Counter[i]),Buf);
 	}
 }
@@ -1920,14 +1927,14 @@ GtkWidget *gtk_crea_giocatore_c()
 	Table=gtk_table_new(3, 1, FALSE);
 	CurrentL=gtk_label_new("Fantasy Core");
 	gtk_table_attach_defaults(GTK_TABLE(Table),CurrentL,1,2,0,1);
-	gtk_widget_set_size_request(CurrentL, 2*Dim_casella, 2*Dim_casella);
+	gtk_widget_set_size_request(CurrentL,2*Dim_casella,-1);
 	gtk_widget_show(CurrentL);
-	CurrentI1=gtk_image_new_from_pixbuf(Immagine.err);
-	gtk_widget_set_size_request(CurrentI1, Dim_casella/2, Dim_casella/2);
+	CurrentI1=gtk_image_new_from_pixbuf(Immagine.decorazione);
+	gtk_widget_set_size_request(CurrentI1,Dim_casella/2,Dim_casella/2);
 	gtk_table_attach_defaults(GTK_TABLE(Table),CurrentI1,0,1,0,1);
 	gtk_widget_show(CurrentI1);
-	CurrentI2=gtk_image_new_from_pixbuf(Immagine.err);
-	gtk_widget_set_size_request(CurrentI2, Dim_casella/2, Dim_casella/2);
+	CurrentI2=gtk_image_new_from_pixbuf(Immagine.decorazione);
+	gtk_widget_set_size_request(CurrentI2,Dim_casella/2,Dim_casella/2);
 	gtk_table_attach_defaults(GTK_TABLE(Table),CurrentI2,2,3,0,1);
 	gtk_widget_show_all(CurrentI2);
 	return Table;
@@ -1951,14 +1958,14 @@ GtkWidget *gtk_crea_footer()
 	GtkWidget *Label;
 	Table=gtk_table_new(3, 1, FALSE);
 	Label=gtk_label_new("Fantasy Core");
-	gtk_widget_set_size_request(Label, 2*Dim_casella, 2*Dim_casella);
+	gtk_widget_set_size_request(Label, 2*Dim_casella, -1);
 	gtk_table_attach_defaults(GTK_TABLE(Table),Label,1,2,0,1);
 	gtk_widget_show(Label);
-	Icon=gtk_image_new_from_pixbuf(Immagine.err);
+	Icon=gtk_image_new_from_pixbuf(Immagine.decorazione);
 	gtk_widget_set_size_request(Icon, Dim_casella/2, Dim_casella/2);
 	gtk_table_attach_defaults(GTK_TABLE(Table),Icon,0,1,0,1);
 	gtk_widget_show(Icon);
-	Icon=gtk_image_new_from_pixbuf(Immagine.err);
+	Icon=gtk_image_new_from_pixbuf(Immagine.decorazione);
 	gtk_widget_set_size_request(Icon, Dim_casella/2, Dim_casella/2);
 	gtk_table_attach_defaults(GTK_TABLE(Table),Icon,2,3,0,1);
 	gtk_widget_show_all(Icon);
