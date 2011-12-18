@@ -965,7 +965,7 @@ void gtk_calcola_dimensioni()
 	h=gdk_screen_get_height(gdk_screen_get_default());
 	Dim_casella=0.045*MIN(w,h)+3;
 	wof=4*Dim_casella;
-	hof=6*Dim_casella;
+	hof=(h>500)?(6*Dim_casella):(10*Dim_casella);
 	caselle_orizzontali=(w-wof)/Dim_casella; // 27 eee
 	caselle_verticali=(h-hof)/Dim_casella; // 16 eee
 //	if(h>=960) Dim_casella=40;
@@ -1535,6 +1535,7 @@ GtkWidget *gtk_crea_notebook_tab(GtkWidget *Notebook,char *buf)
 void gtk_crea_notebook(GtkWidget *Frame)
 {
 	Notebook[0]=gtk_notebook_new();
+	gtk_widget_set_size_request(Notebook[0], -1,3*Dim_casella);
 	gtk_container_add(GTK_CONTAINER(Frame), Notebook[0]);
 	Notebook[1]=(GtkWidget *)gtk_crea_notebook_tab(Notebook[0],"Castelli");
 	Notebook[2]=(GtkWidget *)gtk_crea_notebook_tab(Notebook[0],"Strutture");
@@ -1880,19 +1881,21 @@ GtkWidget *gtk_crea_contarisorse()
 	GtkWidget *Vbox;
 	GtkWidget *Hbox[NUMRISORSE];
 	GtkWidget *Label[NUMRISORSE];
-	Label[0]=gtk_label_new("Oro:");
-	Label[1]=gtk_label_new("Cibo:");
-	Label[2]=gtk_label_new("Smeraldi:");
-	Vbox=gtk_vbox_new(FALSE,10);
+	Label[0]=gtk_label_new("Oro: ");
+	Label[1]=gtk_label_new("Cibo: ");
+	Label[2]=gtk_label_new("Smeraldi: ");
+	Vbox=gtk_vbox_new(FALSE,5);
 	for(i=0; i<NUMRISORSE; i++)
 	{
-		Hbox[i]=gtk_hbox_new(TRUE,10);
+		Hbox[i]=gtk_hbox_new(FALSE,0);
 		gtk_box_pack_start(GTK_BOX(Vbox), Hbox[i], FALSE, FALSE, 0);
 		gtk_box_pack_start(GTK_BOX(Hbox[i]), Label[i], FALSE, FALSE, 0);
+		gtk_widget_set_size_request(Label[i],2*Dim_casella,-1);
 		Counter[i]=gtk_entry_new();
 		gtk_editable_set_editable(GTK_EDITABLE(Counter[i]),FALSE);
 		gtk_entry_set_text(GTK_ENTRY(Counter[i]),"0");
 		gtk_entry_set_width_chars(GTK_ENTRY(Counter[i]),6);
+		gtk_widget_set_size_request(Counter[i],Dim_casella,-1);
 		gtk_box_pack_start(GTK_BOX(Hbox[i]), Counter[i], FALSE, FALSE, 0);
 		gtk_widget_show_all(Hbox[i]);
 	}
@@ -1927,17 +1930,17 @@ void gtk_aggiorna_contarisorse()
 GtkWidget *gtk_crea_giocatore_c()
 {
 	GtkWidget *Table;
-	Table=gtk_table_new( 3, 1, FALSE);
+	Table=gtk_table_new(3, 1, FALSE);
 	CurrentL=gtk_label_new("Fantasy Core");
 	gtk_table_attach_defaults(GTK_TABLE(Table),CurrentL,1,2,0,1);
-	gtk_widget_set_size_request(CurrentL, 2*Dim_casella, 2*Dim_casella);
+	gtk_widget_set_size_request(CurrentL,2*Dim_casella,-1);
 	gtk_widget_show(CurrentL);
 	CurrentI1=gtk_image_new_from_pixbuf(Immagine.err);
-	gtk_widget_set_size_request(CurrentI1, Dim_casella/2, Dim_casella/2);
+	gtk_widget_set_size_request(CurrentI1,Dim_casella/2,Dim_casella/2);
 	gtk_table_attach_defaults(GTK_TABLE(Table),CurrentI1,0,1,0,1);
 	gtk_widget_show(CurrentI1);
 	CurrentI2=gtk_image_new_from_pixbuf(Immagine.err);
-	gtk_widget_set_size_request(CurrentI2, Dim_casella/2, Dim_casella/2);
+	gtk_widget_set_size_request(CurrentI2,Dim_casella/2,Dim_casella/2);
 	gtk_table_attach_defaults(GTK_TABLE(Table),CurrentI2,2,3,0,1);
 	gtk_widget_show_all(CurrentI2);
 	return Table;
@@ -1959,9 +1962,9 @@ GtkWidget *gtk_crea_footer()
 	GtkWidget *Table;
 	GtkWidget *Icon;
 	GtkWidget *Label;
-	Table=gtk_table_new( 3, 1, FALSE);
+	Table=gtk_table_new(3, 1, FALSE);
 	Label=gtk_label_new("Fantasy Core");
-	gtk_widget_set_size_request(Label, 2*Dim_casella, 2*Dim_casella);
+	gtk_widget_set_size_request(Label, 2*Dim_casella, -1);
 	gtk_table_attach_defaults(GTK_TABLE(Table),Label,1,2,0,1);
 	gtk_widget_show(Label);
 	Icon=gtk_image_new_from_pixbuf(Immagine.err);

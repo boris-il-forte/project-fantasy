@@ -226,25 +226,20 @@ int main(int argc, char *argv[])
 	//crea pulsante seleziona truppa
 	pulsante=gtk_button_new_with_label("Prossima Truppa"); // Prossima Truppa
 	gtk_box_pack_start( GTK_BOX(Hbox), pulsante, FALSE, FALSE, 2);
-	//gtk_widget_set_size_request(pulsante, Dim_casella,Dim_casella);
+	gtk_widget_set_size_request(pulsante,3*Dim_casella,-1);
 	g_signal_connect_swapped(pulsante, "clicked", G_CALLBACK(click_nt),NULL);
 	gtk_widget_show(pulsante);
 	//crea pulsante seleziona castello
 	pulsante=gtk_button_new_with_label("prossimo castello"); // Prossimo Castello
 	gtk_box_pack_start( GTK_BOX(Hbox), pulsante, FALSE, FALSE, 2);
-	//gtk_widget_set_size_request(pulsante, Dim_casella,Dim_casella);
+	gtk_widget_set_size_request(pulsante,3*Dim_casella,-1);
 	g_signal_connect_swapped(pulsante, "clicked", G_CALLBACK(click_nc),NULL);
 	gtk_widget_show(pulsante);
 	//crea pulsante ricerca minaccie
 	pulsante=gtk_button_new_with_label("Mostra Minacce"); // Mostra Minacce
 	gtk_box_pack_start( GTK_BOX(Hbox), pulsante, FALSE, FALSE, 2);
-	//gtk_widget_set_size_request(pulsante, Dim_casella,Dim_casella);
+	gtk_widget_set_size_request(pulsante,3*Dim_casella,-1);
 	gtk_widget_show(pulsante);
-	//crea pulsante attacca tutti
-	//pulsante=gtk_button_new_with_label("->A!"); // Attacco!
-	//gtk_widget_set_size_request(pulsante, Dim_casella,Dim_casella);
-	//gtk_box_pack_start( GTK_BOX(Hbox), pulsante, FALSE, FALSE, 0);
-	//gtk_widget_show(pulsante);
 // 	crea le frecce
 	Frecce= gtk_crea_4_frecce();
 	gtk_box_pack_start( GTK_BOX(Vbox), Frecce, FALSE, FALSE, 0);
@@ -260,13 +255,14 @@ int main(int argc, char *argv[])
 // 	crea pulsante fine turno
 	pulsante=gtk_button_new_with_label("Fine Turno");
 	gtk_box_pack_start( GTK_BOX(Vbox), pulsante, FALSE, FALSE, 10);
+	gtk_widget_set_size_request(pulsante,3*Dim_casella,-1);
 	g_signal_connect_swapped(pulsante, "clicked", G_CALLBACK(click_turno),NULL);
 	gtk_widget_show(pulsante);
 	//crea footer
 	Tag=gtk_crea_footer();
 	gtk_box_pack_end(GTK_BOX(Vbox), Tag, FALSE, FALSE, 5);
 	gtk_widget_show(Tag);
-// dividi spazio mappa in verticale
+// 	dividi spazio mappa in verticale
 	gtk_widget_show(Vbox); // *ora qui
 	Vbox=gtk_vbox_new(FALSE,10);
 	gtk_box_pack_start(GTK_BOX(Hboxmain), Vbox, FALSE, FALSE, 5);
@@ -279,7 +275,7 @@ int main(int argc, char *argv[])
 	gtk_widget_show(Frame);
 	gtk_crea_notebook(Frame);
 	gtk_widget_show(Notebook[0]);
-// carica_all_avvio
+// 	carica_all_avvio
 	if(argc > 1)
 		if(gtk_carica_avvio(argv[argc-1])) return 1;
 // 	visualizza finestra
