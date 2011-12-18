@@ -960,11 +960,14 @@ void gtk_carica_immagini()
 void gtk_calcola_dimensioni()
 {
 	int w,h;
+	int wof, hof;
 	w=gdk_screen_get_width(gdk_screen_get_default());
 	h=gdk_screen_get_height(gdk_screen_get_default());
 	Dim_casella=0.045*MIN(w,h)+3;
-	caselle_orizzontali=w/Dim_casella-8; // 27 eee
-	caselle_verticali=h/Dim_casella-9; // 16 eee
+	wof=4*Dim_casella;
+	hof=6*Dim_casella;
+	caselle_orizzontali=(w-wof)/Dim_casella; // 27 eee
+	caselle_verticali=(h-hof)/Dim_casella; // 16 eee
 //	if(h>=960) Dim_casella=40;
 //	else if(h>=720) Dim_casella=30;
 //	else if(h>=480) Dim_casella=20;
@@ -1518,7 +1521,7 @@ GtkWidget *gtk_crea_notebook_tab(GtkWidget *Notebook,char *buf)
 	GtkWidget *Vbox;
 	GtkWidget *Scroller;
 	Etichetta=gtk_label_new(buf);
-	Scroller=gtk_scrolled_window_new( NULL, NULL);
+	Scroller=gtk_scrolled_window_new(NULL, NULL);
 	gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(Scroller),GTK_POLICY_AUTOMATIC,GTK_POLICY_AUTOMATIC);
 	Vbox=gtk_vbox_new(FALSE,0);
 	gtk_scrolled_window_add_with_viewport(GTK_SCROLLED_WINDOW(Scroller), Vbox);
