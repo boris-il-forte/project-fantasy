@@ -1598,7 +1598,7 @@ GtkWidget *gtk_crea_notebook_tab(GtkWidget *Notebook,char *buf)
 void gtk_crea_notebook(GtkWidget *Frame)
 {
 	Notebook[0]=gtk_notebook_new();
-	gtk_widget_set_size_request(Notebook[0], -1,3*Dim_casella);
+	gtk_widget_set_size_request(Notebook[0], -1,3*Dim_casella-10);
 	gtk_container_add(GTK_CONTAINER(Frame), Notebook[0]);
 	Notebook[1]=(GtkWidget *)gtk_crea_notebook_tab(Notebook[0],"Castelli");
 	Notebook[2]=(GtkWidget *)gtk_crea_notebook_tab(Notebook[0],"Strutture");

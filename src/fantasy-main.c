@@ -202,7 +202,7 @@ int main(int argc, char *argv[])
 	gtk_window_set_title(GTK_WINDOW(finestra), "Fantasy Core");
 	gtk_window_set_icon(GTK_WINDOW(finestra),Immagine.logo);
 // 	crea box principale del layout
-	Layout=gtk_vbox_new(FALSE,10);
+	Layout=gtk_vbox_new(FALSE,5);
 	gtk_container_add(GTK_CONTAINER(finestra), Layout);
 	gtk_widget_show(Layout);
 // 	crea il menu
