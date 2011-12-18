@@ -197,7 +197,7 @@ static void preferenze()
 	//GtkWidget *pulsante;
 	GtkWidget *Opzioni;
 	GtkWidget *Label;
-	GtkWidget *Radio=NULL;
+	GtkWidget *Radio[64];
 	GtkWidget *Vbox;
 
 	fprintf(stderr,"debug preferenze\n");
@@ -212,10 +212,12 @@ static void preferenze()
 	gtk_container_add(GTK_CONTAINER(Opzioni), Vbox);
 	Label=gtk_label_new("Skin");
 	gtk_box_pack_start(GTK_BOX(Vbox),Label, TRUE, TRUE, 0);
-	for(i=0;i<subdirs_no;i++)
+	Radio[0]=gtk_radio_button_new_with_label_from_widget(NULL,sottodir[i]); //una modifica
+	gtk_box_pack_start(GTK_BOX(Vbox),Radio[0], TRUE, TRUE, 0); //due modifiche
+	for(i=1;i<subdirs_no;i++)
 	{
-	Radio=gtk_radio_button_new_with_label_from_widget(GTK_RADIO_BUTTON(Radio),sottodir[i]); //una modifica
-	gtk_box_pack_start(GTK_BOX(Vbox),Radio, TRUE, TRUE, 0); //due modifiche
+	Radio[i]=gtk_radio_button_new_with_label_from_widget(GTK_RADIO_BUTTON(Radio[i-1]),sottodir[i]); //una modifica
+	gtk_box_pack_start(GTK_BOX(Vbox),Radio[i], TRUE, TRUE, 0); //due modifiche
 	}
 	gtk_widget_show_all(Opzioni);
 	do
