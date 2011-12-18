@@ -198,7 +198,7 @@ static void preferenze()
 	GtkWidget *Opzioni;
 	GtkWidget *Label;
 	GtkWidget *Radio=NULL;
-	GtkWidget *Hbox, *Vbox;
+	GtkWidget *Vbox;
 
 	fprintf(stderr,"debug preferenze\n");
 	subdirs_no=listaskin("skin",sottodir);
@@ -847,20 +847,46 @@ void gtk_carica_immagini()
 	caricaconfig("fantasy.config");
 	//carico immagini del gioco
 	sprintf(Buf,"img/fantasy-icon.xpm");
-	Immagine.err=gdk_pixbuf_new_from_file_at_size(Buf,Dim_casella,Dim_casella,NULL);
-	Immagine.logo=gdk_pixbuf_new_from_file_at_size(Buf,Dim_casella,Dim_casella,NULL);
-	Immagine.decorazione=gdk_pixbuf_new_from_file_at_size(Buf,Dim_casella/2,Dim_casella/2,NULL);
+	if((Immagine.err=gdk_pixbuf_new_from_file_at_size(Buf,Dim_casella,Dim_casella,NULL)) == NULL)
+	{
+		perror("impossibile caricare l'immagine");
+		exit(1);
+	}
+	if((Immagine.logo=gdk_pixbuf_new_from_file_at_size(Buf,Dim_casella,Dim_casella,NULL)) == NULL)
+	{
+		perror("impossibile caricare l'immagine");
+		exit(1);
+	}
+	if((Immagine.decorazione=gdk_pixbuf_new_from_file_at_size(Buf,Dim_casella/2,Dim_casella/2,NULL)) == NULL)
+	{
+		perror("impossibile caricare l'immagine");
+		exit(1);
+	}
 	sprintf(Buf,"img/freccia.xpm");
-	Immagine.freccia=gdk_pixbuf_new_from_file_at_size(Buf,Dim_casella-7,Dim_casella-7,NULL); // DIM FRECCIA
+	if((Immagine.freccia=gdk_pixbuf_new_from_file_at_size(Buf,Dim_casella-7,Dim_casella-7,NULL)) == NULL)
+	{
+		perror("impossibile caricare l'immagine");
+		exit(1);
+	}
 	// carico immagini da skin
 	sprintf(Buf,"skin/");
 	strcat(Buf,infogioco.skin);
-	strcat(Buf,"/mov.xpm");
-	Immagine.movimento=gdk_pixbuf_new_from_file_at_size(Buf,Dim_casella,Dim_casella,NULL);
+	strcat(Buf,"/mov.");
+	strcat(Buf,infogioco.ext);
+	if((Immagine.movimento=gdk_pixbuf_new_from_file_at_size(Buf,Dim_casella,Dim_casella,NULL)) == NULL)
+	{
+		perror("impossibile caricare l'immagine");
+		exit(1);
+	}
 	sprintf(Buf,"skin/");
 	strcat(Buf,infogioco.skin);
-	strcat(Buf,"/atk.xpm");
-	Immagine.attacco=gdk_pixbuf_new_from_file_at_size(Buf,Dim_casella,Dim_casella,NULL);
+	strcat(Buf,"/atk.");
+	strcat(Buf,infogioco.ext);
+	if((Immagine.attacco=gdk_pixbuf_new_from_file_at_size(Buf,Dim_casella,Dim_casella,NULL)) == NULL)
+	{
+		perror("impossibile caricare l'immagine");
+		exit(1);
+	}
 	
 	//carica le immagini del prato
 	for(i=0; i<5; i++)
@@ -870,7 +896,11 @@ void gtk_carica_immagini()
 		strcat(Buf,infogioco.skin);
 		strcat(Buf,Buf2);
 		strcat(Buf,infogioco.ext); // non esistono XPM ancora. colossale standardizzazione richiesta per le skin.
-		Immagine.p[i]=gdk_pixbuf_new_from_file_at_size(Buf,Dim_casella,Dim_casella,NULL);
+		if((Immagine.p[i]=gdk_pixbuf_new_from_file_at_size(Buf,Dim_casella,Dim_casella,NULL)) == NULL)
+		{
+			perror("impossibile caricare l'immagine");
+			exit(1);
+		}
 	}
 	
 	//carica gli scudi colorati
@@ -881,7 +911,11 @@ void gtk_carica_immagini()
 		strcat(Buf,infogioco.skin);
 		strcat(Buf,Buf2);
 		strcat(Buf,infogioco.ext);
-		Immagine.a[i]=gdk_pixbuf_new_from_file_at_size(Buf,Dim_casella/2,Dim_casella/2,NULL);
+		if((Immagine.a[i]=gdk_pixbuf_new_from_file_at_size(Buf,Dim_casella/2,Dim_casella/2,NULL)) == NULL)
+		{
+			perror("impossibile caricare l'immagine");
+			exit(1);
+		}
 	}
 	//carica il castello
 	for(i=0;i<=MAXGIOCATORI;i++)
@@ -892,7 +926,11 @@ void gtk_carica_immagini()
 			strcat(Buf,infogioco.skin);
 			strcat(Buf,Buf2);
 			strcat(Buf,infogioco.ext);
-			Immagine.c[i][j]=gdk_pixbuf_new_from_file_at_size(Buf,Dim_casella,Dim_casella,NULL);
+			if((Immagine.c[i][j]=gdk_pixbuf_new_from_file_at_size(Buf,Dim_casella,Dim_casella,NULL)) == NULL)
+			{
+				perror("impossibile caricare l'immagine");
+				exit(1);
+			}
 		}
 	//carica la grotta
 	for(i=0;i<=MAXGIOCATORI;i++)
@@ -903,7 +941,11 @@ void gtk_carica_immagini()
 			strcat(Buf,infogioco.skin);
 			strcat(Buf,Buf2);
 			strcat(Buf,infogioco.ext);
-			Immagine.g[i][j]=gdk_pixbuf_new_from_file_at_size(Buf,Dim_casella,Dim_casella,NULL);
+			if((Immagine.g[i][j]=gdk_pixbuf_new_from_file_at_size(Buf,Dim_casella,Dim_casella,NULL)) == NULL)
+			{
+				perror("impossibile caricare l'immagine");
+				exit(1);
+			}
 		}
 	//carica la stalla
 	for(i=0;i<=MAXGIOCATORI;i++)
@@ -914,7 +956,11 @@ void gtk_carica_immagini()
 			strcat(Buf,infogioco.skin);
 			strcat(Buf,Buf2);
 			strcat(Buf,infogioco.ext);
-			Immagine.s[i][j]=gdk_pixbuf_new_from_file_at_size(Buf,Dim_casella,Dim_casella,NULL);
+			if((Immagine.s[i][j]=gdk_pixbuf_new_from_file_at_size(Buf,Dim_casella,Dim_casella,NULL)) == NULL)
+			{
+				perror("impossibile caricare l'immagine");
+				exit(1);
+			}
 		}
 	//carica la fattoria
 	for(i=0;i<=MAXGIOCATORI;i++)
@@ -925,7 +971,11 @@ void gtk_carica_immagini()
 			strcat(Buf,infogioco.skin);
 			strcat(Buf,Buf2);
 			strcat(Buf,infogioco.ext);
-			Immagine.f[i][j]=gdk_pixbuf_new_from_file_at_size(Buf,Dim_casella,Dim_casella,NULL);
+			if((Immagine.f[i][j]=gdk_pixbuf_new_from_file_at_size(Buf,Dim_casella,Dim_casella,NULL)) == NULL)
+			{
+				perror("impossibile caricare l'immagine");
+				exit(1);
+			}
 		}
 	//carica il nido
 	for(i=0;i<MAXGIOCATORI;i++)
@@ -936,7 +986,11 @@ void gtk_carica_immagini()
 			strcat(Buf,infogioco.skin);
 			strcat(Buf,Buf2);
 			strcat(Buf,infogioco.ext);
-			Immagine.n[i][j]=gdk_pixbuf_new_from_file_at_size(Buf,Dim_casella,Dim_casella,NULL);
+			if((Immagine.n[i][j]=gdk_pixbuf_new_from_file_at_size(Buf,Dim_casella,Dim_casella,NULL)) == NULL)
+			{
+				perror("impossibile caricare l'immagine");
+				exit(1);
+			}
 		}
 	//carica le truppe
 	for(i=0; i<MAXGIOCATORI; i++)
@@ -947,7 +1001,11 @@ void gtk_carica_immagini()
 			strcat(Buf,infogioco.skin);
 			strcat(Buf,Buf2);
 			strcat(Buf,infogioco.ext);
-			Immagine.t[i][j]=gdk_pixbuf_new_from_file_at_size(Buf,Dim_casella,Dim_casella,NULL);
+			if((Immagine.t[i][j]=gdk_pixbuf_new_from_file_at_size(Buf,Dim_casella,Dim_casella,NULL)) == NULL)
+			{
+				perror("impossibile caricare l'immagine");
+				exit(1);
+			}
 		}
 }
 
