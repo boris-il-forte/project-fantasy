@@ -1028,7 +1028,7 @@ void gtk_calcola_dimensioni()
 	h=gdk_screen_get_height(gdk_screen_get_default());
 	Dim_casella=0.045*MIN(w,h)+3;
 	wof=4*Dim_casella;
-	hof=6*Dim_casella;
+	hof=7*Dim_casella;
 	caselle_orizzontali=(w-wof)/Dim_casella; // 27 eee
 	caselle_verticali=(h-hof)/Dim_casella; // 16 eee
 //	if(h>=960) Dim_casella=40;
