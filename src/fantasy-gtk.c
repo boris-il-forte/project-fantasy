@@ -191,15 +191,16 @@ static void nuova_partita()
 static void preferenze()
 {
 	int scelta;
-	int subdirs_no,i;
+	int subdirs_no,i,d=0;
 	char *sottodir[64]; // magic
+	char *skindefault="NintendOtaku";
 	GtkWidget *Dialogo;
-	//GtkWidget *pulsante;
 	GtkWidget *Opzioni;
 	GtkWidget *Label;
 	GtkWidget *Radio[64];
 	GtkWidget *Vbox;
 
+	Radio[0]=NULL;
 	fprintf(stderr,"debug preferenze\n");
 	subdirs_no=listaskin("skin",sottodir);
 	Dialogo=gtk_dialog_new();
@@ -212,12 +213,12 @@ static void preferenze()
 	gtk_container_add(GTK_CONTAINER(Opzioni), Vbox);
 	Label=gtk_label_new("Skin");
 	gtk_box_pack_start(GTK_BOX(Vbox),Label, TRUE, TRUE, 0);
-	Radio[0]=gtk_radio_button_new_with_label_from_widget(NULL,sottodir[i]); //una modifica
-	gtk_box_pack_start(GTK_BOX(Vbox),Radio[0], TRUE, TRUE, 0); //due modifiche
-	for(i=1;i<subdirs_no;i++)
+	for(i=0;i<subdirs_no;i++)
 	{
-	Radio[i]=gtk_radio_button_new_with_label_from_widget(GTK_RADIO_BUTTON(Radio[i-1]),sottodir[i]); //una modifica
-	gtk_box_pack_start(GTK_BOX(Vbox),Radio[i], TRUE, TRUE, 0); //due modifiche
+		Radio[i]=gtk_radio_button_new_with_label_from_widget(GTK_RADIO_BUTTON(Radio[0]),sottodir[i]); //una modifica
+		gtk_box_pack_start(GTK_BOX(Vbox),Radio[i], TRUE, TRUE, 0); //due modifiche
+		if(strcmp(sottodir[i],infogioco.skin)==0) gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON(Radio[i]),TRUE);
+		if(strcmp(sottodir[i],skindefault)==0) d=i;
 	}
 	gtk_widget_show_all(Opzioni);
 	do
@@ -225,8 +226,12 @@ static void preferenze()
 		scelta=gtk_dialog_run(GTK_DIALOG(Dialogo));
 		if(scelta==1) // salva
 		{
-			//sprintf(infogioco.skin,"%s",gtk_entry_get_text(GTK_ENTRY(text_skin))); // evento: get radio selezionato? serve un array di Radio[] come temo? e poi gtk_toggle_button_get_active()..
+			for(i=0;gtk_toggle_button_get_active(GTK_TOGGLE_BUTTON(Radio[i]))!=TRUE; i++);
+			sprintf(infogioco.skin,"%s",sottodir[i]);
 			salvaconfig("fantasy.config");
+			gtk_carica_immagini();
+			gtk_pulisci_mappa();
+			if(partita_in_corso!=0) gtk_stampa_mappa(cx,cy,'n');
 		}
 		else if(scelta==2) // reset
 		{
@@ -236,7 +241,7 @@ static void preferenze()
 				exit(1);
 			}
 			caricaconfig("fantasy.config");
-			//gtk_entry_set_text(GTK_ENTRY(text_skin),infogioco.skin); <-- mostra radio button coerente con infogioco.skin
+			gtk_toggle_button_set_active (GTK_TOGGLE_BUTTON(Radio[d]),TRUE);
 		}
 	} while(scelta==2);
 	gtk_widget_destroy(Dialogo);
