@@ -29,7 +29,38 @@ static gboolean delete_event()
 
 	return TRUE;
 }
-
+static void ridimensiona_mappa(GtkWindow *Window,GdkEvent *Event,GtkWidget *Mappa)
+{
+	static int wp=0;
+	static int hp=0;
+	int w,h;
+	
+	if(wp==0 && hp==0) 
+	{
+		gtk_window_get_size(Window,&wp,&hp);
+	}
+	else
+	{
+		if(Event->type==GDK_CONFIGURE)
+		{
+			gtk_window_get_size(Window,&w,&h);
+			if(w!=wp || h!=hp)
+			{
+				caselle_orizzontali+=(w-wp)/Dim_casella;
+				caselle_verticali+=(h-hp)/Dim_casella;
+				if(partita_in_corso!=0)
+				{
+					gtk_pulisci_mappa();
+					gtk_table_resize(GTK_TABLE(Mappa),caselle_orizzontali,caselle_verticali);
+					gtk_stampa_mappa(cx,cy,'n');
+				}
+				else
+					gtk_table_resize(GTK_TABLE(Mappa),caselle_orizzontali,caselle_verticali);
+			}
+		}
+	}
+	
+}
 static void input_tastiera(GtkWidget* Window, GdkEventKey* K)
 {
 	if(partita_in_corso==0) return;
@@ -183,6 +214,7 @@ int main(int argc, char *argv[])
 	GtkWidget *Frecce;
 	GtkWidget *Risorse;
 	GtkWidget *Tag;
+	GtkWidget *Mappa;
 
 //	inizializza
 	gtk_init(&argc, &argv);
@@ -268,7 +300,7 @@ int main(int argc, char *argv[])
 	gtk_box_pack_start(GTK_BOX(Hboxmain), Vbox, FALSE, FALSE, 5);
 	gtk_widget_show(Vbox);
 	//crea mappa
-	gtk_genera_mappa(Vbox);
+	Mappa=gtk_genera_mappa(Vbox);
 	//crea zona riepilogo
 	Frame=gtk_frame_new("Riepilogo Giocatore");
 	gtk_box_pack_end(GTK_BOX(Vbox), Frame, FALSE, FALSE, 0);
@@ -279,6 +311,8 @@ int main(int argc, char *argv[])
 	if(argc > 1)
 		if(gtk_carica_avvio(argv[argc-1])) return 1;
 // 	visualizza finestra
+	g_signal_connect(finestra,"configure-event", G_CALLBACK(ridimensiona_mappa),(gpointer) Mappa);
+	g_signal_emit_by_name(finestra,"configure-event",(gpointer) Mappa, NULL);
 	gtk_widget_show(finestra);
 	gtk_main();
 

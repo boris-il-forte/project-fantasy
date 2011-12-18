@@ -75,7 +75,7 @@ void gtk_crea_menu(GtkWidget *Vbox);
 //funzioni mappa
 void gtk_pulisci_mappa();
 void gtk_stampa_mappa(int x, int y, char m);
-void gtk_genera_mappa(GtkWidget *Hbox);
+GtkWidget *gtk_genera_mappa(GtkWidget *Hbox);
 
 //funzioni tab
 GtkWidget *gtk_crea_notebook_tab(GtkWidget *Notebook,char *buf);

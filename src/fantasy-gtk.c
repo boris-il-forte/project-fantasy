@@ -1558,7 +1558,7 @@ void gtk_stampa_mappa(int x, int y, char m)
 	}
 }
 
-void gtk_genera_mappa(GtkWidget *Hbox)
+GtkWidget *gtk_genera_mappa(GtkWidget *Hbox)
 {
 	GtkWidget *Mappa;
 	int i,j;
@@ -1576,6 +1576,7 @@ void gtk_genera_mappa(GtkWidget *Hbox)
 			
 		}
 	gtk_widget_show(Mappa);
+	return Mappa;
 }
 
 GtkWidget *gtk_crea_notebook_tab(GtkWidget *Notebook,char *buf)
