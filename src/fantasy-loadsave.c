@@ -2,7 +2,7 @@
  * Project Fantasy, gioco di strategia a turni
  *
  *
- * Copyright(C) 2011 gionnico
+ * Copyright (C) 2011 gionnico
  * Versione 1.0
  *
  * This program is free software; you can redistribute it and/or
