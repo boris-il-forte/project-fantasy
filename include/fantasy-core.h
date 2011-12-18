@@ -107,6 +107,7 @@ int caricaconfig(char *nomefile);
 int salvaconfig(char *nomefile);
 int carica(char *nomefile);
 int salva(char *nomefile);
+int listaskin(char *nomedir, char **sottodir);
 
 //funzioni di controllo spostamento e attacco
 int inizializza_dijkstra(int PosT, char ***G, int ***V, int *mx, char *vel);

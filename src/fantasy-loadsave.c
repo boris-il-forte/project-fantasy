@@ -18,6 +18,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
+#include <dirent.h>
 #include "fantasy-core.h"
 
 #define BUFSIZE 64
@@ -30,6 +31,33 @@ void ckfread(void *ptr, size_t size, size_t nitems, FILE *stream)
 void ckfwrite(void *ptr, size_t size, size_t nitems, FILE *stream)
 {
 	if(fwrite(ptr,size,nitems,stream) < nitems) { perror("fwrite non riuscita"); exit(1); }
+}
+
+int listaskin(char *nomedir, char *sottodir[])
+{
+	int i;
+	int j=0;
+	DIR *dir;
+	struct dirent *dp;
+
+	if ((dir = opendir (nomedir)) == NULL) {
+		perror ("Cannot open skin dir");
+		exit (1);
+	}
+
+	for(i=0;(dp = readdir (dir)) != NULL && i<64 ;i++) { // magic64
+		if(strcmp(dp->d_name,".") != 0 && strcmp(dp->d_name,"..") != 0)
+		{
+			sottodir[i]=malloc(sizeof(char)*(strlen(dp->d_name)+1));
+			snprintf(sottodir[i],strlen(dp->d_name)+1,"%s",dp->d_name);
+			j++;
+		}
+		//free(dp);
+	}
+	closedir(dir);
+	if(i==64) printf("listaskin: troncata a %d per evitare buffer overflow.\n",64); // magic64
+
+	return j;
 }
 
 int caricaconfig(char *nomefile)
@@ -61,7 +89,34 @@ int caricaconfig(char *nomefile)
 				Buf2=strtok(NULL,"="); // memleak sicuro.
 			sprintf(infogioco.skin,"%s",Buf2);
 			}
-			else if(strcmp(Buf2,"ext") == 0)
+			else
+			{
+				fprintf(stderr,"Parametro sconosciuto: \"%s\"\n",Buf2);
+				exit(1); // enforce strict config file
+			}
+		}
+	}
+	// secondo giro
+	sprintf(Buf,"skin/");
+	strcat(Buf,infogioco.skin);
+	strcat(Buf,"/skin.ini");
+	fp=fopen(Buf,"r");
+	if(fp == NULL) 
+	{
+		perror("not a valid skin");
+		return 1;
+	}
+	while(fgets(Buf,BUFSIZE,fp) != NULL)
+	{
+		if(Buf[0] != ';')
+		{
+			Buf2=strtok(Buf," "); // accetta commenti inline dopo uno spazio.
+			Buf2=strtok(Buf,";"); // .. o dopo un puntoevirgola anche attaccato.
+			if(Buf[strlen(Buf)-1] == '\n')
+				Buf[strlen(Buf)-1]='\0';
+			printf("Buf2 vale \"%s\"\n",Buf2);
+			Buf2=strtok(Buf,"=");
+			if(strcmp(Buf2,"ext") == 0)
 			{
 				Buf2=strtok(NULL,"="); // memleak sicuro.
 				sprintf(infogioco.ext,"%s",Buf2);
@@ -69,7 +124,7 @@ int caricaconfig(char *nomefile)
 			else
 			{
 				fprintf(stderr,"Parametro sconosciuto: \"%s\"\n",Buf2);
-				exit(1); // enforce strict config file
+				exit(1); // enforce strict ini file
 			}
 		}
 	}
@@ -91,9 +146,9 @@ int salvaconfig(char *nomefile)
 	fputs("skin=",fp); // controlla ritorno
 	fputs(infogioco.skin,fp);
 	fputs("\n",fp);
-	fputs("ext=",fp); // controlla ritorno
-	fputs(infogioco.ext,fp);
-	fputs("\n",fp);
+//	fputs("ext=",fp); // controlla ritorno
+//	fputs(infogioco.ext,fp);
+//	fputs("\n",fp);
 
 	fclose(fp);
 

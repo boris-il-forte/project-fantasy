@@ -191,13 +191,17 @@ static void nuova_partita()
 static void preferenze()
 {
 	int scelta;
+	int subdirs_no,i;
+	char *sottodir[64]; // magic
 	GtkWidget *Dialogo;
 	//GtkWidget *pulsante;
 	GtkWidget *Opzioni;
-	GtkWidget *text_skin, *text_ext;
 	GtkWidget *Label;
+	GtkWidget *Radio=NULL;
 	GtkWidget *Hbox, *Vbox;
+
 	fprintf(stderr,"debug preferenze\n");
+	subdirs_no=listaskin("skin",sottodir);
 	Dialogo=gtk_dialog_new();
 	gtk_dialog_add_buttons(GTK_DIALOG(Dialogo),"Salva",1,"Ripristina",2,"Annulla",0,NULL);
 	gtk_window_set_icon(GTK_WINDOW(Dialogo),Immagine.logo);
@@ -206,30 +210,20 @@ static void preferenze()
 	gtk_box_pack_start(GTK_BOX(gtk_dialog_get_content_area(GTK_DIALOG(Dialogo))),Opzioni, TRUE, TRUE, 0);
 	Vbox=gtk_vbox_new(TRUE,0);
 	gtk_container_add(GTK_CONTAINER(Opzioni), Vbox);
-	Hbox=gtk_hbox_new(TRUE,0);
-	gtk_box_pack_start(GTK_BOX(Vbox),Hbox, TRUE, TRUE, 0);
 	Label=gtk_label_new("Skin");
-	gtk_box_pack_start(GTK_BOX(Hbox),Label, TRUE, TRUE, 0);
-	text_skin=gtk_entry_new();
-	gtk_entry_set_text(GTK_ENTRY(text_skin),infogioco.skin);
-	gtk_box_pack_start(GTK_BOX(Hbox),text_skin, TRUE, TRUE,0);
-	//Label=gtk_radio_button_new_with_label(NULL,infogioco.skin); //una modifica
-	//gtk_box_pack_start(GTK_BOX(Vbox),Label, TRUE, TRUE, 0); //due modifiche
-	Hbox=gtk_hbox_new(TRUE,0);
-	gtk_box_pack_start(GTK_BOX(Vbox),Hbox, TRUE, TRUE, 0);
-	Label=gtk_label_new("Estensione");
-	gtk_box_pack_start(GTK_BOX(Hbox),Label, TRUE, TRUE, 0);
-	text_ext=gtk_entry_new();
-	gtk_entry_set_text(GTK_ENTRY(text_ext),infogioco.ext);
-	gtk_box_pack_start(GTK_BOX(Hbox),text_ext, TRUE, TRUE,0);
+	gtk_box_pack_start(GTK_BOX(Vbox),Label, TRUE, TRUE, 0);
+	for(i=0;i<subdirs_no;i++)
+	{
+	Radio=gtk_radio_button_new_with_label_from_widget(GTK_RADIO_BUTTON(Radio),sottodir[i]); //una modifica
+	gtk_box_pack_start(GTK_BOX(Vbox),Radio, TRUE, TRUE, 0); //due modifiche
+	}
 	gtk_widget_show_all(Opzioni);
 	do
 	{
 		scelta=gtk_dialog_run(GTK_DIALOG(Dialogo));
 		if(scelta==1) // salva
 		{
-			sprintf(infogioco.skin,"%s",gtk_entry_get_text(GTK_ENTRY(text_skin)));
-			sprintf(infogioco.ext,"%s",gtk_entry_get_text(GTK_ENTRY(text_ext)));
+			//sprintf(infogioco.skin,"%s",gtk_entry_get_text(GTK_ENTRY(text_skin))); // evento: get radio selezionato? serve un array di Radio[] come temo? e poi gtk_toggle_button_get_active() ..
 			salvaconfig("fantasy.config");
 		}
 		else if(scelta==2) // reset
@@ -240,8 +234,7 @@ static void preferenze()
 				exit(1);
 			}
 			caricaconfig("fantasy.config");
-			gtk_entry_set_text(GTK_ENTRY(text_skin),infogioco.skin);
-			gtk_entry_set_text(GTK_ENTRY(text_ext),infogioco.ext);
+			//gtk_entry_set_text(GTK_ENTRY(text_skin),infogioco.skin); <-- mostra radio button coerente con infogioco.skin
 		}
 	} while(scelta==2);
 	gtk_widget_destroy(Dialogo);
