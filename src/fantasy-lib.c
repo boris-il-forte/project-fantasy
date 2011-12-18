@@ -87,12 +87,12 @@ void caricadati()
 void inizializza()
 {
 	int i,j;
-	if(partita_in_corso!=0) liberaheap();
-	for(i=0; i<NUMCASTELLI; i++) infomappa.castelli[i]=-1;
-	for(i=0; i<MAXSTALLE; i++) infomappa.stalle[i]=-1;
-	for(i=0; i<MAXGROTTE; i++) infomappa.grotte[i]=-1;
-	for(i=0; i<MAXNIDI; i++) infomappa.nidi[i]=-1;
-	for(i=0; i<MAXGIOCATORI; i++) giocatore[i]=NULL;
+	if(partita_in_corso!=0)liberaheap();
+	for(i=0; i<NUMCASTELLI; i++)infomappa.castelli[i]=-1;
+	for(i=0; i<MAXSTALLE; i++)infomappa.stalle[i]=-1;
+	for(i=0; i<MAXGROTTE; i++)infomappa.grotte[i]=-1;
+	for(i=0; i<MAXNIDI; i++)infomappa.nidi[i]=-1;
+	for(i=0; i<MAXGIOCATORI; i++)giocatore[i]=NULL;
 	for(i=0; i<ALTEZZA; i++)
 		for(j=0; j<LARGHEZZA; j++)
 		{
@@ -111,7 +111,7 @@ int conflitticastello(int x, int y,int cur)
 		for(i=0; i<NUMCASTELLI; i++)
 			for(j=-10; j<=10; j++)
 				for(k=-10; k<=10; k++)
-					if(i!=cur && pos+k-LARGHEZZA*j==infomappa.castelli[i]) return 1;
+					if(i!=cur && pos+k-LARGHEZZA*j==infomappa.castelli[i])return 1;
 		return 0;
 	}
 	else return 1;
@@ -124,7 +124,7 @@ int conflittomappa(int x, int y)
 	{
 		for(i=-3; i<=4; i++)
 			for(j=-3; j<=4; j++)
-				if(accedi(x+i,y+j,infomappa.mappa)!=' ') return 1;
+				if(accedi(x+i,y+j,infomappa.mappa)!=' ')return 1;
 	}
 	else return 1;
 	return 0;
@@ -144,9 +144,9 @@ void pratoacaso()
 		for(j=0; j<LARGHEZZA; j++)
 		{
 			n=rand()%20;
-			if(n<12) n=0;
-			else if(n<16) n=1;
-			else if(n<18) n=2;
+			if(n<12)n=0;
+			else if(n<16)n=1;
+			else if(n<18)n=2;
 			else if(n==18)n=3;
 			else n=4;
 			accedi(j,i,infomappa.prato)=n;
@@ -166,7 +166,7 @@ void generamappa()
 	infomappa.numnidi=rand()%MAXNIDI+1; //genera il numero dei nidi	
 
 	/*genero i castelli*/
-	for(i=0; i<NUMCASTELLI; i++) 
+	for(i=0; i<NUMCASTELLI; i++)
 	{
 		do
 		{
@@ -186,7 +186,7 @@ void generamappa()
 		accedi(x+1,y+1,infomappa.mappa)='8';
 	}
 	/*genero le stalle*/
-	for(i=0; i<infomappa.numstalle; i++) 
+	for(i=0; i<infomappa.numstalle; i++)
 	{
 		do
 		{
@@ -198,7 +198,7 @@ void generamappa()
 		disegna(x,y,'S'); //segna le stalle
 	}
 	/*genero le fattorie*/
-	for(i=0; i<infomappa.numfattorie; i++) 
+	for(i=0; i<infomappa.numfattorie; i++)
 	{
 		do
 		{
@@ -210,7 +210,7 @@ void generamappa()
 		disegna(x,y,'C'); //segna le fattorie
 	}
 	/*genero le grotte*/
-	for(i=0; i<infomappa.numgrotte; i++) 
+	for(i=0; i<infomappa.numgrotte; i++)
 	{
 		do
 		{
@@ -222,7 +222,7 @@ void generamappa()
 		disegna(x,y,'G');
 	}
 	/*genero i nidi*/
-	for(i=0; i<infomappa.numnidi; i++) 
+	for(i=0; i<infomappa.numnidi; i++)
 	{
 		do
 		{
@@ -243,7 +243,7 @@ void rigeneramappa()
 	int i; // contatori
 	int x,y; //variabili posizionamento
 	/*genero i castelli*/
-	for(i=0; i<NUMCASTELLI; i++) {
+	for(i=0; i<NUMCASTELLI; i++){
 		x=infomappa.castelli[i]%LARGHEZZA;
 		y=infomappa.castelli[i]/LARGHEZZA;
 		accedi(x-1,y-1,infomappa.mappa)='0'; //segna i castelli
@@ -257,25 +257,25 @@ void rigeneramappa()
 		accedi(x+1,y+1,infomappa.mappa)='8';
 	}
 	/*genero le fattorie*/
-	for(i=0; i<infomappa.numstalle; i++) {
+	for(i=0; i<infomappa.numstalle; i++){
 		x=infomappa.fattorie[i]%LARGHEZZA;
 		y=infomappa.fattorie[i]/LARGHEZZA;
 		disegna(x,y,'C'); //segna le fattorie
 	}
 		/*genero le stalle*/
-	for(i=0; i<infomappa.numstalle; i++) {
+	for(i=0; i<infomappa.numstalle; i++){
 		x=infomappa.stalle[i]%LARGHEZZA;
 		y=infomappa.stalle[i]/LARGHEZZA;
 		disegna(x,y,'S'); //segna le stalle
 	}
 	/*genero le grotte*/
-	for(i=0; i<infomappa.numgrotte; i++) {
+	for(i=0; i<infomappa.numgrotte; i++){
 		x=infomappa.grotte[i]%LARGHEZZA;
 		y=infomappa.grotte[i]/LARGHEZZA;
 		disegna(x,y,'G');
 	}
 		/*genero i nidi*/
-	for(i=0; i<infomappa.numnidi; i++) {
+	for(i=0; i<infomappa.numnidi; i++){
 		x=infomappa.nidi[i]%LARGHEZZA;
 		y=infomappa.nidi[i]/LARGHEZZA;
 		disegna(x,y,'N');
@@ -290,7 +290,7 @@ void creagiocatori(int n)
 	int i,j;
 	char al;
 	int num[MAXGIOCATORI];
-	for(i=0;i<n;i++) num[i]=NUMCASTELLI;
+	for(i=0;i<n;i++)num[i]=NUMCASTELLI;
 	for(i=0;i<n;i++)
 	{
 		srand((unsigned)time(NULL));
@@ -313,7 +313,7 @@ void creagiocatori(int n)
 		giocatore[i]->struttura[Cas]->in=NULL;
 		giocatore[i]->struttura[Cas]->next=NULL;
 		giocatore[i]->truppe=NULL;
-		for(j=1;j<NUMSTRUTTURE;j++) giocatore[i]->struttura[j]=NULL;
+		for(j=1;j<NUMSTRUTTURE;j++)giocatore[i]->struttura[j]=NULL;
 	}
 	while(i<MAXGIOCATORI)
 	{
@@ -447,14 +447,14 @@ void spostainstruttura(int Src, int Dst)
 		Tp=T;
 		T=T->next;
 	}
-	if(Tp==NULL) giocatore[g]->truppe=T->next;
+	if(Tp==NULL)giocatore[g]->truppe=T->next;
 	else Tp->next=T->next;
 	//cerca la coda della lista struttura e sposta dentro l'unità
 	Ts=S->in;
-	if(Ts==NULL) S->in=T;
+	if(Ts==NULL)S->in=T;
 	else
 	{
-		while(Ts->next!=NULL) Ts=Ts->next;
+		while(Ts->next!=NULL)Ts=Ts->next;
 		Ts->next=T;
 	}
 	T->pos=Dst;
@@ -518,7 +518,7 @@ void liberaheap()
 	t_lista_s* Sn;
 	t_lista_t* T;
 	t_lista_t* Tn;
-	for(i=0; i<MAXGIOCATORI && giocatore[i]!=NULL; i++) 
+	for(i=0; i<MAXGIOCATORI && giocatore[i]!=NULL; i++)
 	{
 		for(j=0;j<NUMSTRUTTURE; j++)
 		{
@@ -546,7 +546,7 @@ void liberaheap()
 		}
 		free(giocatore[i]);
 	}
-	for(i=0; i<ALTEZZA*LARGHEZZA; i++) free(infomappa.truppe[i]);
+	for(i=0; i<ALTEZZA*LARGHEZZA; i++)free(infomappa.truppe[i]);
 }
 
 //calcola il costo del percorso più breve utilizzando l'algoritmo di Dijkstra
@@ -576,7 +576,7 @@ int inizializza_dijkstra(int PosT, char ***G, int ***V, int *mx, char *vel)
 	{
 		(*V)[i]=malloc(sizeof(int)*Mx);
 		(*G)[i]=malloc(sizeof(char)*Mx);
-		if((*V)[i]==NULL ||(*G)[i]==NULL) 
+		if((*V)[i]==NULL ||(*G)[i]==NULL)
 		{
 			perror("malloc fallita");
 			exit(1);
@@ -589,7 +589,7 @@ int inizializza_dijkstra(int PosT, char ***G, int ***V, int *mx, char *vel)
 		(*G)[i][0]='#';
 		(*G)[i][Mx-1]='#';
 	}
-	for(i=0;i<Mx; i++) 
+	for(i=0;i<Mx; i++)
 	{
 		(*G)[0][i]='#';
 		(*G)[Mx-1][i]='#';
@@ -639,17 +639,17 @@ void calcola_dijkstra(char **G, int Mx, int vel, int **V, int Q)
 	int S[Mx*Mx];
 	S[0]=1;
 	S[v]=Cs*Mx+Cs;
-	while(Q!=0 && v<=S[0]) //fino a che non hai considerato ogni casella libera...
+	while(Q!=0 && v<=S[0])//fino a che non hai considerato ogni casella libera...
 	{
 		//estrai minimi e impilali
 		for(i=-1; i<=1; i++)
 			for(j=-1; j<=1; j++)
 			{
-				if(i+j==1 || i+j==-1) //considera solo le caselle minime(distanza 1)
+				if(i+j==1 || i+j==-1)//considera solo le caselle minime(distanza 1)
 				{
 					X=S[v]/Mx+i; //calcola la x della casella
 					Y=S[v]%Mx+j; //calcola la y della casella
-					if(G[X][Y]=='.') //se non è stato ancora contato...
+					if(G[X][Y]=='.')//se non è stato ancora contato...
 					{
 						Q--; //conta un elemento in meno dal totale
 						G[X][Y]='+'; //segnalo come contato
@@ -715,7 +715,7 @@ int spostalecito(int PosT, int PosC , int **V)
 }
 
 //calcola area bersaglio
-int bersagliolecito(int PosT, int PosC )
+int bersagliolecito(int PosT, int PosC)
 {
 	t_truppa Tipo= infomappa.truppe[PosT]->tipo;
 	char Git=Dtruppa[Tipo].git;
@@ -728,7 +728,7 @@ int bersagliolecito(int PosT, int PosC )
 }
 
 //calcola area assedio
-int assaltolecito(int PosT, int PosC )
+int assaltolecito(int PosT, int PosC)
 {
 	int x= PosT%LARGHEZZA-PosC%LARGHEZZA;
 	int y= PosT/LARGHEZZA-PosC/LARGHEZZA;
@@ -814,7 +814,7 @@ void combatti(t_infotruppa* Attaccante, t_infotruppa* Difensore, char m)
 	Bmd=Difensore->morale;
 	Pd=Bpd*nd+Bmd*nd/10;
 	//calcolo dell'efficenza con la funzione versiera
-	E=(float)(1600)/((na-100)*(na-100)+1600); //calcola versiera in x (a=20 x=X-100) moltiplicata per 1/40
+	E=(float)(1600)/((na-100)*(na-100)+1600); //calcola versiera in x(a=20 x=X-100)moltiplicata per 1/40
 	E*=Bpa; //calcola efficenza d'attacco truppa
 	switch(m)
 	{
@@ -831,13 +831,13 @@ void combatti(t_infotruppa* Attaccante, t_infotruppa* Difensore, char m)
 	//calcola moltiplicatore
 	M=(float)Pa/(float)Pd;
 	//calcola danni netti
-	D=(int) (M*E);
-	if(D>5) nd-=D;
+	D=(int)(M*E);
+	if(D>5)nd-=D;
 	else nd-=5;
 	// gestisce le unità di pochi uomini
-	if(Difensore->tipo<Dra && nd<5) nd=0;
+	if(Difensore->tipo<Dra && nd<5)nd=0;
 	//gestisce il morale e assegna il nuovo valore alle unità
-	if(nd<Difensore->numero/2) Difensore->morale/=2;
+	if(nd<Difensore->numero/2)Difensore->morale/=2;
 	Difensore->numero=nd;
 	return;
 }
@@ -849,7 +849,7 @@ void combatticampoaperto(int Dst, int Src)
 	t_infotruppa* D=infomappa.truppe[Dst];
 	infomappa.truppe[Src]->combattuto=1;
 	combatti(A, D, 'n');
-	if(D->numero==0 || D->morale==0) eliminamorti(D);
+	if(D->numero==0 || D->morale==0)eliminamorti(D);
 }
 
 //gestisce tutto l'assedio a una struttura
@@ -861,26 +861,26 @@ void assediostruttura(int Pos)
 	t_lista_s* Struttura;
 	t_lista_t* Difensori;
 	fprintf(stderr,"debug: click_assaltostruttura\n");
-	for(i=1;i<NUMSTRUTTURE && g<0;i++) g=controlloedificio(Pos,i);
+	for(i=1;i<NUMSTRUTTURE && g<0;i++)g=controlloedificio(Pos,i);
 	i--;
 	if(g>=0)
 	{
 		fprintf(stderr,"debug: di qualcuno\n");
 		Struttura=puntastruttura(Pos);
 		Difensori=Struttura->in;
-		if(assaltaedificio(Struttura)==1) 
+		if(assaltaedificio(Struttura)==1)
 		{
 			while(Difensori!=NULL)
 			{
 				Difensori->truppa->morale-=10;
-				if(Difensori->truppa->morale<0) Difensori->truppa->morale=0;
+				if(Difensori->truppa->morale<0)Difensori->truppa->morale=0;
 				morale+=Difensori->truppa->morale;
 				Difensori=Difensori->next;
 			}
 			Difensori=Struttura->in;
-			if(morale==0) 
+			if(morale==0)
 			{
-				while(Struttura->in!=NULL) eliminamortistrutture(Struttura->pos);
+				while(Struttura->in!=NULL)eliminamortistrutture(Struttura->pos);
 				cambiaproprietario(CurrentPlayer, g,Pos,i);
 			}
 		}
@@ -929,9 +929,9 @@ int assaltaedificio(t_lista_s* Edificio)
 	t_infotruppa* Difensori[8];
 	t_lista_t* T;
 	T=Edificio->in;
-	if(T==NULL) return 1;
-	for(i=0; i<8; i++) Difensori[i]=NULL;
-	for(i=0; i<8; i++) Attaccanti[i]=NULL;
+	if(T==NULL)return 1;
+	for(i=0; i<8; i++)Difensori[i]=NULL;
+	for(i=0; i<8; i++)Attaccanti[i]=NULL;
 	do
 	{
 		Attaccanti[j]=puntacasellaoccupata(Pos,j);
@@ -953,7 +953,7 @@ int assaltaedificio(t_lista_s* Edificio)
 			return 1;
 		}
 		combatti(Difensori[i],Attaccanti[i],'n');
-		if(Attaccanti[i]->numero==0) eliminamorti(Attaccanti[i]);
+		if(Attaccanti[i]->numero==0)eliminamorti(Attaccanti[i]);
 	}
 	return 0;
 }
@@ -968,9 +968,9 @@ void assediocastello(int Pos)
 	if(g>=0)
 	{
 		Castello=giocatore[g]->struttura[Cas];
-		while(Castello->pos!=Pos) Castello=Castello->next;
+		while(Castello->pos!=Pos)Castello=Castello->next;
 		if(assaltamura(Castello)==1)
-			if(assaltabreccia(puntacasellaoccupata(Pos,C++),Castello->in)==1) cambiaproprietario(CurrentPlayer, g,Pos,Cas);
+			if(assaltabreccia(puntacasellaoccupata(Pos,C++),Castello->in)==1)cambiaproprietario(CurrentPlayer, g,Pos,Cas);
 	}
 	else
 	{
@@ -989,9 +989,9 @@ int assaltamura(t_lista_s* Castello)
 	t_lista_t* T;
 	T=Castello->in;
 	fprintf(stderr,"debug: assaltamura: Pos= %d\n", Pos);
-	if(T==NULL) return 1;
-	for(i=0; i<12; i++) Difensori[i]=NULL;
-	for(i=0; i<12; i++) Attaccanti[i]=NULL;
+	if(T==NULL)return 1;
+	for(i=0; i<12; i++)Difensori[i]=NULL;
+	for(i=0; i<12; i++)Attaccanti[i]=NULL;
 	do
 	{
 		Attaccanti[j]=puntacasellaoccupata(Pos,j);
@@ -1013,7 +1013,7 @@ int assaltamura(t_lista_s* Castello)
 			return 1;
 		}
 		combatti(Difensori[i],Attaccanti[i],'n');
-		if(Attaccanti[i]->numero==0) eliminamorti(Attaccanti[i]);
+		if(Attaccanti[i]->numero==0)eliminamorti(Attaccanti[i]);
 	}
 	return 0;
 }
@@ -1027,11 +1027,11 @@ int assaltabreccia(t_infotruppa* Attaccante,t_lista_t* Difensori)
 	while(Difensori!=NULL)
 	{
 		Secondalinea=Difensori;
-		while(Secondalinea!=NULL && Secondalinea->truppa->combattuto==1) Secondalinea=Secondalinea->next;
+		while(Secondalinea!=NULL && Secondalinea->truppa->combattuto==1)Secondalinea=Secondalinea->next;
 		if(Secondalinea==NULL && Difensori!=NULL)
 		{
 			Secondalinea=Difensori;
-			while(Secondalinea!=NULL) 
+			while(Secondalinea!=NULL)
 			{
 				Secondalinea->truppa->morale/=3;
 				Secondalinea=Secondalinea->next;
@@ -1046,16 +1046,16 @@ int assaltabreccia(t_infotruppa* Attaccante,t_lista_t* Difensori)
 			while(Temp!=NULL)
 			{
 				Temp->truppa->morale-=10;
-				if(Temp->truppa->morale<0) Temp->truppa->morale=0;
+				if(Temp->truppa->morale<0)Temp->truppa->morale=0;
 				Temp=Temp->next;
 			}
 			//fa morire le truppe in rotta o morte
 			Temp=Difensori;
 			while(Temp!=NULL)
 			{
-				if(Temp->truppa->morale==0 || Temp->truppa->numero==0) 
+				if(Temp->truppa->morale==0 || Temp->truppa->numero==0)
 				{
-					if(Temp==Difensori) Difensori=Temp->next;
+					if(Temp==Difensori)Difensori=Temp->next;
 					eliminamortistrutture(Temp->pos);
 				}
 				Temp=Temp->next;
@@ -1064,7 +1064,7 @@ int assaltabreccia(t_infotruppa* Attaccante,t_lista_t* Difensori)
 		else
 		{
 			combatti(Secondalinea->truppa,Attaccante,'n');
-			if(Attaccante->numero==0 || Attaccante->morale==0) eliminamorti(Attaccante);
+			if(Attaccante->numero==0 || Attaccante->morale==0)eliminamorti(Attaccante);
 			return 0;
 		}
 	}
@@ -1082,7 +1082,7 @@ void cambiaproprietario(int g1, int g2, int Pos,t_struttura Tipo)
 		S=giocatore[g1]->struttura[Tipo];
 		if(S!=NULL)
 		{
-			while(S->next!=NULL) S=S->next;
+			while(S->next!=NULL)S=S->next;
 			S->next=(t_lista_s*)malloc(sizeof(t_lista_s));
 			S->next->in=NULL;
 			S->next->pos=Pos;
@@ -1105,12 +1105,12 @@ void cambiaproprietario(int g1, int g2, int Pos,t_struttura Tipo)
 			Sp=S;
 			S=S->next;
 		}
-		if(Sp!=NULL) Sp->next=S->next;
+		if(Sp!=NULL)Sp->next=S->next;
 		else giocatore[g2]->struttura[Tipo]=NULL;
 		Sp=giocatore[g1]->struttura[Tipo];
 		if(Sp!=NULL)
 		{
-			while(Sp->next!=NULL) Sp=Sp->next;
+			while(Sp->next!=NULL)Sp=Sp->next;
 			Sp->next=S;
 			S->next=NULL;
 		}
@@ -1132,7 +1132,7 @@ t_struttura controllotipostruttura(int Pos)
 	int* s[]={infomappa.castelli,infomappa.fattorie,infomappa.stalle, infomappa.grotte,infomappa.nidi};
 	int n[]={NUMCASTELLI,infomappa.numfattorie,infomappa.numstalle, infomappa.numgrotte,infomappa.numnidi};
 	for(t=Cas; t<NUMSTRUTTURE; t++)
-		for(i=0; i<n[t]; i++) if(s[t][i]==Pos) return t;
+		for(i=0; i<n[t]; i++)if(s[t][i]==Pos)return t;
 	return -1;
 }
 
@@ -1146,7 +1146,7 @@ int controlloedificio(int Pos, t_struttura s)
 		L=giocatore[i]->struttura[s];
 		while(L!=NULL)
 		{
-			if(L->pos==Pos) return i;
+			if(L->pos==Pos)return i;
 			else L=L->next;
 		}
 	}
@@ -1163,7 +1163,7 @@ int controllounita(int Pos)
 		L=giocatore[i]->truppe;
 		while(L!=NULL)
 		{
-			if(L->pos==Pos) return i;
+			if(L->pos==Pos)return i;
 			else L=L->next;
 		}
 	}
@@ -1173,15 +1173,15 @@ int controllounita(int Pos)
 //controlla che unità e struttura non siano dello stesso giocatore
 int controllodiverso(int PosT, int PosS, t_struttura tipo)
 {
-	if(controlloedificio(PosS, tipo)==controllounita(PosT)) return 0;
+	if(controlloedificio(PosS, tipo)==controllounita(PosT))return 0;
 	else return 1;
 }
 
 //controlla che le unita non siano dello stesso giocatore
 int controllodiversotruppe(int PosA, int PosD)
 {
-	if(PosA==PosD) return 1;
-	if(controllounita(PosA)==controllounita(PosD)) return 0;
+	if(PosA==PosD)return 1;
+	if(controllounita(PosA)==controllounita(PosD))return 0;
 	else return 1;
 }
 
@@ -1189,11 +1189,11 @@ int controllodiversotruppe(int PosA, int PosD)
 t_lista_t* puntatruppaprecedente(t_lista_t *T, t_lista_s *S)
 {
 	t_lista_t *Tp;
-	if(S->in==T) return NULL;
+	if(S->in==T)return NULL;
 	else
 	{
 		Tp=S->in;
-		while(Tp->next!=T) Tp=Tp->next;
+		while(Tp->next!=T)Tp=Tp->next;
 		return Tp;
 	}
 }
@@ -1209,7 +1209,7 @@ t_lista_s* puntastruttura(int Pos)
 			L=giocatore[G]->struttura[i];
 			while(L!=NULL)
 			{
-				if(L->pos==Pos) return L;
+				if(L->pos==Pos)return L;
 				else L=L->next;
 			}
 		}
@@ -1229,15 +1229,15 @@ t_infotruppa** puntacasellalibera(int Pos)
 		bi=-2;
 		bj=-2;
 		//evita di andare fuori dal limite basso
-		if(x+bi<0) bi++;
-		if(y+bj<0) bj++;
+		if(x+bi<0)bi++;
+		if(y+bj<0)bj++;
 		//evita di andare fuori dal limite alto
 		for(hi=1;x+hi<LARGHEZZA && hi<2;hi++);
 		for(hj=1;y+hj<ALTEZZA && hj<2;hj++);
 		//iniziallizza i e j
 		i=bi;
 		j=bj;
-		while((accedi(x+i,y+j,infomappa.truppe)!=NULL || accedi(x+i,y+j,infomappa.mappa)!=' ') && j<=hj)
+		while((accedi(x+i,y+j,infomappa.truppe)!=NULL || accedi(x+i,y+j,infomappa.mappa)!=' ')&& j<=hj)
 		{
 			i++;
 			if(i>hi)
@@ -1246,7 +1246,7 @@ t_infotruppa** puntacasellalibera(int Pos)
 				j++;
 			}
 		}
-		if(j>hj) return NULL;
+		if(j>hj)return NULL;
 		else 
 		{
 			x+=i;
@@ -1259,15 +1259,15 @@ t_infotruppa** puntacasellalibera(int Pos)
 		bi=-1;
 		bj=-1;
 		//evita di andare fuori dal limite basso
-		if(x+bi<0) bi++;
-		if(y+bj<0) bj++;
+		if(x+bi<0)bi++;
+		if(y+bj<0)bj++;
 		//evita di andare fuori dal limite alto
 		for(hi=1;x+hi<LARGHEZZA && hi<=2;hi++);
 		for(hj=1;y+hj<ALTEZZA && hj<=2;hj++);
 		//iniziallizza i e j
 		i=bi;
 		j=bj;
-		while((accedi(x+i,y+j,infomappa.truppe)!=NULL || accedi(x+i,y+j,infomappa.mappa)!=' ') && j<=hj)
+		while((accedi(x+i,y+j,infomappa.truppe)!=NULL || accedi(x+i,y+j,infomappa.mappa)!=' ')&& j<=hj)
 		{
 			i++;
 			if(i>hi)
@@ -1276,7 +1276,7 @@ t_infotruppa** puntacasellalibera(int Pos)
 				j++;
 			}
 		}
-		if(j>hj) return NULL;
+		if(j>hj)return NULL;
 		else 
 		{
 			x+=i;
@@ -1296,15 +1296,15 @@ t_infotruppa* puntacasellaoccupata(int Pos, int C)
 	x=Pos%LARGHEZZA;
 	y=Pos/LARGHEZZA;
 	fprintf(stderr,"debug: puntacasellaoccupata\n");
-	if(infomappa.mappa[Pos-1]!=' ') //se è un castello
+	if(infomappa.mappa[Pos-1]!=' ')//se è un castello
 	{
 		fprintf(stderr,"debug: puntacasellaoccupata prova lato\n");
 		bi=-2;
 		bj=-2;
 		m=-2;
 		//evita di andare fuori dal limite basso
-		if(x+bi<0) bi++;
-		if(y+bj<0) bj++;
+		if(x+bi<0)bi++;
+		if(y+bj<0)bj++;
 		//evita di andare fuori dal limite alto
 		for(hi=1;x+hi<LARGHEZZA && hi<2;hi++);
 		for(hj=1;y+hj<ALTEZZA && hj<2;hj++);
@@ -1315,8 +1315,8 @@ t_infotruppa* puntacasellaoccupata(int Pos, int C)
 		bj=-1;
 		m=-1;
 		//evita di andare fuori dal limite basso
-		if(x+bi<0) bi++;
-		if(y+bj<0) bj++;
+		if(x+bi<0)bi++;
+		if(y+bj<0)bj++;
 		//evita di andare fuori dal limite alto
 		for(hi=1;x+hi<LARGHEZZA && hi<2;hi++);
 		for(hj=1;y+hj<ALTEZZA && hj<2;hj++);
@@ -1324,9 +1324,9 @@ t_infotruppa* puntacasellaoccupata(int Pos, int C)
 	for(j=bj;k<=C && j<=hj;j++)
 		for(i=bi;k<=C && i<=hi;i++)
 		{
-			if(!((i==m|| i==2) &&(j==m || j==2)))
+			if(!((i==m|| i==2)&&(j==m || j==2)))
 			{
-				if((accedi(x+i,y+j,infomappa.truppe)!=NULL)) k++;
+				if((accedi(x+i,y+j,infomappa.truppe)!=NULL))k++;
 			}
 		}
 	i--;
@@ -1366,14 +1366,14 @@ void fineturno()
 	int f;
 	t_lista_t* T=giocatore[CurrentPlayer]->truppe;
 	t_lista_s* S;
-	for(i=0; i<NUMSTRUTTURE; i++) r[i]=0;
+	for(i=0; i<NUMSTRUTTURE; i++)r[i]=0;
 	//conta le truppe, il loro numero e aggiorna loro stato
 	while(T!=NULL)
 	{
 		T->truppa->stanca=0;
 		T->truppa->combattuto=0;
-		if(T->truppa->tipo<Cav) c+=T->truppa->numero/10;
-		else if(T->truppa->tipo==Cav) c+=2*T->truppa->numero;
+		if(T->truppa->tipo<Cav)c+=T->truppa->numero/10;
+		else if(T->truppa->tipo==Cav)c+=2*T->truppa->numero;
 		else c+=30;
 		T=T->next;
 		n++;
@@ -1393,7 +1393,7 @@ void fineturno()
 	giocatore[CurrentPlayer]->smeraldi+=PROD_SMERALDI_NID*r[Nid]+PROD_SMERALDI_GRO*r[Gro];
 	giocatore[CurrentPlayer]->cibo+=PROD_CIBO_CAS*r[Cas]+PROD_CIBO_FAT*r[Fat]+PROD_CIBO_SCU*r[Scu]-FAME*c;
 	//introduce il concetto di cibo da comprare e morte e scoraggiamento per fame
-	if(giocatore[CurrentPlayer]->cibo<0) 
+	if(giocatore[CurrentPlayer]->cibo<0)
 	{
 		f=giocatore[CurrentPlayer]->cibo;
 		giocatore[CurrentPlayer]->cibo=0;
@@ -1413,8 +1413,8 @@ void fineturno()
 				while(T!=NULL)
 				{
 					T->truppa->morale-=1;
-					if(T->truppa->tipo<Dra) T->truppa->numero+=f;
-					if(T->truppa->numero<=0) eliminamorti(T->truppa);
+					if(T->truppa->tipo<Dra)T->truppa->numero+=f;
+					if(T->truppa->numero<=0)eliminamorti(T->truppa);
 					T=T->next;
 				}
 			}
@@ -1424,13 +1424,13 @@ void fineturno()
 	do
 	{
 		CurrentPlayer++;
-		if(CurrentPlayer==MAXGIOCATORI) CurrentPlayer=0;
+		if(CurrentPlayer==MAXGIOCATORI)CurrentPlayer=0;
 	}while(giocatore[CurrentPlayer]==NULL);
 	return;
 }
 
 // stampa la mappa
-void visualizza_su_terminale() 
+void visualizza_su_terminale()
 {
 	int i,j;
 	for(i=0; i<ALTEZZA; i++)

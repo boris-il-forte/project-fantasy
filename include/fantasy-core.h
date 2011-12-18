@@ -26,10 +26,10 @@
 #define NUMTRUPPE 7
 #define NUMSTRUTTURE 5
 #define NUMRISORSE 3
-#define accedi(x,y,z) z[(x)+LARGHEZZA*(y)] /*accede ad un array come se fosse una matrice*/
+#define accedi(x,y,z)z[(x)+LARGHEZZA*(y)] /*accede ad un array come se fosse una matrice*/
 #define posiziona(x,y,z,k)(z)+LARGHEZZA*k-((x)+LARGHEZZA*(y))
-#define disegna(x,y,z) accedi(x,y,infomappa.mappa)=z; accedi(x+1,y,infomappa.mappa)=z+1; accedi(x+1,y+1,infomappa.mappa)=z+3; accedi(x,y+1,infomappa.mappa)=z+2 /*disegna la struttura di simbolo z*/
-#define tipouguale(x,y) accedi(x,y,infomappa.truppe)->tipo==infomappa.truppe[Mossa]->tipo
+#define disegna(x,y,z)accedi(x,y,infomappa.mappa)=z; accedi(x+1,y,infomappa.mappa)=z+1; accedi(x+1,y+1,infomappa.mappa)=z+3; accedi(x,y+1,infomappa.mappa)=z+2 /*disegna la struttura di simbolo z*/
+#define tipouguale(x,y)accedi(x,y,infomappa.truppe)->tipo==infomappa.truppe[Mossa]->tipo
 
 //definisco le strutture fondamentali
 typedef enum e_truppa {Rec,Fan,Lan,Arc,Cav,Dra,Fen} t_truppa;
@@ -38,7 +38,7 @@ typedef enum e_struttura {Cas,Fat,Scu,Gro,Nid} t_struttura;
 typedef struct s_infogioco
 {
 	char skin[32];
-	char ext[5]; // estensione della skin(xpm, png, ...) // da fare: indovina automatico
+	char ext[5]; // estensione della skin(xpm, png, ...)// da fare: indovina automatico
 } t_infogioco;
 
 typedef struct s_infotruppa
@@ -112,7 +112,7 @@ int listaskin(char *nomedir, char **sottodir);
 //funzioni di controllo spostamento e attacco
 int inizializza_dijkstra(int PosT, char ***G, int ***V, int *mx, char *vel);
 void calcola_dijkstra(char **G, int Mx, int vel, int **V, int Q);
-int bersagliolecito(int PosT, int PosC );
+int bersagliolecito(int PosT, int PosC);
 int assaltolecito(int PosT, int PosC);
 int spostalecito(int PosT, int PosC , int **V);
 

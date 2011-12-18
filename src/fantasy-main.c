@@ -32,7 +32,7 @@ static gboolean delete_event()
 
 static void input_tastiera(GtkWidget* Window, GdkEventKey* K)
 {
-	if(partita_in_corso==0) return;
+	if(partita_in_corso==0)return;
 	if(K->type == GDK_KEY_PRESS && Window!=NULL)
 	{
 		fprintf(stderr,"debug: sposta_datastiera\n");
@@ -100,8 +100,8 @@ static void click_nt()
 	GtkWidget* Dialogo;
 	GtkWidget* Label;
 
-	if(partita_in_corso==0) return;
-	if(T==NULL) T=giocatore[CurrentPlayer]->truppe;
+	if(partita_in_corso==0)return;
+	if(T==NULL)T=giocatore[CurrentPlayer]->truppe;
 	if(giocatore[CurrentPlayer]->truppe==NULL)
 	{
 		Dialogo=gtk_dialog_new_with_buttons("F.C.",NULL,GTK_DIALOG_DESTROY_WITH_PARENT,GTK_STOCK_OK,NULL);
@@ -117,10 +117,10 @@ static void click_nt()
 		P=T->pos;
 		cx=P%LARGHEZZA+1-caselle_orizzontali/2;
 		cy=P/LARGHEZZA+1-caselle_verticali/2;
-		if(cx<0) cx=0;
-		if(cy<0) cy=0;
-		if(cx>LARGHEZZA-caselle_orizzontali) cx=(LARGHEZZA-caselle_orizzontali);
-		if(cy>ALTEZZA-caselle_verticali) cy=(ALTEZZA-caselle_verticali);
+		if(cx<0)cx=0;
+		if(cy<0)cy=0;
+		if(cx>LARGHEZZA-caselle_orizzontali)cx=(LARGHEZZA-caselle_orizzontali);
+		if(cy>ALTEZZA-caselle_verticali)cy=(ALTEZZA-caselle_verticali);
 		gtk_pulisci_mappa();
 		gtk_stampa_mappa(cx,cy,'n');
 		T=T->next;
@@ -132,8 +132,8 @@ static void click_nc()
 	int P;
 	static t_lista_s* S=NULL;
 
-	if(partita_in_corso==0) return;
-	if(S==NULL) S=giocatore[CurrentPlayer]->struttura[Cas];
+	if(partita_in_corso==0)return;
+	if(S==NULL)S=giocatore[CurrentPlayer]->struttura[Cas];
 	if(giocatore[CurrentPlayer]->struttura[Cas]==NULL)
 	{
 		fprintf(stderr,"c'è un bug!\n");
@@ -143,10 +143,10 @@ static void click_nc()
 		P=S->pos;
 		cx=P%LARGHEZZA+1-caselle_orizzontali/2;
 		cy=P/LARGHEZZA+1-caselle_verticali/2;
-		if(cx<0) cx=0;
-		if(cy<0) cy=0;
-		if(cx>LARGHEZZA-caselle_orizzontali) cx=(LARGHEZZA-caselle_orizzontali);
-		if(cy>ALTEZZA-caselle_verticali) cy=(ALTEZZA-caselle_verticali);
+		if(cx<0)cx=0;
+		if(cy<0)cy=0;
+		if(cx>LARGHEZZA-caselle_orizzontali)cx=(LARGHEZZA-caselle_orizzontali);
+		if(cy>ALTEZZA-caselle_verticali)cy=(ALTEZZA-caselle_verticali);
 		gtk_pulisci_mappa();
 		gtk_stampa_mappa(cx,cy,'n');
 		S=S->next;
@@ -154,7 +154,7 @@ static void click_nc()
 }
 static void click_turno()
 {
-	if(partita_in_corso==0) return;
+	if(partita_in_corso==0)return;
 	if(giocatore[CurrentPlayer]!=NULL)
 	{
 		fineturno();
@@ -225,29 +225,29 @@ int main(int argc, char *argv[])
 // 	crea 4 pulsanti
 	//crea pulsante seleziona truppa
 	pulsante=gtk_button_new_with_label("Prossima Truppa"); // Prossima Truppa
-	gtk_box_pack_start( GTK_BOX(Hbox), pulsante, FALSE, FALSE, 2);
+	gtk_box_pack_start(GTK_BOX(Hbox), pulsante, FALSE, FALSE, 2);
 	//gtk_widget_set_size_request(pulsante, Dim_casella,Dim_casella);
 	g_signal_connect_swapped(pulsante, "clicked", G_CALLBACK(click_nt),NULL);
 	gtk_widget_show(pulsante);
 	//crea pulsante seleziona castello
 	pulsante=gtk_button_new_with_label("prossimo castello"); // Prossimo Castello
-	gtk_box_pack_start( GTK_BOX(Hbox), pulsante, FALSE, FALSE, 2);
+	gtk_box_pack_start(GTK_BOX(Hbox), pulsante, FALSE, FALSE, 2);
 	//gtk_widget_set_size_request(pulsante, Dim_casella,Dim_casella);
 	g_signal_connect_swapped(pulsante, "clicked", G_CALLBACK(click_nc),NULL);
 	gtk_widget_show(pulsante);
 	//crea pulsante ricerca minaccie
 	pulsante=gtk_button_new_with_label("Mostra Minacce"); // Mostra Minacce
-	gtk_box_pack_start( GTK_BOX(Hbox), pulsante, FALSE, FALSE, 2);
+	gtk_box_pack_start(GTK_BOX(Hbox), pulsante, FALSE, FALSE, 2);
 	//gtk_widget_set_size_request(pulsante, Dim_casella,Dim_casella);
 	gtk_widget_show(pulsante);
 	//crea pulsante attacca tutti
 	//pulsante=gtk_button_new_with_label("->A!"); // Attacco!
 	//gtk_widget_set_size_request(pulsante, Dim_casella,Dim_casella);
-	//gtk_box_pack_start( GTK_BOX(Hbox), pulsante, FALSE, FALSE, 0);
+	//gtk_box_pack_start(GTK_BOX(Hbox), pulsante, FALSE, FALSE, 0);
 	//gtk_widget_show(pulsante);
 // 	crea le frecce
 	Frecce= gtk_crea_4_frecce();
-	gtk_box_pack_start( GTK_BOX(Vbox), Frecce, FALSE, FALSE, 0);
+	gtk_box_pack_start(GTK_BOX(Vbox), Frecce, FALSE, FALSE, 0);
 	gtk_widget_show(Frecce);
 	//crea etichetta giocatore attuale
 	Tag=gtk_crea_giocatore_c();
@@ -255,11 +255,11 @@ int main(int argc, char *argv[])
 	gtk_widget_show(Tag);
 // 	crea zona conteggio risorse
 	Risorse=gtk_crea_contarisorse();
-	gtk_box_pack_start( GTK_BOX(Vbox), Risorse, FALSE, FALSE, 0);
+	gtk_box_pack_start(GTK_BOX(Vbox), Risorse, FALSE, FALSE, 0);
 	gtk_widget_show(Risorse);
 // 	crea pulsante fine turno
 	pulsante=gtk_button_new_with_label("Fine Turno");
-	gtk_box_pack_start( GTK_BOX(Vbox), pulsante, FALSE, FALSE, 10);
+	gtk_box_pack_start(GTK_BOX(Vbox), pulsante, FALSE, FALSE, 10);
 	g_signal_connect_swapped(pulsante, "clicked", G_CALLBACK(click_turno),NULL);
 	gtk_widget_show(pulsante);
 	//crea footer
@@ -281,7 +281,7 @@ int main(int argc, char *argv[])
 	gtk_widget_show(Notebook[0]);
 // carica_all_avvio
 	if(argc > 1)
-		if(gtk_carica_avvio(argv[argc-1])) return 1;
+		if(gtk_carica_avvio(argv[argc-1]))return 1;
 // 	visualizza finestra
 	gtk_widget_show(finestra);
 	gtk_main();

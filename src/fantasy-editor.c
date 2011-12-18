@@ -29,7 +29,7 @@ static gboolean delete_event()
 
 static void sposta_datastiera(GtkWidget* Window, GdkEventKey* K)
 {
-	if(partita_in_corso==0) return;
+	if(partita_in_corso==0)return;
 	if(K->type == GDK_KEY_PRESS && Window!=NULL)
 	{
 		fprintf(stderr,"debug: sposta_datastiera\n");
@@ -135,7 +135,7 @@ int main(int argc, char *argv[])
 	gtk_widget_show(PulsantieraS);
 	// 	crea le frecce
 	Frecce= gtk_crea_4_frecce();
-	gtk_box_pack_start( GTK_BOX(Vbox), Frecce, FALSE, FALSE, 0);
+	gtk_box_pack_start(GTK_BOX(Vbox), Frecce, FALSE, FALSE, 0);
 	gtk_widget_show(Frecce);
 	// 	crea mappa
 	gtk_genera_mappa(Hbox);
