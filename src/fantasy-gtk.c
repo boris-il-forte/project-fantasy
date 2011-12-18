@@ -854,10 +854,11 @@ void gtk_carica_immagini()
 	caricaconfig("fantasy.config");
 	//carico immagini del gioco
 	sprintf(Buf,"img/fantasy-icon.xpm");
-	Immagine.err=gdk_pixbuf_new_from_file_at_size(Buf,Dim_casella-4,Dim_casella-4,NULL);
-	Immagine.logo=gdk_pixbuf_new_from_file_at_size(Buf,Dim_casella-4,Dim_casella-4,NULL);
+	Immagine.err=gdk_pixbuf_new_from_file_at_size(Buf,Dim_casella,Dim_casella,NULL);
+	Immagine.logo=gdk_pixbuf_new_from_file_at_size(Buf,Dim_casella,Dim_casella,NULL);
+	Immagine.decorazione=gdk_pixbuf_new_from_file_at_size(Buf,Dim_casella/2,Dim_casella/2,NULL);
 	sprintf(Buf,"img/freccia.xpm");
-	Immagine.freccia=gdk_pixbuf_new_from_file_at_size(Buf,Dim_casella-4,Dim_casella-4,NULL); // DIM FRECCIA
+	Immagine.freccia=gdk_pixbuf_new_from_file_at_size(Buf,Dim_casella-7,Dim_casella-7,NULL); // DIM FRECCIA
 	// carico immagini da skin
 	sprintf(Buf,"skin/");
 	strcat(Buf,infogioco.skin);
@@ -887,7 +888,7 @@ void gtk_carica_immagini()
 		strcat(Buf,infogioco.skin);
 		strcat(Buf,Buf2);
 		strcat(Buf,infogioco.ext);
-		Immagine.a[i]=gdk_pixbuf_new_from_file_at_size(Buf,Dim_casella-4,Dim_casella-4,NULL);
+		Immagine.a[i]=gdk_pixbuf_new_from_file_at_size(Buf,Dim_casella/2,Dim_casella/2,NULL);
 	}
 	//carica il castello
 	for(i=0;i<=MAXGIOCATORI;i++)
@@ -1935,11 +1936,11 @@ GtkWidget *gtk_crea_giocatore_c()
 	gtk_table_attach_defaults(GTK_TABLE(Table),CurrentL,1,2,0,1);
 	gtk_widget_set_size_request(CurrentL,2*Dim_casella,-1);
 	gtk_widget_show(CurrentL);
-	CurrentI1=gtk_image_new_from_pixbuf(Immagine.err);
+	CurrentI1=gtk_image_new_from_pixbuf(Immagine.decorazione);
 	gtk_widget_set_size_request(CurrentI1,Dim_casella/2,Dim_casella/2);
 	gtk_table_attach_defaults(GTK_TABLE(Table),CurrentI1,0,1,0,1);
 	gtk_widget_show(CurrentI1);
-	CurrentI2=gtk_image_new_from_pixbuf(Immagine.err);
+	CurrentI2=gtk_image_new_from_pixbuf(Immagine.decorazione);
 	gtk_widget_set_size_request(CurrentI2,Dim_casella/2,Dim_casella/2);
 	gtk_table_attach_defaults(GTK_TABLE(Table),CurrentI2,2,3,0,1);
 	gtk_widget_show_all(CurrentI2);
@@ -1967,11 +1968,11 @@ GtkWidget *gtk_crea_footer()
 	gtk_widget_set_size_request(Label, 2*Dim_casella, -1);
 	gtk_table_attach_defaults(GTK_TABLE(Table),Label,1,2,0,1);
 	gtk_widget_show(Label);
-	Icon=gtk_image_new_from_pixbuf(Immagine.err);
+	Icon=gtk_image_new_from_pixbuf(Immagine.decorazione);
 	gtk_widget_set_size_request(Icon, Dim_casella/2, Dim_casella/2);
 	gtk_table_attach_defaults(GTK_TABLE(Table),Icon,0,1,0,1);
 	gtk_widget_show(Icon);
-	Icon=gtk_image_new_from_pixbuf(Immagine.err);
+	Icon=gtk_image_new_from_pixbuf(Immagine.decorazione);
 	gtk_widget_set_size_request(Icon, Dim_casella/2, Dim_casella/2);
 	gtk_table_attach_defaults(GTK_TABLE(Table),Icon,2,3,0,1);
 	gtk_widget_show_all(Icon);
