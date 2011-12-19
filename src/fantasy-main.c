@@ -29,23 +29,27 @@ static gboolean delete_event()
 
 	return TRUE;
 }
-static void ridimensiona_mappa(GtkWindow *Window,GdkEvent *Event,GtkWidget *Mappa)
+static gboolean ridimensiona_mappa(GtkWindow *Window,GdkEvent *Event,GtkWidget *Mappa)
 {
 	static int wp=0;
 	static int hp=0;
 	int w,h;
-	
+	fprintf(stderr,"debug: ridimensiona_mappa\n");
 	if(wp==0 && hp==0) 
 	{
+		fprintf(stderr,"debug: inizializza ridimensiona_mappa\n");
 		gtk_window_get_size(Window,&wp,&hp);
+		return TRUE;
 	}
 	else
 	{
 		if(Event->type==GDK_CONFIGURE)
 		{
+			fprintf(stderr,"debug: esegue ridimensiona_mappa\n");
 			gtk_window_get_size(Window,&w,&h);
 			if(w!=wp || h!=hp)
 			{
+				fprintf(stderr,"debug: esegue davvero ridimensiona_mappa: w=%d,h=%d,wp=%d,hp=%d\n",w,h,wp,hp);
 				caselle_orizzontali+=(w-wp)/Dim_casella;
 				caselle_verticali+=(h-hp)/Dim_casella;
 				if(partita_in_corso!=0)
@@ -58,8 +62,8 @@ static void ridimensiona_mappa(GtkWindow *Window,GdkEvent *Event,GtkWidget *Mapp
 					gtk_table_resize(GTK_TABLE(Mappa),caselle_orizzontali,caselle_verticali);
 			}
 		}
+		return FALSE;
 	}
-	
 }
 static void input_tastiera(GtkWidget* Window, GdkEventKey* K)
 {
@@ -311,9 +315,9 @@ int main(int argc, char *argv[])
 	if(argc > 1)
 		if(gtk_carica_avvio(argv[argc-1])) return 1;
 // 	visualizza finestra
-	g_signal_connect(finestra,"configure-event", G_CALLBACK(ridimensiona_mappa),(gpointer) Mappa);
-	g_signal_emit_by_name(finestra,"configure-event",(gpointer) Mappa, NULL);
+	gtk_window_maximize (GTK_WINDOW(finestra));
 	gtk_widget_show(finestra);
+	g_signal_connect(finestra,"configure-event", G_CALLBACK(ridimensiona_mappa),(gpointer) Mappa);
 	gtk_main();
 
 	return 0;
