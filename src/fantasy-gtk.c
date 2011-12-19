@@ -1132,6 +1132,16 @@ void gtk_pulisci_mappa()
 		}
 }
 
+void gtk_pulisci_caselle()
+{
+	int Pos;
+	if(partita_in_corso==1)
+		for(Pos=0; Pos<caselle_orizzontali*caselle_verticali; Pos++)
+		{
+			gtk_widget_destroy(Casella[Pos]);
+		}
+}
+
 void gtk_stampa_mappa(int x, int y, char m)
 {
 	static char pre='n';

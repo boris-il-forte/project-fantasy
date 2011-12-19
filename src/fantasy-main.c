@@ -55,11 +55,14 @@ static gboolean ridimensiona_mappa(GtkWindow *Window,GdkEvent *Event,GtkWidget *
 				if(partita_in_corso!=0)
 				{
 					gtk_pulisci_mappa();
+					gtk_pulisci_caselle();
 					gtk_table_resize(GTK_TABLE(Mappa),caselle_orizzontali,caselle_verticali);
+					gtk_genera_mappa(Mappa);
 					gtk_stampa_mappa(cx,cy,'n');
 				}
-				else
-					gtk_table_resize(GTK_TABLE(Mappa),caselle_orizzontali,caselle_verticali);
+				else gtk_table_resize(GTK_TABLE(Mappa),caselle_orizzontali,caselle_verticali);
+				wp=w;
+				hp=h;
 			}
 		}
 		return FALSE;
@@ -318,7 +321,6 @@ int main(int argc, char *argv[])
 	if(argc > 1)
 		if(gtk_carica_avvio(argv[argc-1])) return 1;
 // 	visualizza finestra
-	gtk_window_maximize (GTK_WINDOW(finestra));
 	gtk_widget_show(finestra);
 	g_signal_connect(finestra,"configure-event", G_CALLBACK(ridimensiona_mappa),(gpointer) Mappa);
 	gtk_main();
