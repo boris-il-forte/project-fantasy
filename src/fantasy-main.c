@@ -34,10 +34,8 @@ static gboolean ridimensiona_mappa(GtkWindow *Window,GdkEvent *Event,GtkWidget *
 	static int wp=0;
 	static int hp=0;
 	int w,h;
-	fprintf(stderr,"debug: ridimensiona_mappa\n");
 	if(wp==0 && hp==0) 
 	{
-		fprintf(stderr,"debug: inizializza ridimensiona_mappa\n");
 		gtk_window_get_size(Window,&wp,&hp);
 		return TRUE;
 	}
@@ -45,16 +43,13 @@ static gboolean ridimensiona_mappa(GtkWindow *Window,GdkEvent *Event,GtkWidget *
 	{
 		if(Event->type==GDK_CONFIGURE)
 		{
-			fprintf(stderr,"debug: esegue ridimensiona_mappa\n");
 			gtk_window_get_size(Window,&w,&h);
 			if(w!=wp || h!=hp)
 			{
-				fprintf(stderr,"debug: esegue davvero ridimensiona_mappa: w=%d,h=%d,wp=%d,hp=%d\n",w,h,wp,hp);
 				caselle_orizzontali+=(w-wp)/Dim_casella;
 				caselle_verticali+=(h-hp)/Dim_casella;
 				if(partita_in_corso!=0)
 				{
-					gtk_pulisci_mappa();
 					gtk_pulisci_caselle();
 					gtk_table_resize(GTK_TABLE(Mappa),caselle_orizzontali,caselle_verticali);
 					gtk_genera_mappa(Mappa);
