@@ -21,8 +21,8 @@
 #include "fantasy-core.h"
 #include "fantasy-gtk.h"
 
+int rid=0;
 //callbacks
-
 static gboolean delete_event()
 {
 	gtk_main_quit();
@@ -34,9 +34,12 @@ static gboolean ridimensiona_mappa(GtkWindow *Window,GdkEvent *Event,GtkWidget *
 	static int wp=0;
 	static int hp=0;
 	int w,h;
+	rid=1;
+	fprintf(stderr,"ridimensiona_mappa: debug!\n");
 	if(wp==0 && hp==0) 
 	{
 		gtk_window_get_size(Window,&wp,&hp);
+		rid=0;
 		return TRUE;
 	}
 	else
@@ -48,18 +51,19 @@ static gboolean ridimensiona_mappa(GtkWindow *Window,GdkEvent *Event,GtkWidget *
 			{
 				caselle_orizzontali+=(w-wp)/Dim_casella;
 				caselle_verticali+=(h-hp)/Dim_casella;
-				if(partita_in_corso!=0)
-				{
-					gtk_pulisci_caselle();
-					gtk_table_resize(GTK_TABLE(Mappa),caselle_orizzontali,caselle_verticali);
-					gtk_genera_mappa(Mappa);
-					gtk_stampa_mappa(cx,cy,'n');
-				}
-				else gtk_table_resize(GTK_TABLE(Mappa),caselle_orizzontali,caselle_verticali);
-				wp=w;
-				hp=h;
 			}
+			else if(partita_in_corso!=0)
+			{
+				gtk_pulisci_caselle();
+				gtk_table_resize(GTK_TABLE(Mappa),caselle_orizzontali,caselle_verticali);
+				gtk_genera_mappa(Mappa);
+				gtk_stampa_mappa(cx,cy,'n');
+			}
+			else gtk_table_resize(GTK_TABLE(Mappa),caselle_orizzontali,caselle_verticali);
+			wp=w;
+			hp=h;
 		}
+		rid=0;
 		return FALSE;
 	}
 }
