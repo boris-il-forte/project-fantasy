@@ -304,7 +304,10 @@ int main(int argc, char *argv[])
 	gtk_box_pack_start(GTK_BOX(Hboxmain), Vbox, FALSE, FALSE, 5);
 	gtk_widget_show(Vbox);
 	//crea mappa
-	Mappa=gtk_genera_mappa(Vbox);
+	Mappa=gtk_table_new(caselle_orizzontali, caselle_verticali, FALSE);
+	gtk_box_pack_start(GTK_BOX(Vbox), Mappa, FALSE, FALSE, 0);
+	gtk_genera_mappa(Mappa);
+	gtk_widget_show(Mappa);
 	//crea zona riepilogo
 	Frame=gtk_frame_new("Riepilogo Giocatore");
 	gtk_box_pack_end(GTK_BOX(Vbox), Frame, FALSE, FALSE, 0);

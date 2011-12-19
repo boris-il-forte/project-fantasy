@@ -1558,12 +1558,9 @@ void gtk_stampa_mappa(int x, int y, char m)
 	}
 }
 
-GtkWidget *gtk_genera_mappa(GtkWidget *Hbox)
+void gtk_genera_mappa(GtkWidget *Mappa)
 {
-	GtkWidget *Mappa;
 	int i,j;
-	Mappa=gtk_table_new(caselle_orizzontali, caselle_verticali, FALSE);
-	gtk_box_pack_start(GTK_BOX(Hbox), Mappa, FALSE, FALSE, 0);
 	for(i=0;i<caselle_orizzontali;i++)
 		for(j=0; j<caselle_verticali; j++)
 		{
@@ -1575,8 +1572,6 @@ GtkWidget *gtk_genera_mappa(GtkWidget *Hbox)
 			gtk_widget_realize(Casella[i+j*caselle_orizzontali]);
 			
 		}
-	gtk_widget_show(Mappa);
-	return Mappa;
 }
 
 GtkWidget *gtk_crea_notebook_tab(GtkWidget *Notebook,char *buf)
