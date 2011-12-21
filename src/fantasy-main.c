@@ -25,6 +25,8 @@ struct datatime_t
 {
 	GtkWidget *finestra;
 	GtkWidget *Mappa;
+	int wp;
+	int hp;
 };
 
 int need_resize=0;
@@ -43,38 +45,27 @@ static gboolean rid()
 }
 static gboolean ridimensiona_mappa(struct datatime_t *datatime)
 {
-	static int wp=0;
-	static int hp=0;
 	int w,h;
 	if(need_resize)
 	{
 	fprintf(stderr,"ridimensiona_mappa: debug!\n");
-		if(wp==0 && hp==0) 
+		gtk_window_get_size(GTK_WINDOW(datatime->finestra),&w,&h);
+		if(w!=datatime->wp || h!=datatime->hp)
 		{
-			gtk_window_get_size(GTK_WINDOW(datatime->finestra),&wp,&hp);
-			need_resize=0; //sicuro?
-			return TRUE;
+			caselle_orizzontali+=(w-datatime->wp)/Dim_casella;
+			caselle_verticali+=(h-datatime->hp)/Dim_casella;
+		}
+		if(partita_in_corso!=0)
+		{
+			gtk_pulisci_caselle();
+			gtk_table_resize(GTK_TABLE(datatime->Mappa),caselle_orizzontali,caselle_verticali);
+			gtk_genera_mappa(datatime->Mappa);
+			gtk_stampa_mappa(cx,cy,'n');
 		}
 		else
-		{
-			gtk_window_get_size(GTK_WINDOW(datatime->finestra),&w,&h);
-			if(w!=wp || h!=hp)
-			{
-				caselle_orizzontali+=(w-wp)/Dim_casella;
-				caselle_verticali+=(h-hp)/Dim_casella;
-			}
-			if(partita_in_corso!=0)
-			{
-				gtk_pulisci_caselle();
-				gtk_table_resize(GTK_TABLE(datatime->Mappa),caselle_orizzontali,caselle_verticali);
-				gtk_genera_mappa(datatime->Mappa);
-				gtk_stampa_mappa(cx,cy,'n');
-			}
-			else
-				gtk_table_resize(GTK_TABLE(datatime->Mappa),caselle_orizzontali,caselle_verticali);
-			wp=w;
-			hp=h;
-		}
+			gtk_table_resize(GTK_TABLE(datatime->Mappa),caselle_orizzontali,caselle_verticali);
+		datatime->wp=w;
+		datatime->hp=h;
 	}
 	need_resize=0;
 	return TRUE;
