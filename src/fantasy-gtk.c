@@ -1517,6 +1517,7 @@ void gtk_stampa_mappa(int x, int y, char m)
 								Thumb[Pos]=gtk_image_new_from_pixbuf(Immagine.err);
 								gtk_container_add(GTK_CONTAINER(Casella[Pos]), Thumb[Pos]);
 								gtk_widget_show(Thumb[Pos]);
+								g_object_unref(TmpB);
 								break;
 						}
 						if(m=='n')
