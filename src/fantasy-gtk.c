@@ -1156,6 +1156,8 @@ void gtk_stampa_mappa(int x, int y, char m)
 	char **Graph=NULL;
 	char buf[10];
 	char vel;
+	GdkPixbuf * TmpB;
+	
 	sprintf(buf,"(%d|%d)",x+caselle_orizzontali/2-1,y+caselle_verticali/2-1);
 	gtk_label_set_text(GTK_LABEL(Coordinate),buf);
 	//gestisce memorizzazione del modo stampa
@@ -1486,23 +1488,30 @@ void gtk_stampa_mappa(int x, int y, char m)
 				case ' ':
 					if(accedi(C,R,infomappa.truppe)!=NULL)
 					{
+						TmpB=gdk_pixbuf_copy(Immagine.p[tipoprato(posiziona(0,0,C,R))]);
 						G=controllounita(posiziona(0,0,C,R));
 						switch(accedi(C,R,infomappa.truppe)->tipo)
 						{
 							case Rec:
-								Thumb[Pos]=gtk_image_new_from_pixbuf(Immagine.t[G][0]);
+								gdk_pixbuf_composite(Immagine.t[G][0],TmpB,0,0,Dim_casella,Dim_casella,0,0,1,1,GDK_INTERP_BILINEAR,255);
+								Thumb[Pos]=gtk_image_new_from_pixbuf(TmpB);
 								gtk_container_add(GTK_CONTAINER(Casella[Pos]), Thumb[Pos]);
 								gtk_widget_show(Thumb[Pos]);
+								g_object_unref(TmpB);
 								break;
 							case Fan:
-								Thumb[Pos]=gtk_image_new_from_pixbuf(Immagine.t[G][1]);
+								gdk_pixbuf_composite(Immagine.t[G][0],TmpB,0,0,Dim_casella,Dim_casella,0,0,1,1,GDK_INTERP_BILINEAR,255);
+								Thumb[Pos]=gtk_image_new_from_pixbuf(TmpB);
 								gtk_container_add(GTK_CONTAINER(Casella[Pos]), Thumb[Pos]);
 								gtk_widget_show(Thumb[Pos]);
+								g_object_unref(TmpB);
 								break;
 							case Lan:
-								Thumb[Pos]=gtk_image_new_from_pixbuf(Immagine.t[G][2]);
+								gdk_pixbuf_composite(Immagine.t[G][0],TmpB,0,0,Dim_casella,Dim_casella,0,0,1,1,GDK_INTERP_BILINEAR,255);
+								Thumb[Pos]=gtk_image_new_from_pixbuf(TmpB);
 								gtk_container_add(GTK_CONTAINER(Casella[Pos]), Thumb[Pos]);
 								gtk_widget_show(Thumb[Pos]);
+								g_object_unref(TmpB);
 								break;
 							default:
 								Thumb[Pos]=gtk_image_new_from_pixbuf(Immagine.err);
