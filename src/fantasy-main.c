@@ -35,7 +35,6 @@ static gboolean rid()
 	need_resize=1;
 	return TRUE;
 }
-
 static gboolean ridimensiona_mappa(GtkWindow *Window,GtkWidget *Mappa)
 {
 	static int wp=0;
@@ -229,6 +228,11 @@ int main(int argc, char *argv[])
 	GtkWidget *Risorse;
 	GtkWidget *Tag;
 	GtkWidget *Mappa;
+	struct pertimer
+	{
+		GtkWidget *finestra;
+		GtkWidget *Mappa;
+	};
 
 //	inizializza
 	gtk_init(&argc, &argv);
@@ -330,7 +334,9 @@ int main(int argc, char *argv[])
 // 	visualizza finestra
 	gtk_widget_show(finestra);
 	g_signal_connect(finestra,"configure-event", G_CALLBACK(rid),NULL);
-	g_timeout_add_full(G_PRIORITY_DEFAULT_IDLE,10,G_CALLBACK(ridimensiona_mappa),(gpointer) Mappa,NULL);
+	pertimer.finestra=finestra;
+	pertimer.Mappa=Mappa;
+	g_timeout_add_full(G_PRIORITY_DEFAULT_IDLE,10,(GSourceFunc) (ridimensiona_mappa),(gpointer) pertimer,NULL);
 	gtk_main();
 
 	return 0;
