@@ -21,7 +21,7 @@
 #include "fantasy-core.h"
 #include "fantasy-gtk.h"
 
-int rid=0;
+int need_resize=0;
 //callbacks
 static gboolean delete_event()
 {
@@ -29,22 +29,28 @@ static gboolean delete_event()
 
 	return TRUE;
 }
-static gboolean ridimensiona_mappa(GtkWindow *Window,GdkEvent *Event,GtkWidget *Mappa)
+
+static gboolean rid()
+{
+	need_resize=1;
+	return TRUE;
+}
+
+static gboolean ridimensiona_mappa(GtkWindow *Window,GtkWidget *Mappa)
 {
 	static int wp=0;
 	static int hp=0;
 	int w,h;
-	rid=1;
+	if(need_resize)
+	{
 	fprintf(stderr,"ridimensiona_mappa: debug!\n");
-	if(wp==0 && hp==0) 
-	{
-		gtk_window_get_size(Window,&wp,&hp);
-		rid=0;
-		return TRUE;
-	}
-	else
-	{
-		if(Event->type==GDK_CONFIGURE)
+		if(wp==0 && hp==0) 
+		{
+			gtk_window_get_size(Window,&wp,&hp);
+			need_resize=0; //sicuro?
+			return TRUE;
+		}
+		else
 		{
 			gtk_window_get_size(Window,&w,&h);
 			if(w!=wp || h!=hp)
@@ -52,21 +58,23 @@ static gboolean ridimensiona_mappa(GtkWindow *Window,GdkEvent *Event,GtkWidget *
 				caselle_orizzontali+=(w-wp)/Dim_casella;
 				caselle_verticali+=(h-hp)/Dim_casella;
 			}
-			else if(partita_in_corso!=0)
+			if(partita_in_corso!=0)
 			{
 				gtk_pulisci_caselle();
 				gtk_table_resize(GTK_TABLE(Mappa),caselle_orizzontali,caselle_verticali);
 				gtk_genera_mappa(Mappa);
 				gtk_stampa_mappa(cx,cy,'n');
 			}
-			else gtk_table_resize(GTK_TABLE(Mappa),caselle_orizzontali,caselle_verticali);
+			else
+				gtk_table_resize(GTK_TABLE(Mappa),caselle_orizzontali,caselle_verticali);
 			wp=w;
 			hp=h;
 		}
-		rid=0;
-		return FALSE;
 	}
+	need_resize=0;
+	return TRUE;
 }
+
 static void input_tastiera(GtkWidget* Window, GdkEventKey* K)
 {
 	if(partita_in_corso==0) return;
@@ -321,7 +329,8 @@ int main(int argc, char *argv[])
 		if(gtk_carica_avvio(argv[argc-1])) return 1;
 // 	visualizza finestra
 	gtk_widget_show(finestra);
-	g_signal_connect(finestra,"configure-event", G_CALLBACK(ridimensiona_mappa),(gpointer) Mappa);
+	g_signal_connect(finestra,"configure-event", G_CALLBACK(rid),NULL);
+	g_timeout_add_full(G_PRIORITY_DEFAULT_IDLE,10,G_CALLBACK(ridimensiona_mappa),(gpointer) Mappa,NULL);
 	gtk_main();
 
 	return 0;
