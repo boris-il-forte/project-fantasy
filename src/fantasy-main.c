@@ -41,33 +41,44 @@ static gboolean delete_event()
 static gboolean rid()
 {
 	need_resize=1;
-	return TRUE;
+	fprintf(stderr,"rid: debug!\n");
+	return FALSE;
 }
-static gboolean ridimensiona_mappa(struct datatime_t *datatime)
+
+gboolean ridimensiona_mappa(struct datatime_t *datatime)
 {
+	static int i=0;
 	int w,h;
+	if(i==0)
+	{
+		fprintf(stderr,"ridimensiona_mappa: debug! inizializza...\n");
+		gtk_window_get_size(GTK_WINDOW(datatime->finestra),&datatime->wp ,&datatime->hp);
+		i++;
+		return TRUE;
+	}
 	if(need_resize)
 	{
-	fprintf(stderr,"ridimensiona_mappa: debug!\n");
+		fprintf(stderr,"ridimensiona_mappa: debug! INIZIATA!\n");
 		gtk_window_get_size(GTK_WINDOW(datatime->finestra),&w,&h);
+		fprintf(stderr,"ridimensiona_mappa: debug! w=%d, h=%d, wp=%d, hp=%d\n", w,h,datatime->wp,datatime->hp);
 		if(w!=datatime->wp || h!=datatime->hp)
 		{
+			gtk_pulisci_caselle();
 			caselle_orizzontali+=(w-datatime->wp)/Dim_casella;
 			caselle_verticali+=(h-datatime->hp)/Dim_casella;
-		}
-		if(partita_in_corso!=0)
-		{
-			gtk_pulisci_caselle();
 			gtk_table_resize(GTK_TABLE(datatime->Mappa),caselle_orizzontali,caselle_verticali);
 			gtk_genera_mappa(datatime->Mappa);
-			gtk_stampa_mappa(cx,cy,'n');
+			if(partita_in_corso!=0)
+			{
+				gtk_stampa_mappa(cx,cy,'n');
+			}
+			datatime->wp=w;
+			datatime->hp=h;
 		}
-		else
-			gtk_table_resize(GTK_TABLE(datatime->Mappa),caselle_orizzontali,caselle_verticali);
-		datatime->wp=w;
-		datatime->hp=h;
+		fprintf(stderr,"ridimensiona_mappa: debug! FINITA!\n");
+		need_resize=0;
 	}
-	need_resize=0;
+	
 	return TRUE;
 }
 
@@ -331,7 +342,7 @@ int main(int argc, char *argv[])
 	g_signal_connect(finestra,"configure-event", G_CALLBACK(rid),NULL);
 	datatime.finestra=finestra;
 	datatime.Mappa=Mappa;
-	g_timeout_add_full(G_PRIORITY_DEFAULT_IDLE,10,(GSourceFunc) (ridimensiona_mappa),(gpointer) &datatime,NULL);
+	g_timeout_add_full(G_PRIORITY_DEFAULT_IDLE,100,(GSourceFunc) (ridimensiona_mappa),(gpointer) &datatime,NULL);
 	gtk_main();
 
 	return 0;
