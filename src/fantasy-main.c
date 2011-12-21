@@ -232,7 +232,7 @@ int main(int argc, char *argv[])
 	{
 		GtkWidget *finestra;
 		GtkWidget *Mappa;
-	};
+	} datatime;
 
 //	inizializza
 	gtk_init(&argc, &argv);
@@ -334,9 +334,9 @@ int main(int argc, char *argv[])
 // 	visualizza finestra
 	gtk_widget_show(finestra);
 	g_signal_connect(finestra,"configure-event", G_CALLBACK(rid),NULL);
-	pertimer.finestra=finestra;
-	pertimer.Mappa=Mappa;
-	g_timeout_add_full(G_PRIORITY_DEFAULT_IDLE,10,(GSourceFunc) (ridimensiona_mappa),(gpointer) pertimer,NULL);
+	datatime.finestra=finestra;
+	datatime.Mappa=Mappa;
+	g_timeout_add_full(G_PRIORITY_DEFAULT_IDLE,10,(GSourceFunc) (ridimensiona_mappa),(gpointer) &datatime,NULL);
 	gtk_main();
 
 	return 0;
