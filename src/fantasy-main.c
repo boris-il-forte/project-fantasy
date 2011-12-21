@@ -21,6 +21,12 @@
 #include "fantasy-core.h"
 #include "fantasy-gtk.h"
 
+struct datatime_t
+{
+	GtkWidget *finestra;
+	GtkWidget *Mappa;
+};
+
 int need_resize=0;
 //callbacks
 static gboolean delete_event()
@@ -35,7 +41,7 @@ static gboolean rid()
 	need_resize=1;
 	return TRUE;
 }
-static gboolean ridimensiona_mappa(GtkWindow *Window,GtkWidget *Mappa)
+static gboolean ridimensiona_mappa(struct datatime_t *datatime)
 {
 	static int wp=0;
 	static int hp=0;
@@ -45,13 +51,13 @@ static gboolean ridimensiona_mappa(GtkWindow *Window,GtkWidget *Mappa)
 	fprintf(stderr,"ridimensiona_mappa: debug!\n");
 		if(wp==0 && hp==0) 
 		{
-			gtk_window_get_size(Window,&wp,&hp);
+			gtk_window_get_size(GTK_WINDOW(datatime->finestra),&wp,&hp);
 			need_resize=0; //sicuro?
 			return TRUE;
 		}
 		else
 		{
-			gtk_window_get_size(Window,&w,&h);
+			gtk_window_get_size(GTK_WINDOW(datatime->finestra),&w,&h);
 			if(w!=wp || h!=hp)
 			{
 				caselle_orizzontali+=(w-wp)/Dim_casella;
@@ -60,12 +66,12 @@ static gboolean ridimensiona_mappa(GtkWindow *Window,GtkWidget *Mappa)
 			if(partita_in_corso!=0)
 			{
 				gtk_pulisci_caselle();
-				gtk_table_resize(GTK_TABLE(Mappa),caselle_orizzontali,caselle_verticali);
-				gtk_genera_mappa(Mappa);
+				gtk_table_resize(GTK_TABLE(datatime->Mappa),caselle_orizzontali,caselle_verticali);
+				gtk_genera_mappa(datatime->Mappa);
 				gtk_stampa_mappa(cx,cy,'n');
 			}
 			else
-				gtk_table_resize(GTK_TABLE(Mappa),caselle_orizzontali,caselle_verticali);
+				gtk_table_resize(GTK_TABLE(datatime->Mappa),caselle_orizzontali,caselle_verticali);
 			wp=w;
 			hp=h;
 		}
@@ -228,11 +234,9 @@ int main(int argc, char *argv[])
 	GtkWidget *Risorse;
 	GtkWidget *Tag;
 	GtkWidget *Mappa;
-	struct pertimer
-	{
-		GtkWidget *finestra;
-		GtkWidget *Mappa;
-	} datatime;
+
+	struct datatime_t datatime;
+
 
 //	inizializza
 	gtk_init(&argc, &argv);
