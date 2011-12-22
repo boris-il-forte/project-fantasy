@@ -46,7 +46,7 @@ int listaskin(char *nomedir, char *sottodir[])
 	}
 
 	for(i=0;(dp = readdir(dir))!= NULL && i<64 ;i++){ // magic64
-		if(strcmp(dp->d_name,".")!= 0 && strcmp(dp->d_name,"..")!= 0)
+		if((dp->d_type & DT_DIR) && strcmp(dp->d_name,".")!= 0 && strcmp(dp->d_name,"..")!= 0)
 		{
 			sottodir[i]=malloc(sizeof(char)*(strlen(dp->d_name)+1));
 			snprintf(sottodir[i],strlen(dp->d_name)+1,"%s",dp->d_name);
