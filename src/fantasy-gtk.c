@@ -32,6 +32,7 @@ static gboolean set_adjustmentmax(GtkAdjustment* S, GtkAdjustment* D)
 {
 	int max=gtk_adjustment_get_value(GTK_ADJUSTMENT(S));
 	int n=gtk_adjustment_get_value(GTK_ADJUSTMENT(D));
+	
 	gtk_adjustment_set_value(GTK_ADJUSTMENT(D), n<(max-1) ? n : (max-1));
 	gtk_adjustment_set_upper(GTK_ADJUSTMENT(D), max-1);
 	return FALSE;
@@ -41,6 +42,7 @@ static gboolean set_adjustmentvalue(GtkAdjustment* S,t_spin* C)
 {
 	int n=gtk_adjustment_get_value(GTK_ADJUSTMENT(S));
 	int max=C->somma;
+	
 	GtkAdjustment* D=C->A;
 	gtk_adjustment_set_value(GTK_ADJUSTMENT(D), max-n);
 	return FALSE;
@@ -50,6 +52,7 @@ static void chiudi_da_menu()
 {
 	GtkWidget * Dialogo;
 	GtkWidget * Domanda;
+	
 	Domanda=gtk_label_new("Vuoi veramente uscire?");
 	Dialogo=gtk_dialog_new_with_buttons("Fantasy C",NULL,GTK_DIALOG_DESTROY_WITH_PARENT, "Si",GTK_RESPONSE_YES, "No",GTK_RESPONSE_NO,NULL);
 	gtk_box_pack_start(GTK_BOX(gtk_dialog_get_content_area(GTK_DIALOG(Dialogo))),Domanda, TRUE, TRUE, 0);
@@ -70,6 +73,7 @@ static void salva_carica(int Data)
 	GtkFileFilter *filter_all = gtk_file_filter_new();
 	char* buf=NULL;
 	const char* Home=g_get_home_dir();
+	
 	if(Data==0)
 	{
 		Fselect=gtk_file_chooser_dialog_new("Carica", NULL,GTK_FILE_CHOOSER_ACTION_OPEN,GTK_STOCK_CANCEL,GTK_RESPONSE_CANCEL,GTK_STOCK_OPEN,GTK_RESPONSE_ACCEPT,NULL);
@@ -138,6 +142,7 @@ static void nuova_partita()
 	GtkWidget* Label;
 	GtkWidget *Hbox, *Vbox;
 	GtkAdjustment *Giocatori, *IA;
+	
 	fprintf(stderr,"debug nuova_partita\n");
 	Giocatori=(GtkAdjustment *)gtk_adjustment_new(4, 2, MAXGIOCATORI, 1, 2, 0);
 	IA=(GtkAdjustment *)gtk_adjustment_new(3, 0, MAXGIOCATORI-1, 1, 1, 0);
@@ -254,6 +259,7 @@ static void preferenze()
 static void centra_mappa(char* pos)
 {
 	int P=(int)(pos-infomappa.mappa);
+	
 	cx=P%LARGHEZZA+1-caselle_orizzontali/2;
 	cy=P/LARGHEZZA+1-caselle_verticali/2;
 	if(cx<0) cx=0;
@@ -267,6 +273,7 @@ static void centra_mappa(char* pos)
 static void sposta_mappa(char* v)
 {
 	int V=(int)(v-infomappa.mappa);
+	
 	if(partita_in_corso==0) return;
 	switch(V)
 	{
@@ -318,6 +325,7 @@ static void sposta_mappa(char* v)
 static void addestra_truppa(t_callback_s* Struct)
 {
 	int P=Struct->pos;
+	
 	t_truppa T=Struct->tipo;
 	addestratruppa(P,T);
 }
@@ -325,6 +333,7 @@ static void addestra_truppa(t_callback_s* Struct)
 static void evacua_truppa(t_lista_t *T)
 {
 	int Occupata;
+	
 	Occupata=evacuatruppa(T);
 	if(Occupata)
 	{
@@ -342,6 +351,7 @@ static void click_bersaglio(char* pos)
 {
 	int Dst=(int)(pos-infomappa.mappa);
 	int Src= Mossa;
+	
 	if(Src==Dst)
 	{
 		gtk_pulisci_mappa();
@@ -353,6 +363,7 @@ static void click_bersaglio(char* pos)
 		gtk_aggiorna_tab_armate();
 		gtk_pulisci_mappa();
 		gtk_stampa_mappa(cx,cy,'n');
+		gtk_popup_combattimento(Casella[Dst+cx+cy*caselle_orizzontali], 10);
 	}
 }
 
@@ -360,6 +371,7 @@ static void click_destinazione(char* pos)
 {
 	int Dst=(int)(pos-infomappa.mappa);
 	int Src= Mossa;
+	
 	if(Src==Dst)
 	{
 		gtk_pulisci_mappa();
@@ -391,6 +403,7 @@ static void click_castello(char* pos)
 	t_lista_s *S;
 	t_lista_t *T;
 	char buf[50];
+	
 	aggiorna_tr_callback(pos);
 	/*crea menu*/
 	menu=gtk_menu_new();
@@ -454,6 +467,7 @@ static void click_scuderia(char* pos)
 	t_lista_s *S;
 	t_lista_t *T;
 	char buf[50];
+	
 	aggiorna_tr_callback(pos);
 	/*crea menu*/
 	menu=gtk_menu_new();
@@ -512,6 +526,7 @@ static void click_fattoria(char* pos)
 	t_lista_s *S;
 	t_lista_t *T;
 	char buf[50];
+	
 	aggiorna_tr_callback(pos);
 	/*crea menu*/
 	menu=gtk_menu_new();
@@ -570,6 +585,7 @@ static void click_grotta(char* pos)
 	t_lista_s *S;
 	t_lista_t *T;
 	char buf[50];
+	
 	aggiorna_tr_callback(pos);
 	/*crea menu*/
 	menu=gtk_menu_new();
@@ -623,6 +639,7 @@ static void click_nido(char* pos)
 	t_lista_s *S;
 	t_lista_t *T;
 	char buf[50];
+	
 	aggiorna_tr_callback(pos);
 	/*crea menu*/
 	menu=gtk_menu_new();
@@ -673,6 +690,7 @@ static void click_unita(char* pos, GdkEventButton *Event)
 	GtkWidget* Label;
 	t_infotruppa* T;
 	int Pos=(int)(pos-infomappa.mappa);
+	
 	T=infomappa.truppe[Pos];
 	if(Event-> button==3)
 	{
@@ -724,6 +742,7 @@ static void su_unita(GtkWidget *Truppa, GdkEvent *event, char* pos)
 	int Pos=(int)(pos-infomappa.mappa);
 	t_infotruppa* T;
 	char buf[30];
+	
 	if(event!=NULL)
 	{
 		T=infomappa.truppe[Pos];
@@ -735,6 +754,7 @@ static void su_unita(GtkWidget *Truppa, GdkEvent *event, char* pos)
 static void click_assediocastello(char* pos)
 {
 	int Pos=(int)(pos-infomappa.mappa);
+	
 	assediocastello(Pos);
 	gtk_aggiorna_tab_armate();
 	gtk_aggiorna_tab_castelli();
@@ -745,6 +765,7 @@ static void click_assediocastello(char* pos)
 static void click_assaltostruttura(char* pos)
 {
 	int Pos=(int)(pos-infomappa.mappa);
+	
 	assediostruttura(Pos);
 	gtk_aggiorna_tab_strutture();
 	gtk_aggiorna_tab_armate();
@@ -755,6 +776,7 @@ static void click_assaltostruttura(char* pos)
 static void click_entrastruttura(char* pos)
 {
 	int Pos=(int)(pos-infomappa.mappa);
+	
 	spostainstruttura(Mossa, Pos);
 	gtk_aggiorna_tab_armate();
 	gtk_pulisci_mappa();
@@ -776,6 +798,7 @@ static void click_unisci(char* pos)
 	t_infotruppa* TB=infomappa.truppe[Pos];
 	t_spin S_Callback[2];
 	t_truppa Tipo=TB->tipo;
+	
 	switch(Tipo)
 	{
 		case Rec:
@@ -841,19 +864,24 @@ static void click_unisci(char* pos)
 }
 
 // funzioni grafiche
+
+//inizializza le strutture dati dei tab
 void gtk_inizializza_widget()
 {
 	int i;
+	
 	for(i=0; i<NUMCASTELLI; i++)Listacastelli[i]=NULL;
 	Listastrutture=NULL;
 	Listatruppe=NULL;
 }
 
+//carica le immagini del gioco
 void gtk_carica_immagini()
 {
 	int i,j;
 	char Buf[64];
 	char Buf2[64];
+	
 	//carico il file di configurazione
 	caricaconfig("fantasy.config");
 	//carico immagini del gioco
@@ -1020,10 +1048,12 @@ void gtk_carica_immagini()
 		}
 }
 
+//calcola le dimensioni dei widget
 void gtk_calcola_dimensioni()
 {
 	int w,h;
 	int wof, hof;
+	
 	w=gdk_screen_get_width(gdk_screen_get_default());
 	h=gdk_screen_get_height(gdk_screen_get_default());
 	Dim_casella=0.045*MIN(w,h)+3;
@@ -1038,12 +1068,14 @@ void gtk_calcola_dimensioni()
 	printf("\nCasella: %dpx\nOrizzontali: %d Verticali: %d\n",Dim_casella,caselle_orizzontali,caselle_verticali);
 }
 
+//crea il menu principale
 void gtk_crea_menu(GtkWidget *Vbox)
 {
 	GtkWidget *menu;
 	GtkWidget *oggetto_menu;
 	GtkWidget *barra_menu;
 	GtkWidget *menu_file, *menu_modifica, *menu_help;
+	
 	//genera menu file
 	menu=gtk_menu_new();
 	// 	genera scelta 1
@@ -1107,9 +1139,11 @@ void gtk_crea_menu(GtkWidget *Vbox)
 	// 	fine menu 
 }
 
+//pulisce la mappa dalle immagini e dai segnali
 void gtk_pulisci_mappa()
 {
 	int Pos;
+	
 	if(partita_in_corso==1)
 		for(Pos=0; Pos<caselle_orizzontali*caselle_verticali; Pos++)
 		{
@@ -1132,9 +1166,11 @@ void gtk_pulisci_mappa()
 		}
 }
 
+//elimina le caselle dalla tabella
 void gtk_pulisci_caselle()
 {
 	int Pos;
+	
 	if(partita_in_corso==1)
 		for(Pos=0; Pos<caselle_orizzontali*caselle_verticali; Pos++)
 		{
@@ -1142,6 +1178,7 @@ void gtk_pulisci_caselle()
 		}
 }
 
+//stampa la mappa
 void gtk_stampa_mappa(int x, int y, char m)
 {
 	static char pre='n';
@@ -1156,7 +1193,7 @@ void gtk_stampa_mappa(int x, int y, char m)
 	char **Graph=NULL;
 	char buf[10];
 	char vel;
-	GdkPixbuf * TmpB;
+	GdkPixbuf *TmpB;
 	
 	sprintf(buf,"(%d|%d)",x+caselle_orizzontali/2-1,y+caselle_verticali/2-1);
 	gtk_label_set_text(GTK_LABEL(Coordinate),buf);
@@ -1502,20 +1539,19 @@ void gtk_stampa_mappa(int x, int y, char m)
 						switch(accedi(C,R,infomappa.truppe)->tipo)
 						{
 							case Rec:
-								gdk_pixbuf_composite(Immagine.t[G][0],TmpB,0,0,Dim_casella,Dim_casella,0,0,1,1,GDK_INTERP_BILINEAR,255);
+								gdk_pixbuf_composite(Immagine.t[G][Rec],TmpB,0,0,Dim_casella,Dim_casella,0,0,1,1,GDK_INTERP_BILINEAR,255);
 								Thumb[Pos]=gtk_image_new_from_pixbuf(TmpB);
 								gtk_container_add(GTK_CONTAINER(Casella[Pos]), Thumb[Pos]);
 								gtk_widget_show(Thumb[Pos]);
 								break;
 							case Fan:
-								gdk_pixbuf_composite(Immagine.t[G][0],TmpB,0,0,Dim_casella,Dim_casella,0,0,1,1,GDK_INTERP_BILINEAR,255);
+								gdk_pixbuf_composite(Immagine.t[G][Fan],TmpB,0,0,Dim_casella,Dim_casella,0,0,1,1,GDK_INTERP_BILINEAR,255);
 								Thumb[Pos]=gtk_image_new_from_pixbuf(TmpB);
 								gtk_container_add(GTK_CONTAINER(Casella[Pos]), Thumb[Pos]);
 								gtk_widget_show(Thumb[Pos]);
-								g_object_unref(TmpB);
 								break;
 							case Lan:
-								gdk_pixbuf_composite(Immagine.t[G][0],TmpB,0,0,Dim_casella,Dim_casella,0,0,1,1,GDK_INTERP_BILINEAR,255);
+								gdk_pixbuf_composite(Immagine.t[G][Lan],TmpB,0,0,Dim_casella,Dim_casella,0,0,1,1,GDK_INTERP_BILINEAR,255);
 								Thumb[Pos]=gtk_image_new_from_pixbuf(TmpB);
 								gtk_container_add(GTK_CONTAINER(Casella[Pos]), Thumb[Pos]);
 								gtk_widget_show(Thumb[Pos]);
@@ -1585,9 +1621,11 @@ void gtk_stampa_mappa(int x, int y, char m)
 	}
 }
 
+//crea le caselle della tabella per la mappa
 void gtk_genera_mappa(GtkWidget *Mappa)
 {
 	int i,j;
+	
 	for(i=0;i<caselle_orizzontali;i++)
 		for(j=0; j<caselle_verticali; j++)
 		{
@@ -1601,11 +1639,13 @@ void gtk_genera_mappa(GtkWidget *Mappa)
 		}
 }
 
+//crea un tab del notebook
 GtkWidget *gtk_crea_notebook_tab(GtkWidget *Notebook,char *buf)
 {
 	GtkWidget *Etichetta;
 	GtkWidget *Vbox;
 	GtkWidget *Scroller;
+	
 	Etichetta=gtk_label_new(buf);
 	Scroller=gtk_scrolled_window_new(NULL, NULL);
 	gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(Scroller),GTK_POLICY_AUTOMATIC,GTK_POLICY_AUTOMATIC);
@@ -1618,6 +1658,7 @@ GtkWidget *gtk_crea_notebook_tab(GtkWidget *Notebook,char *buf)
 	return(GtkWidget *)Vbox;
 }
 
+//crea il notebook
 void gtk_crea_notebook(GtkWidget *Frame)
 {
 	Notebook[0]=gtk_notebook_new();
@@ -1628,6 +1669,7 @@ void gtk_crea_notebook(GtkWidget *Frame)
 	Notebook[3]=(GtkWidget *)gtk_crea_notebook_tab(Notebook[0],"Armate");
 }
 
+//crea un elemento di un tab di un notebook
 GtkWidget *gtk_crea_elemento_tab(GtkWidget *tab,int x, int y,char *nome, char *buf)
 {
 	GtkWidget *Hbox;
@@ -1636,6 +1678,7 @@ GtkWidget *gtk_crea_elemento_tab(GtkWidget *tab,int x, int y,char *nome, char *b
 	GtkWidget *Button;
 	GtkWidget *Separator;
 	char buffer[10];
+	
 	if(tab==NULL)
 	{
 		printf("errore!");
@@ -1667,11 +1710,12 @@ GtkWidget *gtk_crea_elemento_tab(GtkWidget *tab,int x, int y,char *nome, char *b
 //riempe il tab castelli giocatore
 GtkWidget * gtk_riempi_tab_castelli(int i, char* buf)
 {
-	if(i!=0)
-	{
 	int P;
 	int x,y;
 	GtkWidget *R;
+	
+	if(i!=0)
+	{
 	P=giocatore[CurrentPlayer]->struttura[Cas]->pos;
 	x=P%LARGHEZZA+1;
 	y=P/LARGHEZZA+1;
@@ -1689,6 +1733,7 @@ void gtk_aggiorna_tab_castelli()
 	char nome[20];
 	char buf[20];
 	t_lista_s* S=giocatore[CurrentPlayer]->struttura[Cas];
+	
 	for(i=0; Listacastelli[i]!=NULL;i++)gtk_pulisci_tab(Listacastelli[i]);
 	for(i=0; S!=NULL && i<12; i++)
 	{
@@ -1719,6 +1764,7 @@ void gtk_aggiorna_tab_strutture()
 	t_lista_s* S[NUMSTRUTTURE-1];
 	t_listapertab* Tab;
 	t_listapertab* Tabp;
+	
 	fprintf(stderr, "debug: gtk_aggiorna_tab_strutture\n");
 	for(i=1; i<NUMSTRUTTURE;i++)S[i-1]=giocatore[CurrentPlayer]->struttura[i];
 	Tab=Listastrutture;
@@ -1774,6 +1820,7 @@ void gtk_aggiorna_tab_armate()
 	t_lista_t* T=giocatore[CurrentPlayer]->truppe;
 	t_listapertab* Tab;
 	t_listapertab* Tabp;
+	
 	Tab=Listatruppe;
 	while(Tab!=NULL)
 	{
@@ -1832,6 +1879,7 @@ void gtk_pulisci_tab(GtkWidget *Target)
 	else gtk_widget_destroy(Target);
 }
 
+//carica un file di salvataggio all'avvio
 int gtk_carica_avvio(char *nomefile)
 {
 	if(carica(nomefile))return 1;
@@ -1854,6 +1902,7 @@ void gtk_azzera_tab()
 	int i;
 	t_listapertab* Tab;
 	t_listapertab* Tabp;
+	
 	for(i=0;i<NUMCASTELLI;i++)
 	{
 		gtk_pulisci_tab(Listacastelli[i]);
@@ -1886,8 +1935,8 @@ GtkWidget *gtk_crea_4_frecce()
 	GtkWidget *Pulsante;
 	GtkWidget *Freccia;
 	int i;
-	Pulsantiera=gtk_table_new(3,3,FALSE);
 	
+	Pulsantiera=gtk_table_new(3,3,FALSE);
 	for(i=1; i<9;i=i+2)
 	{
 		Pulsante=gtk_button_new();
@@ -1929,8 +1978,8 @@ GtkWidget *gtk_crea_pulsanti_editor_s()
 	GtkWidget *Pulsantiera;
 	GtkWidget *Pulsante;
 	int i;
-	Pulsantiera=gtk_table_new(3,2,TRUE);
 	
+	Pulsantiera=gtk_table_new(3,2,TRUE);
 	for(i=0; i<NUMSTRUTTURE;i++)
 	{
 		Pulsante=gtk_button_new();
@@ -1948,8 +1997,8 @@ GtkWidget *gtk_crea_pulsanti_editor_u()
 	GtkWidget *Pulsantiera;
 	GtkWidget *Pulsante;
 	int i;
-	Pulsantiera=gtk_table_new(4,2,TRUE);
 	
+	Pulsantiera=gtk_table_new(4,2,TRUE);
 	for(i=0; i<NUMTRUPPE;i++)
 	{
 		Pulsante=gtk_button_new();
@@ -1967,6 +2016,7 @@ GtkWidget *gtk_crea_contarisorse()
 	GtkWidget *Vbox;
 	GtkWidget *Hbox[NUMRISORSE];
 	GtkWidget *Label[NUMRISORSE];
+	
 	Label[0]=gtk_label_new("Oro: ");
 	Label[1]=gtk_label_new("Cibo: ");
 	Label[2]=gtk_label_new("Smeraldi: ");
@@ -1997,6 +2047,7 @@ void gtk_aggiorna_contarisorse()
 	int R[]={giocatore[CurrentPlayer]->oro,giocatore[CurrentPlayer]->cibo,giocatore[CurrentPlayer]->smeraldi};
 	float n;
 	char Buf[12];
+	
 	for(i=0; i<NUMRISORSE; i++)
 	{
 		n=(float)R[i];
@@ -2016,6 +2067,7 @@ void gtk_aggiorna_contarisorse()
 GtkWidget *gtk_crea_giocatore_c()
 {
 	GtkWidget *Table;
+	
 	Table=gtk_table_new(3, 1, FALSE);
 	CurrentL=gtk_label_new("Fantasy Core");
 	gtk_table_attach_defaults(GTK_TABLE(Table),CurrentL,1,2,0,1);
@@ -2036,6 +2088,7 @@ GtkWidget *gtk_crea_giocatore_c()
 void gtk_aggiorna_giocatore_c()
 {
 	char buf[20];
+	
 	gtk_image_set_from_pixbuf(GTK_IMAGE(CurrentI1),Immagine.a[CurrentPlayer]);
 	gtk_image_set_from_pixbuf(GTK_IMAGE(CurrentI2),Immagine.a[CurrentPlayer]);
 	sprintf(buf,"Giocatore %d",CurrentPlayer+1);
@@ -2048,6 +2101,7 @@ GtkWidget *gtk_crea_footer()
 	GtkWidget *Table;
 	GtkWidget *Icon;
 	GtkWidget *Label;
+	
 	Table=gtk_table_new(3, 1, FALSE);
 	Label=gtk_label_new("Fantasy Core");
 	gtk_widget_set_size_request(Label, 2*Dim_casella, -1);
@@ -2064,3 +2118,22 @@ GtkWidget *gtk_crea_footer()
 	return Table;
 }
 
+//fa comparire il popup delle perdite
+void gtk_popup_combattimento(GtkWidget* Casella, int Perdite)
+{
+	GtkWidget *Popup;
+	GtkWidget *Label;
+	char buf[50];
+	int x, y;
+	
+	gtk_widget_translate_coordinates(Casella, gtk_widget_get_toplevel(Casella), 0, 0, &x, &y);
+	sprintf(buf,"<span foreground=\"red\">-%d</span>",Perdite);
+	Popup=gtk_window_new(GTK_WINDOW_POPUP);
+	gtk_window_set_opacity(GTK_WINDOW(Popup),0);
+	Label=gtk_label_new(NULL);
+	gtk_label_set_markup(GTK_LABEL(Label),buf);
+	gtk_window_move(GTK_WINDOW(Popup),x,y);
+	gtk_widget_show_all(Popup);
+	//sleep(2);
+	//gtk_widget_destroy(Popup);
+}

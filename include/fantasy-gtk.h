@@ -106,3 +106,6 @@ void gtk_aggiorna_contarisorse();
 // funzioni giocatore attuale
 GtkWidget *gtk_crea_giocatore_c();
 void gtk_aggiorna_giocatore_c();
+
+// funzioni combattimento
+void gtk_popup_combattimento(GtkWidget* Casella, int Perdite);
