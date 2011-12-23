@@ -363,7 +363,7 @@ static void click_bersaglio(char* pos)
 		gtk_aggiorna_tab_armate();
 		gtk_pulisci_mappa();
 		gtk_stampa_mappa(cx,cy,'n');
-		gtk_popup_combattimento(Casella[Dst+cx+cy*caselle_orizzontali], 10);
+		gtk_popup_combattimento(Casella[Dst%LARGHEZZA-cx+caselle_orizzontali*(Dst/LARGHEZZA-cy)], 10);
 	}
 }
 
@@ -2127,12 +2127,14 @@ void gtk_popup_combattimento(GtkWidget* Casella, int Perdite)
 	int x, y;
 	
 	gtk_widget_translate_coordinates(Casella, gtk_widget_get_toplevel(Casella), 0, 0, &x, &y);
+	fprintf(stderr,"debug: x=%d y=%d\n",x,y);
 	sprintf(buf,"<span foreground=\"red\">-%d</span>",Perdite);
 	Popup=gtk_window_new(GTK_WINDOW_POPUP);
-	gtk_window_set_opacity(GTK_WINDOW(Popup),0);
+	gtk_window_set_opacity(GTK_WINDOW(Popup),0.6);
 	Label=gtk_label_new(NULL);
 	gtk_label_set_markup(GTK_LABEL(Label),buf);
-	gtk_window_move(GTK_WINDOW(Popup),x,y);
+	gtk_container_add(GTK_CONTAINER(Popup),Label);
+	gtk_window_move(GTK_WINDOW(Popup),x+Dim_casella/4,y+Dim_casella);
 	gtk_widget_show_all(Popup);
 	//sleep(2);
 	//gtk_widget_destroy(Popup);
