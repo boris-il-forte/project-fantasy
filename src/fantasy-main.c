@@ -20,8 +20,9 @@
 #include <stdio.h>
 #include "fantasy-core.h"
 #include "fantasy-gtk.h"
+#define MAXCODAKEY 5
 
-struct datatime_t
+struct datatime_s
 {
 	GtkWidget *finestra;
 	GtkWidget *Mappa;
@@ -29,8 +30,18 @@ struct datatime_t
 	int hp;
 };
 
+//implementazione di una coda di pressione di chiavi
+struct keypress_s
+{
+	int first;
+	int last;
+	unsigned int keyval[20];
+};
+
 int need_resize=0;
+
 //callbacks
+
 static gboolean delete_event()
 {
 	gtk_main_quit();
@@ -45,105 +56,23 @@ static gboolean rid()
 	return FALSE;
 }
 
-gboolean ridimensiona_mappa(struct datatime_t *datatime)
+static void input_tastiera(GtkWidget* Window, GdkEventKey* K, struct keypress_s *keypress)
 {
-	static int i=0;
-	int w,h;
-	if(i==0)
-	{
-		fprintf(stderr,"ridimensiona_mappa: debug! inizializza...\n");
-		gtk_window_get_size(GTK_WINDOW(datatime->finestra),&datatime->wp ,&datatime->hp);
-		i++;
-		return TRUE;
-	}
-	if(need_resize)
-	{
-		fprintf(stderr,"ridimensiona_mappa: debug! INIZIATA!\n");
-		gtk_window_get_size(GTK_WINDOW(datatime->finestra),&w,&h);
-		fprintf(stderr,"ridimensiona_mappa: debug! w=%d, h=%d, wp=%d, hp=%d\n", w,h,datatime->wp,datatime->hp);
-		if(w!=datatime->wp || h!=datatime->hp)
-		{
-			gtk_pulisci_caselle();
-			caselle_orizzontali+=(w-datatime->wp)/Dim_casella;
-			caselle_verticali+=(h-datatime->hp)/Dim_casella;
-			gtk_table_resize(GTK_TABLE(datatime->Mappa),caselle_orizzontali,caselle_verticali);
-			gtk_genera_mappa(datatime->Mappa);
-			if(partita_in_corso!=0)
-			{
-				gtk_stampa_mappa(cx,cy,'n');
-			}
-			datatime->wp=w;
-			datatime->hp=h;
-		}
-		fprintf(stderr,"ridimensiona_mappa: debug! FINITA!\n");
-		need_resize=0;
-	}
-	
-	return TRUE;
-}
-
-static void input_tastiera(GtkWidget* Window, GdkEventKey* K)
-{
+	int F;
+	int L;
 	if(partita_in_corso==0) return;
+	F=keypress->first;
+	L=keypress->last;
+	if(F==((L+1<MAXCODAKEY)?(L+1):(0))) return;
 	if(K->type == GDK_KEY_PRESS && Window!=NULL)
 	{
-		fprintf(stderr,"debug: sposta_datastiera\n");
-		switch(K->keyval)
-		{
-			case GDK_KEY_Left:
-				if(cx-1<0)
-					return;
-				else
-				{
-					cx-=1;
-					gtk_pulisci_mappa();
-					gtk_stampa_mappa(cx,cy,'p');
-				}
-				break;
-			case GDK_KEY_Up:
-				if(cy-1<0)
-					return;
-				else
-				{
-					cy-=1;
-					gtk_pulisci_mappa();
-					gtk_stampa_mappa(cx,cy,'p');
-				}
-				break;
-			case GDK_KEY_Down:
-				if(cy+1>ALTEZZA-caselle_verticali)
-					return;
-				else
-				{
-					cy+=1;
-					gtk_pulisci_mappa();
-					gtk_stampa_mappa(cx,cy,'p');
-				}
-				break;
-			case GDK_KEY_Right:
-				if(cx+1>LARGHEZZA-caselle_orizzontali)
-					return;
-				else
-				{
-					cx+=1;
-					gtk_pulisci_mappa();
-					gtk_stampa_mappa(cx,cy,'p');
-				}
-				break;
-			case GDK_KEY_Escape:
-				gtk_pulisci_mappa();
-				gtk_stampa_mappa(cx,cy,'n');
-				return;
-				break;
-				
-			default:
-				break;
-		}
+		keypress->keyval[L]=K->keyval;
+		L++;
+		keypress->last=(L<MAXCODAKEY)?(L):(0);
 	}
 
 	return;
 }
-
 
 static void click_nt()
 {
@@ -204,6 +133,7 @@ static void click_nc()
 		S=S->next;
 	}
 }
+
 static void click_turno()
 {
 	if(partita_in_corso==0) return;
@@ -222,6 +152,96 @@ static void click_turno()
 	return;
 }
 
+//thread routine
+
+gboolean ridimensiona_mappa(struct datatime_s *datatime)
+{
+	static int i=0;
+	int w,h;
+	if(i==0)
+	{
+		fprintf(stderr,"ridimensiona_mappa: debug! inizializza...\n");
+		gtk_window_get_size(GTK_WINDOW(datatime->finestra),&datatime->wp ,&datatime->hp);
+		i++;
+		return TRUE;
+	}
+	if(need_resize)
+	{
+		fprintf(stderr,"ridimensiona_mappa: debug! INIZIATA!\n");
+		gtk_window_get_size(GTK_WINDOW(datatime->finestra),&w,&h);
+		fprintf(stderr,"ridimensiona_mappa: debug! w=%d, h=%d, wp=%d, hp=%d\n", w,h,datatime->wp,datatime->hp);
+		if(w!=datatime->wp || h!=datatime->hp)
+		{
+			gtk_pulisci_caselle();
+			caselle_orizzontali+=(w-datatime->wp)/Dim_casella;
+			caselle_verticali+=(h-datatime->hp)/Dim_casella;
+			gtk_table_resize(GTK_TABLE(datatime->Mappa),caselle_orizzontali,caselle_verticali);
+			gtk_genera_mappa(datatime->Mappa);
+			if(partita_in_corso!=0)
+			{
+				gtk_stampa_mappa(cx,cy,'n');
+			}
+			datatime->wp=w;
+			datatime->hp=h;
+		}
+		fprintf(stderr,"ridimensiona_mappa: debug! FINITA!\n");
+		need_resize=0;
+	}
+	
+	return TRUE;
+}
+
+gboolean leggistream_tastiera (struct keypress_s *keypress)
+{
+	int F=keypress->first;
+	int L=keypress->last;
+	if(F==L) return TRUE;
+	switch(keypress->keyval[F])
+	{
+		case GDK_KEY_Left:
+			if(cx-1>=0)
+			{
+				cx-=1;
+				gtk_pulisci_mappa();
+				gtk_stampa_mappa(cx,cy,'p');
+			}
+			break;
+		case GDK_KEY_Up:
+			if(cy-1>=0)
+			{
+				cy-=1;
+				gtk_pulisci_mappa();
+				gtk_stampa_mappa(cx,cy,'p');
+			}
+			break;
+		case GDK_KEY_Down:
+			if(cy+1<=ALTEZZA-caselle_verticali)
+			{
+				cy+=1;
+				gtk_pulisci_mappa();
+				gtk_stampa_mappa(cx,cy,'p');
+			}
+			break;
+		case GDK_KEY_Right:
+			if(cx+1<=LARGHEZZA-caselle_orizzontali)
+			{
+				cx+=1;
+				gtk_pulisci_mappa();
+				gtk_stampa_mappa(cx,cy,'p');
+			}
+			break;
+		case GDK_KEY_Escape:
+			gtk_pulisci_mappa();
+			gtk_stampa_mappa(cx,cy,'n');
+			break;
+		default:
+			break;
+	}
+	F++;
+	keypress->first=(F<MAXCODAKEY)?(F):(0);
+	return TRUE;
+}
+
 // main
 int main(int argc, char *argv[])
 {
@@ -237,7 +257,8 @@ int main(int argc, char *argv[])
 	GtkWidget *Tag;
 	GtkWidget *Mappa;
 
-	struct datatime_t datatime;
+	struct datatime_s datatime;
+	struct keypress_s keypress;
 
 
 //	inizializza
@@ -254,7 +275,6 @@ int main(int argc, char *argv[])
 // 	crea finestra
 	finestra=gtk_window_new(GTK_WINDOW_TOPLEVEL);
 	g_signal_connect(finestra, "delete-event", G_CALLBACK(delete_event), NULL);
-	g_signal_connect(finestra, "key-press-event", G_CALLBACK(input_tastiera),NULL);
 	gtk_window_set_title(GTK_WINDOW(finestra), "Fantasy Core");
 	gtk_window_set_icon(GTK_WINDOW(finestra),Immagine.logo);
 // 	crea box principale del layout
@@ -337,12 +357,16 @@ int main(int argc, char *argv[])
 // carica_all_avvio
 	if(argc > 1)
 		if(gtk_carica_avvio(argv[argc-1])) return 1;
-// 	visualizza finestra
+// 	visualizza finestra e crea le due routine del main loop
 	gtk_widget_show(finestra);
-	g_signal_connect(finestra,"configure-event", G_CALLBACK(rid),NULL);
 	datatime.finestra=finestra;
 	datatime.Mappa=Mappa;
-	g_timeout_add_full(G_PRIORITY_DEFAULT_IDLE,100,(GSourceFunc) (ridimensiona_mappa),(gpointer) &datatime,NULL);
+	keypress.first=0;
+	keypress.last=0;
+	g_signal_connect(finestra,"key-press-event", G_CALLBACK(input_tastiera),(gpointer)&keypress);
+	g_signal_connect(finestra,"configure-event", G_CALLBACK(rid),NULL);
+	gdk_threads_add_timeout_full(G_PRIORITY_DEFAULT_IDLE,10,(GSourceFunc) (ridimensiona_mappa),(gpointer) &datatime,NULL);
+	gdk_threads_add_timeout_full(G_PRIORITY_DEFAULT_IDLE,50,(GSourceFunc) (leggistream_tastiera),(gpointer) &keypress,NULL);
 	gtk_main();
 
 	return 0;
