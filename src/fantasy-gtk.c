@@ -580,7 +580,7 @@ static void click_fattoria(char* pos)
 	//fanteria
 	oggetto=gtk_menu_item_new_with_label("Arceri");
 	gtk_menu_shell_append(GTK_MENU_SHELL(lista), oggetto);
-	g_signal_connect_swapped(oggetto, "activate", G_CALLBACK(menuitem_response),(gpointer)NULL);
+	g_signal_connect_swapped(oggetto, "activate", G_CALLBACK(addestra_truppa),(gpointer)&tr_callback[Arc]);
 	gtk_widget_show(oggetto);
 	//attacca la lista alla scelta
 	gtk_menu_item_set_submenu(GTK_MENU_ITEM(scelta), lista);
@@ -953,7 +953,7 @@ void gtk_carica_immagini()
 	if((Immagine.movimento=gdk_pixbuf_new_from_file_at_size(Buf,Dim_casella,Dim_casella,NULL)) == NULL)
 	{
 		perror("impossibile caricare l'immagine");
-		exit(1);
+		Immagine.movimento=Immagine.err;
 	}
 	sprintf(Buf,"skin/");
 	strcat(Buf,infogioco.skin);
@@ -962,7 +962,7 @@ void gtk_carica_immagini()
 	if((Immagine.attacco=gdk_pixbuf_new_from_file_at_size(Buf,Dim_casella,Dim_casella,NULL)) == NULL)
 	{
 		perror("impossibile caricare l'immagine");
-		exit(1);
+		Immagine.attacco=Immagine.err;
 	}
 	
 	//carica le immagini del prato
@@ -976,7 +976,7 @@ void gtk_carica_immagini()
 		if((Immagine.p[i]=gdk_pixbuf_new_from_file_at_size(Buf,Dim_casella,Dim_casella,NULL)) == NULL)
 		{
 			perror("impossibile caricare l'immagine");
-			exit(1);
+			Immagine.p[i]=Immagine.err;
 		}
 	}
 	
@@ -991,7 +991,7 @@ void gtk_carica_immagini()
 		if((Immagine.a[i]=gdk_pixbuf_new_from_file_at_size(Buf,Dim_casella/2,Dim_casella/2,NULL)) == NULL)
 		{
 			perror("impossibile caricare l'immagine");
-			exit(1);
+			Immagine.a[i]=Immagine.err;
 		}
 	}
 	//carica il castello
@@ -1006,7 +1006,7 @@ void gtk_carica_immagini()
 			if((Immagine.c[i][j]=gdk_pixbuf_new_from_file_at_size(Buf,Dim_casella,Dim_casella,NULL)) == NULL)
 			{
 				perror("impossibile caricare l'immagine");
-				exit(1);
+				Immagine.c[i][j]=Immagine.err;
 			}
 		}
 	//carica la grotta
@@ -1021,7 +1021,7 @@ void gtk_carica_immagini()
 			if((Immagine.g[i][j]=gdk_pixbuf_new_from_file_at_size(Buf,Dim_casella,Dim_casella,NULL)) == NULL)
 			{
 				perror("impossibile caricare l'immagine");
-				exit(1);
+				Immagine.g[i][j]=Immagine.err;
 			}
 		}
 	//carica la stalla
@@ -1036,7 +1036,7 @@ void gtk_carica_immagini()
 			if((Immagine.s[i][j]=gdk_pixbuf_new_from_file_at_size(Buf,Dim_casella,Dim_casella,NULL)) == NULL)
 			{
 				perror("impossibile caricare l'immagine");
-				exit(1);
+				Immagine.s[i][j]=Immagine.err;
 			}
 		}
 	//carica la fattoria
@@ -1051,7 +1051,7 @@ void gtk_carica_immagini()
 			if((Immagine.f[i][j]=gdk_pixbuf_new_from_file_at_size(Buf,Dim_casella,Dim_casella,NULL)) == NULL)
 			{
 				perror("impossibile caricare l'immagine");
-				exit(1);
+				Immagine.f[i][j]=Immagine.err;
 			}
 		}
 	//carica il nido
@@ -1066,12 +1066,12 @@ void gtk_carica_immagini()
 			if((Immagine.n[i][j]=gdk_pixbuf_new_from_file_at_size(Buf,Dim_casella,Dim_casella,NULL)) == NULL)
 			{
 				perror("impossibile caricare l'immagine");
-				exit(1);
+				Immagine.n[i][j]=Immagine.err;
 			}
 		}
 	//carica le truppe
 	for(i=0; i<MAXGIOCATORI; i++)
-		for(j=0; j<=Lan; j++)
+		for(j=0; j<=Arc; j++)
 		{
 			sprintf(Buf2,"/t/t%d%d.",i,j);
 			sprintf(Buf,"skin/");
@@ -1081,7 +1081,7 @@ void gtk_carica_immagini()
 			if((Immagine.t[i][j]=gdk_pixbuf_new_from_file_at_size(Buf,Dim_casella,Dim_casella,NULL)) == NULL)
 			{
 				perror("impossibile caricare l'immagine");
-				exit(1);
+				Immagine.t[i][j]=Immagine.err;
 			}
 		}
 }
@@ -1590,6 +1590,12 @@ void gtk_stampa_mappa(int x, int y, char m)
 								break;
 							case Lan:
 								gdk_pixbuf_composite(Immagine.t[G][Lan],TmpB,0,0,Dim_casella,Dim_casella,0,0,1,1,GDK_INTERP_BILINEAR,255);
+								Thumb[Pos]=gtk_image_new_from_pixbuf(TmpB);
+								gtk_container_add(GTK_CONTAINER(Casella[Pos]), Thumb[Pos]);
+								gtk_widget_show(Thumb[Pos]);
+								break;
+							case Arc:
+								gdk_pixbuf_composite(Immagine.t[G][Arc],TmpB,0,0,Dim_casella,Dim_casella,0,0,1,1,GDK_INTERP_BILINEAR,255);
 								Thumb[Pos]=gtk_image_new_from_pixbuf(TmpB);
 								gtk_container_add(GTK_CONTAINER(Casella[Pos]), Thumb[Pos]);
 								gtk_widget_show(Thumb[Pos]);

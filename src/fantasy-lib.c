@@ -67,12 +67,12 @@ void caricadati()
 	Dtruppa[Lan].cibo=50;
 	Dtruppa[Lan].smeraldi=0;
 	//dati arciere
-	Dtruppa[Arc].att=20;
+	Dtruppa[Arc].att=15;
 	Dtruppa[Arc].dif=5;
-	Dtruppa[Arc].git=20;
+	Dtruppa[Arc].git=12;
 	Dtruppa[Arc].vel=10;
 	Dtruppa[Arc].mor=30;
-	Dtruppa[Arc].oro=200;
+	Dtruppa[Arc].oro=250;
 	Dtruppa[Arc].cibo=50;
 	Dtruppa[Arc].smeraldi=0;
 	//dati cavaliere
