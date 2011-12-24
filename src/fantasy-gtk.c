@@ -351,6 +351,7 @@ static void click_bersaglio(char* pos)
 {
 	int Dst=(int)(pos-infomappa.mappa);
 	int Src= Mossa;
+	int pdst, psrc;
 	
 	if(Src==Dst)
 	{
@@ -359,11 +360,16 @@ static void click_bersaglio(char* pos)
 	}
 	else
 	{
+		pdst=infomappa.truppe[Dst]->numero;
+		psrc=infomappa.truppe[Src]->numero;
 		combatticampoaperto(Dst,Src);
 		gtk_aggiorna_tab_armate();
 		gtk_pulisci_mappa();
 		gtk_stampa_mappa(cx,cy,'n');
-		gtk_popup_combattimento(Casella[Dst%LARGHEZZA-cx+caselle_orizzontali*(Dst/LARGHEZZA-cy)], 10);
+		pdst-=(infomappa.truppe[Dst]!=NULL)?(infomappa.truppe[Dst]->numero):(0);
+		psrc-=(infomappa.truppe[Src]!=NULL)?(infomappa.truppe[Src]->numero):(0);
+		gtk_popup_combattimento(Casella[Dst%LARGHEZZA-cx+caselle_orizzontali*(Dst/LARGHEZZA-cy)], pdst);
+		gtk_popup_combattimento(Casella[Src%LARGHEZZA-cx+caselle_orizzontali*(Dst/LARGHEZZA-cy)], psrc);
 	}
 }
 
@@ -2118,16 +2124,27 @@ GtkWidget *gtk_crea_footer()
 	return Table;
 }
 
+//autodistrugge il popup
+gboolean autodestroy_popup(GtkWidget *Popup)
+{
+	gtk_widget_destroy(Popup);
+	return FALSE;
+}
+
 //fa comparire il popup delle perdite
 void gtk_popup_combattimento(GtkWidget* Casella, int Perdite)
 {
 	GtkWidget *Popup;
+	GtkWidget *Toplevel;
 	GtkWidget *Label;
 	char buf[50];
-	int x, y;
+	int x,y;
+	int wx,wy;
 	
-	gtk_widget_translate_coordinates(Casella, gtk_widget_get_toplevel(Casella), 0, 0, &x, &y);
-	fprintf(stderr,"debug: x=%d y=%d\n",x,y);
+	Toplevel=gtk_widget_get_toplevel(Casella);
+	gdk_window_get_root_origin(gtk_widget_get_window(Toplevel),&wx,&wy);
+	gtk_widget_translate_coordinates(Casella,Toplevel, wx,wy, &x, &y);
+	fprintf(stderr,"debug: x=%d y=%d wx=%d wy=%d\n",x,y,wx,wy);
 	sprintf(buf,"<span foreground=\"red\">-%d</span>",Perdite);
 	Popup=gtk_window_new(GTK_WINDOW_POPUP);
 	gtk_window_set_opacity(GTK_WINDOW(Popup),0.6);
@@ -2136,6 +2153,6 @@ void gtk_popup_combattimento(GtkWidget* Casella, int Perdite)
 	gtk_container_add(GTK_CONTAINER(Popup),Label);
 	gtk_window_move(GTK_WINDOW(Popup),x+Dim_casella/4,y+Dim_casella);
 	gtk_widget_show_all(Popup);
-	//sleep(2);
-	//gtk_widget_destroy(Popup);
+	gdk_threads_add_timeout_full(G_PRIORITY_DEFAULT_IDLE,2000,(GSourceFunc) (autodestroy_popup),(gpointer) Popup,NULL);
+	return;
 }
