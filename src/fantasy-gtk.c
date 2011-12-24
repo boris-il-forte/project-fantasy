@@ -325,9 +325,41 @@ static void sposta_mappa(char* v)
 static void addestra_truppa(t_callback_s* Struct)
 {
 	int P=Struct->pos;
-	
+	int r;
 	t_truppa T=Struct->tipo;
-	addestratruppa(P,T);
+	GtkWidget *Dialogo;
+	GtkWidget *Label;
+	
+	r=pagaunita(T);
+	if(r==0) 
+	{
+		addestratruppa(P,T);
+		gtk_aggiorna_contarisorse();
+	}
+	else
+	{
+		Dialogo=gtk_dialog_new_with_buttons("F.C.",NULL,GTK_DIALOG_DESTROY_WITH_PARENT,GTK_STOCK_OK,NULL);
+		gtk_window_set_icon(GTK_WINDOW(Dialogo),Immagine.logo);
+		switch(r)
+		{
+			case 1:
+				Label=gtk_label_new("Oro insufficente!!");
+				break;
+			case 2:
+				Label=gtk_label_new("Cibo insufficente!");
+				break;
+			case 3:
+				Label=gtk_label_new("Smeraldi insufficenti!!");
+				break;
+			default:
+				Label=gtk_label_new("Errore! questo messaggio non deve comparire!");
+				break;
+		}
+		gtk_widget_show(Label);
+		gtk_box_pack_start(GTK_BOX(gtk_dialog_get_content_area(GTK_DIALOG(Dialogo))),Label, TRUE, TRUE, 0);
+		gtk_dialog_run(GTK_DIALOG(Dialogo));
+		gtk_widget_destroy(Dialogo);
+	}
 }
 
 static void evacua_truppa(t_lista_t *T)

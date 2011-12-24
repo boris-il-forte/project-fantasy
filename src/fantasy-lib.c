@@ -45,42 +45,63 @@ void caricadati()
 	Dtruppa[Rec].git=2;
 	Dtruppa[Rec].vel=10;
 	Dtruppa[Rec].mor=25;
+	Dtruppa[Rec].oro=150;
+	Dtruppa[Rec].cibo=50;
+	Dtruppa[Rec].smeraldi=0;
 	//dati fante
 	Dtruppa[Fan].att=20;
 	Dtruppa[Fan].dif=15;
 	Dtruppa[Fan].git=1;
 	Dtruppa[Fan].vel=5;
 	Dtruppa[Fan].mor=50;
+	Dtruppa[Fan].oro=400;
+	Dtruppa[Fan].cibo=100;
+	Dtruppa[Fan].smeraldi=0;
 	//dati lanciere
 	Dtruppa[Lan].att=10;
 	Dtruppa[Lan].dif=25;
 	Dtruppa[Lan].git=1;
 	Dtruppa[Lan].vel=5;
 	Dtruppa[Lan].mor=40;
+	Dtruppa[Lan].oro=300;
+	Dtruppa[Lan].cibo=50;
+	Dtruppa[Lan].smeraldi=0;
 	//dati arciere
 	Dtruppa[Arc].att=20;
 	Dtruppa[Arc].dif=5;
 	Dtruppa[Arc].git=20;
 	Dtruppa[Arc].vel=10;
 	Dtruppa[Arc].mor=30;
+	Dtruppa[Arc].oro=200;
+	Dtruppa[Arc].cibo=50;
+	Dtruppa[Arc].smeraldi=0;
 	//dati cavaliere
 	Dtruppa[Cav].att=90;
 	Dtruppa[Cav].dif=5;
 	Dtruppa[Cav].git=1;
 	Dtruppa[Cav].vel=20;
 	Dtruppa[Cav].mor=75;
+	Dtruppa[Cav].oro=1000;
+	Dtruppa[Cav].cibo=200;
+	Dtruppa[Cav].smeraldi=10;
 	//dati drago
 	Dtruppa[Dra].att=2000;
 	Dtruppa[Dra].dif=2000;
 	Dtruppa[Dra].git=2;
 	Dtruppa[Dra].vel=30;
 	Dtruppa[Dra].mor=100;
+	Dtruppa[Dra].oro=3000;
+	Dtruppa[Dra].cibo=1500;
+	Dtruppa[Dra].smeraldi=500;
 	//dati fenice
 	Dtruppa[Fen].att=2000;
 	Dtruppa[Fen].dif=800;
 	Dtruppa[Rec].git=2;
 	Dtruppa[Fen].vel=35;
 	Dtruppa[Fen].mor=80;
+	Dtruppa[Fen].oro=2500;
+	Dtruppa[Fen].cibo=1000;
+	Dtruppa[Fen].smeraldi=500;
 }
 
 //inizializza le strutture dati 
@@ -356,6 +377,21 @@ void addestratruppa(int P, t_truppa T)
 		S->in->truppa=U;
 		S->in->pos=P;
 		S->in->next=NULL;
+	}
+}
+
+//verifica se le risorse sono sufficenti per addestrare una unità e ne scala il costo
+int pagaunita(t_truppa T)
+{
+	if(Dtruppa[T].oro>giocatore[CurrentPlayer]->oro) return 1;
+	else if(Dtruppa[T].cibo>giocatore[CurrentPlayer]->cibo) return 2;
+	else if(Dtruppa[T].smeraldi>giocatore[CurrentPlayer]->smeraldi) return 3;
+	else
+	{
+		giocatore[CurrentPlayer]->oro-=Dtruppa[T].oro;
+		giocatore[CurrentPlayer]->cibo-=Dtruppa[T].cibo;
+		giocatore[CurrentPlayer]->smeraldi-=Dtruppa[T].smeraldi;
+		return 0;
 	}
 }
 

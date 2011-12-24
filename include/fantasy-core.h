@@ -58,6 +58,9 @@ typedef struct s_dtruppa
 	char git;
 	char vel;
 	char mor;
+	int oro;
+	int cibo;
+	int smeraldi;
 } t_dtruppa;
 
 typedef struct s_infomappa
@@ -140,6 +143,7 @@ int controllodiversotruppe(int PosA, int PosD);
 
 //funzioni di gestione dei dati di gioco
 void creagiocatori(int n);
+int pagaunita(t_truppa T);
 void addestratruppa(int P, t_truppa T);
 t_infotruppa* generatruppa(t_truppa Tipo, char Giocatore, int Numero);
 int evacuatruppa(t_lista_t *T);
