@@ -848,8 +848,15 @@ void combatticampoaperto(int Dst, int Src)
 	t_infotruppa* A=infomappa.truppe[Src];
 	t_infotruppa* D=infomappa.truppe[Dst];
 	infomappa.truppe[Src]->combattuto=1;
+	//attacco
 	combatti(A, D, 'n');
 	if(D->numero==0 || D->morale==0)eliminamorti(D);
+	//contrattacco
+	if(infomappa.truppe[Dst]!=NULL && bersagliolecito(Dst,Src)==1)
+	{
+		combatti(D, A, 'n');
+		if(A->numero==0 || A->morale==0)eliminamorti(A);
+	}
 }
 
 //gestisce tutto l'assedio a una struttura

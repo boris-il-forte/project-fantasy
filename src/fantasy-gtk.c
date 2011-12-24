@@ -369,7 +369,7 @@ static void click_bersaglio(char* pos)
 		pdst-=(infomappa.truppe[Dst]!=NULL)?(infomappa.truppe[Dst]->numero):(0);
 		psrc-=(infomappa.truppe[Src]!=NULL)?(infomappa.truppe[Src]->numero):(0);
 		gtk_popup_combattimento(Casella[Dst%LARGHEZZA-cx+caselle_orizzontali*(Dst/LARGHEZZA-cy)], pdst);
-		gtk_popup_combattimento(Casella[Src%LARGHEZZA-cx+caselle_orizzontali*(Dst/LARGHEZZA-cy)], psrc);
+		gtk_popup_combattimento(Casella[Src%LARGHEZZA-cx+caselle_orizzontali*(Src/LARGHEZZA-cy)], psrc);
 	}
 }
 
@@ -2145,7 +2145,8 @@ void gtk_popup_combattimento(GtkWidget* Casella, int Perdite)
 	gdk_window_get_root_origin(gtk_widget_get_window(Toplevel),&wx,&wy);
 	gtk_widget_translate_coordinates(Casella,Toplevel, wx,wy, &x, &y);
 	fprintf(stderr,"debug: x=%d y=%d wx=%d wy=%d\n",x,y,wx,wy);
-	sprintf(buf,"<span foreground=\"red\">-%d</span>",Perdite);
+	if(Perdite>0) sprintf(buf,"<span foreground=\"red\">-%d</span>",Perdite);
+	else sprintf(buf,"<span foreground=\"green\">%d</span>",Perdite);
 	Popup=gtk_window_new(GTK_WINDOW_POPUP);
 	gtk_window_set_opacity(GTK_WINDOW(Popup),0.6);
 	Label=gtk_label_new(NULL);
