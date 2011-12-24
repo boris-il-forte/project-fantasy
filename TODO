@@ -1,15 +1,15 @@
 TODO
 
 Gionnico:
-- Debug salva e carica										| priorità alta
-- Carica skin figo con gestione avanzata delle skin						| priorità alta
-- funzione void gtk_calcola_dimensioni () -> da controllare per più risoluzioni possibili	| priorità alta
+- Salva e carica devono considerare la possibilità di avere giocatory NULL in mezzo all'array	| Urgente!
+- Debug salva e carica: fattoria inesistente in altro a destra da fixare			| priorità alta
 - Editor di mappe & scenari									| priorità media
 
 Boris_il_forte:
-- Debug vario										| Urgente!
-- Bilanciamento unità									| Urgente!
-- Minimappa										| priorità bassa
+- Implementazione di giocatore sconfitto e di vittoria della partita			| priorità alta
+- Implementazione completa del popup perdite						| priorità media
+- Minimappa										| priorità media
+- Debug vario										| priorità bassa
 - IA 											| priorità molto bassa
 
 Il_RatMan:
@@ -27,12 +27,11 @@ Il_RatMan:
 - Icona prossima unità
 - Icona prossimo castello
 - Icona prossimo nemico vicino
-- Dragho
+- Drago
 - Fenice
 
 Chiunque: 										| priorità molto bassa
 - Zoom in & out
-- frecce con pressione costante che spostano la mappa fino al rilascio
 
 NintendOtaku:
 - unità mitiche
