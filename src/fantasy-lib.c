@@ -585,6 +585,26 @@ void liberaheap()
 	for(i=0; i<ALTEZZA*LARGHEZZA; i++)free(infomappa.truppe[i]);
 }
 
+//libera le strutture dati di uno specifico giocatore
+void liberagiocatore(int G)
+{
+	t_lista_t *T;
+	t_lista_t *Tn;
+	T=giocatore[G]->truppe;
+	//elimina le truppe del giocatore sconfitto
+	while(T!=NULL) 
+	{
+		free(infomappa.truppe[T->pos]);
+		infomappa.truppe[T->pos]=NULL;
+		Tn=T->next;
+		free(T);
+		T=Tn;
+	}
+	//elimina il resto della struttura dati
+	free(giocatore[G]);
+	giocatore[G]=NULL;
+}
+
 //calcola il costo del percorso più breve utilizzando l'algoritmo di Dijkstra
 int inizializza_dijkstra(int PosT, char ***G, int ***V, int *mx, char *vel)
 {
@@ -1165,6 +1185,16 @@ void cambiaproprietario(int g1, int g2, int Pos,t_struttura Tipo)
 			giocatore[g1]->struttura[Tipo]->next=NULL;
 		}
 	}
+}
+//controlla se il giocatore è stato sconfitto
+int controllosconfitto(int G)
+{
+	int i;
+	for(i=0; i<NUMSTRUTTURE; i++)
+	{
+		if(giocatore[G]->struttura[i]!=NULL) return 0;
+	}
+	return 1;
 }
 
 //controlla il tipo della struttura

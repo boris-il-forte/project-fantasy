@@ -792,8 +792,13 @@ static void su_unita(GtkWidget *Truppa, GdkEvent *event, char* pos)
 static void click_assediocastello(char* pos)
 {
 	int Pos=(int)(pos-infomappa.mappa);
+	int G=controlloedificio(Pos,Cas);
 	
 	assediocastello(Pos);
+	if(controllosconfitto(G)==1)
+	{
+		liberagiocatore(G);
+	}
 	gtk_aggiorna_tab_armate();
 	gtk_aggiorna_tab_castelli();
 	gtk_pulisci_mappa();
@@ -803,8 +808,15 @@ static void click_assediocastello(char* pos)
 static void click_assaltostruttura(char* pos)
 {
 	int Pos=(int)(pos-infomappa.mappa);
+	int G;
+	t_struttura t=controllotipostruttura(Pos);
 	
+	G=controlloedificio(Pos,t);
 	assediostruttura(Pos);
+	if(controllosconfitto(G)==1)
+	{
+		liberagiocatore(G);
+	}
 	gtk_aggiorna_tab_strutture();
 	gtk_aggiorna_tab_armate();
 	gtk_pulisci_mappa();

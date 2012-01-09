@@ -140,6 +140,7 @@ int controllounita(int Pos);
 t_struttura controllotipostruttura(int Pos);
 int controllodiverso(int PosT, int PosS, t_struttura tipo);
 int controllodiversotruppe(int PosA, int PosD);
+int controllosconfitto(int G);
 
 //funzioni di gestione dei dati di gioco
 void creagiocatori(int n);
@@ -165,6 +166,7 @@ void generamappa();
 void rigeneramappa();
 void visualizza_su_terminale();
 void liberaheap();
+void liberagiocatore(int G);
 void fineturno();
 void aggiorna_tr_callback(char* pos);
 
