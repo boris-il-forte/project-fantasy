@@ -140,13 +140,21 @@ static void click_turno()
 	if(giocatore[CurrentPlayer]!=NULL)
 	{
 		fineturno();
+		fprintf(stderr,"debug: 1\n");
 		gtk_aggiorna_giocatore_c();
+		fprintf(stderr,"debug: 2\n");
 		gtk_aggiorna_contarisorse();
+		fprintf(stderr,"debug: 3\n");
 		gtk_aggiorna_tab_castelli();
+		fprintf(stderr,"debug: 4\n");
 		gtk_aggiorna_tab_strutture();
+		fprintf(stderr,"debug: 5\n");
 		gtk_aggiorna_tab_armate();
+		fprintf(stderr,"debug: 6\n");
 		gtk_pulisci_mappa();
+		fprintf(stderr,"debug: 7\n");
 		gtk_stampa_mappa(cx,cy,'n');
+		fprintf(stderr,"debug: 8\n");
 	}
 
 	return;

@@ -1790,8 +1790,10 @@ void gtk_aggiorna_tab_castelli()
 	char buf[20];
 	t_lista_s* S=giocatore[CurrentPlayer]->struttura[Cas];
 	
+	fprintf(stderr, "DEBUG 3.4\n");
 	for(i=0; Listacastelli[i]!=NULL;i++)gtk_pulisci_tab(Listacastelli[i]);
-	for(i=0; S!=NULL && i<12; i++)
+	fprintf(stderr, "DEBUG 3.5\n");
+	for(i=0; S!=NULL && i<NUMCASTELLI; i++)
 	{
 		x=S->pos%LARGHEZZA+1;
 		y=S->pos/LARGHEZZA+1;

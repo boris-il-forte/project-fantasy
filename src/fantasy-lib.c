@@ -554,33 +554,36 @@ void liberaheap()
 	t_lista_s* Sn;
 	t_lista_t* T;
 	t_lista_t* Tn;
-	for(i=0; i<MAXGIOCATORI && giocatore[i]!=NULL; i++)
+	for(i=0; i<MAXGIOCATORI; i++)
 	{
-		for(j=0;j<NUMSTRUTTURE; j++)
+		if(giocatore[i]!=NULL)
 		{
-			S=giocatore[i]->struttura[j];
-			while(S!=NULL)
+			for(j=0;j<NUMSTRUTTURE; j++)
 			{
-				T=S->in;
-				while(T!=NULL)
+				S=giocatore[i]->struttura[j];
+				while(S!=NULL)
 				{
-					Tn=T->next;
-					free(T);
-					T=Tn;
+					T=S->in;
+					while(T!=NULL)
+					{
+						Tn=T->next;
+						free(T);
+						T=Tn;
+					}
+					Sn=S->next;
+					free(S);
+					S=Sn;
 				}
-				Sn=S->next;
-				free(S);
-				S=Sn;
 			}
+			T=giocatore[i]->truppe;
+			while(T!=NULL)
+			{
+				Tn=T->next;
+				free(T);
+				T=Tn;
+			}
+			free(giocatore[i]);
 		}
-		T=giocatore[i]->truppe;
-		while(T!=NULL)
-		{
-			Tn=T->next;
-			free(T);
-			T=Tn;
-		}
-		free(giocatore[i]);
 	}
 	for(i=0; i<ALTEZZA*LARGHEZZA; i++)free(infomappa.truppe[i]);
 }
@@ -1214,13 +1217,16 @@ int controlloedificio(int Pos, t_struttura s)
 {
 	int i;
 	t_lista_s* L;
-	for(i=0; i<MAXGIOCATORI && giocatore[i]!=NULL; i++)
+	for(i=0; i<MAXGIOCATORI; i++)
 	{
-		L=giocatore[i]->struttura[s];
-		while(L!=NULL)
+		if(giocatore[i]!=NULL)
 		{
-			if(L->pos==Pos)return i;
-			else L=L->next;
+			L=giocatore[i]->struttura[s];
+			while(L!=NULL)
+			{
+				if(L->pos==Pos)return i;
+				else L=L->next;
+			}
 		}
 	}
 	return -1;
@@ -1231,13 +1237,16 @@ int controllounita(int Pos)
 {
 	int i;
 	t_lista_t* L;
-	for(i=0; i<MAXGIOCATORI && giocatore[i]!=NULL; i++)
+	for(i=0; i<MAXGIOCATORI; i++)
 	{
-		L=giocatore[i]->truppe;
-		while(L!=NULL)
+		if(giocatore[i]!=NULL)
 		{
-			if(L->pos==Pos)return i;
-			else L=L->next;
+			L=giocatore[i]->truppe;
+			while(L!=NULL)
+			{
+				if(L->pos==Pos)return i;
+				else L=L->next;
+			}
 		}
 	}
 	return -1;
@@ -1276,16 +1285,21 @@ t_lista_s* puntastruttura(int Pos)
 	int G;
 	t_struttura i;
 	t_lista_s* L;
-	for(G=0; G<MAXGIOCATORI && giocatore[G]!=NULL; G++)
-		for(i=Cas; i<=Nid; i++)
+	for(G=0; G<MAXGIOCATORI; G++)
+	{
+		if(giocatore[G]!=NULL)
 		{
-			L=giocatore[G]->struttura[i];
-			while(L!=NULL)
+			for(i=Cas; i<=Nid; i++)
 			{
-				if(L->pos==Pos)return L;
-				else L=L->next;
+				L=giocatore[G]->struttura[i];
+				while(L!=NULL)
+				{
+					if(L->pos==Pos)return L;
+					else L=L->next;
+				}
 			}
 		}
+	}
 	return NULL;
 }
 
