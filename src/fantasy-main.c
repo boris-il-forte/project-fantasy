@@ -135,6 +135,8 @@ static void click_nc()
 
 static void click_turno()
 {
+	int W;
+	
 	if(partita_in_corso==0) return;
 	if(giocatore[CurrentPlayer]!=NULL)
 	{
@@ -146,6 +148,11 @@ static void click_turno()
 		gtk_aggiorna_tab_armate();
 		gtk_pulisci_mappa();
 		gtk_stampa_mappa(cx,cy,'n');
+		W=controllovincitore();
+		if(W!=0)
+		{
+			gtk_proclama_vincitore(W);
+		}
 	}
 
 	return;
@@ -157,6 +164,7 @@ gboolean ridimensiona_mappa(struct datatime_s *datatime)
 {
 	static int i=0;
 	int w,h;
+	
 	if(i==0)
 	{
 		fprintf(stderr,"ridimensiona_mappa: debug! inizializza...\n");

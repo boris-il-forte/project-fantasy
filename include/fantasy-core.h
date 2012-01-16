@@ -141,6 +141,7 @@ t_struttura controllotipostruttura(int Pos);
 int controllodiverso(int PosT, int PosS, t_struttura tipo);
 int controllodiversotruppe(int PosA, int PosD);
 int controllosconfitto(int G);
+int controllovincitore();
 
 //funzioni di gestione dei dati di gioco
 void creagiocatori(int n);

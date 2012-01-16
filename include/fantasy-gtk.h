@@ -68,6 +68,7 @@ void gtk_carica_immagini();
 void gtk_calcola_dimensioni();
 void gtk_inizializza_widget();
 int gtk_carica_avvio(char *nomefile);
+void gtk_proclama_vincitore(int g);
 
 //funzioni menu
 void gtk_crea_menu(GtkWidget *Vbox);

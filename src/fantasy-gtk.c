@@ -338,7 +338,7 @@ static void addestra_truppa(t_callback_s* Struct)
 	}
 	else
 	{
-		Dialogo=gtk_dialog_new_with_buttons("F.C.",NULL,GTK_DIALOG_DESTROY_WITH_PARENT,GTK_STOCK_OK,NULL);
+		Dialogo=gtk_dialog_new_with_buttons("F.C.",NULL,GTK_DIALOG_DESTROY_WITH_PARENT,GTK_STOCK_OK,GTK_RESPONSE_ACCEPT,NULL);
 		gtk_window_set_icon(GTK_WINDOW(Dialogo),Immagine.logo);
 		switch(r)
 		{
@@ -741,7 +741,7 @@ static void click_unita(char* pos, GdkEventButton *Event)
 		}
 		else
 		{
-			Dialogo=gtk_dialog_new_with_buttons("F.C.",NULL,GTK_DIALOG_DESTROY_WITH_PARENT,GTK_STOCK_OK,NULL);
+			Dialogo=gtk_dialog_new_with_buttons("F.C.",NULL,GTK_DIALOG_DESTROY_WITH_PARENT,GTK_STOCK_OK,GTK_RESPONSE_ACCEPT,NULL);
 			gtk_window_set_icon(GTK_WINDOW(Dialogo),Immagine.logo);
 			Label=gtk_label_new("unità in combattimento!");
 			gtk_widget_show(Label);
@@ -762,7 +762,7 @@ static void click_unita(char* pos, GdkEventButton *Event)
 		}
 		else
 		{
-			Dialogo=gtk_dialog_new_with_buttons("F.C.",NULL,GTK_DIALOG_DESTROY_WITH_PARENT,GTK_STOCK_OK,NULL);
+			Dialogo=gtk_dialog_new_with_buttons("F.C.",NULL,GTK_DIALOG_DESTROY_WITH_PARENT,GTK_STOCK_OK,GTK_RESPONSE_ACCEPT,NULL);
 			gtk_window_set_icon(GTK_WINDOW(Dialogo),Immagine.logo);
 			if(T->stanca==1)Label=gtk_label_new("unità stanca!");
 			else Label=gtk_label_new("unità in combattimento!");
@@ -793,34 +793,68 @@ static void click_assediocastello(char* pos)
 {
 	int Pos=(int)(pos-infomappa.mappa);
 	int G=controlloedificio(Pos,Cas);
+	int W;
+	char buf[60];
+	GtkWidget *Dialogo;
+	GtkWidget *Label;
 	
 	assediocastello(Pos);
-	if(controllosconfitto(G)==1)
-	{
-		liberagiocatore(G);
-	}
 	gtk_aggiorna_tab_armate();
 	gtk_aggiorna_tab_castelli();
 	gtk_pulisci_mappa();
 	gtk_stampa_mappa(cx,cy,'n');
+	if(controllosconfitto(G)==1)
+	{
+		liberagiocatore(G);
+		Dialogo=gtk_dialog_new_with_buttons("F.C.",NULL,GTK_DIALOG_DESTROY_WITH_PARENT,GTK_STOCK_OK,GTK_RESPONSE_ACCEPT,NULL);
+		gtk_window_set_icon(GTK_WINDOW(Dialogo),Immagine.logo);
+		sprintf(buf," il giocatore %d \n è stato sconfitto! ",G+1);
+		Label=gtk_label_new(buf);
+		gtk_widget_show(Label);
+		gtk_box_pack_start(GTK_BOX(gtk_dialog_get_content_area(GTK_DIALOG(Dialogo))),Label, TRUE, TRUE, 0);
+		gtk_dialog_run(GTK_DIALOG(Dialogo));
+		gtk_widget_destroy(Dialogo);
+		W=controllovincitore();
+		if(W!=0)
+		{
+			gtk_proclama_vincitore(W);
+		}
+	}
 }
 
 static void click_assaltostruttura(char* pos)
 {
 	int Pos=(int)(pos-infomappa.mappa);
 	int G;
+	int W;
+	char buf[60];
 	t_struttura t=controllotipostruttura(Pos);
+	GtkWidget *Dialogo;
+	GtkWidget *Label;
 	
 	G=controlloedificio(Pos,t);
 	assediostruttura(Pos);
-	if(controllosconfitto(G)==1)
-	{
-		liberagiocatore(G);
-	}
 	gtk_aggiorna_tab_strutture();
 	gtk_aggiorna_tab_armate();
 	gtk_pulisci_mappa();
 	gtk_stampa_mappa(cx,cy,'n');
+	if(controllosconfitto(G)==1)
+	{
+		liberagiocatore(G);
+		Dialogo=gtk_dialog_new_with_buttons("F.C.",NULL,GTK_DIALOG_DESTROY_WITH_PARENT,GTK_STOCK_OK,GTK_RESPONSE_ACCEPT,NULL);
+		gtk_window_set_icon(GTK_WINDOW(Dialogo),Immagine.logo);
+		sprintf(buf," il giocatore %d \n è stato sconfitto! ",G+1);
+		Label=gtk_label_new(buf);
+		gtk_widget_show(Label);
+		gtk_box_pack_start(GTK_BOX(gtk_dialog_get_content_area(GTK_DIALOG(Dialogo))),Label, TRUE, TRUE, 0);
+		gtk_dialog_run(GTK_DIALOG(Dialogo));
+		gtk_widget_destroy(Dialogo);
+		W=controllovincitore();
+		if(W!=0)
+		{
+			gtk_proclama_vincitore(W);
+		}
+	}
 }
 
 static void click_entrastruttura(char* pos)
@@ -2209,5 +2243,37 @@ void gtk_popup_combattimento(GtkWidget* Casella, int Perdite)
 	gtk_window_move(GTK_WINDOW(Popup),x+Dim_casella/4,y+Dim_casella);
 	gtk_widget_show_all(Popup);
 	gdk_threads_add_timeout_full(G_PRIORITY_DEFAULT_IDLE,2000,(GSourceFunc) (autodestroy_popup),(gpointer) Popup,NULL);
+	return;
+}
+
+void gtk_proclama_vincitore(int g)
+{
+	char buf[100];
+	GtkWidget *Dialogo;
+	GtkWidget *Label;
+	
+	Dialogo=gtk_dialog_new_with_buttons("Fantasy C",NULL,GTK_DIALOG_DESTROY_WITH_PARENT, "Nuova partita",1, "Carica",2,"Esci",3,NULL);
+	gtk_window_set_icon(GTK_WINDOW(Dialogo),Immagine.logo);
+	sprintf(buf," il giocatore %d ha vinto la partita! ",g);
+	Label=gtk_label_new(buf);
+	gtk_widget_show(Label);
+	gtk_box_pack_start(GTK_BOX(gtk_dialog_get_content_area(GTK_DIALOG(Dialogo))),Label, TRUE, TRUE, 0);
+	switch (gtk_dialog_run(GTK_DIALOG(Dialogo)))
+	{
+		case 1:
+			gtk_widget_destroy(Dialogo);
+			nuova_partita();
+			break;
+		case 2:
+			gtk_widget_destroy(Dialogo);
+			salva_carica(0);
+			break;
+		case 3:
+			gtk_widget_destroy(Dialogo);
+			gtk_main_quit();
+			break;
+		default:
+			break;
+	}
 	return;
 }

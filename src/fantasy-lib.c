@@ -1200,6 +1200,24 @@ int controllosconfitto(int G)
 	return 1;
 }
 
+//controlla se c'è un giocatore che ha vinto, e ritorna il suo numero
+int controllovincitore()
+{
+	int i,j=0;
+	int w=0;
+	
+	for(i=0; i<MAXGIOCATORI && j<2;i++) 
+	{
+		if(giocatore[i]!=NULL) 
+		{
+			j++;
+			w=i;
+		}
+	}
+	if(j>1) return 0;
+	else return w+1;
+}
+
 //controlla il tipo della struttura
 t_struttura controllotipostruttura(int Pos)
 {
