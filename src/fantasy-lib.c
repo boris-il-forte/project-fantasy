@@ -1193,6 +1193,9 @@ void cambiaproprietario(int g1, int g2, int Pos,t_struttura Tipo)
 int controllosconfitto(int G)
 {
 	int i;
+
+	if(G==-1) return 0;
+	
 	for(i=0; i<NUMSTRUTTURE; i++)
 	{
 		if(giocatore[G]->struttura[i]!=NULL) return 0;
