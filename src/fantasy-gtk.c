@@ -521,7 +521,7 @@ static void click_scuderia(char* pos)
 	//Cavalleria
 	oggetto=gtk_menu_item_new_with_label("Cavalleria");
 	gtk_menu_shell_append(GTK_MENU_SHELL(lista), oggetto);
-	g_signal_connect_swapped(oggetto, "activate", G_CALLBACK(menuitem_response),(gpointer)NULL);
+	g_signal_connect_swapped(oggetto, "activate", G_CALLBACK(addestra_truppa),(gpointer)&tr_callback[Cav]);
 	gtk_widget_show(oggetto);
 	//attacca la lista alla scelta
 	gtk_menu_item_set_submenu(GTK_MENU_ITEM(scelta), lista);
@@ -1117,7 +1117,7 @@ void gtk_carica_immagini()
 		}
 	//carica le truppe
 	for(i=0; i<MAXGIOCATORI; i++)
-		for(j=0; j<=Arc; j++)
+		for(j=0; j<=Cav; j++)
 		{
 			sprintf(Buf2,"/t/t%d%d.",i,j);
 			sprintf(Buf,"skin/");
@@ -1278,6 +1278,7 @@ void gtk_stampa_mappa(int x, int y, char m)
 	char buf[10];
 	char vel;
 	GdkPixbuf *TmpB;
+	t_truppa tipo;
 	
 	sprintf(buf,"(%d|%d)",x+caselle_orizzontali/2-1,y+caselle_verticali/2-1);
 	gtk_label_set_text(GTK_LABEL(Coordinate),buf);
@@ -1620,38 +1621,11 @@ void gtk_stampa_mappa(int x, int y, char m)
 					if(accedi(C,R,infomappa.truppe)!=NULL)
 					{
 						G=controllounita(posiziona(0,0,C,R));
-						switch(accedi(C,R,infomappa.truppe)->tipo)
-						{
-							case Rec:
-								gdk_pixbuf_composite(Immagine.t[G][Rec],TmpB,0,0,Dim_casella,Dim_casella,0,0,1,1,GDK_INTERP_BILINEAR,255);
-								Thumb[Pos]=gtk_image_new_from_pixbuf(TmpB);
-								gtk_container_add(GTK_CONTAINER(Casella[Pos]), Thumb[Pos]);
-								gtk_widget_show(Thumb[Pos]);
-								break;
-							case Fan:
-								gdk_pixbuf_composite(Immagine.t[G][Fan],TmpB,0,0,Dim_casella,Dim_casella,0,0,1,1,GDK_INTERP_BILINEAR,255);
-								Thumb[Pos]=gtk_image_new_from_pixbuf(TmpB);
-								gtk_container_add(GTK_CONTAINER(Casella[Pos]), Thumb[Pos]);
-								gtk_widget_show(Thumb[Pos]);
-								break;
-							case Lan:
-								gdk_pixbuf_composite(Immagine.t[G][Lan],TmpB,0,0,Dim_casella,Dim_casella,0,0,1,1,GDK_INTERP_BILINEAR,255);
-								Thumb[Pos]=gtk_image_new_from_pixbuf(TmpB);
-								gtk_container_add(GTK_CONTAINER(Casella[Pos]), Thumb[Pos]);
-								gtk_widget_show(Thumb[Pos]);
-								break;
-							case Arc:
-								gdk_pixbuf_composite(Immagine.t[G][Arc],TmpB,0,0,Dim_casella,Dim_casella,0,0,1,1,GDK_INTERP_BILINEAR,255);
-								Thumb[Pos]=gtk_image_new_from_pixbuf(TmpB);
-								gtk_container_add(GTK_CONTAINER(Casella[Pos]), Thumb[Pos]);
-								gtk_widget_show(Thumb[Pos]);
-								break;
-							default:
-								Thumb[Pos]=gtk_image_new_from_pixbuf(Immagine.err);
-								gtk_container_add(GTK_CONTAINER(Casella[Pos]), Thumb[Pos]);
-								gtk_widget_show(Thumb[Pos]);
-								break;
-						}
+						tipo=accedi(C,R,infomappa.truppe)->tipo;
+						gdk_pixbuf_composite(Immagine.t[G][tipo],TmpB,0,0,Dim_casella,Dim_casella,0,0,1,1,GDK_INTERP_BILINEAR,255);
+						Thumb[Pos]=gtk_image_new_from_pixbuf(TmpB);
+						gtk_container_add(GTK_CONTAINER(Casella[Pos]), Thumb[Pos]);
+						gtk_widget_show(Thumb[Pos]);
 						if(m=='n')
 						{
 							if(G==CurrentPlayer)

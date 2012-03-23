@@ -346,11 +346,17 @@ void creagiocatori(int n)
 //addestra una unità
 void addestratruppa(int P, t_truppa T)
 {
+	int uominiunita;
 	t_infotruppa* U;
 	t_lista_s* S;
 	t_lista_t* N;
 	t_lista_t* Np;
-	U=generatruppa(T, CurrentPlayer, 100);
+	if(T==Cav)
+	{
+		uominiunita=50;
+	}
+	else uominiunita=100;
+	U=generatruppa(T, CurrentPlayer, uominiunita);
 	S=puntastruttura(P);
 	if(S==NULL)
 	{
