@@ -88,7 +88,7 @@ void caricadati()
 	Dtruppa[Dra].att=2000;
 	Dtruppa[Dra].dif=2000;
 	Dtruppa[Dra].git=2;
-	Dtruppa[Dra].vel=30;
+	Dtruppa[Dra].vel=20;
 	Dtruppa[Dra].mor=100;
 	Dtruppa[Dra].oro=3000;
 	Dtruppa[Dra].cibo=1500;
@@ -97,7 +97,7 @@ void caricadati()
 	Dtruppa[Fen].att=2000;
 	Dtruppa[Fen].dif=800;
 	Dtruppa[Rec].git=2;
-	Dtruppa[Fen].vel=35;
+	Dtruppa[Fen].vel=25;
 	Dtruppa[Fen].mor=80;
 	Dtruppa[Fen].oro=2500;
 	Dtruppa[Fen].cibo=1000;
@@ -758,25 +758,35 @@ int spostalecito(int PosT, int PosC , int **V)
 	int y= PosT/LARGHEZZA-PosC/LARGHEZZA;
 	int s;
 	int c=Vel+1;
-	if(infomappa.mappa[PosC]!=' ')
+	if(x*x+y*y<=Vel*Vel)
 	{
-		if(x*x+y*y<=Vel*Vel)
+		if(Tipo<Dra)
 		{
-			s=(Vel*100-10);
-			if(V[c-x-1][c-y]<=s || V[c-x+1][c-y]<=s || V[c-x][c-y-1]<=s || V[c-x][c-y+1]<=s)
+			if(infomappa.mappa[PosC]!=' ')
+			{
+				s=(Vel*100-10);
+				if(V[c-x-1][c-y]<=s || V[c-x+1][c-y]<=s || V[c-x][c-y-1]<=s || V[c-x][c-y+1]<=s)
+				{
+					return 1;
+				}
+				else return 0;
+			}
+			else if(V[c-x][c-y]<=(Vel*100))
+			{
+					return 1;
+			}
+			else return 0;
+		}
+		else
+		{
+			if(infomappa.mappa[PosC]==' ')
 			{
 				return 1;
 			}
+			else return 0;
 		}
 	}
-	if(x*x+y*y<=Vel*Vel)
-	{
-		if(V[c-x][c-y]<=(Vel*100))
-		{
-			return 1;
-		}
-	}
-	return 0;
+	else return 0;
 }
 
 //calcola area bersaglio
@@ -872,12 +882,18 @@ void combatti(t_infotruppa* Attaccante, t_infotruppa* Difensore, char m)
 	na=Attaccante->numero;
 	Bpa=Dtruppa[Attaccante->tipo].att;
 	Bma=Attaccante->morale;
-	Pa=Bpa*na+Bma*na/10;
+	if(Attaccante->tipo==Dra || Attaccante->tipo==Fen)
+		Pa=Bpa+Bma/10;
+	else 
+		Pa=Bpa*na+Bma*na/10;
 	//calcolo potenza difesa difensore
 	nd=Difensore->numero;
 	Bpd=Dtruppa[Difensore->tipo].dif;
 	Bmd=Difensore->morale;
-	Pd=Bpd*nd+Bmd*nd/10;
+	if(Difensore->tipo==Dra || Difensore->tipo==Fen)
+		Pd=Bpd+Bmd/10;
+	else
+		Pd=Bpd*nd+Bmd*nd/10;
 	//calcolo dell'efficenza con la funzione versiera
 	E=(float)(1600)/((na-100)*(na-100)+1600); //calcola versiera in x(a=20 x=X-100)moltiplicata per 1/40
 	E*=Bpa; //calcola efficenza d'attacco truppa

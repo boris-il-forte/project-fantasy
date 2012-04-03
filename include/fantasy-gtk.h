@@ -55,7 +55,7 @@ struct Immagini
 	GdkPixbuf* s[MAXGIOCATORI+1][4]; // matrice che contiene i pezzi delle 12 scuderie di proprietà + la scuderia vuota
 	GdkPixbuf* n[MAXGIOCATORI+1][4]; // matrice che contiene i pezzi dei 12 nidi di proprietà + il nido vuoto
 	GdkPixbuf* f[MAXGIOCATORI+1][4]; // matrice che contiene i pezzi delle 12 fattorie di proprietà + la fattoria vuota
-	GdkPixbuf* t[MAXGIOCATORI][Fen]; // matrice che contiene le truppe dei 12 giocatori
+	GdkPixbuf* t[MAXGIOCATORI][NUMTRUPPE]; // matrice che contiene le truppe dei 12 giocatori
 	GdkPixbuf* a[MAXGIOCATORI]; // array con gli scudi dei giocatori
 	GdkPixbuf* err;
 } Immagine;

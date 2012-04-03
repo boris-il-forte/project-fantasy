@@ -634,7 +634,7 @@ static void click_grotta(char* pos)
 	//Draghi
 	oggetto=gtk_menu_item_new_with_label("Draghi");
 	gtk_menu_shell_append(GTK_MENU_SHELL(lista), oggetto);
-	g_signal_connect_swapped(oggetto, "activate", G_CALLBACK(menuitem_response),(gpointer)NULL);
+	g_signal_connect_swapped(oggetto, "activate", G_CALLBACK(addestra_truppa),(gpointer)&tr_callback[Dra]);
 	gtk_widget_show(oggetto);
 	//attacca la lista alla scelta
 	gtk_menu_item_set_submenu(GTK_MENU_ITEM(scelta), lista);
@@ -688,7 +688,7 @@ static void click_nido(char* pos)
 	//Fenici
 	oggetto=gtk_menu_item_new_with_label("Fenici");
 	gtk_menu_shell_append(GTK_MENU_SHELL(lista), oggetto);
-	g_signal_connect_swapped(oggetto, "activate", G_CALLBACK(menuitem_response),(gpointer)NULL);
+	g_signal_connect_swapped(oggetto, "activate", G_CALLBACK(addestra_truppa),(gpointer)&tr_callback[Dra]);
 	gtk_widget_show(oggetto);
 	//attacca la lista alla scelta
 	gtk_menu_item_set_submenu(GTK_MENU_ITEM(scelta), lista);
@@ -1117,7 +1117,7 @@ void gtk_carica_immagini()
 		}
 	//carica le truppe
 	for(i=0; i<MAXGIOCATORI; i++)
-		for(j=0; j<=Cav; j++)
+		for(j=0; j<=Fen; j++)
 		{
 			sprintf(Buf2,"/t/t%d%d.",i,j);
 			sprintf(Buf,"skin/");
