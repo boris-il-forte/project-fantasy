@@ -13,8 +13,8 @@ CFLAGS+=-DGTK_DISABLE_SINGLE_INCLUDES -DGDK_DISABLE_DEPRECATED -DGTK_DISABLE_DEP
 
 TARGET=gbin
 
-PROGRAM_OBJS=$(SRCPATH)fantasy-main.o $(SRCPATH)fantasy-lib.o $(SRCPATH)fantasy-loadsave.o $(SRCPATH)fantasy-gtk.o
-EDITOR_OBJS=$(SRCPATH)fantasy-editor.o $(SRCPATH)fantasy-gtk.o $(SRCPATH)fantasy-lib.o $(SRCPATH)fantasy-loadsave.o
+PROGRAM_OBJS=$(SRCPATH)fantasy-main.o $(SRCPATH)fantasy-lib.o $(SRCPATH)fantasy-loadsave.o $(SRCPATH)fantasy-gtk.o $(SRCPATH)fantasIA.o $(SRCPATH)fantasIA-gtk.o
+EDITOR_OBJS=$(SRCPATH)fantasy-editor.o $(SRCPATH)fantasy-gtk.o $(SRCPATH)fantasy-lib.o $(SRCPATH)fantasy-loadsave.o $(SRCPATH)fantasIA.o $(SRCPATH)fantasIA-gtk.o
 
 all: $(TARGET) editor
 

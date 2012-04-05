@@ -21,6 +21,7 @@
 #include <string.h>
 #include "fantasy-core.h"
 #include "fantasy-gtk.h"
+#include "fantasy-IA.h"
 
 // callbacks
 static void menuitem_response()
@@ -143,6 +144,9 @@ static void nuova_partita()
 	GtkWidget *Hbox, *Vbox;
 	GtkAdjustment *Giocatori, *IA;
 	
+	int numG;
+	int numIA;
+	
 	fprintf(stderr,"debug nuova_partita\n");
 	Giocatori=(GtkAdjustment *)gtk_adjustment_new(4, 2, MAXGIOCATORI, 1, 2, 0);
 	IA=(GtkAdjustment *)gtk_adjustment_new(3, 0, MAXGIOCATORI-1, 1, 1, 0);
@@ -179,6 +183,9 @@ static void nuova_partita()
 		visualizza_su_terminale();
 		creagiocatori(gtk_adjustment_get_value(GTK_ADJUSTMENT(Giocatori)));
 		CurrentPlayer=0;
+		numG=gtk_adjustment_get_value(GTK_ADJUSTMENT(Giocatori));
+		numIA=gtk_adjustment_get_value(GTK_ADJUSTMENT(IA));
+		fantasia_assegna_ia_random(numIA,numG);
 		gtk_azzera_tab();
 		gtk_pulisci_mappa();
 		gtk_stampa_mappa(cx,cy, 'n');

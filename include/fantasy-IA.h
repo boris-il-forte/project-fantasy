@@ -15,19 +15,40 @@
  * GNU General Public License for more details.
  */
 
+//include indispensabili
+#include <pthread.h>
 
 //define utili
 #define MOLTO 100
 #define NORMALE 50
 #define POCO 20
 
+typedef struct s_iaparam
+{
+	int num;
+	char mod;
+} t_iaparam;
+
+typedef struct s_iadata
+{
+	//stile di gioco del giocatore
+	int aggressivo;
+	int esploratore;
+	int difensore;
+	
+	//comportamento da tenere ora
+	int priorA;
+	int priorD;
+	int priorE;
+} t_iadata;
+
 //funzione per assegnare le IA random
 void fantasia_assegna_ia_random(int numIA, int numG);
 
 //funzioni IA
-void fantasia_create_player(int num, char type, *thread);
+void fantasia_create_player(int num, char type);
 t_iadata fantasia_giocatore_inizializza(char modo);
-void fantasia_giocatore_artificiale(t_iaparam *param);
+void *fantasia_giocatore_artificiale(void *P);
 
 //funzioni di appoggio
 

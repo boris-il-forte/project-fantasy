@@ -15,44 +15,60 @@
  * GNU General Public License for more details.
  */
 
-#include <pthread.h>
+#include <stdlib.h>
+#include <stdio.h>
+#include <time.h>
+#include <unistd.h>
 #include "fantasy-core.h"
 #include "fantasy-IA.h"
-
-typedef struct s_iaparam
-{
-	int num;
-	char mod;
-} t_iaparam;
-
-typedef struct s_iadata
-{
-	//stile di gioco del giocatore
-	int aggressivo;
-	int esploratore;
-	int difensore;
-	
-	//comportamento da tenere ora
-	int priorA;
-	int priorD;
-	int priorE;
-} t_iadata;
-
+#include "fantasy-IA-gtk.h"
 
 //assegna e crea le ia a giocatori random
 void fantasia_assegna_ia_random(int numIA, int numG)
 {
+	int i;
+	int r;
+	char occupato[numG];
+	char rt;
+	for (i=1; i<numG; i++) occupato[i]='F'; //segna le posizioni dell'array come libere
+	occupato[0]='T'; //tranne la prima
+	srand((unsigned)time(NULL));
+	for(i=0; i<numIA; i++)
+	{
+		do
+		{
+			r=rand()%numG;
+		}while(occupato[r]!='F');
+		occupato[r]='T';
+		switch(rand()%3)
+		{
+			case 0:
+				rt='a';
+				break;
+			case 1:
+				rt='d';
+				break;
+			case 3:
+				rt='e';
+				break;
+			default:
+				rt='n';
+				break;
+		}
+		fantasia_create_player(r,rt);
+	}
 	return;
 }
 
 //crea un thead per il nuovo bot
-void fantasia_create_player(int num, char type, *thread)
+void fantasia_create_player(int num, char type)
 {
+	pthread_t thread;
 	t_iaparam *param;
-	param=malloc
+	param=(t_iaparam*) malloc(sizeof(t_iaparam));
 	param->num=num;
 	param->mod=type;
-	pthread_create(thread, NULL, fantasia_giocatore_artificiale, );
+	pthread_create(&thread, NULL, fantasia_giocatore_artificiale, param);
 }
 
 //inizializza il giocatore
@@ -88,29 +104,33 @@ t_iadata fantasia_giocatore_inizializza(char modo)
 	return data;
 }
 
-
 //gestisce un giocatore artificiale
-void fantasia_giocatore_artificiale(t_iaparam *param)
+void *fantasia_giocatore_artificiale(void *P)
 {
+	//casting del puntatore in ingresso
+	t_iaparam *param= (t_iaparam*) P;
 	//dati IA
-	s_iadata datiIa;
+	t_iadata datiIa;
 	int numeroGiocatore;
 	
 	//inizializza IA
-	datiIa=fantasia_giocatore_inizializza(param.mod);
+	datiIa=fantasia_giocatore_inizializza(param->mod);
+	numeroGiocatore=param->num;
 	
 	//main loop IA
 	while(controllosconfitto(numeroGiocatore)==0)
 	{
 		if(numeroGiocatore==CurrentPlayer)
 		{
-			fineturno();
+			printf("sono il giocatore n: %d e sto per chiamare fineturno\n", param->num);
+			fantasia_gtk_fineturno();
 		}
-		sleep(1000);
+		sleep(3);
+		printf("sono il giocatore n: %d\n", param->num);
 	}
+	free(param);
+	exit(0);
 }
-
-
 
 
 
