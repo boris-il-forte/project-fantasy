@@ -916,7 +916,7 @@ void combatti(t_infotruppa* Attaccante, t_infotruppa* Difensore, char m)
 	if(D>5)nd-=D;
 	else nd-=5;
 	// gestisce le unità di pochi uomini
-	if(Difensore->tipo<Dra && nd<5)nd=0;
+	if(nd<5)nd=0;
 	//gestisce il morale e assegna il nuovo valore alle unità
 	if(nd<Difensore->numero/2)Difensore->morale/=2;
 	Difensore->numero=nd;

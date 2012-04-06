@@ -23,6 +23,9 @@
 #include "fantasy-IA.h"
 #include "fantasy-IA-gtk.h"
 
+//mutex indispensabili
+pthread_mutex_t mutex = PTHREAD_MUTEX_INITIALIZER;
+
 //assegna e crea le ia a giocatori random
 void fantasia_assegna_ia_random(int numIA, int numG)
 {
@@ -122,11 +125,13 @@ void *fantasia_giocatore_artificiale(void *P)
 	{
 		if(numeroGiocatore==CurrentPlayer)
 		{
-			printf("sono il giocatore n: %d e sto per chiamare fineturno\n", param->num);
-			fantasia_gtk_fineturno();
+			printf("sono il giocatore n: %d e sto per chiamare fineturno\n", param->num+1);
+			pthread_mutex_lock(&mutex);
+			//fantasia_gtk_fineturno(); //non funziona. chissà perchè!
+			pthread_mutex_unlock(&mutex);
 		}
-		sleep(3);
-		printf("sono il giocatore n: %d\n", param->num);
+		printf("sono il giocatore n: %d\n", param->num+1);
+		sleep(1);
 	}
 	free(param);
 	exit(0);

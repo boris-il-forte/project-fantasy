@@ -6,15 +6,12 @@ Gionnico:
 - Editor di mappe & scenari									| priorità media
 
 Boris_il_forte:
-- Implementazione di giocatore sconfitto e di vittoria della partita			| priorità alta
-- Implementazione completa del popup perdite						| priorità media
+- IA 											| priorità alta
 - Minimappa										| priorità media
 - Debug vario										| priorità bassa
-- IA 											| priorità molto bassa
+
 
 Il_RatMan:
-- Arcieri
-- Cavalieri
 - Reclute
 - Fanti
 - Lancieri
