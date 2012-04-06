@@ -270,6 +270,7 @@ int main(int argc, char *argv[])
 
 //	inizializza
 	gtk_init(&argc, &argv);
+	gdk_threads_init();
 	partita_in_corso=0;
 	caricaconfig("fantasy.config");
 	#ifdef DEBUG
@@ -374,7 +375,9 @@ int main(int argc, char *argv[])
 	g_signal_connect(finestra,"configure-event", G_CALLBACK(rid),NULL);
 	gdk_threads_add_timeout_full(G_PRIORITY_DEFAULT_IDLE,10,(GSourceFunc) (ridimensiona_mappa),(gpointer) &datatime,NULL);
 	gdk_threads_add_timeout_full(G_PRIORITY_DEFAULT_IDLE,50,(GSourceFunc) (leggistream_tastiera),(gpointer) &keypress,NULL);
+	gdk_threads_enter();
 	gtk_main();
+	gdk_threads_leave();
 
 	return 0;
 }

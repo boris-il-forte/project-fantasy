@@ -175,6 +175,7 @@ static void nuova_partita()
 	gtk_widget_show_all(Opzioni);
 	if(gtk_dialog_run(GTK_DIALOG(Dialogo))==1)
 	{
+		fantasia_kill_ia();
 		cx=0;
 		cy=0;
 		caricadati();

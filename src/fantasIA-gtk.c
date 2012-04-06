@@ -7,10 +7,12 @@ void fantasia_gtk_fineturno()
 {
 	int W;
 	
+	
 	if(partita_in_corso==0) return;
 	if(giocatore[CurrentPlayer]!=NULL)
 	{
 		fineturno();
+		gdk_threads_enter();
 		gtk_aggiorna_giocatore_c();
 		gtk_aggiorna_contarisorse();
 		gtk_aggiorna_tab_castelli();
@@ -23,5 +25,6 @@ void fantasia_gtk_fineturno()
 		{
 			gtk_proclama_vincitore(W);
 		}
+		gdk_threads_leave();
 	}
 }

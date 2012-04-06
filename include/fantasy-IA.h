@@ -18,6 +18,9 @@
 //include indispensabili
 #include <pthread.h>
 
+//define thread
+#define NUM_IA_MAX 11 
+
 //define utili
 #define MOLTO 100
 #define NORMALE 50
@@ -42,13 +45,12 @@ typedef struct s_iadata
 	int priorE;
 } t_iadata;
 
-//funzione per assegnare le IA random
-void fantasia_assegna_ia_random(int numIA, int numG);
-
 //funzioni IA
-void fantasia_create_player(int num, char type);
+pthread_t *fantasia_create_player(int num, char type);
 t_iadata fantasia_giocatore_inizializza(char modo);
 void *fantasia_giocatore_artificiale(void *P);
 
 //funzioni di appoggio
+void fantasia_kill_ia();
+void fantasia_assegna_ia_random(int numIA, int numG);
 

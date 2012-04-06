@@ -25,6 +25,28 @@
 
 //mutex indispensabili
 pthread_mutex_t mutex = PTHREAD_MUTEX_INITIALIZER;
+pthread_t *ia_thread[NUM_IA_MAX];
+
+void fantasia_kill_ia()
+{
+	static int inizializzato=0;
+	int i;
+	
+	if(inizializzato==0)
+	{
+		for(i=0; i<NUM_IA_MAX; i++) ia_thread[i]=NULL;
+		inizializzato++;
+	}
+	else
+	{
+		for(i=0; i<NUM_IA_MAX; i++)
+		{
+			if(ia_thread[i]!=NULL) pthread_cancel(*ia_thread[i]);
+			free(ia_thread[i]);
+			ia_thread[i]=NULL;
+		}
+	}
+}
 
 //assegna e crea le ia a giocatori random
 void fantasia_assegna_ia_random(int numIA, int numG)
@@ -58,20 +80,21 @@ void fantasia_assegna_ia_random(int numIA, int numG)
 				rt='n';
 				break;
 		}
-		fantasia_create_player(r,rt);
+		ia_thread[r-1]=fantasia_create_player(r,rt);
 	}
 	return;
 }
 
 //crea un thead per il nuovo bot
-void fantasia_create_player(int num, char type)
+pthread_t *fantasia_create_player(int num, char type)
 {
-	pthread_t thread;
+	pthread_t *thread=(pthread_t*)malloc(sizeof(pthread_t));
 	t_iaparam *param;
 	param=(t_iaparam*) malloc(sizeof(t_iaparam));
 	param->num=num;
 	param->mod=type;
-	pthread_create(&thread, NULL, fantasia_giocatore_artificiale, param);
+	pthread_create(thread, NULL, fantasia_giocatore_artificiale, param);
+	return thread;
 }
 
 //inizializza il giocatore
@@ -120,17 +143,20 @@ void *fantasia_giocatore_artificiale(void *P)
 	datiIa=fantasia_giocatore_inizializza(param->mod);
 	numeroGiocatore=param->num;
 	
+	//elimina il puntatore al parametro
+	free(param);
+	
 	//main loop IA
 	while(controllosconfitto(numeroGiocatore)==0)
 	{
 		if(numeroGiocatore==CurrentPlayer)
 		{
-			printf("sono il giocatore n: %d e sto per chiamare fineturno\n", param->num+1);
+			printf("sono il giocatore n: %d e sto per chiamare fineturno\n", numeroGiocatore+1);
 			pthread_mutex_lock(&mutex);
-			//fantasia_gtk_fineturno(); //non funziona. chissà perchè!
+			fantasia_gtk_fineturno();
 			pthread_mutex_unlock(&mutex);
 		}
-		printf("sono il giocatore n: %d\n", param->num+1);
+		printf("sono il giocatore n: %d\n", numeroGiocatore+1);
 		sleep(1);
 	}
 	free(param);
