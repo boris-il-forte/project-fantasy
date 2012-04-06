@@ -1,9 +1,10 @@
 TODO
 
 Gionnico:
-- Salva e carica devono considerare la possibilità di avere giocatory NULL in mezzo all'array	| Urgente!
-- Debug salva e carica: fattoria inesistente in altro a destra da fixare			| priorità alta
-- Editor di mappe & scenari									| priorità media
+- Salva e carica devono considerare la possibilità di avere giocatory NULL in mezzo all'array		| Urgente!
+- Salva e carica devono gestire le IA per bene. salvare il profilo giocatore e caricare le ia corrette	| Urgentissimo!
+- Debug salva e carica: fattoria inesistente in altro a destra da fixare				| priorità alta
+- Editor di mappe & scenari										| priorità media
 
 Boris_il_forte:
 - IA 											| priorità alta
