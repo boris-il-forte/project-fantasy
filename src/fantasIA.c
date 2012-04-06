@@ -94,6 +94,8 @@ pthread_t *fantasia_create_player(int num, char type)
 	param->num=num;
 	param->mod=type;
 	pthread_create(thread, NULL, fantasia_giocatore_artificiale, param);
+	infogiocatore[num]->tipo=IA;
+	infogiocatore[num]->atteggiamento=type;
 	return thread;
 }
 
@@ -151,12 +153,12 @@ void *fantasia_giocatore_artificiale(void *P)
 	{
 		if(numeroGiocatore==CurrentPlayer)
 		{
-			printf("sono il giocatore n: %d e sto per chiamare fineturno\n", numeroGiocatore+1);
+			printf("debug: sono il giocatore n: %d e sto per chiamare fineturno\n", numeroGiocatore+1);
 			pthread_mutex_lock(&mutex);
 			fantasia_gtk_fineturno();
 			pthread_mutex_unlock(&mutex);
 		}
-		printf("sono il giocatore n: %d\n", numeroGiocatore+1);
+		printf("debug: sono il giocatore n: %d\n", numeroGiocatore+1);
 		sleep(1);
 	}
 	free(param);

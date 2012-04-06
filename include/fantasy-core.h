@@ -34,6 +34,7 @@
 //definisco le strutture fondamentali
 typedef enum e_truppa {Rec,Fan,Lan,Arc,Cav,Dra,Fen} t_truppa;
 typedef enum e_struttura {Cas,Fat,Scu,Gro,Nid} t_struttura;
+typedef enum e_tipoplayer {Locale, IA, Remoto} t_tipoplayer;
 
 typedef struct s_infogioco
 {
@@ -104,6 +105,14 @@ typedef struct s_player
 	int cibo;
 	int smeraldi;
 } t_player;
+
+
+typedef struct s_infoplayer //TODO implemntare la struct seriamente!
+{
+	t_tipoplayer tipo;
+	char atteggiamento;
+	char nome[20]; //TODO eliminare magick number
+} t_infoplayer;
 
 //funzioni file
 int caricaconfig(char *nomefile);
@@ -178,5 +187,6 @@ int CurrentPlayer;
 t_infogioco infogioco;
 t_infomappa infomappa;
 t_dtruppa Dtruppa[NUMTRUPPE];
-t_player* giocatore[MAXGIOCATORI];
+t_player *giocatore[MAXGIOCATORI];
+t_infoplayer *infogiocatore[MAXGIOCATORI];
 t_callback_s tr_callback[NUMTRUPPE];

@@ -973,30 +973,31 @@ void gtk_carica_immagini()
 	int i,j;
 	char Buf[64];
 	char Buf2[64];
-	
+	char BufErr[128];
+	const char *err="impossibile caricare l'immagine ";
 	//carico il file di configurazione
 	caricaconfig("fantasy.config");
 	//carico immagini del gioco
 	sprintf(Buf,"img/fantasy-icon.xpm");
 	if((Immagine.err=gdk_pixbuf_new_from_file_at_size(Buf,Dim_casella,Dim_casella,NULL)) == NULL)
 	{
-		perror("impossibile caricare l'immagine");
+		perror("impossibile caricare l'immagine fantasy-icon.xpm");
 		exit(1);
 	}
 	if((Immagine.logo=gdk_pixbuf_new_from_file_at_size(Buf,Dim_casella,Dim_casella,NULL)) == NULL)
 	{
-		perror("impossibile caricare l'immagine");
+		perror("impossibile caricare l'immagine fantasy-icon.xpm");
 		exit(1);
 	}
 	if((Immagine.decorazione=gdk_pixbuf_new_from_file_at_size(Buf,Dim_casella/2,Dim_casella/2,NULL)) == NULL)
 	{
-		perror("impossibile caricare l'immagine");
+		perror("impossibile caricare l'immagine fantasy-icon.xpm");
 		exit(1);
 	}
 	sprintf(Buf,"img/freccia.xpm");
 	if((Immagine.freccia=gdk_pixbuf_new_from_file_at_size(Buf,Dim_casella-7,Dim_casella-7,NULL)) == NULL)
 	{
-		perror("impossibile caricare l'immagine");
+		perror("impossibile caricare l'immagine freccia.xpm");
 		exit(1);
 	}
 	// carico immagini da skin
@@ -1006,7 +1007,9 @@ void gtk_carica_immagini()
 	strcat(Buf,infogioco.ext);
 	if((Immagine.movimento=gdk_pixbuf_new_from_file_at_size(Buf,Dim_casella,Dim_casella,NULL)) == NULL)
 	{
-		perror("impossibile caricare l'immagine");
+		sprintf(BufErr,"%s", err);
+		strcat(BufErr,Buf);
+		perror(BufErr);
 		Immagine.movimento=Immagine.err;
 	}
 	sprintf(Buf,"skin/");
@@ -1015,7 +1018,9 @@ void gtk_carica_immagini()
 	strcat(Buf,infogioco.ext);
 	if((Immagine.attacco=gdk_pixbuf_new_from_file_at_size(Buf,Dim_casella,Dim_casella,NULL)) == NULL)
 	{
-		perror("impossibile caricare l'immagine");
+		sprintf(BufErr,"%s", err);
+		strcat(BufErr,Buf);
+		perror(BufErr);
 		Immagine.attacco=Immagine.err;
 	}
 	
@@ -1029,7 +1034,9 @@ void gtk_carica_immagini()
 		strcat(Buf,infogioco.ext); // non esistono XPM ancora. colossale standardizzazione richiesta per le skin.
 		if((Immagine.p[i]=gdk_pixbuf_new_from_file_at_size(Buf,Dim_casella,Dim_casella,NULL)) == NULL)
 		{
-			perror("impossibile caricare l'immagine");
+			sprintf(BufErr,"%s", err);
+			strcat(BufErr,Buf);
+			perror(BufErr);
 			Immagine.p[i]=Immagine.err;
 		}
 	}
@@ -1044,7 +1051,9 @@ void gtk_carica_immagini()
 		strcat(Buf,infogioco.ext);
 		if((Immagine.a[i]=gdk_pixbuf_new_from_file_at_size(Buf,Dim_casella/2,Dim_casella/2,NULL)) == NULL)
 		{
-			perror("impossibile caricare l'immagine");
+			sprintf(BufErr,"%s", err);
+			strcat(BufErr,Buf);
+			perror(BufErr);
 			Immagine.a[i]=Immagine.err;
 		}
 	}
@@ -1059,7 +1068,9 @@ void gtk_carica_immagini()
 			strcat(Buf,infogioco.ext);
 			if((Immagine.c[i][j]=gdk_pixbuf_new_from_file_at_size(Buf,Dim_casella,Dim_casella,NULL)) == NULL)
 			{
-				perror("impossibile caricare l'immagine");
+				sprintf(BufErr,"%s", err);
+				strcat(BufErr,Buf);
+				perror(BufErr);
 				Immagine.c[i][j]=Immagine.err;
 			}
 		}
@@ -1074,7 +1085,9 @@ void gtk_carica_immagini()
 			strcat(Buf,infogioco.ext);
 			if((Immagine.g[i][j]=gdk_pixbuf_new_from_file_at_size(Buf,Dim_casella,Dim_casella,NULL)) == NULL)
 			{
-				perror("impossibile caricare l'immagine");
+				sprintf(BufErr,"%s", err);
+				strcat(BufErr,Buf);
+				perror(BufErr);
 				Immagine.g[i][j]=Immagine.err;
 			}
 		}
@@ -1089,7 +1102,9 @@ void gtk_carica_immagini()
 			strcat(Buf,infogioco.ext);
 			if((Immagine.s[i][j]=gdk_pixbuf_new_from_file_at_size(Buf,Dim_casella,Dim_casella,NULL)) == NULL)
 			{
-				perror("impossibile caricare l'immagine");
+				sprintf(BufErr,"%s", err);
+				strcat(BufErr,Buf);
+				perror(BufErr);
 				Immagine.s[i][j]=Immagine.err;
 			}
 		}
@@ -1104,7 +1119,9 @@ void gtk_carica_immagini()
 			strcat(Buf,infogioco.ext);
 			if((Immagine.f[i][j]=gdk_pixbuf_new_from_file_at_size(Buf,Dim_casella,Dim_casella,NULL)) == NULL)
 			{
-				perror("impossibile caricare l'immagine");
+				sprintf(BufErr,"%s", err);
+				strcat(BufErr,Buf);
+				perror(BufErr);
 				Immagine.f[i][j]=Immagine.err;
 			}
 		}
@@ -1119,7 +1136,9 @@ void gtk_carica_immagini()
 			strcat(Buf,infogioco.ext);
 			if((Immagine.n[i][j]=gdk_pixbuf_new_from_file_at_size(Buf,Dim_casella,Dim_casella,NULL)) == NULL)
 			{
-				perror("impossibile caricare l'immagine");
+				sprintf(BufErr,"%s", err);
+				strcat(BufErr,Buf);
+				perror(BufErr);
 				Immagine.n[i][j]=Immagine.err;
 			}
 		}
@@ -1134,7 +1153,9 @@ void gtk_carica_immagini()
 			strcat(Buf,infogioco.ext);
 			if((Immagine.t[i][j]=gdk_pixbuf_new_from_file_at_size(Buf,Dim_casella,Dim_casella,NULL)) == NULL)
 			{
-				perror("impossibile caricare l'immagine");
+				sprintf(BufErr,"%s", err);
+				strcat(BufErr,Buf);
+				perror(BufErr);
 				Immagine.t[i][j]=Immagine.err;
 			}
 		}

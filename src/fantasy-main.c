@@ -138,20 +138,27 @@ static void click_turno()
 	int W;
 	
 	if(partita_in_corso==0) return;
-	if(giocatore[CurrentPlayer]!=NULL)
+	if(giocatore[CurrentPlayer]!=NULL && infogiocatore[CurrentPlayer]!=NULL)
 	{
-		fineturno();
-		gtk_aggiorna_giocatore_c();
-		gtk_aggiorna_contarisorse();
-		gtk_aggiorna_tab_castelli();
-		gtk_aggiorna_tab_strutture();
-		gtk_aggiorna_tab_armate();
-		gtk_pulisci_mappa();
-		gtk_stampa_mappa(cx,cy,'n');
-		W=controllovincitore();
-		if(W!=0)
+		if(infogiocatore[CurrentPlayer]->tipo==Locale)
 		{
-			gtk_proclama_vincitore(W);
+			fineturno();
+			gtk_aggiorna_giocatore_c();
+			gtk_aggiorna_contarisorse();
+			gtk_aggiorna_tab_castelli();
+			gtk_aggiorna_tab_strutture();
+			gtk_aggiorna_tab_armate();
+			gtk_pulisci_mappa();
+			gtk_stampa_mappa(cx,cy,'n');
+			W=controllovincitore();
+			if(W!=0)
+			{
+				gtk_proclama_vincitore(W);
+			}
+		}
+		else
+		{
+			printf("debug: frocio chi legge! non provare a fregare l'IA...\n");
 		}
 	}
 

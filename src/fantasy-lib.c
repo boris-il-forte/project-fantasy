@@ -114,6 +114,7 @@ void inizializza()
 	for(i=0; i<MAXGROTTE; i++)infomappa.grotte[i]=-1;
 	for(i=0; i<MAXNIDI; i++)infomappa.nidi[i]=-1;
 	for(i=0; i<MAXGIOCATORI; i++)giocatore[i]=NULL;
+	for(i=0; i<MAXGIOCATORI; i++)infogiocatore[i]=NULL;
 	for(i=0; i<ALTEZZA; i++)
 		for(j=0; j<LARGHEZZA; j++)
 		{
@@ -326,6 +327,7 @@ void creagiocatori(int n)
 	{
 		fprintf(stderr,"creo giocatore n:%d\n",i);
 		giocatore[i]=(t_player*)malloc(sizeof(t_player));
+		infogiocatore[i]=(t_infoplayer*)malloc(sizeof(t_infoplayer));
 		giocatore[i]->oro=INIZIO_ORO;
 		giocatore[i]->cibo=INIZIO_CIBO;
 		giocatore[i]->smeraldi=INIZIO_SMERALDI;
@@ -334,6 +336,9 @@ void creagiocatori(int n)
 		giocatore[i]->struttura[Cas]->in=NULL;
 		giocatore[i]->struttura[Cas]->next=NULL;
 		giocatore[i]->truppe=NULL;
+		infogiocatore[i]->tipo=Locale;
+		sprintf(infogiocatore[i]->nome, "Giocatore %d", i);
+		infogiocatore[i]->atteggiamento='u';
 		for(j=1;j<NUMSTRUTTURE;j++)giocatore[i]->struttura[j]=NULL;
 	}
 	while(i<MAXGIOCATORI)
@@ -589,6 +594,7 @@ void liberaheap()
 				T=Tn;
 			}
 			free(giocatore[i]);
+			free(infogiocatore[i]);
 		}
 	}
 	for(i=0; i<ALTEZZA*LARGHEZZA; i++)free(infomappa.truppe[i]);
@@ -611,7 +617,9 @@ void liberagiocatore(int G)
 	}
 	//elimina il resto della struttura dati
 	free(giocatore[G]);
+	free(infogiocatore[G]);
 	giocatore[G]=NULL;
+	infogiocatore[G]=NULL;
 }
 
 //calcola il costo del percorso più breve utilizzando l'algoritmo di Dijkstra
