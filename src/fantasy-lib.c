@@ -96,7 +96,7 @@ void caricadati()
 	//dati fenice
 	Dtruppa[Fen].att=2000;
 	Dtruppa[Fen].dif=800;
-	Dtruppa[Rec].git=2;
+	Dtruppa[Fen].git=2;
 	Dtruppa[Fen].vel=25;
 	Dtruppa[Fen].mor=80;
 	Dtruppa[Fen].oro=2500;

@@ -55,7 +55,7 @@ static void chiudi_da_menu()
 	GtkWidget * Domanda;
 	
 	Domanda=gtk_label_new("Vuoi veramente uscire?");
-	Dialogo=gtk_dialog_new_with_buttons("Fantasy C",NULL,GTK_DIALOG_DESTROY_WITH_PARENT, "Si",GTK_RESPONSE_YES, "No",GTK_RESPONSE_NO,NULL);
+	Dialogo=gtk_dialog_new_with_buttons("Fantasy C",NULL,GTK_DIALOG_DESTROY_WITH_PARENT | GTK_DIALOG_MODAL, "Si",GTK_RESPONSE_YES, "No",GTK_RESPONSE_NO,NULL);
 	gtk_box_pack_start(GTK_BOX(gtk_dialog_get_content_area(GTK_DIALOG(Dialogo))),Domanda, TRUE, TRUE, 0);
 	gtk_widget_show(Domanda);
 	gtk_window_set_icon(GTK_WINDOW(Dialogo),Immagine.logo);
@@ -103,6 +103,7 @@ static void salva_carica(int Data)
 			if(carica(buf)!=0)
 			{
 				Dialogo=gtk_dialog_new();
+				gtk_window_set_modal(GTK_WINDOW(Dialogo),TRUE);
 				gtk_dialog_add_buttons(GTK_DIALOG(Dialogo),GTK_STOCK_OK,1,NULL);
 				gtk_window_set_icon(GTK_WINDOW(Dialogo),Immagine.logo);
 				gtk_window_set_title(GTK_WINDOW(Dialogo),"Errore!");
@@ -152,6 +153,7 @@ static void nuova_partita()
 	IA=(GtkAdjustment *)gtk_adjustment_new(3, 0, MAXGIOCATORI-1, 1, 1, 0);
 	g_signal_connect(Giocatori, "value_changed", G_CALLBACK(set_adjustmentmax), IA);
 	Dialogo=gtk_dialog_new();
+	gtk_window_set_modal(GTK_WINDOW(Dialogo),TRUE);
 	gtk_dialog_add_buttons(GTK_DIALOG(Dialogo),"Inizia!",1,"Annulla",0,NULL);
 	gtk_dialog_set_default_response(GTK_DIALOG(Dialogo),1);
 	gtk_window_set_icon(GTK_WINDOW(Dialogo),Immagine.logo);
@@ -217,6 +219,7 @@ static void preferenze()
 	fprintf(stderr,"debug preferenze\n");
 	subdirs_no=listaskin("skin",sottodir);
 	Dialogo=gtk_dialog_new();
+	gtk_window_set_modal(GTK_WINDOW(Dialogo),TRUE);
 	gtk_dialog_add_buttons(GTK_DIALOG(Dialogo),"Salva",1,"Ripristina",2,"Annulla",0,NULL);
 	gtk_window_set_icon(GTK_WINDOW(Dialogo),Immagine.logo);
 	gtk_window_set_title(GTK_WINDOW(Dialogo),"Fantasy C Config");
@@ -346,7 +349,7 @@ static void addestra_truppa(t_callback_s* Struct)
 	}
 	else
 	{
-		Dialogo=gtk_dialog_new_with_buttons("F.C.",NULL,GTK_DIALOG_DESTROY_WITH_PARENT,GTK_STOCK_OK,GTK_RESPONSE_ACCEPT,NULL);
+		Dialogo=gtk_dialog_new_with_buttons("F.C.",NULL,GTK_DIALOG_DESTROY_WITH_PARENT | GTK_DIALOG_MODAL,GTK_STOCK_OK,GTK_RESPONSE_ACCEPT,NULL);
 		gtk_window_set_icon(GTK_WINDOW(Dialogo),Immagine.logo);
 		switch(r)
 		{
@@ -696,7 +699,7 @@ static void click_nido(char* pos)
 	//Fenici
 	oggetto=gtk_menu_item_new_with_label("Fenici");
 	gtk_menu_shell_append(GTK_MENU_SHELL(lista), oggetto);
-	g_signal_connect_swapped(oggetto, "activate", G_CALLBACK(addestra_truppa),(gpointer)&tr_callback[Dra]);
+	g_signal_connect_swapped(oggetto, "activate", G_CALLBACK(addestra_truppa),(gpointer)&tr_callback[Fen]);
 	gtk_widget_show(oggetto);
 	//attacca la lista alla scelta
 	gtk_menu_item_set_submenu(GTK_MENU_ITEM(scelta), lista);
@@ -738,7 +741,7 @@ static void click_unita(char* pos, GdkEventButton *Event)
 	int Pos=(int)(pos-infomappa.mappa);
 	
 	T=infomappa.truppe[Pos];
-	if(Event-> button==3)
+	if(Event->button==3)
 	{
 		if(T->combattuto==0)
 		{
@@ -749,7 +752,7 @@ static void click_unita(char* pos, GdkEventButton *Event)
 		}
 		else
 		{
-			Dialogo=gtk_dialog_new_with_buttons("F.C.",NULL,GTK_DIALOG_DESTROY_WITH_PARENT,GTK_STOCK_OK,GTK_RESPONSE_ACCEPT,NULL);
+			Dialogo=gtk_dialog_new_with_buttons("F.C.",NULL,GTK_DIALOG_DESTROY_WITH_PARENT | GTK_DIALOG_MODAL,GTK_STOCK_OK,GTK_RESPONSE_ACCEPT,NULL);
 			gtk_window_set_icon(GTK_WINDOW(Dialogo),Immagine.logo);
 			Label=gtk_label_new("unità in combattimento!");
 			gtk_widget_show(Label);
@@ -770,7 +773,7 @@ static void click_unita(char* pos, GdkEventButton *Event)
 		}
 		else
 		{
-			Dialogo=gtk_dialog_new_with_buttons("F.C.",NULL,GTK_DIALOG_DESTROY_WITH_PARENT,GTK_STOCK_OK,GTK_RESPONSE_ACCEPT,NULL);
+			Dialogo=gtk_dialog_new_with_buttons("F.C.",NULL,GTK_DIALOG_DESTROY_WITH_PARENT | GTK_DIALOG_MODAL,GTK_STOCK_OK,GTK_RESPONSE_ACCEPT,NULL);
 			gtk_window_set_icon(GTK_WINDOW(Dialogo),Immagine.logo);
 			if(T->stanca==1)Label=gtk_label_new("unità stanca!");
 			else Label=gtk_label_new("unità in combattimento!");
@@ -814,7 +817,7 @@ static void click_assediocastello(char* pos)
 	if(controllosconfitto(G)==1)
 	{
 		liberagiocatore(G);
-		Dialogo=gtk_dialog_new_with_buttons("F.C.",NULL,GTK_DIALOG_DESTROY_WITH_PARENT,GTK_STOCK_OK,GTK_RESPONSE_ACCEPT,NULL);
+		Dialogo=gtk_dialog_new_with_buttons("F.C.",NULL,GTK_DIALOG_DESTROY_WITH_PARENT | GTK_DIALOG_MODAL,GTK_STOCK_OK,GTK_RESPONSE_ACCEPT,NULL);
 		gtk_window_set_icon(GTK_WINDOW(Dialogo),Immagine.logo);
 		sprintf(buf," il giocatore %d \n è stato sconfitto! ",G+1);
 		Label=gtk_label_new(buf);
@@ -849,7 +852,7 @@ static void click_assaltostruttura(char* pos)
 	if(controllosconfitto(G)==1)
 	{
 		liberagiocatore(G);
-		Dialogo=gtk_dialog_new_with_buttons("F.C.",NULL,GTK_DIALOG_DESTROY_WITH_PARENT,GTK_STOCK_OK,GTK_RESPONSE_ACCEPT,NULL);
+		Dialogo=gtk_dialog_new_with_buttons("F.C.",NULL,GTK_DIALOG_DESTROY_WITH_PARENT | GTK_DIALOG_MODAL,GTK_STOCK_OK,GTK_RESPONSE_ACCEPT,NULL);
 		gtk_window_set_icon(GTK_WINDOW(Dialogo),Immagine.logo);
 		sprintf(buf," il giocatore %d \n è stato sconfitto! ",G+1);
 		Label=gtk_label_new(buf);
@@ -920,7 +923,7 @@ static void click_unisci(char* pos)
 	S_Callback[b].somma=somma;
 	g_signal_connect(UA, "value_changed", G_CALLBACK(set_adjustmentvalue), &S_Callback[b]);
 	g_signal_connect(UB, "value_changed", G_CALLBACK(set_adjustmentvalue), &S_Callback[a]);
-	Dialogo=gtk_dialog_new_with_buttons("Fantasy C",NULL,GTK_DIALOG_DESTROY_WITH_PARENT, GTK_STOCK_OK,GTK_RESPONSE_YES,GTK_STOCK_CANCEL,GTK_RESPONSE_NO,NULL);
+	Dialogo=gtk_dialog_new_with_buttons("Fantasy C",NULL,GTK_DIALOG_DESTROY_WITH_PARENT | GTK_DIALOG_MODAL, GTK_STOCK_OK,GTK_RESPONSE_YES,GTK_STOCK_CANCEL,GTK_RESPONSE_NO,NULL);
 	gtk_window_set_icon(GTK_WINDOW(Dialogo),Immagine.logo);
 	Vbox=gtk_vbox_new(TRUE,0);
 	gtk_box_pack_start(GTK_BOX(gtk_dialog_get_content_area(GTK_DIALOG(Dialogo))),Vbox, TRUE, TRUE, 0);
@@ -1862,7 +1865,6 @@ void gtk_aggiorna_tab_strutture()
 	t_listapertab* Tab;
 	t_listapertab* Tabp;
 	
-	fprintf(stderr, "debug: gtk_aggiorna_tab_strutture\n");
 	for(i=1; i<NUMSTRUTTURE;i++)S[i-1]=giocatore[CurrentPlayer]->struttura[i];
 	Tab=Listastrutture;
 	while(Tab!=NULL)
@@ -2235,7 +2237,6 @@ void gtk_popup_combattimento(GtkWidget* Casella, int Perdite)
 	Toplevel=gtk_widget_get_toplevel(Casella);
 	gdk_window_get_root_origin(gtk_widget_get_window(Toplevel),&wx,&wy);
 	gtk_widget_translate_coordinates(Casella,Toplevel, wx,wy, &x, &y);
-	fprintf(stderr,"debug: x=%d y=%d wx=%d wy=%d\n",x,y,wx,wy);
 	if(Perdite>0) sprintf(buf,"<span foreground=\"red\">-%d</span>",Perdite);
 	else sprintf(buf,"<span foreground=\"green\">%d</span>",Perdite);
 	Popup=gtk_window_new(GTK_WINDOW_POPUP);
@@ -2255,7 +2256,7 @@ void gtk_proclama_vincitore(int g)
 	GtkWidget *Dialogo;
 	GtkWidget *Label;
 	
-	Dialogo=gtk_dialog_new_with_buttons("Fantasy C",NULL,GTK_DIALOG_DESTROY_WITH_PARENT, "Nuova partita",1, "Carica",2,"Esci",3,NULL);
+	Dialogo=gtk_dialog_new_with_buttons("Fantasy C",NULL,GTK_DIALOG_DESTROY_WITH_PARENT | GTK_DIALOG_MODAL, "Nuova partita",1, "Carica",2,"Esci",3,NULL);
 	gtk_window_set_icon(GTK_WINDOW(Dialogo),Immagine.logo);
 	sprintf(buf," il giocatore %d ha vinto la partita! ",g);
 	Label=gtk_label_new(buf);
