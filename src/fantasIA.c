@@ -149,7 +149,7 @@ void *fantasia_giocatore_artificiale(void *P)
 	free(param);
 	
 	//main loop IA
-	while(controllosconfitto(numeroGiocatore)==0)
+	while(giocatore[numeroGiocatore]!=NULL)
 	{
 		if(numeroGiocatore==CurrentPlayer)
 		{
@@ -162,7 +162,7 @@ void *fantasia_giocatore_artificiale(void *P)
 		sleep(1);
 	}
 	free(param);
-	exit(0);
+	return NULL;
 }
 
 
