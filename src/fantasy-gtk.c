@@ -1172,15 +1172,11 @@ void gtk_calcola_dimensioni()
 	
 	w=gdk_screen_get_width(gdk_screen_get_default());
 	h=gdk_screen_get_height(gdk_screen_get_default());
-	Dim_casella=0.045*MIN(w,h)+3;
+	Dim_casella=0.05*MIN(w,h)+3;//FIXME
 	wof=4*Dim_casella;
 	hof=7*Dim_casella;
 	caselle_orizzontali=(w-wof)/Dim_casella; // 27 eee
 	caselle_verticali=(h-hof)/Dim_casella; // 16 eee
-//	if(h>=960) Dim_casella=40;
-//	else if(h>=720) Dim_casella=30;
-//	else if(h>=480) Dim_casella=20;
-//	else Dim_casella=10;
 	printf("\nCasella: %dpx\nOrizzontali: %d Verticali: %d\n",Dim_casella,caselle_orizzontali,caselle_verticali);
 }
 
