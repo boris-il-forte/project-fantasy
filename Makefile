@@ -1,5 +1,5 @@
 CC=gcc
-SRCPATH=./src/
+vpath %.c ./src
 LIBSGTK=$(shell pkg-config --cflags --libs gtk+-2.0)
 #LIBSGTK=$(shell pkg-config --cflags --libs gtk+-3.0)
 LIBS=$(LIBSGTK)
@@ -13,28 +13,38 @@ CFLAGS+=-DGTK_DISABLE_SINGLE_INCLUDES -DGDK_DISABLE_DEPRECATED -DGTK_DISABLE_DEP
 
 TARGET=gbin
 
-PROGRAM_OBJS=$(SRCPATH)fantasy-main.o $(SRCPATH)fantasy-lib.o $(SRCPATH)fantasy-loadsave.o $(SRCPATH)fantasy-gtk.o $(SRCPATH)fantasIA.o $(SRCPATH)fantasIA-gtk.o
-EDITOR_OBJS=$(SRCPATH)fantasy-editor.o $(SRCPATH)fantasy-gtk.o $(SRCPATH)fantasy-lib.o $(SRCPATH)fantasy-loadsave.o $(SRCPATH)fantasIA.o $(SRCPATH)fantasIA-gtk.o
+SRC=fantasy-lib.c fantasy-loadsave.c fantasy-gtk.c fantasIA.c fantasIA-gtk.c
+MAIN_SRC =$(SRC) fantasy-main.c 
+EDITOR_SRC=$(SRC) fantasy-editor.c
 
-all: $(TARGET) editor
+PROGRAM_OBJS = $(patsubst %.c,build/%.o,$(MAIN_SRC)) 
+EDITOR_OBJS = $(patsubst %.c,build/%.o,$(EDITOR_SRC)) 
+
+all: build $(TARGET) editor
+
+build:
+	mkdir -p $@
+
+build/%.o : %.c
+	@echo building: $<
+	@$(CC) $(CFLAGS) $(LIBSGTK) -c $< -o $@
 
 $(TARGET): $(PROGRAM_OBJS)
-	$(CC) $(CFLAGS) $(LDFLAGS) $(LIBS) $(PROGRAM_OBJS) -o $(TARGET)
+	@echo building game executable
+	@$(CC) $(CFLAGS) $(LDFLAGS) $(LIBS) $(PROGRAM_OBJS) -o $(TARGET)
 
 editor: $(EDITOR_OBJS)
-	$(CC) $(CFLAGS) $(LDFLAGS) $(LIBS) $(EDITOR_OBJS) -o editor
-
-.c.o:
-	$(CC) $(CFLAGS) $(LIBSGTK) -c $< -o $@
+	@echo building editor executable
+	@$(CC) $(CFLAGS) $(LDFLAGS) $(LIBS) $(EDITOR_OBJS) -o editor
 
 cleanobj:
 	rm -f $(PROGRAM_OBJS)
+	rm -f $(EDITOR_OBJS)
+	rmdir ./build/
 
-cleaneditor:
-	rm -f $(EDITOR_OBJS) editor
-
-clean: cleanobj cleaneditor
+clean: cleanobj
 	rm -f $(TARGET)
 
 mrproper: clean
 	rm -f *~
+
