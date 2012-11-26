@@ -1,0 +1,143 @@
+Grammatica
+
+    0 $accept: calculus $end
+
+    1 calculus: /* vuoto */
+    2         | wellFormedFormula END_RULE
+
+    3 wellFormedFormula: TRUE
+    4                  | FALSE
+    5                  | ID
+    6                  | wellFormedFormula OP_OR wellFormedFormula
+    7                  | wellFormedFormula OP_AND wellFormedFormula
+
+
+Simboli terminali e regole in cui appaiono
+
+$end (0) 0
+error (256)
+TRUE (258) 3
+FALSE (259) 4
+ID (260) 5
+END_RULE (261) 2
+OP_OR (262) 6
+OP_AND (263) 7
+
+
+Simboli nonterminali e regole in cui appaiono
+
+$accept (9)
+    nel primo membro: 0
+calculus (10)
+    nel primo membro: 1 2, nel secondo membro: 0
+wellFormedFormula (11)
+    nel primo membro: 3 4 5 6 7, nel secondo membro: 2 6 7
+
+
+stato 0
+
+    0 $accept: . calculus $end
+
+    TRUE   shift e prosecuzione allo stato 1
+    FALSE  shift e prosecuzione allo stato 2
+    ID     shift e prosecuzione allo stato 3
+
+    $default  riduzione con la regola 1 (calculus)
+
+    calculus           prosecuzione allo stato 4
+    wellFormedFormula  prosecuzione allo stato 5
+
+
+stato 1
+
+    3 wellFormedFormula: TRUE .
+
+    $default  riduzione con la regola 3 (wellFormedFormula)
+
+
+stato 2
+
+    4 wellFormedFormula: FALSE .
+
+    $default  riduzione con la regola 4 (wellFormedFormula)
+
+
+stato 3
+
+    5 wellFormedFormula: ID .
+
+    $default  riduzione con la regola 5 (wellFormedFormula)
+
+
+stato 4
+
+    0 $accept: calculus . $end
+
+    $end  shift e prosecuzione allo stato 6
+
+
+stato 5
+
+    2 calculus: wellFormedFormula . END_RULE
+    6 wellFormedFormula: wellFormedFormula . OP_OR wellFormedFormula
+    7                  | wellFormedFormula . OP_AND wellFormedFormula
+
+    END_RULE  shift e prosecuzione allo stato 7
+    OP_OR     shift e prosecuzione allo stato 8
+    OP_AND    shift e prosecuzione allo stato 9
+
+
+stato 6
+
+    0 $accept: calculus $end .
+
+    $default  accetta
+
+
+stato 7
+
+    2 calculus: wellFormedFormula END_RULE .
+
+    $default  riduzione con la regola 2 (calculus)
+
+
+stato 8
+
+    6 wellFormedFormula: wellFormedFormula OP_OR . wellFormedFormula
+
+    TRUE   shift e prosecuzione allo stato 1
+    FALSE  shift e prosecuzione allo stato 2
+    ID     shift e prosecuzione allo stato 3
+
+    wellFormedFormula  prosecuzione allo stato 10
+
+
+stato 9
+
+    7 wellFormedFormula: wellFormedFormula OP_AND . wellFormedFormula
+
+    TRUE   shift e prosecuzione allo stato 1
+    FALSE  shift e prosecuzione allo stato 2
+    ID     shift e prosecuzione allo stato 3
+
+    wellFormedFormula  prosecuzione allo stato 11
+
+
+stato 10
+
+    6 wellFormedFormula: wellFormedFormula . OP_OR wellFormedFormula
+    6                  | wellFormedFormula OP_OR wellFormedFormula .
+    7                  | wellFormedFormula . OP_AND wellFormedFormula
+
+    OP_AND  shift e prosecuzione allo stato 9
+
+    $default  riduzione con la regola 6 (wellFormedFormula)
+
+
+stato 11
+
+    6 wellFormedFormula: wellFormedFormula . OP_OR wellFormedFormula
+    7                  | wellFormedFormula . OP_AND wellFormedFormula
+    7                  | wellFormedFormula OP_AND wellFormedFormula .
+
+    $default  riduzione con la regola 7 (wellFormedFormula)
