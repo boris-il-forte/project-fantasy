@@ -7,15 +7,20 @@
 %}
 DIGIT [0-9]
 CAPITAL [A-Z]
-LETTER [a-z]CAPITAL
+LETTER [a-z]|CAPITAL
 BLANK [ \n\r\t]
 %%
 
 {BLANK}
 {CAPITAL}({LETTER}|{DIGIT})* { return ID; }
-"&&" { return OP_AND; }
-"||" { return OP_OR; }
-"0" {return FALSE;}
-"1" {return TRUE;}
-";" {return END_RULE;}
-. { yyerror ("Unknown char"); return UNKNOWN;}
+"and" { return OP_AND; }
+"or" { return OP_OR; }
+"~" { return OP_NOT; }
+"==>" { return THEN; }
+"is" { return IS; }
+"(" { return OPEN_B; }
+")" { return CLOSE_B; }
+"0" { return FALSE; }
+"1" { return TRUE; }
+";" { return END_RULE; }
+. { yyerror ("Unknown char"); return UNKNOWN; }

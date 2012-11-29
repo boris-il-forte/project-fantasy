@@ -42,7 +42,12 @@
      ID = 260,
      END_RULE = 261,
      OP_OR = 262,
-     OP_AND = 263
+     OP_AND = 263,
+     OP_NOT = 264,
+     OPEN_B = 265,
+     CLOSE_B = 266,
+     THEN = 267,
+     IS = 268
    };
 #endif
 

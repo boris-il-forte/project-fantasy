@@ -1,15 +1,22 @@
+Stato 9 2 conflitti shift/riduzione
+
+
 Grammatica
 
     0 $accept: calculus $end
 
     1 calculus: /* vuoto */
-    2         | wellFormedFormula END_RULE
+    2         | calculus wellFormedFormula THEN fuzzyAssignment END_RULE
 
     3 wellFormedFormula: TRUE
     4                  | FALSE
-    5                  | ID
-    6                  | wellFormedFormula OP_OR wellFormedFormula
-    7                  | wellFormedFormula OP_AND wellFormedFormula
+    5                  | OPEN_B wellFormedFormula CLOSE_B
+    6                  | fuzzyAssignment
+    7                  | OP_NOT wellFormedFormula
+    8                  | wellFormedFormula OP_OR wellFormedFormula
+    9                  | wellFormedFormula OP_AND wellFormedFormula
+
+   10 fuzzyAssignment: OPEN_B ID IS ID CLOSE_B
 
 
 Simboli terminali e regole in cui appaiono
@@ -18,126 +25,251 @@ $end (0) 0
 error (256)
 TRUE (258) 3
 FALSE (259) 4
-ID (260) 5
+ID (260) 10
 END_RULE (261) 2
-OP_OR (262) 6
-OP_AND (263) 7
+OP_OR (262) 8
+OP_AND (263) 9
+OP_NOT (264) 7
+OPEN_B (265) 5 10
+CLOSE_B (266) 5 10
+THEN (267) 2
+IS (268) 10
 
 
 Simboli nonterminali e regole in cui appaiono
 
-$accept (9)
+$accept (14)
     nel primo membro: 0
-calculus (10)
-    nel primo membro: 1 2, nel secondo membro: 0
-wellFormedFormula (11)
-    nel primo membro: 3 4 5 6 7, nel secondo membro: 2 6 7
+calculus (15)
+    nel primo membro: 1 2, nel secondo membro: 0 2
+wellFormedFormula (16)
+    nel primo membro: 3 4 5 6 7 8 9, nel secondo membro: 2 5 7 8 9
+fuzzyAssignment (17)
+    nel primo membro: 10, nel secondo membro: 2 6
 
 
 stato 0
 
     0 $accept: . calculus $end
 
-    TRUE   shift e prosecuzione allo stato 1
-    FALSE  shift e prosecuzione allo stato 2
-    ID     shift e prosecuzione allo stato 3
-
     $default  riduzione con la regola 1 (calculus)
 
-    calculus           prosecuzione allo stato 4
-    wellFormedFormula  prosecuzione allo stato 5
+    calculus  prosecuzione allo stato 1
 
 
 stato 1
 
-    3 wellFormedFormula: TRUE .
+    0 $accept: calculus . $end
+    2 calculus: calculus . wellFormedFormula THEN fuzzyAssignment END_RULE
 
-    $default  riduzione con la regola 3 (wellFormedFormula)
+    $end    shift e prosecuzione allo stato 2
+    TRUE    shift e prosecuzione allo stato 3
+    FALSE   shift e prosecuzione allo stato 4
+    OP_NOT  shift e prosecuzione allo stato 5
+    OPEN_B  shift e prosecuzione allo stato 6
+
+    wellFormedFormula  prosecuzione allo stato 7
+    fuzzyAssignment    prosecuzione allo stato 8
 
 
 stato 2
-
-    4 wellFormedFormula: FALSE .
-
-    $default  riduzione con la regola 4 (wellFormedFormula)
-
-
-stato 3
-
-    5 wellFormedFormula: ID .
-
-    $default  riduzione con la regola 5 (wellFormedFormula)
-
-
-stato 4
-
-    0 $accept: calculus . $end
-
-    $end  shift e prosecuzione allo stato 6
-
-
-stato 5
-
-    2 calculus: wellFormedFormula . END_RULE
-    6 wellFormedFormula: wellFormedFormula . OP_OR wellFormedFormula
-    7                  | wellFormedFormula . OP_AND wellFormedFormula
-
-    END_RULE  shift e prosecuzione allo stato 7
-    OP_OR     shift e prosecuzione allo stato 8
-    OP_AND    shift e prosecuzione allo stato 9
-
-
-stato 6
 
     0 $accept: calculus $end .
 
     $default  accetta
 
 
+stato 3
+
+    3 wellFormedFormula: TRUE .
+
+    $default  riduzione con la regola 3 (wellFormedFormula)
+
+
+stato 4
+
+    4 wellFormedFormula: FALSE .
+
+    $default  riduzione con la regola 4 (wellFormedFormula)
+
+
+stato 5
+
+    7 wellFormedFormula: OP_NOT . wellFormedFormula
+
+    TRUE    shift e prosecuzione allo stato 3
+    FALSE   shift e prosecuzione allo stato 4
+    OP_NOT  shift e prosecuzione allo stato 5
+    OPEN_B  shift e prosecuzione allo stato 6
+
+    wellFormedFormula  prosecuzione allo stato 9
+    fuzzyAssignment    prosecuzione allo stato 8
+
+
+stato 6
+
+    5 wellFormedFormula: OPEN_B . wellFormedFormula CLOSE_B
+   10 fuzzyAssignment: OPEN_B . ID IS ID CLOSE_B
+
+    TRUE    shift e prosecuzione allo stato 3
+    FALSE   shift e prosecuzione allo stato 4
+    ID      shift e prosecuzione allo stato 10
+    OP_NOT  shift e prosecuzione allo stato 5
+    OPEN_B  shift e prosecuzione allo stato 6
+
+    wellFormedFormula  prosecuzione allo stato 11
+    fuzzyAssignment    prosecuzione allo stato 8
+
+
 stato 7
 
-    2 calculus: wellFormedFormula END_RULE .
+    2 calculus: calculus wellFormedFormula . THEN fuzzyAssignment END_RULE
+    8 wellFormedFormula: wellFormedFormula . OP_OR wellFormedFormula
+    9                  | wellFormedFormula . OP_AND wellFormedFormula
 
-    $default  riduzione con la regola 2 (calculus)
+    OP_OR   shift e prosecuzione allo stato 12
+    OP_AND  shift e prosecuzione allo stato 13
+    THEN    shift e prosecuzione allo stato 14
 
 
 stato 8
 
-    6 wellFormedFormula: wellFormedFormula OP_OR . wellFormedFormula
-
-    TRUE   shift e prosecuzione allo stato 1
-    FALSE  shift e prosecuzione allo stato 2
-    ID     shift e prosecuzione allo stato 3
-
-    wellFormedFormula  prosecuzione allo stato 10
-
-
-stato 9
-
-    7 wellFormedFormula: wellFormedFormula OP_AND . wellFormedFormula
-
-    TRUE   shift e prosecuzione allo stato 1
-    FALSE  shift e prosecuzione allo stato 2
-    ID     shift e prosecuzione allo stato 3
-
-    wellFormedFormula  prosecuzione allo stato 11
-
-
-stato 10
-
-    6 wellFormedFormula: wellFormedFormula . OP_OR wellFormedFormula
-    6                  | wellFormedFormula OP_OR wellFormedFormula .
-    7                  | wellFormedFormula . OP_AND wellFormedFormula
-
-    OP_AND  shift e prosecuzione allo stato 9
+    6 wellFormedFormula: fuzzyAssignment .
 
     $default  riduzione con la regola 6 (wellFormedFormula)
 
 
+stato 9
+
+    7 wellFormedFormula: OP_NOT wellFormedFormula .
+    8                  | wellFormedFormula . OP_OR wellFormedFormula
+    9                  | wellFormedFormula . OP_AND wellFormedFormula
+
+    OP_OR   shift e prosecuzione allo stato 12
+    OP_AND  shift e prosecuzione allo stato 13
+
+    OP_OR     [riduzione con la regola 7 (wellFormedFormula)]
+    OP_AND    [riduzione con la regola 7 (wellFormedFormula)]
+    $default  riduzione con la regola 7 (wellFormedFormula)
+
+
+stato 10
+
+   10 fuzzyAssignment: OPEN_B ID . IS ID CLOSE_B
+
+    IS  shift e prosecuzione allo stato 15
+
+
 stato 11
 
-    6 wellFormedFormula: wellFormedFormula . OP_OR wellFormedFormula
-    7                  | wellFormedFormula . OP_AND wellFormedFormula
-    7                  | wellFormedFormula OP_AND wellFormedFormula .
+    5 wellFormedFormula: OPEN_B wellFormedFormula . CLOSE_B
+    8                  | wellFormedFormula . OP_OR wellFormedFormula
+    9                  | wellFormedFormula . OP_AND wellFormedFormula
 
-    $default  riduzione con la regola 7 (wellFormedFormula)
+    OP_OR    shift e prosecuzione allo stato 12
+    OP_AND   shift e prosecuzione allo stato 13
+    CLOSE_B  shift e prosecuzione allo stato 16
+
+
+stato 12
+
+    8 wellFormedFormula: wellFormedFormula OP_OR . wellFormedFormula
+
+    TRUE    shift e prosecuzione allo stato 3
+    FALSE   shift e prosecuzione allo stato 4
+    OP_NOT  shift e prosecuzione allo stato 5
+    OPEN_B  shift e prosecuzione allo stato 6
+
+    wellFormedFormula  prosecuzione allo stato 17
+    fuzzyAssignment    prosecuzione allo stato 8
+
+
+stato 13
+
+    9 wellFormedFormula: wellFormedFormula OP_AND . wellFormedFormula
+
+    TRUE    shift e prosecuzione allo stato 3
+    FALSE   shift e prosecuzione allo stato 4
+    OP_NOT  shift e prosecuzione allo stato 5
+    OPEN_B  shift e prosecuzione allo stato 6
+
+    wellFormedFormula  prosecuzione allo stato 18
+    fuzzyAssignment    prosecuzione allo stato 8
+
+
+stato 14
+
+    2 calculus: calculus wellFormedFormula THEN . fuzzyAssignment END_RULE
+
+    OPEN_B  shift e prosecuzione allo stato 19
+
+    fuzzyAssignment  prosecuzione allo stato 20
+
+
+stato 15
+
+   10 fuzzyAssignment: OPEN_B ID IS . ID CLOSE_B
+
+    ID  shift e prosecuzione allo stato 21
+
+
+stato 16
+
+    5 wellFormedFormula: OPEN_B wellFormedFormula CLOSE_B .
+
+    $default  riduzione con la regola 5 (wellFormedFormula)
+
+
+stato 17
+
+    8 wellFormedFormula: wellFormedFormula . OP_OR wellFormedFormula
+    8                  | wellFormedFormula OP_OR wellFormedFormula .
+    9                  | wellFormedFormula . OP_AND wellFormedFormula
+
+    OP_AND  shift e prosecuzione allo stato 13
+
+    $default  riduzione con la regola 8 (wellFormedFormula)
+
+
+stato 18
+
+    8 wellFormedFormula: wellFormedFormula . OP_OR wellFormedFormula
+    9                  | wellFormedFormula . OP_AND wellFormedFormula
+    9                  | wellFormedFormula OP_AND wellFormedFormula .
+
+    $default  riduzione con la regola 9 (wellFormedFormula)
+
+
+stato 19
+
+   10 fuzzyAssignment: OPEN_B . ID IS ID CLOSE_B
+
+    ID  shift e prosecuzione allo stato 10
+
+
+stato 20
+
+    2 calculus: calculus wellFormedFormula THEN fuzzyAssignment . END_RULE
+
+    END_RULE  shift e prosecuzione allo stato 22
+
+
+stato 21
+
+   10 fuzzyAssignment: OPEN_B ID IS ID . CLOSE_B
+
+    CLOSE_B  shift e prosecuzione allo stato 23
+
+
+stato 22
+
+    2 calculus: calculus wellFormedFormula THEN fuzzyAssignment END_RULE .
+
+    $default  riduzione con la regola 2 (calculus)
+
+
+stato 23
+
+   10 fuzzyAssignment: OPEN_B ID IS ID CLOSE_B .
+
+    $default  riduzione con la regola 10 (fuzzyAssignment)
