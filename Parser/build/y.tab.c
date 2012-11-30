@@ -69,10 +69,11 @@
 #line 1 "./src/parser.y"
 
 	# include<stdio.h>
+	extern FILE *yyin;
 
 
 /* Line 268 of yacc.c  */
-#line 76 "./build/y.tab.c"
+#line 77 "./build/y.tab.c"
 
 /* Enabling traces.  */
 #ifndef YYDEBUG
@@ -127,7 +128,7 @@ typedef int YYSTYPE;
 
 
 /* Line 343 of yacc.c  */
-#line 131 "./build/y.tab.c"
+#line 132 "./build/y.tab.c"
 
 #ifdef short
 # undef short
@@ -346,7 +347,7 @@ union yyalloc
 /* YYFINAL -- State number of the termination state.  */
 #define YYFINAL  2
 /* YYLAST -- Last index in YYTABLE.  */
-#define YYLAST   33
+#define YYLAST   32
 
 /* YYNTOKENS -- Number of terminals.  */
 #define YYNTOKENS  14
@@ -429,7 +430,7 @@ static const char *const yytname[] =
 {
   "$end", "error", "$undefined", "TRUE", "FALSE", "ID", "END_RULE",
   "OP_OR", "OP_AND", "OP_NOT", "OPEN_B", "CLOSE_B", "THEN", "IS",
-  "$accept", "calculus", "wellFormedFormula", "fuzzyAssignment", 0
+  "$accept", "ruleSet", "wellFormedFormula", "fuzzyAssignment", 0
 };
 #endif
 
@@ -478,9 +479,9 @@ static const yytype_int8 yydefgoto[] =
 #define YYPACT_NINF -7
 static const yytype_int8 yypact[] =
 {
-      -7,     0,    -7,    -7,    -7,    15,    12,    19,    -7,     4,
-      -5,    -6,    15,    15,    10,    18,    -7,    20,    -7,    24,
-      26,    22,    -7,    -7
+      -7,     0,    -7,    -7,    -7,    15,    12,    19,    -7,    -7,
+      -5,    -6,    15,    15,     2,     6,    -7,    -7,    13,    18,
+      22,    21,    -7,    -7
 };
 
 /* YYPGOTO[NTERM-NUM].  */
@@ -496,9 +497,9 @@ static const yytype_int8 yypgoto[] =
 static const yytype_uint8 yytable[] =
 {
        2,    12,    13,     3,     4,    16,     9,    11,    15,     5,
-       6,    12,    13,    17,    18,     3,     4,    10,     3,     4,
-      19,     5,     6,    21,     5,     6,    12,    13,    13,    10,
-      20,    14,    22,    23
+       6,    21,    19,    17,    18,     3,     4,    10,     3,     4,
+      12,     5,     6,    10,     5,     6,    12,    13,    22,     0,
+      20,    14,    23
 };
 
 #define yypact_value_is_default(yystate) \
@@ -507,12 +508,12 @@ static const yytype_uint8 yytable[] =
 #define yytable_value_is_error(yytable_value) \
   YYID (0)
 
-static const yytype_uint8 yycheck[] =
+static const yytype_int8 yycheck[] =
 {
        0,     7,     8,     3,     4,    11,     5,     6,    13,     9,
-      10,     7,     8,    12,    13,     3,     4,     5,     3,     4,
-      10,     9,    10,     5,     9,    10,     7,     8,     8,     5,
-      14,    12,     6,    11
+      10,     5,    10,    12,    13,     3,     4,     5,     3,     4,
+       7,     9,    10,     5,     9,    10,     7,     8,     6,    -1,
+      14,    12,    11
 };
 
 /* YYSTOS[STATE-NUM] -- The (internal number of the) accessing
@@ -1355,14 +1356,7 @@ yyreduce:
   YY_REDUCE_PRINT (yyn);
   switch (yyn)
     {
-        case 3:
-
-/* Line 1806 of yacc.c  */
-#line 24 "./src/parser.y"
-    {return 0;}
-    break;
-
-  case 4:
+        case 4:
 
 /* Line 1806 of yacc.c  */
 #line 27 "./src/parser.y"
@@ -1376,38 +1370,45 @@ yyreduce:
     {(yyval) = 0;printf("ricevuto falso\n");}
     break;
 
+  case 6:
+
+/* Line 1806 of yacc.c  */
+#line 29 "./src/parser.y"
+    {(yyval) = (yyvsp[(2) - (3)]);}
+    break;
+
   case 7:
 
 /* Line 1806 of yacc.c  */
 #line 30 "./src/parser.y"
-    {(yyval) = 1;}
+    {(yyval) = 1; printf("letto assegnamento fuzzy: %d\n", (yyval));}
     break;
 
   case 8:
 
 /* Line 1806 of yacc.c  */
 #line 31 "./src/parser.y"
-    {(yyval) = !(yyvsp[(2) - (2)]);}
+    {(yyval) = !(yyvsp[(2) - (2)]); printf("!%d fa %s\n", (yyvsp[(2) - (2)]),(yyval)?"vero":"falso");}
     break;
 
   case 9:
 
 /* Line 1806 of yacc.c  */
 #line 32 "./src/parser.y"
-    {(yyval) = (yyvsp[(1) - (3)]) || (yyvsp[(2) - (3)]); printf("%d or %d fa %s\n", (yyvsp[(1) - (3)]),(yyvsp[(2) - (3)]),(yyval)?"vero":"falso");}
+    {(yyval) = (yyvsp[(1) - (3)]) || (yyvsp[(3) - (3)]); printf("%d or %d fa %s\n", (yyvsp[(1) - (3)]),(yyvsp[(3) - (3)]),(yyval)?"vero":"falso");}
     break;
 
   case 10:
 
 /* Line 1806 of yacc.c  */
 #line 33 "./src/parser.y"
-    {(yyval) = (yyvsp[(1) - (3)]) && (yyvsp[(2) - (3)]); printf("%d and %d fa %s\n", (yyvsp[(1) - (3)]),(yyvsp[(2) - (3)]),(yyval)?"vero":"falso");}
+    {(yyval) = (yyvsp[(1) - (3)]) && (yyvsp[(3) - (3)]); printf("%d and %d fa %s\n", (yyvsp[(1) - (3)]),(yyvsp[(3) - (3)]),(yyval)?"vero":"falso");}
     break;
 
 
 
 /* Line 1806 of yacc.c  */
-#line 1411 "./build/y.tab.c"
+#line 1412 "./build/y.tab.c"
       default: break;
     }
   /* User semantic actions sometimes alter yychar, and that requires
@@ -1638,7 +1639,7 @@ yyreturn:
 
 
 /* Line 2067 of yacc.c  */
-#line 38 "./src/parser.y"
+#line 39 "./src/parser.y"
 
 
 int yyerror(char * msg) 
@@ -1649,6 +1650,21 @@ int yyerror(char * msg)
 
 int main(int argc, char* argv[]) 
 {
+	if (argc > 1)
+	{
+		// open a file handle to a particular file:
+		FILE *myfile = fopen(argv[1], "r");
+		// make sure it's valid:
+		if (!myfile) 
+		{
+			perror("Fatal error");
+			return -1;
+		}
+		// set lex to read from it instead of defaulting to STDIN:
+		yyin = myfile;
+	}
+	
 	return yyparse();
+	
 }
 

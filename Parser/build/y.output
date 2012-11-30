@@ -1,12 +1,9 @@
-Stato 9 2 conflitti shift/riduzione
-
-
 Grammatica
 
-    0 $accept: calculus $end
+    0 $accept: ruleSet $end
 
-    1 calculus: /* vuoto */
-    2         | calculus wellFormedFormula THEN fuzzyAssignment END_RULE
+    1 ruleSet: /* vuoto */
+    2        | ruleSet wellFormedFormula THEN fuzzyAssignment END_RULE
 
     3 wellFormedFormula: TRUE
     4                  | FALSE
@@ -40,7 +37,7 @@ Simboli nonterminali e regole in cui appaiono
 
 $accept (14)
     nel primo membro: 0
-calculus (15)
+ruleSet (15)
     nel primo membro: 1 2, nel secondo membro: 0 2
 wellFormedFormula (16)
     nel primo membro: 3 4 5 6 7 8 9, nel secondo membro: 2 5 7 8 9
@@ -50,17 +47,17 @@ fuzzyAssignment (17)
 
 stato 0
 
-    0 $accept: . calculus $end
+    0 $accept: . ruleSet $end
 
-    $default  riduzione con la regola 1 (calculus)
+    $default  riduzione con la regola 1 (ruleSet)
 
-    calculus  prosecuzione allo stato 1
+    ruleSet  prosecuzione allo stato 1
 
 
 stato 1
 
-    0 $accept: calculus . $end
-    2 calculus: calculus . wellFormedFormula THEN fuzzyAssignment END_RULE
+    0 $accept: ruleSet . $end
+    2 ruleSet: ruleSet . wellFormedFormula THEN fuzzyAssignment END_RULE
 
     $end    shift e prosecuzione allo stato 2
     TRUE    shift e prosecuzione allo stato 3
@@ -74,7 +71,7 @@ stato 1
 
 stato 2
 
-    0 $accept: calculus $end .
+    0 $accept: ruleSet $end .
 
     $default  accetta
 
@@ -123,7 +120,7 @@ stato 6
 
 stato 7
 
-    2 calculus: calculus wellFormedFormula . THEN fuzzyAssignment END_RULE
+    2 ruleSet: ruleSet wellFormedFormula . THEN fuzzyAssignment END_RULE
     8 wellFormedFormula: wellFormedFormula . OP_OR wellFormedFormula
     9                  | wellFormedFormula . OP_AND wellFormedFormula
 
@@ -145,11 +142,6 @@ stato 9
     8                  | wellFormedFormula . OP_OR wellFormedFormula
     9                  | wellFormedFormula . OP_AND wellFormedFormula
 
-    OP_OR   shift e prosecuzione allo stato 12
-    OP_AND  shift e prosecuzione allo stato 13
-
-    OP_OR     [riduzione con la regola 7 (wellFormedFormula)]
-    OP_AND    [riduzione con la regola 7 (wellFormedFormula)]
     $default  riduzione con la regola 7 (wellFormedFormula)
 
 
@@ -199,7 +191,7 @@ stato 13
 
 stato 14
 
-    2 calculus: calculus wellFormedFormula THEN . fuzzyAssignment END_RULE
+    2 ruleSet: ruleSet wellFormedFormula THEN . fuzzyAssignment END_RULE
 
     OPEN_B  shift e prosecuzione allo stato 19
 
@@ -226,8 +218,6 @@ stato 17
     8                  | wellFormedFormula OP_OR wellFormedFormula .
     9                  | wellFormedFormula . OP_AND wellFormedFormula
 
-    OP_AND  shift e prosecuzione allo stato 13
-
     $default  riduzione con la regola 8 (wellFormedFormula)
 
 
@@ -236,6 +226,8 @@ stato 18
     8 wellFormedFormula: wellFormedFormula . OP_OR wellFormedFormula
     9                  | wellFormedFormula . OP_AND wellFormedFormula
     9                  | wellFormedFormula OP_AND wellFormedFormula .
+
+    OP_OR  shift e prosecuzione allo stato 12
 
     $default  riduzione con la regola 9 (wellFormedFormula)
 
@@ -249,7 +241,7 @@ stato 19
 
 stato 20
 
-    2 calculus: calculus wellFormedFormula THEN fuzzyAssignment . END_RULE
+    2 ruleSet: ruleSet wellFormedFormula THEN fuzzyAssignment . END_RULE
 
     END_RULE  shift e prosecuzione allo stato 22
 
@@ -263,9 +255,9 @@ stato 21
 
 stato 22
 
-    2 calculus: calculus wellFormedFormula THEN fuzzyAssignment END_RULE .
+    2 ruleSet: ruleSet wellFormedFormula THEN fuzzyAssignment END_RULE .
 
-    $default  riduzione con la regola 2 (calculus)
+    $default  riduzione con la regola 2 (ruleSet)
 
 
 stato 23
