@@ -9,13 +9,10 @@ Gionnico:
 Boris_il_forte:
 - IA 											| priorità alta
 - Minimappa										| priorità media
-- Debug vario										| priorità bassa
+- Debug vario									| priorità bassa
 
 
 Il_RatMan:
-- Reclute
-- Fanti
-- Lancieri
 - Scuderia
 - Fattoria
 - Nido
@@ -25,8 +22,6 @@ Il_RatMan:
 - Icona prossima unità
 - Icona prossimo castello
 - Icona prossimo nemico vicino
-- Drago
-- Fenice
 
 Chiunque: 										| priorità molto bassa
 - Zoom in & out

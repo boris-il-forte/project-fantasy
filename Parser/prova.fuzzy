@@ -1,0 +1,4 @@
+(Sun is Shining) and (Girl is Beautiful) ==> (Dave is Happy);
+~((Sun is Shining) and (Girl is Beautiful)) ==> (Dave is Sad);
+(Sun is Shining) and ~(Girl is Beautiful) ==> (Dave is LittleSad);
+

@@ -37,24 +37,36 @@
    /* Put the tokens into the symbol table, so that GDB and other debuggers
       know about them.  */
    enum yytokentype {
-     TRUE = 258,
-     FALSE = 259,
-     ID = 260,
-     END_RULE = 261,
-     OP_OR = 262,
-     OP_AND = 263,
-     OP_NOT = 264,
-     OPEN_B = 265,
-     CLOSE_B = 266,
-     THEN = 267,
-     IS = 268
+     ID = 258,
+     END_RULE = 259,
+     OP_OR = 260,
+     OP_AND = 261,
+     OP_NOT = 262,
+     OPEN_B = 263,
+     CLOSE_B = 264,
+     THEN = 265,
+     IS = 266,
+     LIKE = 267,
+     COMMA = 268,
+     F_LABEL = 269,
+     PARAMETER = 270
    };
 #endif
 
 
 
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
-typedef int YYSTYPE;
+typedef union YYSTYPE
+{
+
+/* Line 2068 of yacc.c  */
+#line 10 "./src/parser.y"
+int integer; char* str; t_rule* nodo; t_rulebase* regola; t_fuzzyset* fset; t_paramlist* fshape;
+
+
+/* Line 2068 of yacc.c  */
+#line 69 "./build/y.tab.h"
+} YYSTYPE;
 # define YYSTYPE_IS_TRIVIAL 1
 # define yystype YYSTYPE /* obsolescent; will be withdrawn */
 # define YYSTYPE_IS_DECLARED 1

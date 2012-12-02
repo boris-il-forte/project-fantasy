@@ -1,8 +1,0 @@
-(Sun is Shining) and (Temperature is Warm)	
-						==> (Day is Beautiful);
-(Sun is Shining) and ~(Temperature is Warm) 
-						==> (Day is NotSoBad);
-~(Sun is Shining) and ~(Temperature is Warm) 
-						==> (Day is Bad);
-~((Sun is Shining) and (Temperature is Warm))	
-						==> (Day is Beautiful);
