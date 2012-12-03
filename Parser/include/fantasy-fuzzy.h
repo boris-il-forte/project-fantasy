@@ -29,6 +29,7 @@ typedef struct s_rule
 	t_nodo tipo;
 	struct s_rule* destro;
 	struct s_rule* sinistro;
+	void* dati;
 	char* nome;
 } t_rule;
 
@@ -60,12 +61,11 @@ typedef struct s_fuzzyset
 //Funzione per la gestione dei fuzzy set
 t_paramlist* creaParametri(t_paramlist* parametriPrecedenti, int parametro);
 t_fuzzyset* creaFuzzySet(char* label, char* mfname, t_paramlist* parameters, t_fuzzyset* testa);
+int matchFuzzySet(t_fuzzyset* fuzzysetRoot, t_rule* nodo);
 
 //Funzioni per la gestione dei nodi
 t_rule* creaNodo(t_nodo tipo,t_rule* sinistro, t_rule* destro, const char* nome);
-
 t_rulebase* aggiungiAllaLista(t_rulebase* testa, t_rule* rule, t_rule* target);
-
 double visitaAlbero(t_rule* radice);
 
 //Funzioni per far partire il controllore fuzzy

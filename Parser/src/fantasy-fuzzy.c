@@ -160,6 +160,26 @@ t_fuzzyset* creaFuzzySet(char* label, char* mfname, t_paramlist* parameters, t_f
 	return fuzzySet;
 }
 
+//Cerca il fuzzy set corrispondente nella lista
+int matchFuzzySet(t_fuzzyset* fuzzysetRoot, t_rule* nodo)
+{
+	int found = 0;
+	t_fuzzyset* fuzzySet = fuzzysetRoot;
+	char* label = nodo->nome;
+	while(fuzzySet != NULL && !found)
+	{
+		if(strcmp(fuzzySet->label, label) == 0)
+		{
+			nodo->dati = fuzzySet;
+			found = 1;
+		}
+		
+		fuzzySet = fuzzySet->next;
+	}
+
+	return found;
+}
+
 //crea un nodo dell'albero della regola
 t_rule* creaNodo(t_nodo tipo, t_rule* sinistro, t_rule* destro, const char* nome)
 {

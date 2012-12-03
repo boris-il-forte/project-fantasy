@@ -41,7 +41,12 @@ fuzzyFile		: fuzzySet ruleSet
 			;
 
 fuzzySet		: /* Empty */ { $$ = NULL; }
-			| ID LIKE F_LABEL shape END_RULE fuzzySet { $$ = creaFuzzySet($1, $3, $4, $6); if($$ = NULL) return 1; fuzzysetRoot = $$; }
+			| ID LIKE F_LABEL shape END_RULE fuzzySet 
+			{ 
+				$$ = creaFuzzySet($1, $3, $4, $6); 
+				if($$ = NULL) YYABORT; 
+				fuzzysetRoot = $$; 
+			}
 			;
 			
 shape			: OPEN_B parametersList CLOSE_B {$$ = $2;}
@@ -62,7 +67,13 @@ wellFormedFormula	: fuzzyAssignment {$$ = $1;}
 			| wellFormedFormula OP_AND wellFormedFormula {$$ = creaNodo(AND_N, $1, $3, "");}
 			;
 
-fuzzyAssignment		: OPEN_B ID IS ID CLOSE_B {t_rule* sinistro = creaNodo(ID_N, NULL, NULL, $2); t_rule* destro = creaNodo(ID_N, NULL, NULL, $4); $$ = creaNodo(IS_N, sinistro, destro, "");}
+fuzzyAssignment		: OPEN_B ID IS ID CLOSE_B 
+			{
+				t_rule* sinistro = creaNodo(ID_N, NULL, NULL, $2); 
+				t_rule* destro = creaNodo(ID_N, NULL, NULL, $4); 
+				$$ = creaNodo(IS_N, sinistro, destro, "");
+				if(!matchFuzzySet(fuzzysetRoot, destro))  YYABORT;
+			}
 			;
 
 %%
@@ -95,3 +106,4 @@ int main(int argc, char* argv[])
 	}
 	return 0;
 }
+
