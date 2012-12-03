@@ -95,6 +95,7 @@ struct s_mflist
 {
 	const char* mfname;
 	const t_mfunction function;
+	int paramNumber;
 };
 
 

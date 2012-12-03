@@ -21,7 +21,7 @@ FUZZYLABEL tol|tor|tri|tra|int|sgt
 
 {BLANK} { num_column++; }
 {NEWLINE} { num_line++; num_column = 0; }
-{CAPITAL}({LETTER}|{DIGIT})* { COUNT; return ID; }
+{CAPITAL}({LETTER}|{DIGIT})* { COUNT; yylval.str = strdup(yytext); return ID; }
 {DIGIT}+ {COUNT; yylval.integer = atoi(yytext); return PARAMETER; }
 {FUZZYLABEL} { COUNT; return F_LABEL; }
 "and" { COUNT; return OP_AND; }

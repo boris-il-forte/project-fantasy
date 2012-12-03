@@ -775,7 +775,7 @@ YY_RULE_SETUP
 case 3:
 YY_RULE_SETUP
 #line 24 "./src/scanner.l"
-{ COUNT; return ID; }
+{ COUNT; yylval.str = strdup(yytext); return ID; }
 	YY_BREAK
 case 4:
 YY_RULE_SETUP

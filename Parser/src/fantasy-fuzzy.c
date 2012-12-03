@@ -23,14 +23,15 @@
 /*
  * lista costantate per le MF
  */
+
 const struct s_mflist listaMF[] =
 {
-	{"tol", f_tol},
-	{"tor", f_tor},
-	{"tri", f_tri},
-	{"tra", f_tra},
-	{"int", f_int},
-	{"sgt", f_sgt}
+	{"tol", f_tol, 2},
+	{"tor", f_tor, 2},
+	{"tri", f_tri, 3},
+	{"tra", f_tra, 4},
+	{"int", f_int, 2},
+	{"sgt", f_sgt, 1}
 };
 
 
@@ -52,6 +53,8 @@ static double max(double a, double b, double alfa)
 //l'operatore is è la funzione di appartenenza della variabile linguistica (sinistro) all'insieme fuzzy (destro)
 static double fuzzy_is(t_rule* sinistro, t_rule* destro)
 {
+	double valore = visitaAlbero(sinistro);
+	
 	return 1;
 }
 
@@ -120,6 +123,7 @@ t_paramlist* creaParametri(t_paramlist* parametriPrecedenti, int parametro)
 {
 	t_paramlist* parametri = parametriPrecedenti;
 	
+	if(parametri->paramNumber == MAX_PARAM_NUMBER) return parametri;
 	if(parametri == NULL)
 	{
 		parametri = (t_paramlist*) malloc(sizeof(t_paramlist));
@@ -131,19 +135,23 @@ t_paramlist* creaParametri(t_paramlist* parametriPrecedenti, int parametro)
 	return parametri;
 }
 
-
 //crea un fuzzy set
 t_fuzzyset* creaFuzzySet(char* label, char* mfname, t_paramlist* parameters, t_fuzzyset* testa)
 {
 	int i;
 	t_fuzzyset* fuzzySet = (t_fuzzyset*)malloc(sizeof(t_fuzzyset));
-	t_mfunction mfunction;
+	t_mfunction mfunction = NULL;
 	
-	if(label == NULL || mfname == NULL) return 0;
+	if(label == NULL || mfname == NULL) return NULL;
 	for(i = 0; i < MF_NUMBER; i++)
 	{
-		if(strcmp(listaMF[i].mfname, mfname) == 0) mfunction = listaMF[i].function;
+		if(strcmp(listaMF[i].mfname, mfname) == 0) 
+		{
+			mfunction = listaMF[i].function;
+			if(parameters->paramNumber != listaMF[i].paramNumber) return NULL;
+		}
 	}
+	if(mfunction == NULL) return NULL;
 	fuzzySet->label = strdup(label);
 	fuzzySet->parameters = parameters;
 	fuzzySet->mfunction = mfunction;

@@ -1390,7 +1390,7 @@ yyreduce:
 
 /* Line 1806 of yacc.c  */
 #line 44 "./src/parser.y"
-    { (yyval.fset) = creaFuzzySet((yyvsp[(1) - (6)].str), (yyvsp[(3) - (6)].str), (yyvsp[(4) - (6)].fshape), (yyvsp[(6) - (6)].fset)); fuzzysetRoot = (yyval.fset); }
+    { (yyval.fset) = creaFuzzySet((yyvsp[(1) - (6)].str), (yyvsp[(3) - (6)].str), (yyvsp[(4) - (6)].fshape), (yyvsp[(6) - (6)].fset)); if((yyval.fset) = NULL) return 1; fuzzysetRoot = (yyval.fset); }
     break;
 
   case 5:

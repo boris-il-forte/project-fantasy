@@ -41,7 +41,7 @@ fuzzyFile		: fuzzySet ruleSet
 			;
 
 fuzzySet		: /* Empty */ { $$ = NULL; }
-			| ID LIKE F_LABEL shape END_RULE fuzzySet { $$ = creaFuzzySet($1, $3, $4, $6); fuzzysetRoot = $$; }
+			| ID LIKE F_LABEL shape END_RULE fuzzySet { $$ = creaFuzzySet($1, $3, $4, $6); if($$ = NULL) return 1; fuzzysetRoot = $$; }
 			;
 			
 shape			: OPEN_B parametersList CLOSE_B {$$ = $2;}
