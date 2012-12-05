@@ -19,10 +19,29 @@
 #include <stdio.h>
 #include <string.h>
 
+/*
+ * Lista delle variabili crisp
+ */
+
+struct s_crispdata
+{
+	const char* label;
+	int* var;
+	struct s_crispdata* next;
+};
+
+struct s_crispdata* crispData = NULL;
 
 /*
- * lista costantate per le MF
+ * Lista costantate per le MF
  */
+
+struct s_mflist
+{
+	const char* mfname;
+	const t_mfunction function;
+	int paramNumber;
+};
 
 const struct s_mflist listaMF[] =
 {
@@ -33,7 +52,6 @@ const struct s_mflist listaMF[] =
 	{"int", f_int, 2},
 	{"sgt", f_sgt, 1}
 };
-
 
 /*
  * Funzioni ausiliarie
@@ -46,6 +64,13 @@ static double max(double a, double b, double alfa)
 	return (max > alfa) ? max : alfa;
 }
 
+//retta valore della retta passante per (x1,y1) e (x2,y2) nel punto x;
+double retta(int x1, double y1, int x2, double y2, int x)
+{
+	double m =  (y2 - y1) / (x2 - x1);
+	return m*(x - x1) + y1;
+}
+
 /*
  * Operatori Fuzzy
  */
@@ -53,9 +78,10 @@ static double max(double a, double b, double alfa)
 //l'operatore is è la funzione di appartenenza della variabile linguistica (sinistro) all'insieme fuzzy (destro)
 static double fuzzy_is(t_rule* sinistro, t_rule* destro)
 {
-	double valore = visitaAlbero(sinistro);
+	int* valore = (int*) sinistro->dati;
+	t_fuzzyset* fuzzySet = (t_fuzzyset*) destro->dati;
 	
-	return 1;
+	return fuzzySet->mfunction(fuzzySet->parameters, *valore);
 }
 
 //l'operatore and fuzzy, osia una T-norm che dipende dal parametro alfa
@@ -86,32 +112,86 @@ static double fuzzy_not(t_rule* destro)
 
 double f_tol(t_paramlist* parameters, int value)
 {
-	return 0;
+	if(parameters->paramNumber != 2) return 0;
+	int a = parameters->param[0];
+	int b = parameters->param[1];
+	
+	if(value < a)
+		return 1.0;
+	else if(value > b)
+		return 0;
+	else
+		return retta(a, 1.0, b, 0, value);
 }
 
 double f_tor(t_paramlist* parameters, int value)
 {
-	return 0;
+	if(parameters->paramNumber != 2) return 0;
+	int a = parameters->param[0];
+	int b = parameters->param[1];
+	
+	if(value > b)
+		return 1.0;
+	else if(value < a)
+		return 0;
+	else
+		return retta(a, 0, b, 1.0, value);
 }
 
 double f_tri(t_paramlist* parameters, int value)
 {
-	return 0;
+	if(parameters->paramNumber != 3) return 0;
+	int a = parameters->param[0];
+	int b = parameters->param[1];
+	int c =  parameters->param[2];
+	
+	if(value < c)
+		return retta(a, 0, b, 1.0, value);
+	else if(value > c)
+		return retta(a, 1.0, b, 0, value);
+	else 
+		return 1.0;
 }
 
 double f_tra(t_paramlist* parameters, int value)
 {
-	return 0;
+	if(parameters->paramNumber != 4) return 0;
+	int a = parameters->param[0];
+	int b = parameters->param[1];
+	int c = parameters->param[2];
+	int d = parameters->param[3];
+	
+	if(value < a || value > d) 
+		return 0;
+	else if(value > a && value < b) 
+		return retta(a, 0, b, 1.0, value);
+	else if(value > c && value < d) 
+		return retta(c, 1.0, d, 0, value);
+	else
+		return  1.0;
 }
 
 double f_int(t_paramlist* parameters, int value)
 {
-	return 0;
+	if(parameters->paramNumber != 2) return 0;
+	int a = parameters->param[0];
+	int b = parameters->param[1];
+	
+	if(value > a && value < b)
+		return 1.0;
+	else
+		return 0;
 }
 
 double f_sgt(t_paramlist* parameters, int value)
 {
-	return 0;
+	if(parameters->paramNumber != 2) return 0;
+	int a = parameters->param[0];
+	
+	if(value = a)
+		return 1.0;
+	else
+		return 0;
 } 
 
 /*
@@ -166,6 +246,7 @@ int matchFuzzySet(t_fuzzyset* fuzzysetRoot, t_rule* nodo)
 	int found = 0;
 	t_fuzzyset* fuzzySet = fuzzysetRoot;
 	char* label = nodo->nome;
+	
 	while(fuzzySet != NULL && !found)
 	{
 		if(strcmp(fuzzySet->label, label) == 0)
@@ -177,6 +258,54 @@ int matchFuzzySet(t_fuzzyset* fuzzysetRoot, t_rule* nodo)
 		fuzzySet = fuzzySet->next;
 	}
 
+	return found;
+}
+
+
+//Aggiunge una variabile alla lista
+void addCrispData(const char* label, int* var)
+{
+	struct s_crispdata* data = crispData;
+	struct s_crispdata* pData = NULL; 
+	
+	struct s_crispdata* newData = (struct s_crispdata*) malloc(sizeof(struct s_crispdata));
+	
+	newData->label = strdup(label);
+	newData->var = var;
+	newData->next = NULL;
+	
+	if(crispData == NULL)
+	{
+		crispData = newData;
+	}
+	
+	while(data != NULL)
+	{
+		pData = data;
+		data = data->next;
+	}
+	
+	pData->next = newData;
+}
+
+//Associa le variabili alle Label
+int matchVariables(t_rule* nodo)
+{
+	int found = 0;
+	char* label = nodo->nome;
+	struct s_crispdata* data = crispData; 
+	
+	while(data != NULL && !found)
+	{
+		if(strcmp(data->label, label) == 0)
+		{
+			nodo->dati = data->var;
+			found = 1;
+		}
+		
+		data = data->next;
+	}
+	
 	return found;
 }
 
@@ -219,21 +348,15 @@ double visitaAlbero(t_rule* radice)
 	switch(radice->tipo)
 	{
 		case AND_N:
-			printf("AND ");
 			return fuzzy_and(sinistro, destro);
 		case OR_N:
-			printf("OR ");
 			return fuzzy_or(sinistro, destro);
 		case NOT_N:
-			printf("NOT ");
 			return fuzzy_not(destro);
 		case IS_N:
-			printf("IS ");
 			return fuzzy_is(sinistro, destro);
-			break;
-		case ID_N:
-			printf("trovato ID: %s \n", radice->nome);
-			return 1;
+		default:
+			return 0;
 	}
 }
 

@@ -58,6 +58,10 @@ typedef struct s_fuzzyset
 } t_fuzzyset;
 
 
+//Funzioni per la gestione delle variabili
+void addCrispData(const char* label, int* var);
+int matchVariables(t_rule* nodo);
+
 //Funzione per la gestione dei fuzzy set
 t_paramlist* creaParametri(t_paramlist* parametriPrecedenti, int parametro);
 t_fuzzyset* creaFuzzySet(char* label, char* mfname, t_paramlist* parameters, t_fuzzyset* testa);
@@ -86,18 +90,3 @@ double f_tra(t_paramlist* parameters, int value);
 double f_int(t_paramlist* parameters, int value);
 
 double f_sgt(t_paramlist* parameters, int value);
-
-/*
- * Lista ausiliaria Membership Functions
- */
-
-struct s_mflist
-{
-	const char* mfname;
-	const t_mfunction function;
-	int paramNumber;
-};
-
-
-extern const struct s_mflist listaMF[];
-

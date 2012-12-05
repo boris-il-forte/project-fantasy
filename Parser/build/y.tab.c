@@ -437,8 +437,8 @@ static const yytype_int8 yyrhs[] =
 /* YYRLINE[YYN] -- source line where rule number YYN was defined.  */
 static const yytype_uint8 yyrline[] =
 {
-       0,    40,    40,    43,    44,    52,    55,    56,    59,    60,
-      63,    64,    65,    66,    67,    70
+       0,    40,    40,    43,    44,    52,    58,    62,    68,    69,
+      75,    79,    83,    87,    91,    97
 };
 #endif
 
@@ -1400,81 +1400,100 @@ yyreduce:
   case 5:
 
 /* Line 1806 of yacc.c  */
-#line 52 "./src/parser.y"
-    {(yyval.fshape) = (yyvsp[(2) - (3)].fshape);}
+#line 53 "./src/parser.y"
+    {
+				(yyval.fshape) = (yyvsp[(2) - (3)].fshape);
+			}
     break;
 
   case 6:
 
 /* Line 1806 of yacc.c  */
-#line 55 "./src/parser.y"
-    { (yyval.fshape) = creaParametri(NULL,(yyvsp[(1) - (1)].integer)); }
+#line 59 "./src/parser.y"
+    { 
+				(yyval.fshape) = creaParametri(NULL,(yyvsp[(1) - (1)].integer)); 
+			}
     break;
 
   case 7:
 
 /* Line 1806 of yacc.c  */
-#line 56 "./src/parser.y"
-    { (yyval.fshape) = creaParametri((yyvsp[(3) - (3)].fshape),(yyvsp[(1) - (3)].integer)); }
+#line 63 "./src/parser.y"
+    { 
+				(yyval.fshape) = creaParametri((yyvsp[(3) - (3)].fshape),(yyvsp[(1) - (3)].integer)); 
+			}
     break;
 
   case 8:
 
 /* Line 1806 of yacc.c  */
-#line 59 "./src/parser.y"
+#line 68 "./src/parser.y"
     {(yyval.regola) = NULL;}
     break;
 
   case 9:
 
 /* Line 1806 of yacc.c  */
-#line 60 "./src/parser.y"
-    {(yyval.regola) = aggiungiAllaLista((yyvsp[(5) - (5)].regola), (yyvsp[(1) - (5)].nodo), (yyvsp[(3) - (5)].nodo)); rulebaseRoot = (yyval.regola);}
+#line 70 "./src/parser.y"
+    {
+				(yyval.regola) = aggiungiAllaLista((yyvsp[(5) - (5)].regola), (yyvsp[(1) - (5)].nodo), (yyvsp[(3) - (5)].nodo)); rulebaseRoot = (yyval.regola);
+			}
     break;
 
   case 10:
 
 /* Line 1806 of yacc.c  */
-#line 63 "./src/parser.y"
-    {(yyval.nodo) = (yyvsp[(1) - (1)].nodo);}
+#line 76 "./src/parser.y"
+    {
+				(yyval.nodo) = (yyvsp[(1) - (1)].nodo);
+			}
     break;
 
   case 11:
 
 /* Line 1806 of yacc.c  */
-#line 64 "./src/parser.y"
-    {(yyval.nodo) = (yyvsp[(2) - (3)].nodo);}
+#line 80 "./src/parser.y"
+    {
+				(yyval.nodo) = (yyvsp[(2) - (3)].nodo);
+			}
     break;
 
   case 12:
 
 /* Line 1806 of yacc.c  */
-#line 65 "./src/parser.y"
-    {(yyval.nodo) = creaNodo(NOT_N, NULL, (yyvsp[(2) - (2)].nodo), "");}
+#line 84 "./src/parser.y"
+    {
+				(yyval.nodo) = creaNodo(NOT_N, NULL, (yyvsp[(2) - (2)].nodo), "");
+			}
     break;
 
   case 13:
 
 /* Line 1806 of yacc.c  */
-#line 66 "./src/parser.y"
-    {(yyval.nodo) = creaNodo(OR_N, (yyvsp[(1) - (3)].nodo), (yyvsp[(3) - (3)].nodo), "");}
+#line 88 "./src/parser.y"
+    {
+				(yyval.nodo) = creaNodo(OR_N, (yyvsp[(1) - (3)].nodo), (yyvsp[(3) - (3)].nodo), "");
+			}
     break;
 
   case 14:
 
 /* Line 1806 of yacc.c  */
-#line 67 "./src/parser.y"
-    {(yyval.nodo) = creaNodo(AND_N, (yyvsp[(1) - (3)].nodo), (yyvsp[(3) - (3)].nodo), "");}
+#line 92 "./src/parser.y"
+    {
+				(yyval.nodo) = creaNodo(AND_N, (yyvsp[(1) - (3)].nodo), (yyvsp[(3) - (3)].nodo), "");
+			}
     break;
 
   case 15:
 
 /* Line 1806 of yacc.c  */
-#line 71 "./src/parser.y"
+#line 98 "./src/parser.y"
     {
 				t_rule* sinistro = creaNodo(ID_N, NULL, NULL, (yyvsp[(2) - (5)].str)); 
 				t_rule* destro = creaNodo(ID_N, NULL, NULL, (yyvsp[(4) - (5)].str)); 
 				(yyval.nodo) = creaNodo(IS_N, sinistro, destro, "");
+				if(!matchVariables(sinistro)) YYABORT;
 				if(!matchFuzzySet(fuzzysetRoot, destro))  YYABORT;
 			}
     break;
@@ -1482,7 +1501,7 @@ yyreduce:
 
 
 /* Line 1806 of yacc.c  */
-#line 1486 "./build/y.tab.c"
+#line 1505 "./build/y.tab.c"
       default: break;
     }
   /* User semantic actions sometimes alter yychar, and that requires
@@ -1713,7 +1732,7 @@ yyreturn:
 
 
 /* Line 2067 of yacc.c  */
-#line 79 "./src/parser.y"
+#line 107 "./src/parser.y"
 
 
 int yyerror(char * msg) 
