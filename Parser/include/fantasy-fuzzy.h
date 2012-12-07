@@ -59,13 +59,17 @@ typedef struct s_fuzzyset
 
 
 //Funzioni per la gestione delle variabili
-void addCrispData(const char* label, int* var);
+void addCrispInput(const char* label, int* var);
+void addCrispOutput(const char* label, int* var);
 int matchVariables(t_rule* nodo);
+int matchOutputs(t_rule* nodo);
+
 
 //Funzione per la gestione dei fuzzy set
 t_paramlist* creaParametri(t_paramlist* parametriPrecedenti, int parametro);
 t_fuzzyset* creaFuzzySet(char* label, char* mfname, t_paramlist* parameters, t_fuzzyset* testa);
 int matchFuzzySet(t_fuzzyset* fuzzysetRoot, t_rule* nodo);
+int notSingletonAssignment(t_rule* assignment);
 
 //Funzioni per la gestione dei nodi
 t_rule* creaNodo(t_nodo tipo,t_rule* sinistro, t_rule* destro, const char* nome);

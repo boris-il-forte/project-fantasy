@@ -30,7 +30,8 @@ struct s_crispdata
 	struct s_crispdata* next;
 };
 
-struct s_crispdata* crispData = NULL;
+struct s_crispdata* crispInput = NULL;
+struct s_crispdata* crispOutput = NULL;
 
 /*
  * Lista costantate per le MF
@@ -262,10 +263,10 @@ int matchFuzzySet(t_fuzzyset* fuzzysetRoot, t_rule* nodo)
 }
 
 
-//Aggiunge una variabile alla lista
-void addCrispData(const char* label, int* var)
+//Aggiunge un dato crisp alla lista
+static void addCrispData(const char* label, int* var, struct s_crispdata** crispDataList)
 {
-	struct s_crispdata* data = crispData;
+	struct s_crispdata* data = *crispDataList;
 	struct s_crispdata* pData = NULL; 
 	
 	struct s_crispdata* newData = (struct s_crispdata*) malloc(sizeof(struct s_crispdata));
@@ -274,9 +275,9 @@ void addCrispData(const char* label, int* var)
 	newData->var = var;
 	newData->next = NULL;
 	
-	if(crispData == NULL)
+	if(*crispDataList == NULL)
 	{
-		crispData = newData;
+		*crispDataList = newData;
 	}
 	
 	while(data != NULL)
@@ -288,8 +289,21 @@ void addCrispData(const char* label, int* var)
 	pData->next = newData;
 }
 
-//Associa le variabili alle Label
-int matchVariables(t_rule* nodo)
+//Aggiunge una variabile alla lista
+void addCrispInput(const char* label, int* var)
+{
+	addCrispData(label, var, &crispInput);
+}
+
+//Aggiunge un output alla lista
+void addCrispOutput(const char* label, int* var)
+{
+	addCrispData(label, var, &crispOutput);
+}
+
+
+//Associa una label a una crisp data
+static int matchCrispData(t_rule* nodo, struct s_crispdata* crispData)
 {
 	int found = 0;
 	char* label = nodo->nome;
@@ -309,6 +323,18 @@ int matchVariables(t_rule* nodo)
 	return found;
 }
 
+//Associa le variabili alle Label
+int matchVariables(t_rule* nodo)
+{
+	return matchCrispData(nodo, crispInput);
+}
+
+//associa gli output alle label
+int matchOutputs(t_rule* nodo)
+{
+	return matchCrispData(nodo, crispOutput);
+}
+
 //crea un nodo dell'albero della regola
 t_rule* creaNodo(t_nodo tipo, t_rule* sinistro, t_rule* destro, const char* nome)
 {
@@ -322,6 +348,16 @@ t_rule* creaNodo(t_nodo tipo, t_rule* sinistro, t_rule* destro, const char* nome
 		nodo->nome = strdup(nome);
 	}
 	return nodo;
+}
+
+//Controlla che gi assegnamenti siano con singleton
+int notSingletonAssignment(t_rule* assignment)
+{
+	t_fuzzyset* fuzzySet = (t_fuzzyset*)assignment->destro->dati;
+	if(fuzzySet->mfunction != f_sgt) 
+		return 1;
+	else 
+		return 0;
 }
 
 //aggiunge un albero delle regole insieme al target della regola, alla lista di regole
@@ -360,21 +396,91 @@ double visitaAlbero(t_rule* radice)
 	}
 }
 
+static char* getTargetLabel(t_rule* target)
+{
+	return target->sinistro->nome;
+}
+
+static int getTargetValue(t_rule* target)
+{
+	t_fuzzyset* fuzzySet = (t_fuzzyset*) target->destro->dati;
+	t_paramlist* parameters = fuzzySet->parameters;
+	if(parameters->paramNumber != 1) 
+		return 0;
+	else
+		return parameters->param[0];
+	
+}
+
 //processa tutte le regole
 void setFuzzyOutPuts(t_rulebase* testa)
 {
-	printf("Chiamo l'algoritmo \n");
+	struct s_assignment
+	{
+		char* label;
+		int value;
+		double weight;
+		struct s_assignment* next;
+	} *assignments = NULL, *currentAssignment, *assignmentToDel;
 	t_rulebase* testaCorrente = testa;
-	int i=1;
+	char* label;
+	int value;
+	double num, den;
+	double weight;
+
+	//CalculateValues
 	while(testaCorrente != NULL)
 	{
-		printf("Ciclo: i = %d \n", i);
-		double fuzzyValue = visitaAlbero(testaCorrente->rule);
-		//TODO: qui si dovrebbe assegnare il valore alla variabile di uscita
-		printf("\nla regola %d vale %f \n", i, fuzzyValue);
+		label = getTargetLabel(testaCorrente->target);
+		value = getTargetValue(testaCorrente->target);
+		weight = visitaAlbero(testaCorrente->rule);
+		currentAssignment = (struct s_assignment*) malloc(sizeof(struct s_assignment));
+		currentAssignment->label = label;
+		currentAssignment->value = value;
+		currentAssignment->weight = weight;
+		currentAssignment->next = assignments;
+		assignments = currentAssignment;
 		testaCorrente = testaCorrente->nextRule;
-		i++;
 	}
+	
+	struct s_crispdata* outputs = crispOutput;
+	
+	//Defuzzyfy
+	while(outputs != NULL)
+	{
+		currentAssignment = assignments;
+		num = 0;
+		den = 0;
+		
+		while(currentAssignment != NULL)
+		{
+			if(strcmp(currentAssignment->label, outputs->label) == 0)
+			{
+				num += currentAssignment->value * currentAssignment->weight;
+				den += currentAssignment->weight;
+				if(currentAssignment == assignments)
+				{
+					assignments = currentAssignment->next;
+				}
+				assignmentToDel = currentAssignment;
+				currentAssignment = currentAssignment->next;
+				free(assignmentToDel);
+			}
+			else
+				currentAssignment = currentAssignment->next;
+		}
+		
+		*outputs->var = num / den;
+	}
+	
+	//cleanUp
+	while(assignments != NULL)
+	{
+		assignmentToDel = assignments;
+		assignments = assignments->next;
+		free(assignmentToDel);
+	}
+	
 }
 
 

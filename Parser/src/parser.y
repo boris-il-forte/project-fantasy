@@ -74,6 +74,7 @@ ruleSet 		: /* Empty */
 			}
 			| wellFormedFormula THEN fuzzyAssignment END_RULE ruleSet 
 			{
+				if(notSingletonAssignment($3)) YYABORT;
 				$$ = aggiungiAllaLista($5, $1, $3); rulebaseRoot = $$;
 			}
 			;
@@ -105,7 +106,7 @@ fuzzyAssignment		: OPEN_B ID IS ID CLOSE_B
 				t_rule* sinistro = creaNodo(ID_N, NULL, NULL, $2); 
 				t_rule* destro = creaNodo(ID_N, NULL, NULL, $4); 
 				$$ = creaNodo(IS_N, sinistro, destro, "");
-				if(!matchVariables(sinistro)) YYABORT;
+				if(!matchVariables(sinistro) || !matchOutputs(sinistro)) YYABORT;
 				if(!matchFuzzySet(fuzzysetRoot, destro))  YYABORT;
 			}
 			;

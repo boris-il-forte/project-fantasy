@@ -10,6 +10,7 @@
 gbin
 editor
 fantasy.config
+build/
 
 # Packages #
 ############
