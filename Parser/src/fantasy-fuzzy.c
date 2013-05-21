@@ -189,7 +189,7 @@ double f_sgt(t_paramlist* parameters, int value)
 	if(parameters->paramNumber != 2) return 0;
 	int a = parameters->param[0];
 	
-	if(value = a)
+	if(value == a)
 		return 1.0;
 	else
 		return 0;
