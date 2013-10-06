@@ -167,7 +167,7 @@ static void click_turno()
 
 //thread routine
 
-gboolean ridimensiona_mappa(struct datatime_s *datatime)
+/*gboolean ridimensiona_mappa(struct datatime_s *datatime)
 {
 	static int i=0;
 	int w,h;
@@ -203,7 +203,7 @@ gboolean ridimensiona_mappa(struct datatime_s *datatime)
 	}
 	
 	return TRUE;
-}
+}*/
 
 gboolean leggistream_tastiera (struct keypress_s *keypress)
 {
@@ -359,7 +359,9 @@ int main(int argc, char *argv[])
 	gtk_box_pack_start(GTK_BOX(Hboxmain), Vbox, FALSE, FALSE, 5);
 	gtk_widget_show(Vbox);
 	//crea mappa
-	Mappa=gtk_table_new(caselle_orizzontali, caselle_verticali, FALSE);
+	Mappa= gtk_grid_new();
+	gtk_grid_set_row_spacing(GTK_GRID(Mappa), 0);
+	gtk_grid_set_column_spacing(GTK_GRID(Mappa), 0);
 	gtk_box_pack_start(GTK_BOX(Vbox), Mappa, FALSE, FALSE, 0);
 	gtk_genera_mappa(Mappa);
 	gtk_widget_show(Mappa);

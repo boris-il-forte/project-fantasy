@@ -981,26 +981,26 @@ void gtk_carica_immagini()
 	//carico il file di configurazione
 	caricaconfig("fantasy.config");
 	//carico immagini del gioco
-	sprintf(Buf,"img/fantasy-icon.xpm");
+	sprintf(Buf,"img/fantasy-icon.png");
 	if((Immagine.err=gdk_pixbuf_new_from_file_at_size(Buf,Dim_casella,Dim_casella,NULL)) == NULL)
 	{
-		perror("impossibile caricare l'immagine fantasy-icon.xpm");
+		perror("impossibile caricare l'immagine fantasy-icon.png");
 		exit(1);
 	}
 	if((Immagine.logo=gdk_pixbuf_new_from_file_at_size(Buf,Dim_casella,Dim_casella,NULL)) == NULL)
 	{
-		perror("impossibile caricare l'immagine fantasy-icon.xpm");
+		perror("impossibile caricare l'immagine fantasy-icon.png");
 		exit(1);
 	}
 	if((Immagine.decorazione=gdk_pixbuf_new_from_file_at_size(Buf,Dim_casella/2,Dim_casella/2,NULL)) == NULL)
 	{
-		perror("impossibile caricare l'immagine fantasy-icon.xpm");
+		perror("impossibile caricare l'immagine fantasy-icon.png");
 		exit(1);
 	}
-	sprintf(Buf,"img/freccia.xpm");
+	sprintf(Buf,"img/freccia.png");
 	if((Immagine.freccia=gdk_pixbuf_new_from_file_at_size(Buf,Dim_casella-7,Dim_casella-7,NULL)) == NULL)
 	{
-		perror("impossibile caricare l'immagine freccia.xpm");
+		perror("impossibile caricare l'immagine freccia.png");
 		exit(1);
 	}
 	// carico immagini da skin
@@ -1724,7 +1724,8 @@ void gtk_genera_mappa(GtkWidget *Mappa)
 			Casella[i+j*caselle_orizzontali]=gtk_event_box_new();
 			gtk_widget_set_events(Casella[i+j*caselle_orizzontali], GDK_BUTTON_PRESS_MASK |  GDK_ENTER_NOTIFY_MASK);
 			gtk_widget_set_size_request(Casella[i+j*caselle_orizzontali], Dim_casella,Dim_casella);
-			gtk_table_attach(GTK_TABLE(Mappa), Casella[i+j*caselle_orizzontali], i, i+1, j, j+1,!GTK_EXPAND,!GTK_EXPAND,0,0);
+			gtk_grid_attach(Mappa,  Casella[i+j*caselle_orizzontali], i, j, 1,1);
+			//gtk_table_attach(GTK_TABLE(Mappa), Casella[i+j*caselle_orizzontali], i, i+1, j, j+1,!GTK_EXPAND,!GTK_EXPAND,0,0);
 			gtk_widget_show(Casella[i+j*caselle_orizzontali]);
 			gtk_widget_realize(Casella[i+j*caselle_orizzontali]);
 			
@@ -1742,7 +1743,7 @@ GtkWidget *gtk_crea_notebook_tab(GtkWidget *Notebook,char *buf)
 	Scroller=gtk_scrolled_window_new(NULL, NULL);
 	gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(Scroller),GTK_POLICY_AUTOMATIC,GTK_POLICY_AUTOMATIC);
 	Vbox=gtk_box_new(GTK_ORIENTATION_VERTICAL,0);
-	gtk_container_add(GTK_SCROLLED_WINDOW(Scroller), Vbox);
+	gtk_container_add(GTK_CONTAINER(Scroller), Vbox);
 	gtk_widget_show(Vbox);
 	gtk_widget_show(Etichetta);
 	gtk_widget_show(Scroller);
@@ -2236,7 +2237,7 @@ void gtk_popup_combattimento(GtkWidget* Casella, int Perdite)
 	if(Perdite>0) sprintf(buf,"<span foreground=\"red\">-%d</span>",Perdite);
 	else sprintf(buf,"<span foreground=\"green\">%d</span>",Perdite);
 	Popup=gtk_window_new(GTK_WINDOW_POPUP);
-	gtk_window_set_opacity(GTK_WINDOW(Popup),0.6);
+	gtk_widget_set_opacity(Popup,0.6);
 	Label=gtk_label_new(NULL);
 	gtk_label_set_markup(GTK_LABEL(Label),buf);
 	gtk_container_add(GTK_CONTAINER(Popup),Label);
