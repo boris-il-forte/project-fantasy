@@ -7,10 +7,10 @@
 *.o
 *.so
 # More
-gbin
-editor
-fantasy.config
+bin/
 build/
+CMakeFiles/
+.settings/
 
 # Packages #
 ############
@@ -42,3 +42,5 @@ desktop.ini
 *~
 *.swp
 .directory
+.cproject
+.project
