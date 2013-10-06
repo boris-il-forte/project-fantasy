@@ -9,8 +9,16 @@
 # More
 bin/
 build/
+
+
+
+# Cmake #
+#########
 CMakeFiles/
-.settings/
+CMakeCache.txt
+cmake_install.cmake
+
+
 
 # Packages #
 ############
@@ -42,5 +50,10 @@ desktop.ini
 *~
 *.swp
 .directory
+
+# Eclipse #
+###########
+
 .cproject
 .project
+.settings/

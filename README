@@ -9,10 +9,10 @@ Versione 1.0 (2011-10-31)
 UTILIZZO
 --------
 
-Il pacchetto richiede le librerie gtk2.
+Il pacchetto richiede le librerie gtk3.
 Assicurati che siano installate.
 
-E' anche richiesta una toolchain funzionante.
+E' anche richiesto cmake.
 
 Compila il sorgente, quindi eseguilo. :)
 
@@ -20,39 +20,16 @@ Compila il sorgente, quindi eseguilo. :)
 COMPILAZIONE
 ------------
 
-make mrproper
+cmake .
 make
 
 
 ESECUZIONE
 ----------
 
-./gbin
+./bin/fantasy-core
 
 ENJOY !
-
-
-MAKEFILE
---------
-
-Viene distribuito con le flag adatte alla distribuzione:
-CFLAGS= -O2 -mtune=generic -pipe -fomit-frame-pointer
-Ad ogni modo assicuratevi che queste impostate nel Makefile.
-
-Se volete un'ottimizzazione estrema, sostituite la flag
--march=native al posto di -mtune=generic :
-Perché questa flag funzioni, dovete usare una versione di gcc >= 4.2
-Inoltre il binario compilato funzionerà solo su una macchina, quindi
-la flag non si adatta alla ridistribuzione binaria del pacchetto.
-
-E' consigliabile per un binario più snello dare
-$ strip -s -R .comment gbin
-
-Per il debug, è utile utilizzare (alternativamente):
-CFLAGS=-Wall -Wextra -ggdb3 -pipe
-E quindi eseguire il programma con
-$ gdb ./gbin
-(gdb) run
 
 
 COPYRIGHT
