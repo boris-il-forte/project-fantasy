@@ -29,21 +29,23 @@ pthread_t *ia_thread[NUM_IA_MAX];
 
 void fantasia_kill_ia()
 {
-	static int inizializzato=0;
+	static int inizializzato = 0;
 	int i;
-	
-	if(inizializzato==0)
+
+	if (inizializzato == 0)
 	{
-		for(i=0; i<NUM_IA_MAX; i++) ia_thread[i]=NULL;
+		for (i = 0; i < NUM_IA_MAX; i++)
+			ia_thread[i] = NULL;
 		inizializzato++;
 	}
 	else
 	{
-		for(i=0; i<NUM_IA_MAX; i++)
+		for (i = 0; i < NUM_IA_MAX; i++)
 		{
-			if(ia_thread[i]!=NULL) pthread_cancel(*ia_thread[i]);
+			if (ia_thread[i] != NULL)
+				pthread_cancel(*ia_thread[i]);
 			free(ia_thread[i]);
-			ia_thread[i]=NULL;
+			ia_thread[i] = NULL;
 		}
 	}
 }
@@ -55,32 +57,33 @@ void fantasia_assegna_ia_random(int numIA, int numG)
 	int r;
 	char occupato[numG];
 	char rt;
-	for (i=1; i<numG; i++) occupato[i]='F'; //segna le posizioni dell'array come libere
-	occupato[0]='T'; //tranne la prima
-	srand((unsigned)time(NULL));
-	for(i=0; i<numIA; i++)
+	for (i = 1; i < numG; i++)
+		occupato[i] = 'F'; //segna le posizioni dell'array come libere
+	occupato[0] = 'T'; //tranne la prima
+	srand((unsigned) time(NULL));
+	for (i = 0; i < numIA; i++)
 	{
 		do
 		{
-			r=rand()%numG;
-		}while(occupato[r]!='F');
-		occupato[r]='T';
-		switch(rand()%3)
+			r = rand() % numG;
+		} while (occupato[r] != 'F');
+		occupato[r] = 'T';
+		switch (rand() % 3)
 		{
 			case 0:
-				rt='a';
+				rt = 'a';
 				break;
 			case 1:
-				rt='d';
+				rt = 'd';
 				break;
 			case 3:
-				rt='e';
+				rt = 'e';
 				break;
 			default:
-				rt='n';
+				rt = 'n';
 				break;
 		}
-		ia_thread[r-1]=fantasia_create_player(r,rt);
+		ia_thread[r - 1] = fantasia_create_player(r, rt);
 	}
 	return;
 }
@@ -88,14 +91,14 @@ void fantasia_assegna_ia_random(int numIA, int numG)
 //crea un thead per il nuovo bot
 pthread_t *fantasia_create_player(int num, char type)
 {
-	pthread_t *thread=(pthread_t*)malloc(sizeof(pthread_t));
+	pthread_t *thread = (pthread_t*) malloc(sizeof(pthread_t));
 	t_iaparam *param;
-	param=(t_iaparam*) malloc(sizeof(t_iaparam));
-	param->num=num;
-	param->mod=type;
+	param = (t_iaparam*) malloc(sizeof(t_iaparam));
+	param->num = num;
+	param->mod = type;
 	pthread_create(thread, NULL, fantasia_giocatore_artificiale, param);
-	infogiocatore[num]->tipo=IA;
-	infogiocatore[num]->atteggiamento=type;
+	infogiocatore[num]->tipo = IA;
+	infogiocatore[num]->atteggiamento = type;
 	return thread;
 }
 
@@ -103,32 +106,32 @@ pthread_t *fantasia_create_player(int num, char type)
 t_iadata fantasia_giocatore_inizializza(char modo)
 {
 	t_iadata data;
-	switch(modo)
+	switch (modo)
 	{
 		case 'a':
-			data.aggressivo=MOLTO;
-			data.esploratore=NORMALE;
-			data.difensore=POCO;
+			data.aggressivo = MOLTO;
+			data.esploratore = NORMALE;
+			data.difensore = POCO;
 			break;
 		case 'd':
-			data.aggressivo=POCO;
-			data.esploratore=NORMALE;
-			data.difensore=MOLTO;
+			data.aggressivo = POCO;
+			data.esploratore = NORMALE;
+			data.difensore = MOLTO;
 			break;
 		case 'e':
-			data.aggressivo=NORMALE;
-			data.esploratore=MOLTO;
-			data.difensore=NORMALE;
+			data.aggressivo = NORMALE;
+			data.esploratore = MOLTO;
+			data.difensore = NORMALE;
 			break;
 		default:
-			data.aggressivo=POCO;
-			data.esploratore=POCO;
-			data.difensore=POCO;
+			data.aggressivo = POCO;
+			data.esploratore = POCO;
+			data.difensore = POCO;
 			break;
 	}
-	data.priorA=data.aggressivo;
-	data.priorD=data.difensore;
-	data.priorE=data.esploratore;
+	data.priorA = data.aggressivo;
+	data.priorD = data.difensore;
+	data.priorE = data.esploratore;
 	return data;
 }
 
@@ -136,47 +139,34 @@ t_iadata fantasia_giocatore_inizializza(char modo)
 void *fantasia_giocatore_artificiale(void *P)
 {
 	//casting del puntatore in ingresso
-	t_iaparam *param= (t_iaparam*) P;
+	t_iaparam *param = (t_iaparam*) P;
 	//dati IA
 	t_iadata datiIa;
 	int numeroGiocatore;
-	
+
 	//inizializza IA
-	datiIa=fantasia_giocatore_inizializza(param->mod);
-	numeroGiocatore=param->num;
-	
+	datiIa = fantasia_giocatore_inizializza(param->mod);
+	numeroGiocatore = param->num;
+
 	//elimina il puntatore al parametro
 	free(param);
-	
+
 	//main loop IA
-	while(giocatore[numeroGiocatore]!=NULL)
+	while (giocatore[numeroGiocatore] != NULL)
 	{
-		if(numeroGiocatore==CurrentPlayer)
+		if (numeroGiocatore == CurrentPlayer)
 		{
-			printf("debug: sono il giocatore n: %d e sto per chiamare fineturno\n", numeroGiocatore+1);
+			printf(
+					"debug: sono il giocatore n: %d e sto per chiamare fineturno\n",
+					numeroGiocatore + 1);
 			pthread_mutex_lock(&mutex);
 			fantasia_gtk_fineturno();
 			pthread_mutex_unlock(&mutex);
 		}
-		printf("debug: sono il giocatore n: %d\n", numeroGiocatore+1);
+		printf("debug: sono il giocatore n: %d\n", numeroGiocatore + 1);
 		sleep(1);
 	}
 	free(param);
 	return NULL;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 

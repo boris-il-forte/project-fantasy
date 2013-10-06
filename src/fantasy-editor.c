@@ -29,50 +29,51 @@ static gboolean delete_event()
 
 static void sposta_datastiera(GtkWidget* Window, GdkEventKey* K)
 {
-	if(partita_in_corso==0)return;
-	if(K->type == GDK_KEY_PRESS && Window!=NULL)
+	if (partita_in_corso == 0)
+		return;
+	if (K->type == GDK_KEY_PRESS && Window != NULL)
 	{
-		fprintf(stderr,"debug: sposta_datastiera\n");
-		switch(K->keyval)
+		fprintf(stderr, "debug: sposta_datastiera\n");
+		switch (K->keyval)
 		{
 			case GDK_KEY_Left:
-				if(cx-1<0)
+				if (cx - 1 < 0)
 					return;
 				else
 				{
-					cx-=1;
+					cx -= 1;
 					gtk_pulisci_mappa();
-					gtk_stampa_mappa(cx,cy,'n');
+					gtk_stampa_mappa(cx, cy, 'n');
 				}
 				break;
 			case GDK_KEY_Up:
-				if(cy-1<0)
+				if (cy - 1 < 0)
 					return;
 				else
 				{
-					cy-=1;
+					cy -= 1;
 					gtk_pulisci_mappa();
-					gtk_stampa_mappa(cx,cy,'n');
+					gtk_stampa_mappa(cx, cy, 'n');
 				}
 				break;
 			case GDK_KEY_Down:
-				if(cy+1>ALTEZZA-caselle_verticali)
+				if (cy + 1 > ALTEZZA - caselle_verticali)
 					return;
 				else
 				{
-					cy+=1;
+					cy += 1;
 					gtk_pulisci_mappa();
-					gtk_stampa_mappa(cx,cy,'n');
+					gtk_stampa_mappa(cx, cy, 'n');
 				}
 				break;
 			case GDK_KEY_Right:
-				if(cx+1>LARGHEZZA-caselle_orizzontali)
+				if (cx + 1 > LARGHEZZA - caselle_orizzontali)
 					return;
 				else
 				{
-					cx+=1;
+					cx += 1;
 					gtk_pulisci_mappa();
-					gtk_stampa_mappa(cx,cy,'n');
+					gtk_stampa_mappa(cx, cy, 'n');
 				}
 				break;
 			default:
@@ -92,49 +93,50 @@ int main(int argc, char *argv[])
 	GtkWidget *Hbox;
 	GtkWidget *Frame;
 	GtkWidget *Frecce;
-	
+
 	//	inizializza
 	gtk_init(&argc, &argv);
 	gtk_calcola_dimensioni();
 	gtk_carica_immagini();
 	gtk_inizializza_widget();
 	// 	crea finestra
-	finestra=gtk_window_new(GTK_WINDOW_TOPLEVEL);
+	finestra = gtk_window_new(GTK_WINDOW_TOPLEVEL);
 	g_signal_connect(finestra, "delete-event", G_CALLBACK(delete_event), NULL);
-	g_signal_connect(finestra, "key-press-event", G_CALLBACK(sposta_datastiera),NULL);
+	g_signal_connect(finestra, "key-press-event", G_CALLBACK(sposta_datastiera),
+			NULL);
 	gtk_window_set_title(GTK_WINDOW(finestra), "Fantasy Core Editor");
-	gtk_window_set_icon(GTK_WINDOW(finestra),Immagine.logo);
+	gtk_window_set_icon(GTK_WINDOW(finestra), Immagine.logo);
 	// 	crea box principale del layout
-	Layout=gtk_box_new(GTK_ORIENTATION_VERTICAL,10);
+	Layout = gtk_box_new(GTK_ORIENTATION_VERTICAL, 10);
 	gtk_container_add(GTK_CONTAINER(finestra), Layout);
 	gtk_widget_show(Layout);
 	// 	crea il box per dividere pulsanti di gioco dalla mappa
-	Hbox=gtk_box_new(GTK_ORIENTATION_HORIZONTAL,10);
+	Hbox = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 10);
 	gtk_box_pack_start(GTK_BOX(Layout), Hbox, FALSE, FALSE, 0);
 	gtk_widget_show(Hbox);
 	// 	crea box per i pulsanti
-	Frame=gtk_frame_new(NULL);
+	Frame = gtk_frame_new(NULL);
 	gtk_box_pack_start(GTK_BOX(Hbox), Frame, FALSE, FALSE, 0);
-	Vbox=gtk_box_new(GTK_ORIENTATION_VERTICAL,10);
+	Vbox = gtk_box_new(GTK_ORIENTATION_VERTICAL, 10);
 	gtk_container_add(GTK_CONTAINER(Frame), Vbox);
 	gtk_widget_show(Vbox);
 	gtk_widget_show(Frame);
 	// 	crea box e i pulsanti struttura
-	PulsantiS=gtk_frame_new("Pulsanti Strutture");
+	PulsantiS = gtk_frame_new("Pulsanti Strutture");
 	gtk_box_pack_start(GTK_BOX(Vbox), PulsantiS, FALSE, FALSE, 0);
 	gtk_widget_show(PulsantiS);
-	PulsantieraS=gtk_crea_pulsanti_editor_s();
-	gtk_container_add(GTK_CONTAINER(PulsantiS),PulsantieraS);
+	PulsantieraS = gtk_crea_pulsanti_editor_s();
+	gtk_container_add(GTK_CONTAINER(PulsantiS), PulsantieraS);
 	gtk_widget_show(PulsantieraS);
 	// 	crea box e i pulsanti unità
-	PulsantiS=gtk_frame_new("Pulsanti Unità");
+	PulsantiS = gtk_frame_new("Pulsanti Unità");
 	gtk_box_pack_start(GTK_BOX(Vbox), PulsantiS, FALSE, FALSE, 0);
 	gtk_widget_show(PulsantiS);
-	PulsantieraS=gtk_crea_pulsanti_editor_u();
-	gtk_container_add(GTK_CONTAINER(PulsantiS),PulsantieraS);
+	PulsantieraS = gtk_crea_pulsanti_editor_u();
+	gtk_container_add(GTK_CONTAINER(PulsantiS), PulsantieraS);
 	gtk_widget_show(PulsantieraS);
 	// 	crea le frecce
-	Frecce= gtk_crea_4_frecce();
+	Frecce = gtk_crea_4_frecce();
 	gtk_box_pack_start(GTK_BOX(Vbox), Frecce, FALSE, FALSE, 0);
 	gtk_widget_show(Frecce);
 	// 	crea mappa

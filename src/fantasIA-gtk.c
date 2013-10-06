@@ -6,10 +6,10 @@
 void fantasia_gtk_fineturno()
 {
 	int W;
-	
-	
-	if(partita_in_corso==0) return;
-	if(giocatore[CurrentPlayer]!=NULL)
+
+	if (partita_in_corso == 0)
+		return;
+	if (giocatore[CurrentPlayer] != NULL)
 	{
 		fineturno();
 		gdk_threads_enter();
@@ -19,9 +19,9 @@ void fantasia_gtk_fineturno()
 		gtk_aggiorna_tab_strutture();
 		gtk_aggiorna_tab_armate();
 		gtk_pulisci_mappa();
-		gtk_stampa_mappa(cx,cy,'n');
-		W=controllovincitore();
-		if(W!=0)
+		gtk_stampa_mappa(cx, cy, 'n');
+		W = controllovincitore();
+		if (W != 0)
 		{
 			gtk_proclama_vincitore(W);
 		}
