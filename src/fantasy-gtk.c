@@ -160,15 +160,15 @@ static void nuova_partita()
 	gtk_window_set_title(GTK_WINDOW(Dialogo),"Fantasy C");
 	Opzioni=gtk_frame_new("Opzioni Nuova Partita");
 	gtk_box_pack_start(GTK_BOX(gtk_dialog_get_content_area(GTK_DIALOG(Dialogo))),Opzioni, TRUE, TRUE, 0);
-	Vbox=gtk_vbox_new(TRUE,0);
+	Vbox=gtk_box_new(GTK_ORIENTATION_VERTICAL,0);
 	gtk_container_add(GTK_CONTAINER(Opzioni), Vbox);
-	Hbox=gtk_hbox_new(TRUE,0);
+	Hbox=gtk_box_new(GTK_ORIENTATION_HORIZONTAL,0);
 	gtk_box_pack_start(GTK_BOX(Vbox),Hbox, TRUE, TRUE, 0);
 	Label=gtk_label_new("Giocatori");
 	gtk_box_pack_start(GTK_BOX(Hbox),Label, TRUE, TRUE, 0);
 	SpinGiocatori=gtk_spin_button_new(GTK_ADJUSTMENT(Giocatori), 0, 0);
 	gtk_box_pack_start(GTK_BOX(Hbox),SpinGiocatori, TRUE, TRUE,0);
-	Hbox=gtk_hbox_new(TRUE,0);
+	Hbox=gtk_box_new(GTK_ORIENTATION_HORIZONTAL,0);
 	gtk_box_pack_start(GTK_BOX(Vbox),Hbox, TRUE, TRUE, 0);
 	Label=gtk_label_new("Gestiti dall'IA");
 	gtk_box_pack_start(GTK_BOX(Hbox),Label, TRUE, TRUE, 0);
@@ -225,7 +225,7 @@ static void preferenze()
 	gtk_window_set_title(GTK_WINDOW(Dialogo),"Fantasy C Config");
 	Opzioni=gtk_frame_new("Opzioni Skins");
 	gtk_box_pack_start(GTK_BOX(gtk_dialog_get_content_area(GTK_DIALOG(Dialogo))),Opzioni, TRUE, TRUE, 0);
-	Vbox=gtk_vbox_new(TRUE,0);
+	Vbox=gtk_box_new(GTK_ORIENTATION_VERTICAL,0);
 	gtk_container_add(GTK_CONTAINER(Opzioni), Vbox);
 	Label=gtk_label_new("Skin");
 	gtk_box_pack_start(GTK_BOX(Vbox),Label, TRUE, TRUE, 0);
@@ -925,7 +925,7 @@ static void click_unisci(char* pos)
 	g_signal_connect(UB, "value_changed", G_CALLBACK(set_adjustmentvalue), &S_Callback[a]);
 	Dialogo=gtk_dialog_new_with_buttons("Fantasy C",NULL,GTK_DIALOG_DESTROY_WITH_PARENT | GTK_DIALOG_MODAL, GTK_STOCK_OK,GTK_RESPONSE_YES,GTK_STOCK_CANCEL,GTK_RESPONSE_NO,NULL);
 	gtk_window_set_icon(GTK_WINDOW(Dialogo),Immagine.logo);
-	Vbox=gtk_vbox_new(TRUE,0);
+	Vbox=gtk_box_new(GTK_ORIENTATION_VERTICAL,0);
 	gtk_box_pack_start(GTK_BOX(gtk_dialog_get_content_area(GTK_DIALOG(Dialogo))),Vbox, TRUE, TRUE, 0);
 	gtk_widget_show(Vbox);
 	Label=gtk_label_new("Sposta effettivi");
@@ -1741,8 +1741,8 @@ GtkWidget *gtk_crea_notebook_tab(GtkWidget *Notebook,char *buf)
 	Etichetta=gtk_label_new(buf);
 	Scroller=gtk_scrolled_window_new(NULL, NULL);
 	gtk_scrolled_window_set_policy(GTK_SCROLLED_WINDOW(Scroller),GTK_POLICY_AUTOMATIC,GTK_POLICY_AUTOMATIC);
-	Vbox=gtk_vbox_new(FALSE,0);
-	gtk_scrolled_window_add_with_viewport(GTK_SCROLLED_WINDOW(Scroller), Vbox);
+	Vbox=gtk_box_new(GTK_ORIENTATION_VERTICAL,0);
+	gtk_container_add(GTK_SCROLLED_WINDOW(Scroller), Vbox);
 	gtk_widget_show(Vbox);
 	gtk_widget_show(Etichetta);
 	gtk_widget_show(Scroller);
@@ -1776,12 +1776,12 @@ GtkWidget *gtk_crea_elemento_tab(GtkWidget *tab,int x, int y,char *nome, char *b
 		printf("errore!");
 		return NULL;
 	}
-	Vbox=gtk_vbox_new(TRUE,0);
+	Vbox=gtk_box_new(GTK_ORIENTATION_VERTICAL,0);
 	gtk_box_pack_start(GTK_BOX(tab), Vbox,FALSE, FALSE, 0);
-	Separator=gtk_hseparator_new();
+	Separator=gtk_separator_new(GTK_ORIENTATION_HORIZONTAL);
 	gtk_box_pack_start(GTK_BOX(Vbox), Separator,FALSE, FALSE, 3);
 	gtk_widget_show(Separator);
-	Hbox=gtk_hbox_new(TRUE,0);
+	Hbox=gtk_box_new(GTK_ORIENTATION_HORIZONTAL,0);
 	gtk_box_pack_start(GTK_BOX(Vbox), Hbox,FALSE, FALSE, 0);
 	Label=gtk_label_new(nome);
 	gtk_box_pack_start(GTK_BOX(Hbox),Label, FALSE, FALSE, 0);
@@ -2115,10 +2115,10 @@ GtkWidget *gtk_crea_contarisorse()
 	Label[0]=gtk_label_new("Oro: ");
 	Label[1]=gtk_label_new("Cibo: ");
 	Label[2]=gtk_label_new("Smeraldi: ");
-	Vbox=gtk_vbox_new(FALSE,5);
+	Vbox=gtk_box_new(GTK_ORIENTATION_VERTICAL,5);
 	for(i=0; i<NUMRISORSE; i++)
 	{
-		Hbox[i]=gtk_hbox_new(FALSE,0);
+		Hbox[i]=gtk_box_new(GTK_ORIENTATION_HORIZONTAL,0);
 		gtk_box_pack_start(GTK_BOX(Vbox), Hbox[i], FALSE, FALSE, 0);
 		gtk_box_pack_start(GTK_BOX(Hbox[i]), Label[i], FALSE, FALSE, 0);
 		gtk_widget_set_size_request(Label[i],2*Dim_casella,-1);

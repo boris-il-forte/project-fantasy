@@ -293,24 +293,24 @@ int main(int argc, char *argv[])
 	gtk_window_set_title(GTK_WINDOW(finestra), "Fantasy Core");
 	gtk_window_set_icon(GTK_WINDOW(finestra),Immagine.logo);
 // 	crea box principale del layout
-	Layout=gtk_vbox_new(FALSE,5);
+	Layout=gtk_box_new(GTK_ORIENTATION_VERTICAL,5);
 	gtk_container_add(GTK_CONTAINER(finestra), Layout);
 	gtk_widget_show(Layout);
 // 	crea il menu
 	gtk_crea_menu(Layout);
 // 	crea il box per dividere pulsanti di gioco dalla mappa
-	Hboxmain=gtk_hbox_new(FALSE,10);
+	Hboxmain=gtk_box_new(GTK_ORIENTATION_HORIZONTAL,10);
 	gtk_box_pack_start(GTK_BOX(Layout), Hboxmain, FALSE, FALSE, 0);
 	gtk_widget_show(Hboxmain);
 // 	crea box per i pulsanti
 	Frame=gtk_frame_new("Pulsanti");
 	gtk_box_pack_start(GTK_BOX(Hboxmain), Frame, FALSE, FALSE, 0);
 	gtk_widget_show(Frame);
-	Vbox=gtk_vbox_new(FALSE,10);
+	Vbox=gtk_box_new(GTK_ORIENTATION_VERTICAL,10);
 	gtk_container_add(GTK_CONTAINER(Frame), Vbox);
 	//gtk_widget_show(Vbox); // *ero qui
 	// crea box orizzontale per 4 pulsanti fast switch
-	Hbox=gtk_vbox_new(FALSE,0);
+	Hbox=gtk_box_new(GTK_ORIENTATION_VERTICAL,0);
 	gtk_box_pack_start(GTK_BOX(Vbox), Hbox, FALSE, FALSE, 5);
 	gtk_widget_show(Hbox);
 // 	crea 4 pulsanti
@@ -355,7 +355,7 @@ int main(int argc, char *argv[])
 	gtk_widget_show(Tag);
 // dividi spazio mappa in verticale
 	gtk_widget_show(Vbox); // *ora qui
-	Vbox=gtk_vbox_new(FALSE,10);
+	Vbox=gtk_box_new(GTK_ORIENTATION_VERTICAL,10);
 	gtk_box_pack_start(GTK_BOX(Hboxmain), Vbox, FALSE, FALSE, 5);
 	gtk_widget_show(Vbox);
 	//crea mappa
@@ -380,7 +380,6 @@ int main(int argc, char *argv[])
 	keypress.last=0;
 	g_signal_connect(finestra,"key-press-event", G_CALLBACK(input_tastiera),(gpointer)&keypress);
 	g_signal_connect(finestra,"configure-event", G_CALLBACK(rid),NULL);
-	gdk_threads_add_timeout_full(G_PRIORITY_DEFAULT_IDLE,10,(GSourceFunc) (ridimensiona_mappa),(gpointer) &datatime,NULL);
 	gdk_threads_add_timeout_full(G_PRIORITY_DEFAULT_IDLE,50,(GSourceFunc) (leggistream_tastiera),(gpointer) &keypress,NULL);
 	gdk_threads_enter();
 	gtk_main();

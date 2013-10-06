@@ -105,17 +105,17 @@ int main(int argc, char *argv[])
 	gtk_window_set_title(GTK_WINDOW(finestra), "Fantasy Core Editor");
 	gtk_window_set_icon(GTK_WINDOW(finestra),Immagine.logo);
 	// 	crea box principale del layout
-	Layout=gtk_vbox_new(FALSE,10);
+	Layout=gtk_box_new(GTK_ORIENTATION_VERTICAL,10);
 	gtk_container_add(GTK_CONTAINER(finestra), Layout);
 	gtk_widget_show(Layout);
 	// 	crea il box per dividere pulsanti di gioco dalla mappa
-	Hbox=gtk_hbox_new(FALSE,10);
+	Hbox=gtk_box_new(GTK_ORIENTATION_HORIZONTAL,10);
 	gtk_box_pack_start(GTK_BOX(Layout), Hbox, FALSE, FALSE, 0);
 	gtk_widget_show(Hbox);
 	// 	crea box per i pulsanti
 	Frame=gtk_frame_new(NULL);
 	gtk_box_pack_start(GTK_BOX(Hbox), Frame, FALSE, FALSE, 0);
-	Vbox=gtk_vbox_new(FALSE,10);
+	Vbox=gtk_box_new(GTK_ORIENTATION_VERTICAL,10);
 	gtk_container_add(GTK_CONTAINER(Frame), Vbox);
 	gtk_widget_show(Vbox);
 	gtk_widget_show(Frame);
