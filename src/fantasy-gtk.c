@@ -1859,8 +1859,7 @@ void gtk_genera_mappa(GtkWidget *Mappa)
 					GDK_BUTTON_PRESS_MASK | GDK_ENTER_NOTIFY_MASK);
 			gtk_widget_set_size_request(Casella[i + j * caselle_orizzontali],
 					Dim_casella, Dim_casella);
-			gtk_grid_attach(Mappa, Casella[i + j * caselle_orizzontali], i, j,
-					1, 1);
+			gtk_grid_attach(GTK_GRID(Mappa), Casella[i + j * caselle_orizzontali], i, j, 1, 1);
 			//gtk_table_attach(GTK_TABLE(Mappa), Casella[i+j*caselle_orizzontali], i, i+1, j, j+1,!GTK_EXPAND,!GTK_EXPAND,0,0);
 			gtk_widget_show(Casella[i + j * caselle_orizzontali]);
 			gtk_widget_realize(Casella[i + j * caselle_orizzontali]);
@@ -2181,15 +2180,14 @@ GtkWidget *gtk_crea_4_frecce()
 	GtkWidget *Freccia;
 	int i;
 
-	Pulsantiera = gtk_table_new(3, 3, FALSE);
+	Pulsantiera = gtk_grid_new();
 	for (i = 1; i < 9; i = i + 2)
 	{
 		Pulsante = gtk_button_new();
 		gtk_widget_set_size_request(Pulsante, Dim_casella, Dim_casella);
 		g_signal_connect_swapped(Pulsante, "button_press_event",
 				G_CALLBACK(sposta_mappa), (gpointer )&infomappa.mappa[i]);
-		gtk_table_attach_defaults(GTK_TABLE(Pulsantiera), Pulsante, i / 3,
-				i / 3 + 1, i % 3, i % 3 + 1);
+		gtk_grid_attach (GTK_GRID(Pulsantiera), Pulsante, i / 3,i % 3, 1, 1);
 		switch (i)
 		{
 			case 1:
@@ -2218,7 +2216,7 @@ GtkWidget *gtk_crea_4_frecce()
 	}
 	Coordinate = gtk_label_new("(0|0)");
 	gtk_widget_set_size_request(Coordinate, Dim_casella, Dim_casella);
-	gtk_table_attach_defaults(GTK_TABLE(Pulsantiera), Coordinate, 1, 2, 1, 2);
+	gtk_grid_attach(GTK_GRID(Pulsantiera), Coordinate, 1, 1, 1, 1);
 	gtk_widget_show(Coordinate);
 	return Pulsantiera;
 }
@@ -2230,15 +2228,14 @@ GtkWidget *gtk_crea_pulsanti_editor_s()
 	GtkWidget *Pulsante;
 	int i;
 
-	Pulsantiera = gtk_table_new(3, 2, TRUE);
+	Pulsantiera = gtk_grid_new();
 	for (i = 0; i < NUMSTRUTTURE; i++)
 	{
 		Pulsante = gtk_button_new();
 		gtk_widget_set_size_request(Pulsante, Dim_casella, Dim_casella);
 		g_signal_connect_swapped(Pulsante, "button_press_event",
 				G_CALLBACK(menuitem_response), NULL);
-		gtk_table_attach(GTK_TABLE(Pulsantiera), Pulsante, i % 2, i % 2 + 1,
-				i / 2, i / 2 + 1, GTK_SHRINK, GTK_SHRINK, 0, 0);
+		gtk_grid_attach(GTK_GRID(Pulsantiera), Pulsante, i % 2, i / 2, 1, 1);
 		gtk_widget_show(Pulsante);
 	}
 	return Pulsantiera;
@@ -2251,15 +2248,14 @@ GtkWidget *gtk_crea_pulsanti_editor_u()
 	GtkWidget *Pulsante;
 	int i;
 
-	Pulsantiera = gtk_table_new(4, 2, TRUE);
+	Pulsantiera = gtk_grid_new();
 	for (i = 0; i < NUMTRUPPE; i++)
 	{
 		Pulsante = gtk_button_new();
 		gtk_widget_set_size_request(Pulsante, Dim_casella, Dim_casella);
 		g_signal_connect_swapped(Pulsante, "button_press_event",
 				G_CALLBACK(menuitem_response), NULL);
-		gtk_table_attach(GTK_TABLE(Pulsantiera), Pulsante, i % 2, i % 2 + 1,
-				i / 2, i / 2 + 1, GTK_SHRINK, GTK_SHRINK, 0, 0);
+		gtk_grid_attach(GTK_GRID(Pulsantiera), Pulsante, i % 2, i / 2, 1, 1);
 		gtk_widget_show(Pulsante);
 	}
 	return Pulsantiera;
@@ -2326,18 +2322,18 @@ GtkWidget *gtk_crea_giocatore_c()
 {
 	GtkWidget *Table;
 
-	Table = gtk_table_new(3, 1, FALSE);
+	Table = gtk_grid_new();
 	CurrentL = gtk_label_new("Fantasy Core");
-	gtk_table_attach_defaults(GTK_TABLE(Table), CurrentL, 1, 2, 0, 1);
+	gtk_grid_attach(GTK_GRID(Table), CurrentL, 1, 0, 1, 1);
 	gtk_widget_set_size_request(CurrentL, 2 * Dim_casella, -1);
 	gtk_widget_show(CurrentL);
 	CurrentI1 = gtk_image_new_from_pixbuf(Immagine.decorazione);
 	gtk_widget_set_size_request(CurrentI1, Dim_casella / 2, Dim_casella / 2);
-	gtk_table_attach_defaults(GTK_TABLE(Table), CurrentI1, 0, 1, 0, 1);
+	gtk_grid_attach(GTK_GRID(Table), CurrentI1, 0, 0, 1, 1);
 	gtk_widget_show(CurrentI1);
 	CurrentI2 = gtk_image_new_from_pixbuf(Immagine.decorazione);
 	gtk_widget_set_size_request(CurrentI2, Dim_casella / 2, Dim_casella / 2);
-	gtk_table_attach_defaults(GTK_TABLE(Table), CurrentI2, 2, 3, 0, 1);
+	gtk_grid_attach(GTK_GRID(Table), CurrentI2, 2, 0, 1, 1);
 	gtk_widget_show_all(CurrentI2);
 	return Table;
 }
@@ -2360,18 +2356,18 @@ GtkWidget *gtk_crea_footer()
 	GtkWidget *Icon;
 	GtkWidget *Label;
 
-	Table = gtk_table_new(3, 1, FALSE);
+	Table = gtk_grid_new();
 	Label = gtk_label_new("Fantasy Core");
 	gtk_widget_set_size_request(Label, 2 * Dim_casella, -1);
-	gtk_table_attach_defaults(GTK_TABLE(Table), Label, 1, 2, 0, 1);
+	gtk_grid_attach(GTK_GRID(Table), Label, 1, 0, 1, 1);
 	gtk_widget_show(Label);
 	Icon = gtk_image_new_from_pixbuf(Immagine.decorazione);
 	gtk_widget_set_size_request(Icon, Dim_casella / 2, Dim_casella / 2);
-	gtk_table_attach_defaults(GTK_TABLE(Table), Icon, 0, 1, 0, 1);
+	gtk_grid_attach(GTK_GRID(Table), Icon, 0, 0, 1, 1);
 	gtk_widget_show(Icon);
 	Icon = gtk_image_new_from_pixbuf(Immagine.decorazione);
 	gtk_widget_set_size_request(Icon, Dim_casella / 2, Dim_casella / 2);
-	gtk_table_attach_defaults(GTK_TABLE(Table), Icon, 2, 3, 0, 1);
+	gtk_grid_attach(GTK_GRID(Table), Icon, 2, 0, 1, 1);
 	gtk_widget_show_all(Icon);
 	return Table;
 }
