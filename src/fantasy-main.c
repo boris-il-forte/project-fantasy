@@ -380,8 +380,6 @@ int main(int argc, char *argv[])
 	gtk_widget_show(Vbox);
 	//crea mappa
 	Mappa = gtk_grid_new();
-	gtk_grid_set_row_spacing(GTK_GRID(Mappa), 0);
-	gtk_grid_set_column_spacing(GTK_GRID(Mappa), 0);
 	gtk_box_pack_start(GTK_BOX(Vbox), Mappa, FALSE, FALSE, 0);
 	gtk_genera_mappa(Mappa);
 	gtk_widget_show(Mappa);

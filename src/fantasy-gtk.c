@@ -405,7 +405,7 @@ static void addestra_truppa(t_callback_s* Struct)
 		gtk_widget_show(Label);
 		gtk_box_pack_start(
 		GTK_BOX(gtk_dialog_get_content_area(GTK_DIALOG(Dialogo))), Label, TRUE,
-				TRUE, 0);
+		TRUE, 0);
 		gtk_dialog_run(GTK_DIALOG(Dialogo));
 		gtk_widget_destroy(Dialogo);
 	}
@@ -823,7 +823,7 @@ static void click_unita(char* pos, GdkEventButton *Event)
 			gtk_widget_show(Label);
 			gtk_box_pack_start(
 			GTK_BOX(gtk_dialog_get_content_area(GTK_DIALOG(Dialogo))), Label,
-					TRUE, TRUE, 0);
+			TRUE, TRUE, 0);
 			gtk_dialog_run(GTK_DIALOG(Dialogo));
 			gtk_widget_destroy(Dialogo);
 			return;
@@ -851,7 +851,7 @@ static void click_unita(char* pos, GdkEventButton *Event)
 			gtk_widget_show(Label);
 			gtk_box_pack_start(
 			GTK_BOX(gtk_dialog_get_content_area(GTK_DIALOG(Dialogo))), Label,
-					TRUE, TRUE, 0);
+			TRUE, TRUE, 0);
 			gtk_dialog_run(GTK_DIALOG(Dialogo));
 			gtk_widget_destroy(Dialogo);
 			return;
@@ -899,7 +899,7 @@ static void click_assediocastello(char* pos)
 		gtk_widget_show(Label);
 		gtk_box_pack_start(
 		GTK_BOX(gtk_dialog_get_content_area(GTK_DIALOG(Dialogo))), Label, TRUE,
-				TRUE, 0);
+		TRUE, 0);
 		gtk_dialog_run(GTK_DIALOG(Dialogo));
 		gtk_widget_destroy(Dialogo);
 		W = controllovincitore();
@@ -938,7 +938,7 @@ static void click_assaltostruttura(char* pos)
 		gtk_widget_show(Label);
 		gtk_box_pack_start(
 		GTK_BOX(gtk_dialog_get_content_area(GTK_DIALOG(Dialogo))), Label, TRUE,
-				TRUE, 0);
+		TRUE, 0);
 		gtk_dialog_run(GTK_DIALOG(Dialogo));
 		gtk_widget_destroy(Dialogo);
 		W = controllovincitore();
@@ -1852,18 +1852,16 @@ void gtk_genera_mappa(GtkWidget *Mappa)
 	for (i = 0; i < caselle_orizzontali; i++)
 		for (j = 0; j < caselle_verticali; j++)
 		{
-			Casella[i + j * caselle_orizzontali] = gtk_event_box_new();
-			gtk_container_set_border_width(GTK_CONTAINER(Casella[i + j * caselle_orizzontali]),
-					0);
-			gtk_widget_set_events(Casella[i + j * caselle_orizzontali],
+			GtkWidget *eventBox = gtk_event_box_new();
+			gtk_container_set_border_width(GTK_CONTAINER(eventBox), 0);
+			gtk_widget_set_events(eventBox,
 					GDK_BUTTON_PRESS_MASK | GDK_ENTER_NOTIFY_MASK);
-			gtk_widget_set_size_request(Casella[i + j * caselle_orizzontali],
-					Dim_casella, Dim_casella);
-			gtk_grid_attach(GTK_GRID(Mappa), Casella[i + j * caselle_orizzontali], i, j, 1, 1);
-			//gtk_table_attach(GTK_TABLE(Mappa), Casella[i+j*caselle_orizzontali], i, i+1, j, j+1,!GTK_EXPAND,!GTK_EXPAND,0,0);
-			gtk_widget_show(Casella[i + j * caselle_orizzontali]);
-			gtk_widget_realize(Casella[i + j * caselle_orizzontali]);
+			gtk_widget_set_size_request(eventBox, Dim_casella, Dim_casella);
+			gtk_grid_attach(GTK_GRID(Mappa), eventBox, i, j, 1, 1);
+			gtk_widget_show(eventBox);
+			gtk_widget_realize(eventBox);
 
+			Casella[i + j * caselle_orizzontali] = eventBox;
 		}
 }
 
@@ -2187,7 +2185,7 @@ GtkWidget *gtk_crea_4_frecce()
 		gtk_widget_set_size_request(Pulsante, Dim_casella, Dim_casella);
 		g_signal_connect_swapped(Pulsante, "button_press_event",
 				G_CALLBACK(sposta_mappa), (gpointer )&infomappa.mappa[i]);
-		gtk_grid_attach (GTK_GRID(Pulsantiera), Pulsante, i / 3,i % 3, 1, 1);
+		gtk_grid_attach(GTK_GRID(Pulsantiera), Pulsante, i / 3, i % 3, 1, 1);
 		switch (i)
 		{
 			case 1:

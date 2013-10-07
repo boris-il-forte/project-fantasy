@@ -139,8 +139,6 @@ int main(int argc, char *argv[])
 	Frecce = gtk_crea_4_frecce();
 	gtk_box_pack_start(GTK_BOX(Vbox), Frecce, FALSE, FALSE, 0);
 	gtk_widget_show(Frecce);
-	// 	crea mappa
-	gtk_genera_mappa(Hbox);
 	// 	visualizza finestra
 	gtk_widget_show(finestra);
 	gtk_main();
