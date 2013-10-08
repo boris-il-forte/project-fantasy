@@ -2,7 +2,6 @@ project(fantasy-core)
 cmake_minimum_required(VERSION 2.6)
 
 #Find Pthreads and gtk3
-find_package (Threads)
 find_package(PkgConfig REQUIRED)
 pkg_check_modules(GTK3 REQUIRED gtk+-3.0)
 
@@ -23,5 +22,5 @@ add_executable(fantasy-core 	src/fantasIA.c
 				src/fantasy-main.c)
 
 #Link the libraries
-target_link_libraries(fantasy-core ${GTK3_LIBRARIES} ${CMAKE_THREAD_LIBS_INIT}) 
+target_link_libraries(fantasy-core ${GTK3_LIBRARIES}) 
 
