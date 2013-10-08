@@ -224,8 +224,8 @@ static void preferenze()
 {
 	int scelta;
 	int subdirs_no, i, d = 0;
-	char *sottodir[64]; // magic
-	char *skindefault = "NintendOtaku";
+	char *sottodir[64]; // FIXME magic
+	char *skindefault = "Il_Ratman";
 	GtkWidget *Dialogo;
 	GtkWidget *Opzioni;
 	GtkWidget *Label;

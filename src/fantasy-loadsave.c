@@ -55,7 +55,7 @@ int listaskin(char *nomedir, char *sottodir[])
 	}
 
 	for (i = 0; (dp = readdir(dir)) != NULL && i < 64; i++)
-	{ // magic64
+	{ // FIXME magic64
 		if ((dp->d_type & DT_DIR) && strcmp(dp->d_name, ".") != 0
 				&& strcmp(dp->d_name, "..") != 0)
 		{
