@@ -184,45 +184,6 @@ static void click_turno()
 	return;
 }
 
-//thread routine
-
-/*gboolean ridimensiona_mappa(struct datatime_s *datatime)
- {
- static int i=0;
- int w,h;
-
- if(i==0)
- {
- fprintf(stderr,"ridimensiona_mappa: debug! inizializza...\n");
- gtk_window_get_size(GTK_WINDOW(datatime->finestra),&datatime->wp ,&datatime->hp);
- i++;
- return TRUE;
- }
- if(need_resize)
- {
- fprintf(stderr,"ridimensiona_mappa: debug! INIZIATA!\n");
- gtk_window_get_size(GTK_WINDOW(datatime->finestra),&w,&h);
- fprintf(stderr,"ridimensiona_mappa: debug! w=%d, h=%d, wp=%d, hp=%d\n", w,h,datatime->wp,datatime->hp);
- if(w!=datatime->wp || h!=datatime->hp)
- {
- gtk_pulisci_caselle();
- caselle_orizzontali+=(w-datatime->wp)/Dim_casella;
- caselle_verticali+=(h-datatime->hp)/Dim_casella;
- gtk_table_resize(GTK_TABLE(datatime->Mappa),caselle_orizzontali,caselle_verticali);
- gtk_genera_mappa(datatime->Mappa);
- if(partita_in_corso!=0)
- {
- gtk_stampa_mappa(cx,cy,'n');
- }
- datatime->wp=w;
- datatime->hp=h;
- }
- fprintf(stderr,"ridimensiona_mappa: debug! FINITA!\n");
- need_resize=0;
- }
-
- return TRUE;
- }*/
 
 gboolean leggistream_tastiera(struct keypress_s *keypress)
 {
@@ -296,7 +257,6 @@ int main(int argc, char *argv[])
 
 //	inizializza
 	gtk_init(&argc, &argv);
-	gdk_threads_init();
 	partita_in_corso = 0;
 	caricaconfig("fantasy.config");
 #ifdef DEBUG
@@ -404,9 +364,7 @@ int main(int argc, char *argv[])
 	g_signal_connect(finestra, "configure-event", G_CALLBACK(rid), NULL);
 	gdk_threads_add_timeout_full(G_PRIORITY_DEFAULT_IDLE, 50,
 			(GSourceFunc) (leggistream_tastiera), (gpointer) &keypress, NULL);
-	gdk_threads_enter();
 	gtk_main();
-	gdk_threads_leave();
 
 	return 0;
 }

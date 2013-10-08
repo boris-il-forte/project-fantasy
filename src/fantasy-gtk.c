@@ -195,18 +195,16 @@ static void nuova_partita()
 	gtk_widget_show_all(Opzioni);
 	if (gtk_dialog_run(GTK_DIALOG(Dialogo)) == 1)
 	{
-		fantasia_kill_ia();
 		cx = 0;
 		cy = 0;
 		caricadati();
 		inizializza();
 		generamappa();
 		visualizza_su_terminale();
-		creagiocatori(gtk_adjustment_get_value(GTK_ADJUSTMENT(Giocatori)));
-		CurrentPlayer = 0;
 		numG = gtk_adjustment_get_value(GTK_ADJUSTMENT(Giocatori));
 		numIA = gtk_adjustment_get_value(GTK_ADJUSTMENT(IA));
-		fantasia_assegna_ia_random(numIA, numG);
+		creagiocatori(numG, numIA);
+		CurrentPlayer = 0;
 		gtk_azzera_tab();
 		gtk_pulisci_mappa();
 		gtk_stampa_mappa(cx, cy, 'n');

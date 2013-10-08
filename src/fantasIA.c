@@ -21,34 +21,9 @@
 #include <unistd.h>
 #include "fantasy-core.h"
 #include "fantasy-IA.h"
-#include "fantasy-IA-gtk.h"
 
-//mutex indispensabili
-pthread_mutex_t mutex = PTHREAD_MUTEX_INITIALIZER;
-pthread_t *ia_thread[NUM_IA_MAX];
 
-void fantasia_kill_ia()
-{
-	static int inizializzato = 0;
-	int i;
-
-	if (inizializzato == 0)
-	{
-		for (i = 0; i < NUM_IA_MAX; i++)
-			ia_thread[i] = NULL;
-		inizializzato++;
-	}
-	else
-	{
-		for (i = 0; i < NUM_IA_MAX; i++)
-		{
-			if (ia_thread[i] != NULL)
-				pthread_cancel(*ia_thread[i]);
-			free(ia_thread[i]);
-			ia_thread[i] = NULL;
-		}
-	}
-}
+t_iadata ia[MAXGIOCATORI];
 
 //assegna e crea le ia a giocatori random
 void fantasia_assegna_ia_random(int numIA, int numG)
@@ -83,27 +58,21 @@ void fantasia_assegna_ia_random(int numIA, int numG)
 				rt = 'n';
 				break;
 		}
-		ia_thread[r - 1] = fantasia_create_player(r, rt);
+		fantasia_crea_bot(r, rt);
 	}
 	return;
 }
 
-//crea un thead per il nuovo bot
-pthread_t *fantasia_create_player(int num, char type)
+//crea un nuovo bot
+void fantasia_crea_bot(int num, char type)
 {
-	pthread_t *thread = (pthread_t*) malloc(sizeof(pthread_t));
-	t_iaparam *param;
-	param = (t_iaparam*) malloc(sizeof(t_iaparam));
-	param->num = num;
-	param->mod = type;
-	pthread_create(thread, NULL, fantasia_giocatore_artificiale, param);
 	infogiocatore[num]->tipo = IA;
 	infogiocatore[num]->atteggiamento = type;
-	return thread;
+	ia[num] = fantasia_inizializza_bot(type);
 }
 
 //inizializza il giocatore
-t_iadata fantasia_giocatore_inizializza(char modo)
+t_iadata fantasia_inizializza_bot(char modo)
 {
 	t_iadata data;
 	switch (modo)
@@ -136,37 +105,8 @@ t_iadata fantasia_giocatore_inizializza(char modo)
 }
 
 //gestisce un giocatore artificiale
-void *fantasia_giocatore_artificiale(void *P)
+void fantasia_usa_bot(int num)
 {
-	//casting del puntatore in ingresso
-	t_iaparam *param = (t_iaparam*) P;
-	//dati IA
-	t_iadata datiIa;
-	int numeroGiocatore;
-
-	//inizializza IA
-	datiIa = fantasia_giocatore_inizializza(param->mod);
-	numeroGiocatore = param->num;
-
-	//elimina il puntatore al parametro
-	free(param);
-
-	//main loop IA
-	while (giocatore[numeroGiocatore] != NULL)
-	{
-		if (numeroGiocatore == CurrentPlayer)
-		{
-			printf(
-					"debug: sono il giocatore n: %d e sto per chiamare fineturno\n",
-					numeroGiocatore + 1);
-			pthread_mutex_lock(&mutex);
-			fantasia_gtk_fineturno();
-			pthread_mutex_unlock(&mutex);
-		}
-		printf("debug: sono il giocatore n: %d\n", numeroGiocatore + 1);
-		sleep(1);
-	}
-	free(param);
-	return NULL;
+	//fantasia_gtk_fineturno(); attiva fine tiurno...
 }
 

@@ -20,6 +20,7 @@
 #include <time.h>
 #include <string.h>
 #include "fantasy-core.h"
+#include "fantasy-IA.h"
 
 #define INIZIO_ORO 1000
 #define INIZIO_CIBO 1000
@@ -322,7 +323,7 @@ void rigeneramappa()
 }
 
 //inizializza la struttura dati giocatori
-void creagiocatori(int n)
+void creagiocatori(int n, int ia)
 {
 	int i, j;
 	char al;
@@ -364,6 +365,8 @@ void creagiocatori(int n)
 		giocatore[i] = NULL;
 		i++;
 	}
+
+	fantasia_assegna_ia_random(ia, n);
 }
 
 //addestra una unità
@@ -1679,11 +1682,14 @@ void fineturno()
 	}
 	//aggiorna il giocatore corrente
 	do
-	{
-		CurrentPlayer++;
-		if (CurrentPlayer == MAXGIOCATORI)
-			CurrentPlayer = 0;
-	} while (giocatore[CurrentPlayer] == NULL);
+	{	do
+		{
+			CurrentPlayer++;
+			CurrentPlayer %= MAXGIOCATORI;
+		} while (giocatore[CurrentPlayer] == NULL);
+		if(infogiocatore[CurrentPlayer]->tipo == IA)
+			fantasia_usa_bot(CurrentPlayer);
+	} while(infogiocatore[CurrentPlayer]->tipo == IA);
 	return;
 }
 

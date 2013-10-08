@@ -15,6 +15,10 @@
  * GNU General Public License for more details.
  */
 
+#ifndef FANTASY_CORE_
+#define FANTASY_CORE_
+
+
 #define LARGHEZZA 150
 #define ALTEZZA 40
 #define NUMCASTELLI 12
@@ -153,7 +157,7 @@ int controllosconfitto(int G);
 int controllovincitore();
 
 //funzioni di gestione dei dati di gioco
-void creagiocatori(int n);
+void creagiocatori(int n, int ia);
 int pagaunita(t_truppa T);
 void addestratruppa(int P, t_truppa T);
 t_infotruppa* generatruppa(t_truppa Tipo, char Giocatore, int Numero);
@@ -190,3 +194,5 @@ t_dtruppa Dtruppa[NUMTRUPPE];
 t_player *giocatore[MAXGIOCATORI];
 t_infoplayer *infogiocatore[MAXGIOCATORI];
 t_callback_s tr_callback[NUMTRUPPE];
+
+#endif

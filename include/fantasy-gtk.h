@@ -15,6 +15,10 @@
  * GNU General Public License for more details.
  */
 
+#ifndef FANTASY_GTK_
+#define FANTASY_GTK_
+
+
 //struct per tab
 typedef struct s_listapertab
 {
@@ -110,3 +114,5 @@ void gtk_aggiorna_giocatore_c();
 
 // funzioni combattimento
 void gtk_popup_combattimento(GtkWidget* Casella, int Perdite);
+
+#endif

@@ -15,22 +15,13 @@
  * GNU General Public License for more details.
  */
 
-//include indispensabili
-#include <pthread.h>
-
-//define thread
-#define NUM_IA_MAX 11 
+#ifndef FANTASY_IA_
+#define FANTASY_IA_
 
 //define utili
 #define MOLTO 100
 #define NORMALE 50
 #define POCO 20
-
-typedef struct s_iaparam
-{
-	int num;
-	char mod;
-} t_iaparam;
 
 typedef struct s_iadata
 {
@@ -46,11 +37,9 @@ typedef struct s_iadata
 } t_iadata;
 
 //funzioni IA
-pthread_t *fantasia_create_player(int num, char type);
-t_iadata fantasia_giocatore_inizializza(char modo);
-void *fantasia_giocatore_artificiale(void *P);
-
-//funzioni di appoggio
-void fantasia_kill_ia();
 void fantasia_assegna_ia_random(int numIA, int numG);
+void fantasia_crea_bot(int num, char type);
+t_iadata fantasia_inizializza_bot(char modo);
+void fantasia_usa_bot(int num);
 
+#endif

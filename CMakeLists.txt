@@ -16,8 +16,7 @@ add_definitions(${GTK3_CFLAGS_OTHER})
 set(EXECUTABLE_OUTPUT_PATH ${PROJECT_BINARY_DIR}/bin)
 
 #Build the game
-add_executable(fantasy-core 	src/fantasIA.c  
-				src/fantasIA-gtk.c    
+add_executable(fantasy-core 	src/fantasIA.c   
 				src/fantasy-gtk.c  
 				src/fantasy-lib.c  
 				src/fantasy-loadsave.c  
