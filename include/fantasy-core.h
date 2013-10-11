@@ -43,7 +43,7 @@ typedef enum e_tipoplayer {Locale, IA, Remoto} t_tipoplayer;
 typedef struct s_infogioco
 {
 	char skin[32];
-	char ext[5]; // estensione della skin(xpm, png, ...)// da fare: indovina automatico
+	char ext[5]; // estensione della skin(xpm, png, ...)
 } t_infogioco;
 
 typedef struct s_infotruppa
@@ -187,6 +187,7 @@ void aggiorna_tr_callback(char* pos);
 //variabili globali
 int cx,cy; // posizione della mappa visibile
 char partita_in_corso;
+int NumGiocatori;
 int CurrentPlayer;
 t_infogioco infogioco;
 t_infomappa infomappa;

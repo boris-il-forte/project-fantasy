@@ -341,6 +341,7 @@ void creagiocatori(int n, int ia)
 		} while (j < i);
 		num[i] = al;
 	}
+
 	for (i = 0; i < n; i++)
 	{
 		fprintf(stderr, "creo giocatore n:%d\n", i);
@@ -367,6 +368,8 @@ void creagiocatori(int n, int ia)
 	}
 
 	fantasia_assegna_ia_random(ia, n);
+
+	NumGiocatori = n;
 }
 
 //addestra una unità
