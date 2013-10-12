@@ -356,7 +356,7 @@ void creagiocatori(int n, int ia)
 		giocatore[i]->struttura[Cas]->next = NULL;
 		giocatore[i]->truppe = NULL;
 		infogiocatore[i]->tipo = Locale;
-		sprintf(infogiocatore[i]->nome, "Giocatore %d", i);
+		sprintf(infogiocatore[i]->nome, "Giocatore %d", i+1);
 		infogiocatore[i]->atteggiamento = 'u';
 		for (j = 1; j < NUMSTRUTTURE; j++)
 			giocatore[i]->struttura[j] = NULL;
@@ -369,7 +369,6 @@ void creagiocatori(int n, int ia)
 
 	fantasia_assegna_ia_random(ia, n);
 
-	NumGiocatori = n;
 }
 
 //addestra una unità

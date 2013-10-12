@@ -197,44 +197,42 @@ int headerOK(FILE *fp)
 	{
 		fprintf(stderr,
 				"Formato FantasyCore sconosciuto(supportato: v1). Versione: v%u ?\n",
-				ver[2]);
+				ver[3]);
 		return 0;
 	}
 
 	return 1;
 }
 
-void caricaInfoStato(FILE* fp, int inGioco[MAXGIOCATORI])
+void caricaInfoStato(FILE* fp, int *inGioco)
 {
-	//num giocatori
-	ckfread(&NumGiocatori, sizeof(NumGiocatori), fp);
 	// Cx,Cy, CurrentPlayer
 	ckfread(&cx, sizeof(cx), fp);
 	ckfread(&cy, sizeof(cy), fp);
 	ckfread(&CurrentPlayer, sizeof(CurrentPlayer), fp);
 	//carica la maschera dei giocatori attivi
-	ckfread(inGioco, sizeof(inGioco), fp);
+	ckfread(inGioco, MAXGIOCATORI*sizeof(int), fp);
 }
 
 void caricaMappa(FILE* fp)
 {
-	ckfread(&infomappa.prato, sizeof(infomappa.prato), fp);
-	ckfread(&infomappa.castelli, sizeof(infomappa.castelli), fp);
-	ckfread(&infomappa.fattorie, sizeof(infomappa.fattorie), fp);
-	ckfread(&infomappa.stalle, sizeof(infomappa.stalle), fp);
-	ckfread(&infomappa.grotte, sizeof(infomappa.grotte), fp);
-	ckfread(&infomappa.nidi, sizeof(infomappa.nidi), fp);
+	ckfread(infomappa.prato, sizeof(infomappa.prato), fp);
+	ckfread(infomappa.castelli, sizeof(infomappa.castelli), fp);
+	ckfread(infomappa.fattorie, sizeof(infomappa.fattorie), fp);
+	ckfread(infomappa.stalle, sizeof(infomappa.stalle), fp);
+	ckfread(infomappa.grotte, sizeof(infomappa.grotte), fp);
+	ckfread(infomappa.nidi, sizeof(infomappa.nidi), fp);
 	ckfread(&infomappa.numstalle, sizeof(infomappa.numstalle), fp);
 	ckfread(&infomappa.numnidi, sizeof(infomappa.numnidi), fp);
 	ckfread(&infomappa.numgrotte, sizeof(infomappa.numgrotte), fp);
 	ckfread(&infomappa.numfattorie, sizeof(infomappa.numfattorie), fp);
 }
 
-void caricaInfoGiocatore(int inGioco[MAXGIOCATORI], FILE* fp)
+void caricaInfoGiocatore(int *inGioco, FILE* fp)
 {
 	int i;
 
-	for (i = 0; i < NumGiocatori; i++)
+	for (i = 0; i < MAXGIOCATORI; i++)
 	{
 		if (inGioco[i])
 		{
@@ -253,9 +251,9 @@ void caricaInfoGiocatore(int inGioco[MAXGIOCATORI], FILE* fp)
 
 }
 
-t_lista_t * caricaTruppa(t_lista_t *testa, FILE *fp, char from) //# stavolta faccio notare che è meglio in questa funzione fare solo l'inserimento e non cercare la coda! inutile cercare la coda in quanto nessun'altra parte del codice usa la suddetta funzione.
+t_lista_t * caricaTruppa(FILE *fp, char from)
 {
-	t_lista_t *temp, *nuova;
+	t_lista_t *nuova;
 	nuova = malloc(sizeof(t_lista_t));
 	nuova->truppa = malloc(sizeof(t_infotruppa));
 
@@ -270,81 +268,100 @@ t_lista_t * caricaTruppa(t_lista_t *testa, FILE *fp, char from) //# stavolta fac
 	{ // 0 = esterno; 1 = struttura
 		infomappa.truppe[nuova->pos] = nuova->truppa; // assegnazione "di comodo"
 	}
+
 	nuova->next = NULL;
 
-	temp = testa;
-
-	if (temp == NULL)
-		return nuova;
-	while (temp->next != NULL)
-	{
-		temp = temp->next;
-	}
-	temp->next = nuova;
-
-	return testa;
+	return nuova;
 }
 
-t_lista_s * caricaTruppeInStruttura(t_lista_s *testa, FILE *fp)
+t_lista_s * caricaStruttura(FILE *fp)
 {
 	int num_truppestruttura;
-	int l;
+	int i;
 
-	t_lista_s *temp, *nuova;
-	nuova = malloc(sizeof(t_lista_s));
+	t_lista_t *truppa;
+	t_lista_s *nuova = malloc(sizeof(t_lista_s));
 
 	//carica posizione della struttura
 	ckfread(&nuova->pos, sizeof(nuova->pos), fp);
 
 	//carica truppe nella struttura
 	ckfread(&num_truppestruttura, sizeof(num_truppestruttura), fp);
+
 	nuova->in = NULL;
-	for (l = 0; l < num_truppestruttura; l++)
+
+	for (i = 0; i < num_truppestruttura; i++)
 	{
-		nuova->in = caricaTruppa(nuova->in, fp, 1);
+		if(i == 0)
+		{
+			nuova->in = caricaTruppa(fp, 1);
+			truppa = nuova->in;
+		}
+		else
+		{
+			truppa->next = caricaTruppa(fp, 1);
+			truppa = truppa->next;
+		}
 	}
+
 	nuova->next = NULL;
 
-	temp = testa;
 
-	if (temp == NULL)
-		return nuova;
-	while (temp->next != NULL)
-	{
-		temp = temp->next;
-	}
-	temp->next = nuova;
 
-	return testa;
+	return nuova;
+
 }
 
 t_player* caricaGiocatore(FILE* fp)
 {
 	int i, j;
 	int num_strutture, num_truppe;
+	t_lista_t* truppa;
+	t_lista_s* struttura;
 	t_player* giocatore = malloc(sizeof(t_player));
+
 
 	//Carica le strutture del giocatore
 	for (i = 0; i < NUMSTRUTTURE; i++)
 		giocatore->struttura[i] = NULL;
+
 	for (i = 0; i < NUMSTRUTTURE; i++)
 	{
 		ckfread(&num_strutture, sizeof(num_strutture), fp);
 		for (j = 0; j < num_strutture; j++)
 		{
-			giocatore->struttura[i] = caricaTruppeInStruttura(
-					giocatore->struttura[i], fp);
+			if(j == 0)
+			{
+				giocatore->struttura[i] = caricaStruttura(fp);
+				struttura = giocatore->struttura[i];
+			}
+			else
+			{
+				struttura->next = caricaStruttura(fp);
+				struttura = struttura->next;
+			}
 		}
 	}
+
 
 	//Carica le truppe del giocatore
 	ckfread(&num_truppe, sizeof(num_truppe), fp);
 	giocatore->truppe = NULL;
 	for (i = 0; i < num_truppe; i++)
 	{
-		// *truppe(scorri)
-		giocatore->truppe = caricaTruppa(giocatore->truppe, fp, 0);
+		if(i == 0)
+		{
+			giocatore->truppe = caricaTruppa(fp, 0);
+			truppa = giocatore->truppe;
+		}
+		else
+		{
+			truppa->next = caricaTruppa(fp, 0);
+			truppa = truppa->next;
+		}
+
 	}
+
 
 	//carica oro, cibo e smeraldi
 	ckfread(&giocatore->oro, sizeof(giocatore->oro), fp);
@@ -354,11 +371,11 @@ t_player* caricaGiocatore(FILE* fp)
 	return giocatore;
 }
 
-void caricaGiocatori(int inGioco[MAXGIOCATORI], FILE* fp)
+void caricaGiocatori(int *inGioco, FILE* fp)
 {
 	int i;
 	int num_strutture, num_truppe;
-	for (i = 0; i < NumGiocatori; i++)
+	for (i = 0; i < MAXGIOCATORI; i++)
 	{
 		if (inGioco[i])
 		{
@@ -368,11 +385,6 @@ void caricaGiocatori(int inGioco[MAXGIOCATORI], FILE* fp)
 		{
 			giocatore[i] = NULL;
 		}
-	}
-	while (i < MAXGIOCATORI)
-	{
-		giocatore[i] = NULL;
-		i++;
 	}
 }
 
@@ -408,6 +420,7 @@ int carica(char *nomefile)
 	//ricrea la mappa
 	rigeneramappa();
 
+
 	return 0;
 }
 
@@ -431,8 +444,6 @@ void salvaInfoStato(FILE* fp)
 	int morto = 0;
 	int i;
 
-	//num giocatori
-	ckfwrite(&NumGiocatori, sizeof(NumGiocatori), fp);
 	// Cx,Cy, CurrentPlayer
 	ckfwrite(&cx, sizeof(cx), fp);
 	ckfwrite(&cy, sizeof(cy), fp);
@@ -449,13 +460,12 @@ void salvaInfoStato(FILE* fp)
 
 void salvaMappa(FILE* fp)
 {
-	// infomappa
-	ckfwrite(&infomappa.prato, sizeof(infomappa.prato), fp);
-	ckfwrite(&infomappa.castelli, sizeof(infomappa.castelli), fp);
-	ckfwrite(&infomappa.fattorie, sizeof(infomappa.fattorie), fp);
-	ckfwrite(&infomappa.stalle, sizeof(infomappa.stalle), fp);
-	ckfwrite(&infomappa.grotte, sizeof(infomappa.grotte), fp);
-	ckfwrite(&infomappa.nidi, sizeof(infomappa.nidi), fp);
+	ckfwrite(infomappa.prato, sizeof(infomappa.prato), fp);
+	ckfwrite(infomappa.castelli, sizeof(infomappa.castelli), fp);
+	ckfwrite(infomappa.fattorie, sizeof(infomappa.fattorie), fp);
+	ckfwrite(infomappa.stalle, sizeof(infomappa.stalle), fp);
+	ckfwrite(infomappa.grotte, sizeof(infomappa.grotte), fp);
+	ckfwrite(infomappa.nidi, sizeof(infomappa.nidi), fp);
 	ckfwrite(&infomappa.numstalle, sizeof(infomappa.numstalle), fp);
 	ckfwrite(&infomappa.numnidi, sizeof(infomappa.numnidi), fp);
 	ckfwrite(&infomappa.numgrotte, sizeof(infomappa.numgrotte), fp);
@@ -466,7 +476,7 @@ void salvaInfoGiocatore(FILE* fp)
 {
 	int i;
 
-	for (i = 0; i < NumGiocatori; i++)
+	for (i = 0; i < MAXGIOCATORI; i++)
 	{
 		if (giocatore[i] != NULL)
 		{
@@ -483,7 +493,6 @@ void salvaInfoGiocatore(FILE* fp)
 
 void salvaTruppa(t_infotruppa* truppa, int pos, FILE* fp)
 {
-	// *truppe(scorri)
 	ckfwrite(&truppa->tipo, sizeof(truppa->tipo), fp);
 	ckfwrite(&truppa->giocatore, sizeof(truppa->giocatore), fp);
 	ckfwrite(&truppa->numero, sizeof(truppa->numero), fp);
@@ -549,14 +558,13 @@ void salvaStruttura(t_lista_s *struttura, FILE *fp)
 	{
 		salvaTruppa(listaTruppe->truppa, listaTruppe->pos, fp);
 		listaTruppe = listaTruppe->next;
-
 	}
 }
 
 void salvaGiocatore(t_player* giocatore, FILE *fp)
 {
 
-	int i, k;
+	int i, j;
 
 	int num_strutture;
 
@@ -566,16 +574,16 @@ void salvaGiocatore(t_player* giocatore, FILE *fp)
 	{
 		//conta le strutture
 		listaStruttura = giocatore->struttura[i];
-		for (k = 0; listaStruttura != NULL; k++)
+		for (j = 0; listaStruttura != NULL; j++)
 		{
 			listaStruttura = listaStruttura->next;
 		}
-		num_strutture = k;
+		num_strutture = j;
 		ckfwrite(&num_strutture, sizeof(num_strutture), fp);
 
 		//Salva le strutture
 		listaStruttura = giocatore->struttura[i];
-		for (k = 0; k < num_strutture; k++)
+		for (j = 0; j < num_strutture; j++)
 		{
 			salvaStruttura(giocatore->struttura[i], fp);
 			listaStruttura = listaStruttura->next;
@@ -589,7 +597,7 @@ void salvaGiocatore(t_player* giocatore, FILE *fp)
 void salvaGiocatori(FILE* fp)
 {
 	int i;
-	for (i = 0; i < NumGiocatori; i++)
+	for (i = 0; i < MAXGIOCATORI; i++)
 	{
 		if (giocatore[i] != NULL)
 			salvaGiocatore(giocatore[i], fp);

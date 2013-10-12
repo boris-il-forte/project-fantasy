@@ -2341,7 +2341,7 @@ void gtk_aggiorna_giocatore_c()
 
 	gtk_image_set_from_pixbuf(GTK_IMAGE(CurrentI1), Immagine.a[CurrentPlayer]);
 	gtk_image_set_from_pixbuf(GTK_IMAGE(CurrentI2), Immagine.a[CurrentPlayer]);
-	sprintf(buf, "Giocatore %d", CurrentPlayer + 1);
+	sprintf(buf, "%s", infogiocatore[CurrentPlayer]->nome);
 	gtk_label_set_text(GTK_LABEL(CurrentL), buf);
 }
 

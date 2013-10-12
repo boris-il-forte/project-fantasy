@@ -187,7 +187,6 @@ void aggiorna_tr_callback(char* pos);
 //variabili globali
 int cx,cy; // posizione della mappa visibile
 char partita_in_corso;
-int NumGiocatori;
 int CurrentPlayer;
 t_infogioco infogioco;
 t_infomappa infomappa;
