@@ -1467,311 +1467,252 @@ void gtk_stampa_mappa(int x, int y, char m)
 				case '0':
 				G=controlloedificio(posiziona(-1,-1,C,R), Cas);
 				gdk_pixbuf_composite(Immagine.c[G+1][0],TmpB,0,0,Dim_casella,Dim_casella,0,0,1,1,GDK_INTERP_BILINEAR,255);
-				Thumb[Pos]=gtk_image_new_from_pixbuf(TmpB);
-				gtk_container_add(GTK_CONTAINER(Casella[Pos]), Thumb[Pos]);
 				if(m=='n' && G==CurrentPlayer)
 				g_signal_connect_swapped(Casella[Pos], "button_press_event", G_CALLBACK(click_castello),(gpointer)&infomappa.mappa[posiziona(-1,-1,C,R)]);
 				if(m=='c' && assaltolecito(Mossa,posiziona(0,0,C,R))==1 && controllodiverso(Mossa,posiziona(-1,-1,C,R),Cas)==1)
 				g_signal_connect_swapped(Casella[Pos], "button_press_event", G_CALLBACK(click_assediocastello),(gpointer)&infomappa.mappa[posiziona(-1,-1,C,R)]);
 				if(m=='s' && spostalecito(Mossa,posiziona(0,0,C,R),V)==1 && controllodiverso(Mossa,posiziona(-1,-1,C,R),Cas)==0)
 				g_signal_connect_swapped(Casella[Pos], "button_press_event", G_CALLBACK(click_entrastruttura),(gpointer)&infomappa.mappa[posiziona(-1,-1,C,R)]);
-				gtk_widget_show(Thumb[Pos]);
 				break;
 				case '1':
 				G=controlloedificio(posiziona(0,-1,C,R), Cas);
 				gdk_pixbuf_composite(Immagine.c[G+1][1],TmpB,0,0,Dim_casella,Dim_casella,0,0,1,1,GDK_INTERP_BILINEAR,255);
-				Thumb[Pos]=gtk_image_new_from_pixbuf(TmpB);
-				gtk_container_add(GTK_CONTAINER(Casella[Pos]), Thumb[Pos]);
 				if(m=='n' && G==CurrentPlayer)
 				g_signal_connect_swapped(Casella[Pos], "button_press_event", G_CALLBACK(click_castello),(gpointer)&infomappa.mappa[posiziona(0,-1,C,R)]);
 				if(m=='c' && assaltolecito(Mossa,posiziona(0,0,C,R))==1 && controllodiverso(Mossa,posiziona(0,-1,C,R),Cas)==1)
 				g_signal_connect_swapped(Casella[Pos], "button_press_event", G_CALLBACK(click_assediocastello),(gpointer)&infomappa.mappa[posiziona(0,-1,C,R)]);
 				if(m=='s' && spostalecito(Mossa,posiziona(0,0,C,R),V)==1 && controllodiverso(Mossa,posiziona(0,-1,C,R),Cas)==0)
 				g_signal_connect_swapped(Casella[Pos], "button_press_event", G_CALLBACK(click_entrastruttura),(gpointer)&infomappa.mappa[posiziona(0,-1,C,R)]);
-				gtk_widget_show(Thumb[Pos]);
 				break;
 				case '2':
 				G=controlloedificio(posiziona(1,-1,C,R), Cas);
 				gdk_pixbuf_composite(Immagine.c[G+1][2],TmpB,0,0,Dim_casella,Dim_casella,0,0,1,1,GDK_INTERP_BILINEAR,255);
-				Thumb[Pos]=gtk_image_new_from_pixbuf(TmpB);
-				gtk_container_add(GTK_CONTAINER(Casella[Pos]), Thumb[Pos]);
 				if(m=='n' && G==CurrentPlayer)
 				g_signal_connect_swapped(Casella[Pos], "button_press_event", G_CALLBACK(click_castello),(gpointer)&infomappa.mappa[posiziona(1,-1,C,R)]);
 				if(m=='c' && assaltolecito(Mossa,posiziona(0,0,C,R))==1 && controllodiverso(Mossa,posiziona(1,-1,C,R),Cas)==1)
 				g_signal_connect_swapped(Casella[Pos], "button_press_event", G_CALLBACK(click_assediocastello),(gpointer)&infomappa.mappa[posiziona(1,-1,C,R)]);
 				if(m=='s' && spostalecito(Mossa,posiziona(0,0,C,R),V)==1 && controllodiverso(Mossa,posiziona(1,-1,C,R),Cas)==0)
 				g_signal_connect_swapped(Casella[Pos], "button_press_event", G_CALLBACK(click_entrastruttura),(gpointer)&infomappa.mappa[posiziona(1,-1,C,R)]);
-				gtk_widget_show(Thumb[Pos]);
 				break;
 				case '3':
 				G=controlloedificio(posiziona(-1,0,C,R), Cas);
 				gdk_pixbuf_composite(Immagine.c[G+1][3],TmpB,0,0,Dim_casella,Dim_casella,0,0,1,1,GDK_INTERP_BILINEAR,255);
-				Thumb[Pos]=gtk_image_new_from_pixbuf(TmpB);
-				gtk_container_add(GTK_CONTAINER(Casella[Pos]), Thumb[Pos]);
 				if(m=='n' && G==CurrentPlayer)
 				g_signal_connect_swapped(Casella[Pos], "button_press_event", G_CALLBACK(click_castello),(gpointer)&infomappa.mappa[posiziona(-1,0,C,R)]);
 				if(m=='c' && assaltolecito(Mossa,posiziona(0,0,C,R))==1 && controllodiverso(Mossa,posiziona(-1,0,C,R),Cas)==1)
 				g_signal_connect_swapped(Casella[Pos], "button_press_event", G_CALLBACK(click_assediocastello),(gpointer)&infomappa.mappa[posiziona(-1,0,C,R)]);
 				if(m=='s' && spostalecito(Mossa,posiziona(0,0,C,R),V)==1 && controllodiverso(Mossa,posiziona(-1,0,C,R),Cas)==0)
 				g_signal_connect_swapped(Casella[Pos], "button_press_event", G_CALLBACK(click_entrastruttura),(gpointer)&infomappa.mappa[posiziona(-1,0,C,R)]);
-				gtk_widget_show(Thumb[Pos]);
 				break;
 				case '4':
 				G=controlloedificio(posiziona(0,0,C,R), Cas);
 				gdk_pixbuf_composite(Immagine.c[G+1][4],TmpB,0,0,Dim_casella,Dim_casella,0,0,1,1,GDK_INTERP_BILINEAR,255);
-				Thumb[Pos]=gtk_image_new_from_pixbuf(TmpB);
-				gtk_container_add(GTK_CONTAINER(Casella[Pos]), Thumb[Pos]);
 				if(m=='n' && G==CurrentPlayer)
 				g_signal_connect_swapped(Casella[Pos], "button_press_event", G_CALLBACK(click_castello),(gpointer)&infomappa.mappa[posiziona(0,0,C,R)]);
-				gtk_widget_show(Thumb[Pos]);
 				break;
 				case '5':
 				G=controlloedificio(posiziona(1,0,C,R), Cas);
 				gdk_pixbuf_composite(Immagine.c[G+1][5],TmpB,0,0,Dim_casella,Dim_casella,0,0,1,1,GDK_INTERP_BILINEAR,255);
-				Thumb[Pos]=gtk_image_new_from_pixbuf(TmpB);
-				gtk_container_add(GTK_CONTAINER(Casella[Pos]), Thumb[Pos]);
 				if(m=='n' && G==CurrentPlayer)
 				g_signal_connect_swapped(Casella[Pos], "button_press_event", G_CALLBACK(click_castello),(gpointer)&infomappa.mappa[posiziona(1,0,C,R)]);
 				if(m=='c' && assaltolecito(Mossa,posiziona(0,0,C,R))==1 && controllodiverso(Mossa,posiziona(1,0,C,R),Cas)==1)
 				g_signal_connect_swapped(Casella[Pos], "button_press_event", G_CALLBACK(click_assediocastello),(gpointer)&infomappa.mappa[posiziona(1,0,C,R)]);
 				if(m=='s' && spostalecito(Mossa,posiziona(0,0,C,R),V)==1 && controllodiverso(Mossa,posiziona(1,0,C,R),Cas)==0)
-				g_signal_connect_swapped(Casella[Pos], "button_press_event", G_CALLBACK(click_entrastruttura),(gpointer)&infomappa.mappa[posiziona(1,0,C,R)]);
-				gtk_widget_show(Thumb[Pos]);
+				g_signal_connect_swapped(Casella[Pos], "button_press_event", G_CALLBACK(click_entrastruttura),(gpointer)&infomappa.mappa[posiziona(1,0,C,R)]); 
 				break;
 				case '6':
 				G=controlloedificio(posiziona(-1,1,C,R), Cas);
 				gdk_pixbuf_composite(Immagine.c[G+1][6],TmpB,0,0,Dim_casella,Dim_casella,0,0,1,1,GDK_INTERP_BILINEAR,255);
-				Thumb[Pos]=gtk_image_new_from_pixbuf(TmpB);
-				gtk_container_add(GTK_CONTAINER(Casella[Pos]), Thumb[Pos]);
 				if(m=='n' && G==CurrentPlayer)
 				g_signal_connect_swapped(Casella[Pos], "button_press_event", G_CALLBACK(click_castello),(gpointer)&infomappa.mappa[posiziona(-1,1,C,R)]);
 				if(m=='c' && assaltolecito(Mossa,posiziona(0,0,C,R))==1 && controllodiverso(Mossa,posiziona(-1,1,C,R),Cas)==1)
 				g_signal_connect_swapped(Casella[Pos], "button_press_event", G_CALLBACK(click_assediocastello),(gpointer)&infomappa.mappa[posiziona(-1,1,C,R)]);
 				if(m=='s' && spostalecito(Mossa,posiziona(0,0,C,R),V)==1 && controllodiverso(Mossa,posiziona(-1,1,C,R),Cas)==0)
-				g_signal_connect_swapped(Casella[Pos], "button_press_event", G_CALLBACK(click_entrastruttura),(gpointer)&infomappa.mappa[posiziona(-1,1,C,R)]);
-				gtk_widget_show(Thumb[Pos]);
+				g_signal_connect_swapped(Casella[Pos], "button_press_event", G_CALLBACK(click_entrastruttura),(gpointer)&infomappa.mappa[posiziona(-1,1,C,R)]); 
 				break;
 				case '7':
 				G=controlloedificio(posiziona(0,1,C,R), Cas);
 				gdk_pixbuf_composite(Immagine.c[G+1][7],TmpB,0,0,Dim_casella,Dim_casella,0,0,1,1,GDK_INTERP_BILINEAR,255);
-				Thumb[Pos]=gtk_image_new_from_pixbuf(TmpB);
-				gtk_container_add(GTK_CONTAINER(Casella[Pos]), Thumb[Pos]);
 				if(m=='n' && G==CurrentPlayer)
 				g_signal_connect_swapped(Casella[Pos], "button_press_event", G_CALLBACK(click_castello),(gpointer)&infomappa.mappa[posiziona(0,1,C,R)]);
 				if(m=='c' && assaltolecito(Mossa,posiziona(0,0,C,R))==1 && controllodiverso(Mossa,posiziona(0,1,C,R),Cas)==1)
 				g_signal_connect_swapped(Casella[Pos], "button_press_event", G_CALLBACK(click_assediocastello),(gpointer)&infomappa.mappa[posiziona(0,1,C,R)]);
 				if(m=='s' && spostalecito(Mossa,posiziona(0,0,C,R),V)==1 && controllodiverso(Mossa,posiziona(0,1,C,R),Cas)==0)
 				g_signal_connect_swapped(Casella[Pos], "button_press_event", G_CALLBACK(click_entrastruttura),(gpointer)&infomappa.mappa[posiziona(0,1,C,R)]);
-				gtk_widget_show(Thumb[Pos]);
 				break;
 				case '8':
 				G=controlloedificio(posiziona(1,1,C,R), Cas);
 				gdk_pixbuf_composite(Immagine.c[G+1][8],TmpB,0,0,Dim_casella,Dim_casella,0,0,1,1,GDK_INTERP_BILINEAR,255);
-				Thumb[Pos]=gtk_image_new_from_pixbuf(TmpB);
-				gtk_container_add(GTK_CONTAINER(Casella[Pos]), Thumb[Pos]);
 				if(m=='n' && G==CurrentPlayer)
 				g_signal_connect_swapped(Casella[Pos], "button_press_event", G_CALLBACK(click_castello),(gpointer)&infomappa.mappa[posiziona(1,1,C,R)]);
 				if(m=='c' && assaltolecito(Mossa,posiziona(0,0,C,R))==1 && controllodiverso(Mossa,posiziona(1,1,C,R),Cas)==1)
 				g_signal_connect_swapped(Casella[Pos], "button_press_event", G_CALLBACK(click_assediocastello),(gpointer)&infomappa.mappa[posiziona(1,1,C,R)]);
 				if(m=='s' && spostalecito(Mossa,posiziona(0,0,C,R),V)==1 && controllodiverso(Mossa,posiziona(1,1,C,R),Cas)==0)
-				g_signal_connect_swapped(Casella[Pos], "button_press_event", G_CALLBACK(click_entrastruttura),(gpointer)&infomappa.mappa[posiziona(1,1,C,R)]);
-				gtk_widget_show(Thumb[Pos]);
+				g_signal_connect_swapped(Casella[Pos], "button_press_event", G_CALLBACK(click_entrastruttura),(gpointer)&infomappa.mappa[posiziona(1,1,C,R)]); 
 				break;
 				/*stampa la grotta*/
 				case 'G':
 				G=controlloedificio(posiziona(0,0,C,R),Gro);
-				Thumb[Pos]=gtk_image_new_from_pixbuf(Immagine.g[G+1][0]);
-				gtk_container_add(GTK_CONTAINER(Casella[Pos]), Thumb[Pos]);
+				gdk_pixbuf_composite(Immagine.g[G+1][0],TmpB,0,0,Dim_casella,Dim_casella,0,0,1,1,GDK_INTERP_BILINEAR,255);
 				if(m=='n' && G==CurrentPlayer)
 				g_signal_connect_swapped(Casella[Pos], "button_press_event", G_CALLBACK(click_grotta),(gpointer)&infomappa.mappa[posiziona(0,0,C,R)]);
 				if(m=='c' && assaltolecito(Mossa,posiziona(0,0,C,R))==1 && controllodiverso(Mossa,posiziona(0,0,C,R),Gro)==1)
 				g_signal_connect_swapped(Casella[Pos], "button_press_event", G_CALLBACK(click_assaltostruttura),(gpointer)&infomappa.mappa[posiziona(0,0,C,R)]);
 				if(m=='s' && spostalecito(Mossa,posiziona(0,0,C,R),V)==1 && controllodiverso(Mossa,posiziona(0,0,C,R),Gro)==0)
-				g_signal_connect_swapped(Casella[Pos], "button_press_event", G_CALLBACK(click_entrastruttura),(gpointer)&infomappa.mappa[posiziona(0,0,C,R)]);
-				gtk_widget_show(Thumb[Pos]);
+				g_signal_connect_swapped(Casella[Pos], "button_press_event", G_CALLBACK(click_entrastruttura),(gpointer)&infomappa.mappa[posiziona(0,0,C,R)]); 
 				break;
 				case 'H':
 				G=controlloedificio(posiziona(1,0,C,R),Gro);
-				Thumb[Pos]=gtk_image_new_from_pixbuf(Immagine.g[G+1][1]);
-				gtk_container_add(GTK_CONTAINER(Casella[Pos]), Thumb[Pos]);
+				gdk_pixbuf_composite(Immagine.g[G+1][1],TmpB,0,0,Dim_casella,Dim_casella,0,0,1,1,GDK_INTERP_BILINEAR,255);
 				if(m=='n' && G==CurrentPlayer)
 				g_signal_connect_swapped(Casella[Pos], "button_press_event", G_CALLBACK(click_grotta),(gpointer)&infomappa.mappa[posiziona(1,0,C,R)]);
 				if(m=='c' && assaltolecito(Mossa,posiziona(0,0,C,R))==1 && controllodiverso(Mossa,posiziona(1,0,C,R),Gro)==1)
 				g_signal_connect_swapped(Casella[Pos], "button_press_event", G_CALLBACK(click_assaltostruttura),(gpointer)&infomappa.mappa[posiziona(1,0,C,R)]);
 				if(m=='s' && spostalecito(Mossa,posiziona(0,0,C,R),V)==1 && controllodiverso(Mossa,posiziona(1,0,C,R),Gro)==0)
 				g_signal_connect_swapped(Casella[Pos], "button_press_event", G_CALLBACK(click_entrastruttura),(gpointer)&infomappa.mappa[posiziona(1,0,C,R)]);
-				gtk_widget_show(Thumb[Pos]);
 				break;
 				case 'I':
 				G=controlloedificio(posiziona(0,1,C,R),Gro);
-				Thumb[Pos]=gtk_image_new_from_pixbuf(Immagine.g[G+1][2]);
-				gtk_container_add(GTK_CONTAINER(Casella[Pos]), Thumb[Pos]);
+				gdk_pixbuf_composite(Immagine.g[G+1][2],TmpB,0,0,Dim_casella,Dim_casella,0,0,1,1,GDK_INTERP_BILINEAR,255);
 				if(m=='n' && G==CurrentPlayer)
 				g_signal_connect_swapped(Casella[Pos], "button_press_event", G_CALLBACK(click_grotta),(gpointer)&infomappa.mappa[posiziona(0,1,C,R)]);
 				if(m=='c' && assaltolecito(Mossa,posiziona(0,0,C,R))==1 && controllodiverso(Mossa,posiziona(0,1,C,R),Gro)==1)
 				g_signal_connect_swapped(Casella[Pos], "button_press_event", G_CALLBACK(click_assaltostruttura),(gpointer)&infomappa.mappa[posiziona(0,1,C,R)]);
 				if(m=='s' && spostalecito(Mossa,posiziona(0,0,C,R),V)==1 && controllodiverso(Mossa,posiziona(0,1,C,R),Gro)==0)
-				g_signal_connect_swapped(Casella[Pos], "button_press_event", G_CALLBACK(click_entrastruttura),(gpointer)&infomappa.mappa[posiziona(0,1,C,R)]);
-				gtk_widget_show(Thumb[Pos]);
+				g_signal_connect_swapped(Casella[Pos], "button_press_event", G_CALLBACK(click_entrastruttura),(gpointer)&infomappa.mappa[posiziona(0,1,C,R)]); 
 				break;
 				case 'J':
 				G=controlloedificio(posiziona(1,1,C,R),Gro);
-				Thumb[Pos]=gtk_image_new_from_pixbuf(Immagine.g[G+1][3]);
-				gtk_container_add(GTK_CONTAINER(Casella[Pos]), Thumb[Pos]);
+				gdk_pixbuf_composite(Immagine.g[G+1][3],TmpB,0,0,Dim_casella,Dim_casella,0,0,1,1,GDK_INTERP_BILINEAR,255);
 				if(m=='n' && G==CurrentPlayer)
 				g_signal_connect_swapped(Casella[Pos], "button_press_event", G_CALLBACK(click_grotta),(gpointer)&infomappa.mappa[posiziona(1,1,C,R)]);
 				if(m=='c' && assaltolecito(Mossa,posiziona(0,0,C,R))==1 && controllodiverso(Mossa,posiziona(1,1,C,R),Gro)==1)
 				g_signal_connect_swapped(Casella[Pos], "button_press_event", G_CALLBACK(click_assaltostruttura),(gpointer)&infomappa.mappa[posiziona(1,1,C,R)]);
 				if(m=='s' && spostalecito(Mossa,posiziona(0,0,C,R),V)==1 && controllodiverso(Mossa,posiziona(1,1,C,R),Gro)==0)
-				g_signal_connect_swapped(Casella[Pos], "button_press_event", G_CALLBACK(click_entrastruttura),(gpointer)&infomappa.mappa[posiziona(1,1,C,R)]);
-				gtk_widget_show(Thumb[Pos]);
+				g_signal_connect_swapped(Casella[Pos], "button_press_event", G_CALLBACK(click_entrastruttura),(gpointer)&infomappa.mappa[posiziona(1,1,C,R)]); 
 				break;
 				/*stampa la fattoria*/
 				case 'C':
 				G=controlloedificio(posiziona(0,0,C,R),Fat);
-				Thumb[Pos]=gtk_image_new_from_pixbuf(Immagine.f[G+1][0]);
-				gtk_container_add(GTK_CONTAINER(Casella[Pos]), Thumb[Pos]);
+				gdk_pixbuf_composite(Immagine.f[G+1][0],TmpB,0,0,Dim_casella,Dim_casella,0,0,1,1,GDK_INTERP_BILINEAR,255);
 				if(m=='n' && G==CurrentPlayer)
 				g_signal_connect_swapped(Casella[Pos], "button_press_event", G_CALLBACK(click_fattoria),(gpointer)&infomappa.mappa[posiziona(0,0,C,R)]);
 				if(m=='c' && assaltolecito(Mossa,posiziona(0,0,C,R))==1 && controllodiverso(Mossa,posiziona(0,0,C,R),Fat)==1)
 				g_signal_connect_swapped(Casella[Pos], "button_press_event", G_CALLBACK(click_assaltostruttura),(gpointer)&infomappa.mappa[posiziona(0,0,C,R)]);
 				if(m=='s' && spostalecito(Mossa,posiziona(0,0,C,R),V)==1 && controllodiverso(Mossa,posiziona(0,0,C,R),Fat)==0)
-				g_signal_connect_swapped(Casella[Pos], "button_press_event", G_CALLBACK(click_entrastruttura),(gpointer)&infomappa.mappa[posiziona(0,0,C,R)]);
-				gtk_widget_show(Thumb[Pos]);
+				g_signal_connect_swapped(Casella[Pos], "button_press_event", G_CALLBACK(click_entrastruttura),(gpointer)&infomappa.mappa[posiziona(0,0,C,R)]); 
 				break;
 				case 'D':
 				G=controlloedificio(posiziona(1,0,C,R),Fat);
-				Thumb[Pos]=gtk_image_new_from_pixbuf(Immagine.f[G+1][1]);
-				gtk_container_add(GTK_CONTAINER(Casella[Pos]), Thumb[Pos]);
+				gdk_pixbuf_composite(Immagine.f[G+1][1],TmpB,0,0,Dim_casella,Dim_casella,0,0,1,1,GDK_INTERP_BILINEAR,255);
 				if(m=='n' && G==CurrentPlayer)
 				g_signal_connect_swapped(Casella[Pos], "button_press_event", G_CALLBACK(click_fattoria),(gpointer)&infomappa.mappa[posiziona(1,0,C,R)]);
 				if(m=='c' && assaltolecito(Mossa,posiziona(0,0,C,R))==1 && controllodiverso(Mossa,posiziona(1,0,C,R),Fat)==1)
 				g_signal_connect_swapped(Casella[Pos], "button_press_event", G_CALLBACK(click_assaltostruttura),(gpointer)&infomappa.mappa[posiziona(1,0,C,R)]);
 				if(m=='s' && spostalecito(Mossa,posiziona(0,0,C,R),V)==1 && controllodiverso(Mossa,posiziona(1,0,C,R),Fat)==0)
 				g_signal_connect_swapped(Casella[Pos], "button_press_event", G_CALLBACK(click_entrastruttura),(gpointer)&infomappa.mappa[posiziona(1,0,C,R)]);
-				gtk_widget_show(Thumb[Pos]);
 				break;
 				case 'E':
 				G=controlloedificio(posiziona(0,1,C,R),Fat);
-				Thumb[Pos]=gtk_image_new_from_pixbuf(Immagine.f[G+1][2]);
-				gtk_container_add(GTK_CONTAINER(Casella[Pos]), Thumb[Pos]);
+				gdk_pixbuf_composite(Immagine.f[G+1][2],TmpB,0,0,Dim_casella,Dim_casella,0,0,1,1,GDK_INTERP_BILINEAR,255);
 				if(m=='n' && G==CurrentPlayer)
 				g_signal_connect_swapped(Casella[Pos], "button_press_event", G_CALLBACK(click_fattoria),(gpointer)&infomappa.mappa[posiziona(0,1,C,R)]);
 				if(m=='c' && assaltolecito(Mossa,posiziona(0,0,C,R))==1 && controllodiverso(Mossa,posiziona(0,1,C,R),Fat)==1)
 				g_signal_connect_swapped(Casella[Pos], "button_press_event", G_CALLBACK(click_assaltostruttura),(gpointer)&infomappa.mappa[posiziona(0,1,C,R)]);
 				if(m=='s' && spostalecito(Mossa,posiziona(0,0,C,R),V)==1 && controllodiverso(Mossa,posiziona(0,1,C,R),Fat)==0)
 				g_signal_connect_swapped(Casella[Pos], "button_press_event", G_CALLBACK(click_entrastruttura),(gpointer)&infomappa.mappa[posiziona(0,1,C,R)]);
-				gtk_widget_show(Thumb[Pos]);
 				break;
 				case 'F':
 				G=controlloedificio(posiziona(1,1,C,R),Fat);
-				Thumb[Pos]=gtk_image_new_from_pixbuf(Immagine.f[G+1][3]);
-				gtk_container_add(GTK_CONTAINER(Casella[Pos]), Thumb[Pos]);
+				gdk_pixbuf_composite(Immagine.f[G+1][3],TmpB,0,0,Dim_casella,Dim_casella,0,0,1,1,GDK_INTERP_BILINEAR,255);
 				if(m=='n' && G==CurrentPlayer)
 				g_signal_connect_swapped(Casella[Pos], "button_press_event", G_CALLBACK(click_fattoria),(gpointer)&infomappa.mappa[posiziona(1,1,C,R)]);
 				if(m=='c' && assaltolecito(Mossa,posiziona(0,0,C,R))==1 && controllodiverso(Mossa,posiziona(1,1,C,R),Fat)==1)
 				g_signal_connect_swapped(Casella[Pos], "button_press_event", G_CALLBACK(click_assaltostruttura),(gpointer)&infomappa.mappa[posiziona(1,1,C,R)]);
 				if(m=='s' && spostalecito(Mossa,posiziona(0,0,C,R),V)==1 && controllodiverso(Mossa,posiziona(1,1,C,R),Fat)==0)
 				g_signal_connect_swapped(Casella[Pos], "button_press_event", G_CALLBACK(click_entrastruttura),(gpointer)&infomappa.mappa[posiziona(1,1,C,R)]);
-				gtk_widget_show(Thumb[Pos]);
 				break;
 				/*stampa la scuderia*/
 				case 'S':
 				G=controlloedificio(posiziona(0,0,C,R),Scu);
-				Thumb[Pos]=gtk_image_new_from_pixbuf(Immagine.s[G+1][0]);
-				gtk_container_add(GTK_CONTAINER(Casella[Pos]), Thumb[Pos]);
+				gdk_pixbuf_composite(Immagine.s[G+1][0],TmpB,0,0,Dim_casella,Dim_casella,0,0,1,1,GDK_INTERP_BILINEAR,255);
 				if(m=='n' && G==CurrentPlayer)
 				g_signal_connect_swapped(Casella[Pos], "button_press_event", G_CALLBACK(click_scuderia),(gpointer)&infomappa.mappa[posiziona(0,0,C,R)]);
 				if(m=='c' && assaltolecito(Mossa,posiziona(0,0,C,R))==1 && controllodiverso(Mossa,posiziona(0,0,C,R),Scu)==1)
 				g_signal_connect_swapped(Casella[Pos], "button_press_event", G_CALLBACK(click_assaltostruttura),(gpointer)&infomappa.mappa[posiziona(0,0,C,R)]);
 				if(m=='s' && spostalecito(Mossa,posiziona(0,0,C,R),V)==1 && controllodiverso(Mossa,posiziona(0,0,C,R),Scu)==0)
 				g_signal_connect_swapped(Casella[Pos], "button_press_event", G_CALLBACK(click_entrastruttura),(gpointer)&infomappa.mappa[posiziona(0,0,C,R)]);
-				gtk_widget_show(Thumb[Pos]);
 				break;
 				case 'T':
 				G=controlloedificio(posiziona(1,0,C,R),Scu);
-				Thumb[Pos]=gtk_image_new_from_pixbuf(Immagine.s[G+1][1]);
-				gtk_container_add(GTK_CONTAINER(Casella[Pos]), Thumb[Pos]);
+				gdk_pixbuf_composite(Immagine.s[G+1][1],TmpB,0,0,Dim_casella,Dim_casella,0,0,1,1,GDK_INTERP_BILINEAR,255);
 				if(m=='n' && G==CurrentPlayer)
 				g_signal_connect_swapped(Casella[Pos], "button_press_event", G_CALLBACK(click_scuderia),(gpointer)&infomappa.mappa[posiziona(1,0,C,R)]);
 				if(m=='c' && assaltolecito(Mossa,posiziona(0,0,C,R))==1 && controllodiverso(Mossa,posiziona(1,0,C,R),Scu)==1)
 				g_signal_connect_swapped(Casella[Pos], "button_press_event", G_CALLBACK(click_assaltostruttura),(gpointer)&infomappa.mappa[posiziona(1,0,C,R)]);
 				if(m=='s' && spostalecito(Mossa,posiziona(0,0,C,R),V)==1 && controllodiverso(Mossa,posiziona(1,0,C,R),Scu)==0)
 				g_signal_connect_swapped(Casella[Pos], "button_press_event", G_CALLBACK(click_entrastruttura),(gpointer)&infomappa.mappa[posiziona(1,0,C,R)]);
-				gtk_widget_show(Thumb[Pos]);
 				break;
 				case 'U':
 				G=controlloedificio(posiziona(0,1,C,R),Scu);
-				Thumb[Pos]=gtk_image_new_from_pixbuf(Immagine.s[G+1][2]);
-				gtk_container_add(GTK_CONTAINER(Casella[Pos]), Thumb[Pos]);
+				gdk_pixbuf_composite(Immagine.s[G+1][2],TmpB,0,0,Dim_casella,Dim_casella,0,0,1,1,GDK_INTERP_BILINEAR,255);
 				if(m=='n' && G==CurrentPlayer)
 				g_signal_connect_swapped(Casella[Pos], "button_press_event", G_CALLBACK(click_scuderia),(gpointer)&infomappa.mappa[posiziona(0,1,C,R)]);
 				if(m=='c' && assaltolecito(Mossa,posiziona(0,0,C,R))==1 && controllodiverso(Mossa,posiziona(0,1,C,R),Scu)==1)
 				g_signal_connect_swapped(Casella[Pos], "button_press_event", G_CALLBACK(click_assaltostruttura),(gpointer)&infomappa.mappa[posiziona(0,1,C,R)]);
 				if(m=='s' && spostalecito(Mossa,posiziona(0,0,C,R),V)==1 && controllodiverso(Mossa,posiziona(0,1,C,R),Scu)==0)
-				g_signal_connect_swapped(Casella[Pos], "button_press_event", G_CALLBACK(click_entrastruttura),(gpointer)&infomappa.mappa[posiziona(0,1,C,R)]);
-				gtk_widget_show(Thumb[Pos]);
+				g_signal_connect_swapped(Casella[Pos], "button_press_event", G_CALLBACK(click_entrastruttura),(gpointer)&infomappa.mappa[posiziona(0,1,C,R)]); 
 				break;
 				case 'V':
 				G=controlloedificio(posiziona(1,1,C,R),Scu);
-				Thumb[Pos]=gtk_image_new_from_pixbuf(Immagine.s[G+1][3]);
-				gtk_container_add(GTK_CONTAINER(Casella[Pos]), Thumb[Pos]);
+				gdk_pixbuf_composite(Immagine.s[G+1][3],TmpB,0,0,Dim_casella,Dim_casella,0,0,1,1,GDK_INTERP_BILINEAR,255);
 				if(m=='n' && G==CurrentPlayer)
 				g_signal_connect_swapped(Casella[Pos], "button_press_event", G_CALLBACK(click_scuderia),(gpointer)&infomappa.mappa[posiziona(1,1,C,R)]);
 				if(m=='c' && assaltolecito(Mossa,posiziona(0,0,C,R))==1 && controllodiverso(Mossa,posiziona(1,1,C,R),Scu)==1)
 				g_signal_connect_swapped(Casella[Pos], "button_press_event", G_CALLBACK(click_assaltostruttura),(gpointer)&infomappa.mappa[posiziona(1,1,C,R)]);
 				if(m=='s' && spostalecito(Mossa,posiziona(0,0,C,R),V)==1 && controllodiverso(Mossa,posiziona(1,1,C,R),Scu)==0)
 				g_signal_connect_swapped(Casella[Pos], "button_press_event", G_CALLBACK(click_entrastruttura),(gpointer)&infomappa.mappa[posiziona(1,1,C,R)]);
-				gtk_widget_show(Thumb[Pos]);
 				break;
 				/*stampa in nido*/
 				case 'N':
 				G=controlloedificio(posiziona(0,0,C,R),Nid);
-				Thumb[Pos]=gtk_image_new_from_pixbuf(Immagine.n[G+1][0]);
-				gtk_container_add(GTK_CONTAINER(Casella[Pos]), Thumb[Pos]);
+				gdk_pixbuf_composite(Immagine.n[G+1][0],TmpB,0,0,Dim_casella,Dim_casella,0,0,1,1,GDK_INTERP_BILINEAR,255);
 				if(m=='n' && G==CurrentPlayer)
 				g_signal_connect_swapped(Casella[Pos], "button_press_event", G_CALLBACK(click_nido),(gpointer)&infomappa.mappa[posiziona(0,0,C,R)]);
 				if(m=='c' && assaltolecito(Mossa,posiziona(0,0,C,R))==1 && controllodiverso(Mossa,posiziona(0,0,C,R),Nid)==1)
 				g_signal_connect_swapped(Casella[Pos], "button_press_event", G_CALLBACK(click_assaltostruttura),(gpointer)&infomappa.mappa[posiziona(0,0,C,R)]);
 				if(m=='s' && spostalecito(Mossa,posiziona(0,0,C,R),V)==1 && controllodiverso(Mossa,posiziona(0,0,C,R),Nid)==0)
 				g_signal_connect_swapped(Casella[Pos], "button_press_event", G_CALLBACK(click_entrastruttura),(gpointer)&infomappa.mappa[posiziona(0,0,C,R)]);
-				gtk_widget_show(Thumb[Pos]);
 				break;
 				case 'O':
 				G=controlloedificio(posiziona(1,0,C,R),Nid);
-				Thumb[Pos]=gtk_image_new_from_pixbuf(Immagine.n[G+1][1]);
-				gtk_container_add(GTK_CONTAINER(Casella[Pos]), Thumb[Pos]);
+				gdk_pixbuf_composite(Immagine.n[G+1][1],TmpB,0,0,Dim_casella,Dim_casella,0,0,1,1,GDK_INTERP_BILINEAR,255);
 				if(m=='n' && G==CurrentPlayer)
 				g_signal_connect_swapped(Casella[Pos], "button_press_event", G_CALLBACK(click_nido),(gpointer)&infomappa.mappa[posiziona(1,0,C,R)]);
 				if(m=='c' && assaltolecito(Mossa,posiziona(0,0,C,R))==1 && controllodiverso(Mossa,posiziona(1,0,C,R),Nid)==1)
 				g_signal_connect_swapped(Casella[Pos], "button_press_event", G_CALLBACK(click_assaltostruttura),(gpointer)&infomappa.mappa[posiziona(1,0,C,R)]);
 				if(m=='s' && spostalecito(Mossa,posiziona(0,0,C,R),V)==1 && controllodiverso(Mossa,posiziona(1,0,C,R),Nid)==0)
 				g_signal_connect_swapped(Casella[Pos], "button_press_event", G_CALLBACK(click_entrastruttura),(gpointer)&infomappa.mappa[posiziona(1,0,C,R)]);
-				gtk_widget_show(Thumb[Pos]);
 				break;
 				case 'P':
 				G=controlloedificio(posiziona(0,1,C,R),Nid);
-				Thumb[Pos]=gtk_image_new_from_pixbuf(Immagine.n[G+1][2]);
-				gtk_container_add(GTK_CONTAINER(Casella[Pos]), Thumb[Pos]);
+				gdk_pixbuf_composite(Immagine.n[G+1][2],TmpB,0,0,Dim_casella,Dim_casella,0,0,1,1,GDK_INTERP_BILINEAR,255);
 				if(m=='n' && G==CurrentPlayer)
 				g_signal_connect_swapped(Casella[Pos], "button_press_event", G_CALLBACK(click_nido),(gpointer)&infomappa.mappa[posiziona(0,1,C,R)]);
 				if(m=='c' && assaltolecito(Mossa,posiziona(0,0,C,R))==1 && controllodiverso(Mossa,posiziona(0,1,C,R),Nid)==1)
 				g_signal_connect_swapped(Casella[Pos], "button_press_event", G_CALLBACK(click_assaltostruttura),(gpointer)&infomappa.mappa[posiziona(0,1,C,R)]);
 				if(m=='s' && spostalecito(Mossa,posiziona(0,0,C,R),V)==1 && controllodiverso(Mossa,posiziona(0,1,C,R),Nid)==0)
 				g_signal_connect_swapped(Casella[Pos], "button_press_event", G_CALLBACK(click_entrastruttura),(gpointer)&infomappa.mappa[posiziona(0,1,C,R)]);
-				gtk_widget_show(Thumb[Pos]);
 				break;
 				case 'Q':
 				G=controlloedificio(posiziona(1,1,C,R),Nid);
-				Thumb[Pos]=gtk_image_new_from_pixbuf(Immagine.n[G+1][3]);
-				gtk_container_add(GTK_CONTAINER(Casella[Pos]), Thumb[Pos]);
+				gdk_pixbuf_composite(Immagine.n[G+1][3],TmpB,0,0,Dim_casella,Dim_casella,0,0,1,1,GDK_INTERP_BILINEAR,255);
 				if(m=='n' && G==CurrentPlayer)
 				g_signal_connect_swapped(Casella[Pos], "button_press_event", G_CALLBACK(click_nido),(gpointer)&infomappa.mappa[posiziona(1,1,C,R)]);
 				if(m=='c' && assaltolecito(Mossa,posiziona(0,0,C,R))==1 && controllodiverso(Mossa,posiziona(1,1,C,R),Nid)==1)
 				g_signal_connect_swapped(Casella[Pos], "button_press_event", G_CALLBACK(click_assaltostruttura),(gpointer)&infomappa.mappa[posiziona(1,1,C,R)]);
 				if(m=='s' && spostalecito(Mossa,posiziona(0,0,C,R),V)==1 && controllodiverso(Mossa,posiziona(1,1,C,R),Nid)==0)
 				g_signal_connect_swapped(Casella[Pos], "button_press_event", G_CALLBACK(click_entrastruttura),(gpointer)&infomappa.mappa[posiziona(1,1,C,R)]);
-				gtk_widget_show(Thumb[Pos]);
 				break;
 				case ' ':
 				if(accedi(C,R,infomappa.truppe)!=NULL)
@@ -1779,9 +1720,6 @@ void gtk_stampa_mappa(int x, int y, char m)
 					G=controllounita(posiziona(0,0,C,R));
 					tipo=accedi(C,R,infomappa.truppe)->tipo;
 					gdk_pixbuf_composite(Immagine.t[G][tipo],TmpB,0,0,Dim_casella,Dim_casella,0,0,1,1,GDK_INTERP_BILINEAR,255);
-					Thumb[Pos]=gtk_image_new_from_pixbuf(TmpB);
-					gtk_container_add(GTK_CONTAINER(Casella[Pos]), Thumb[Pos]);
-					gtk_widget_show(Thumb[Pos]);
 					if(m=='n')
 					{
 						if(G==CurrentPlayer)
@@ -1805,33 +1743,34 @@ void gtk_stampa_mappa(int x, int y, char m)
 				}
 				else if(m=='s' && spostalecito(Mossa,posiziona(0,0,C,R),V)==1)
 				{
-					Thumb[Pos]=gtk_image_new_from_pixbuf(Immagine.movimento);
-					gtk_container_add(GTK_CONTAINER(Casella[Pos]), Thumb[Pos]);
+					gdk_pixbuf_composite(Immagine.movimento,TmpB,0,0,Dim_casella,Dim_casella,0,0,1,1,GDK_INTERP_BILINEAR,255);
 					g_signal_connect_swapped(Casella[Pos], "button_press_event", G_CALLBACK(click_destinazione),(gpointer)&infomappa.mappa[posiziona(0,0,C,R)]);
-					gtk_widget_show(Thumb[Pos]);
+					 
 				}
 				else if(m=='c' && bersagliolecito(Mossa,posiziona(0,0,C,R))==1)
 				{
-					Thumb[Pos]=gtk_image_new_from_pixbuf(Immagine.attacco);
-					gtk_container_add(GTK_CONTAINER(Casella[Pos]), Thumb[Pos]);
-					gtk_widget_show(Thumb[Pos]);
+					gdk_pixbuf_composite(Immagine.attacco,TmpB,0,0,Dim_casella,Dim_casella,0,0,1,1,GDK_INTERP_BILINEAR,255);
+					 
 				}
 				else
 				{
-					Thumb[Pos]=gtk_image_new_from_pixbuf(Immagine.p[tipoprato(posiziona(0,0,C,R))]);
-					gtk_container_add(GTK_CONTAINER(Casella[Pos]), Thumb[Pos]);
+					gdk_pixbuf_composite(Immagine.p[tipoprato(posiziona(0,0,C,R))],TmpB,0,0,Dim_casella,Dim_casella,0,0,1,1,GDK_INTERP_BILINEAR,255);
 					if(m!='n')
 					g_signal_connect_swapped(Casella[Pos], "button_press_event", G_CALLBACK(annulla_mossa),(gpointer)&infomappa.mappa[posiziona(0,0,C,R)]);
-					gtk_widget_show(Thumb[Pos]);
+					 
 				}
 				break;
 				default:
-				Thumb[Pos]=gtk_image_new_from_pixbuf(Immagine.err);
-				gtk_container_add(GTK_CONTAINER(Casella[Pos]), Thumb[Pos]);
-				gtk_widget_show(Thumb[Pos]);
+				gdk_pixbuf_composite(Immagine.err,TmpB,0,0,Dim_casella,Dim_casella,0,0,1,1,GDK_INTERP_BILINEAR,255);
 				break;
 			}
+			
+			Thumb[Pos]=gtk_image_new_from_pixbuf(TmpB);
+			gtk_container_add(GTK_CONTAINER(Casella[Pos]), Thumb[Pos]);
+			gtk_widget_show(Thumb[Pos]);
+			
 			g_object_unref(TmpB);
+			
 			Pos++;
 		}
 	if (m == 's') // grazie dijkstra
