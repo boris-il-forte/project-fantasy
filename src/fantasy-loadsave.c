@@ -21,6 +21,9 @@
 #include <dirent.h>
 #include "fantasy-core.h"
 
+#define DBG(s) fprintf(stderr, s); fprintf(stderr, "\n");
+#define DBGI(s,i) fprintf(stderr, s, i+1); fprintf(stderr, "\n");
+
 #define BUFSIZE 64
 
 /*
@@ -290,6 +293,7 @@ t_lista_s * caricaStruttura(FILE *fp)
 
 	nuova->in = NULL;
 
+
 	for (i = 0; i < num_truppestruttura; i++)
 	{
 		if(i == 0)
@@ -305,8 +309,6 @@ t_lista_s * caricaStruttura(FILE *fp)
 	}
 
 	nuova->next = NULL;
-
-
 
 	return nuova;
 
@@ -516,19 +518,17 @@ void salvaTruppe(t_player* giocatore, FILE* fp)
 	}
 	num_truppe = i;
 	ckfwrite(&num_truppe, sizeof(num_truppe), fp);
+	DBGI("in totale %d unità schierate", num_truppe -1)
 
 	//salva le truppe
 	listaTruppe = giocatore->truppe;
 	for (i = 0; i < num_truppe; i++)
 	{
+		DBGI("salvo unità %d", i)
+		DBGI("nella posizione %d", listaTruppe->pos)
 		salvaTruppa(listaTruppe->truppa, listaTruppe->pos, fp);
 		listaTruppe = listaTruppe->next;
 	}
-
-	//Salva oro, cibo e smeraldi del giocatore
-	ckfwrite(&giocatore->oro, sizeof(giocatore->oro), fp);
-	ckfwrite(&giocatore->cibo, sizeof(giocatore->cibo), fp);
-	ckfwrite(&giocatore->smeraldi, sizeof(giocatore->smeraldi), fp);
 }
 
 void salvaStruttura(t_lista_s *struttura, FILE *fp)
@@ -542,6 +542,7 @@ void salvaStruttura(t_lista_s *struttura, FILE *fp)
 
 	//Salva posizione struttura
 	ckfwrite(&struttura->pos, sizeof(struttura->pos), fp);
+	DBGI("si trova alla posizione %d", struttura->pos);
 
 	//salva numero truppe in struttura
 	listaTruppe = struttura->in;
@@ -552,10 +553,13 @@ void salvaStruttura(t_lista_s *struttura, FILE *fp)
 	num_truppestruttura = i;
 	ckfwrite(&num_truppestruttura, sizeof(num_truppestruttura), fp);
 
+	DBGI("contiene %d", num_truppestruttura-1)
+
 	//Salva le truppe dentro la struttura
 	listaTruppe = struttura->in;
 	for (i = 0; i < num_truppestruttura; i++)
 	{
+		DBGI("salvo truppa interna %d", i)
 		salvaTruppa(listaTruppe->truppa, listaTruppe->pos, fp);
 		listaTruppe = listaTruppe->next;
 	}
@@ -572,6 +576,7 @@ void salvaGiocatore(t_player* giocatore, FILE *fp)
 
 	for (i = 0; i < NUMSTRUTTURE; i++)
 	{
+		DBGI("salvo le strutture %d", i)
 		//conta le strutture
 		listaStruttura = giocatore->struttura[i];
 		for (j = 0; listaStruttura != NULL; j++)
@@ -580,18 +585,27 @@ void salvaGiocatore(t_player* giocatore, FILE *fp)
 		}
 		num_strutture = j;
 		ckfwrite(&num_strutture, sizeof(num_strutture), fp);
+		DBGI("sono %d", num_strutture - 1)
 
 		//Salva le strutture
 		listaStruttura = giocatore->struttura[i];
 		for (j = 0; j < num_strutture; j++)
 		{
-			salvaStruttura(giocatore->struttura[i], fp);
+			DBGI("salvo la struttura %d", j)
+			salvaStruttura(listaStruttura, fp);
 			listaStruttura = listaStruttura->next;
 		}
 	}
 
+	DBG("salvo le truppe schierate");
 	//Salva le truppe all'esterno del giocatore
 	salvaTruppe(giocatore, fp);
+
+	DBG("salvo risorse giocatore")
+	//Salva oro, cibo e smeraldi del giocatore
+	ckfwrite(&giocatore->oro, sizeof(giocatore->oro), fp);
+	ckfwrite(&giocatore->cibo, sizeof(giocatore->cibo), fp);
+	ckfwrite(&giocatore->smeraldi, sizeof(giocatore->smeraldi), fp);
 }
 
 void salvaGiocatori(FILE* fp)
@@ -599,6 +613,7 @@ void salvaGiocatori(FILE* fp)
 	int i;
 	for (i = 0; i < MAXGIOCATORI; i++)
 	{
+		DBGI("salvo giocatore %d", i);
 		if (giocatore[i] != NULL)
 			salvaGiocatore(giocatore[i], fp);
 	}
@@ -616,14 +631,19 @@ int salva(char *nomefile)
 		return 1;
 	}
 
+	DBG("scrivo l'header")
 	//Salva l'header
 	scriviHeader(fp);
+	DBG("salvo le info")
 	//Salva le info sullo stato generale del gioco
 	salvaInfoStato(fp);
+	DBG("salvo mappa")
 	//Salva le informazioni riguardanti la mappa
 	salvaMappa(fp);
+	DBG("salvo info giocatori")
 	//Salva le informazioni generali riguardanti i giocatori
 	salvaInfoGiocatore(fp);
+	DBG("salvo giocatori")
 	//Salva la struttura dati dei giocatori
 	salvaGiocatori(fp);
 	//chiudi il file
