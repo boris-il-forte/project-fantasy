@@ -49,6 +49,22 @@ void ckfwrite(void *ptr, size_t size, FILE *stream)
 	}
 }
 
+void scriviStringa(char *stringa, FILE *stream)
+{
+	int sizeOfString = strlen(stringa) + 1;
+	ckfwrite(&sizeOfString, sizeof(unsigned short), stream);
+
+	ckfwrite(stringa, sizeof(char) * sizeOfString, stream);
+}
+
+void leggiStringa(char *buffer, FILE *stream)
+{
+	int stringLength = 0;
+	fread(&stringLength, sizeof(unsigned short), 1, stream);
+
+	ckfread(buffer, sizeof(char) * stringLength, stream);
+}
+
 /*
  * Funzioni configurazione
  *
@@ -214,7 +230,7 @@ void caricaInfoStato(FILE* fp, int *inGioco)
 	ckfread(&cy, sizeof(cy), fp);
 	ckfread(&CurrentPlayer, sizeof(CurrentPlayer), fp);
 	//carica la maschera dei giocatori attivi
-	ckfread(inGioco, MAXGIOCATORI*sizeof(int), fp);
+	ckfread(inGioco, MAXGIOCATORI * sizeof(int), fp);
 }
 
 void caricaMappa(FILE* fp)
@@ -242,7 +258,7 @@ void caricaInfoGiocatore(int *inGioco, FILE* fp)
 			infogiocatore[i] = (t_infoplayer*) malloc(sizeof(t_infoplayer*));
 			ckfread(&infogiocatore[i]->atteggiamento,
 					sizeof(infogiocatore[i]->atteggiamento), fp);
-			ckfread(infogiocatore[i]->nome, sizeof(infogiocatore[i]->nome), fp);
+			leggiStringa(infogiocatore[i]->nome, fp);
 			ckfread(&infogiocatore[i]->tipo, sizeof(infogiocatore[i]->tipo),
 					fp);
 		}
@@ -293,10 +309,9 @@ t_lista_s * caricaStruttura(FILE *fp)
 
 	nuova->in = NULL;
 
-
 	for (i = 0; i < num_truppestruttura; i++)
 	{
-		if(i == 0)
+		if (i == 0)
 		{
 			nuova->in = caricaTruppa(fp, 1);
 			truppa = nuova->in;
@@ -322,7 +337,6 @@ t_player* caricaGiocatore(FILE* fp)
 	t_lista_s* struttura;
 	t_player* giocatore = malloc(sizeof(t_player));
 
-
 	//Carica le strutture del giocatore
 	for (i = 0; i < NUMSTRUTTURE; i++)
 		giocatore->struttura[i] = NULL;
@@ -332,7 +346,7 @@ t_player* caricaGiocatore(FILE* fp)
 		ckfread(&num_strutture, sizeof(num_strutture), fp);
 		for (j = 0; j < num_strutture; j++)
 		{
-			if(j == 0)
+			if (j == 0)
 			{
 				giocatore->struttura[i] = caricaStruttura(fp);
 				struttura = giocatore->struttura[i];
@@ -345,13 +359,12 @@ t_player* caricaGiocatore(FILE* fp)
 		}
 	}
 
-
 	//Carica le truppe del giocatore
 	ckfread(&num_truppe, sizeof(num_truppe), fp);
 	giocatore->truppe = NULL;
 	for (i = 0; i < num_truppe; i++)
 	{
-		if(i == 0)
+		if (i == 0)
 		{
 			giocatore->truppe = caricaTruppa(fp, 0);
 			truppa = giocatore->truppe;
@@ -363,7 +376,6 @@ t_player* caricaGiocatore(FILE* fp)
 		}
 
 	}
-
 
 	//carica oro, cibo e smeraldi
 	ckfread(&giocatore->oro, sizeof(giocatore->oro), fp);
@@ -421,7 +433,6 @@ int carica(char *nomefile)
 	fclose(fp);
 	//ricrea la mappa
 	rigeneramappa();
-
 
 	return 0;
 }
@@ -484,8 +495,7 @@ void salvaInfoGiocatore(FILE* fp)
 		{
 			ckfwrite(&infogiocatore[i]->atteggiamento,
 					sizeof(infogiocatore[i]->atteggiamento), fp);
-			ckfwrite(infogiocatore[i]->nome, sizeof(infogiocatore[i]->nome),
-					fp);
+			scriviStringa(infogiocatore[i]->nome, fp);
 			ckfwrite(&infogiocatore[i]->tipo, sizeof(infogiocatore[i]->tipo),
 					fp);
 		}
@@ -518,7 +528,7 @@ void salvaTruppe(t_player* giocatore, FILE* fp)
 	}
 	num_truppe = i;
 	ckfwrite(&num_truppe, sizeof(num_truppe), fp);
-	DBGI("in totale %d unità schierate", num_truppe -1)
+	DBGI("in totale %d unità schierate", num_truppe - 1)
 
 	//salva le truppe
 	listaTruppe = giocatore->truppe;
@@ -553,7 +563,7 @@ void salvaStruttura(t_lista_s *struttura, FILE *fp)
 	num_truppestruttura = i;
 	ckfwrite(&num_truppestruttura, sizeof(num_truppestruttura), fp);
 
-	DBGI("contiene %d", num_truppestruttura-1)
+	DBGI("contiene %d", num_truppestruttura - 1)
 
 	//Salva le truppe dentro la struttura
 	listaTruppe = struttura->in;
