@@ -110,8 +110,8 @@ int caricaconfig(char *nomefile)
 	fp = fopen(nomefile, "r");
 	if (fp == NULL)
 	{
-		sprintf(infogioco.skin, "NintendOtaku");
-		sprintf(infogioco.ext, "xpm");
+		sprintf(infogioco.skin, "Il_RatMan");
+		sprintf(infogioco.ext, "png");
 		salvaconfig(nomefile);
 		return 0;
 	}
