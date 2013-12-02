@@ -2332,7 +2332,9 @@ void gtk_popup_combattimento(GtkWidget* Casella, int Perdite)
 	else
 		sprintf(buf, "<span foreground=\"green\">%d</span>", Perdite);
 	Popup = gtk_window_new(GTK_WINDOW_POPUP);
+#if GTK_CHECK_VERSION(3,8,0)
 	gtk_widget_set_opacity(Popup, 0.6);
+#endif
 	Label = gtk_label_new(NULL);
 	gtk_label_set_markup(GTK_LABEL(Label), buf);
 	gtk_container_add(GTK_CONTAINER(Popup), Label);
