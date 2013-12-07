@@ -251,6 +251,7 @@ int main(int argc, char *argv[])
 	GtkWidget *Risorse;
 	GtkWidget *Tag;
 	GtkWidget *Mappa;
+	GtkWidget *Notebook;
 
 	struct datatime_s datatime;
 	struct keypress_s keypress;
@@ -265,7 +266,7 @@ int main(int argc, char *argv[])
 #endif
 	gtk_calcola_dimensioni();
 	gtk_carica_immagini();
-	gtk_inizializza_widget();
+	gtk_inizializza_tab();
 // 	crea finestra
 	finestra = gtk_window_new(GTK_WINDOW_TOPLEVEL);
 	g_signal_connect(finestra, "delete-event", G_CALLBACK(delete_event), NULL);
@@ -347,8 +348,8 @@ int main(int argc, char *argv[])
 	Frame = gtk_frame_new("Riepilogo Giocatore");
 	gtk_box_pack_end(GTK_BOX(Vbox), Frame, FALSE, FALSE, 0);
 	gtk_widget_show(Frame);
-	gtk_crea_notebook(Frame);
-	gtk_widget_show(Notebook[0]);
+	Notebook = gtk_crea_notebook(Frame);
+	gtk_widget_show(Notebook);
 // carica_all_avvio
 	if (argc > 1)
 		if (gtk_carica_avvio(argv[argc - 1]))

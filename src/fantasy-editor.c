@@ -98,7 +98,7 @@ int main(int argc, char *argv[])
 	gtk_init(&argc, &argv);
 	gtk_calcola_dimensioni();
 	gtk_carica_immagini();
-	gtk_inizializza_widget();
+	gtk_inizializza_tab();
 	// 	crea finestra
 	finestra = gtk_window_new(GTK_WINDOW_TOPLEVEL);
 	g_signal_connect(finestra, "delete-event", G_CALLBACK(delete_event), NULL);
