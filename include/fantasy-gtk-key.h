@@ -15,35 +15,13 @@
  * GNU General Public License for more details.
  */
 
+#ifndef FANTASY_GTK_KEY_H_
+#define FANTASY_GTK_KEY_H_
+
 #include <gtk/gtk.h>
-#include <stdio.h>
-#include "fantasy-core.h"
-#include "fantasy-gtk.h"
 
-// main
-int main(int argc, char *argv[])
-{
-	GtkWidget *finestra;
+void gtk_start_stream_tastiera(GtkWidget* finestra);
 
-	gtk_init(&argc, &argv);
-	partita_in_corso = 0;
-	caricaconfig("fantasy.config");
 
-#ifdef DEBUG
-	printf("infogioco.skin=%s\n",infogioco.skin);
-	printf("infogioco.ext=%s\n",infogioco.ext);
-#endif
 
-	finestra = gtk_crea_finestra_principale();
-
-	if (argc > 1 && gtk_carica_avvio(argv[argc - 1]))
-		return 1;
-
-	gtk_start_stream_tastiera(finestra);
-
-	gtk_widget_show(finestra);
-
-	gtk_main();
-
-	return 0;
-}
+#endif /* FANTASY_GTK_KEY_H_ */

@@ -24,6 +24,7 @@ add_executable(fantasy-core
 				src/fantasy-gtk-fight.c
 				src/fantasy-gtk-menu.c
 				src/fantasy-gtk-partita.c
+				src/fantasy-gtk-key.c
 				src/fantasy-gtk-img.c  
 				src/fantasy-lib.c  
 				src/fantasy-loadsave.c  
