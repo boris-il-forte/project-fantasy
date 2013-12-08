@@ -26,7 +26,8 @@ add_executable(fantasy-core
 				src/fantasy-gtk-partita.c
 				src/fantasy-gtk-key.c
 				src/fantasy-gtk-img.c  
-				src/fantasy-lib.c  
+				src/fantasy-core.c
+				src/fantasy-core-mov.c  
 				src/fantasy-loadsave.c  
 				src/fantasy-main.c)
 

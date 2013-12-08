@@ -18,7 +18,6 @@
 #ifndef FANTASY_CORE_
 #define FANTASY_CORE_
 
-
 #define LARGHEZZA 150
 #define ALTEZZA 40
 #define NUMCASTELLI 12
@@ -130,13 +129,6 @@ int listaskin(char *nomedir, char **sottodir);
 int calcolaposizionestruttura(char struttura, int x, int y);
 t_struttura tipostruttura(char struttura);
 int posizionistruttura(int posizione, int pos[9], t_struttura tipo);
-
-//funzioni di controllo spostamento e attacco
-int inizializza_dijkstra(int PosT, char ***G, int ***V, int *mx, char *vel);
-void calcola_dijkstra(char **G, int Mx, int vel, int **V, int Q);
-int bersagliolecito(int PosT, int PosC);
-int assaltolecito(int PosT, int PosC);
-int spostalecito(int PosT, int PosC , int **V);
 
 //funzioni di combattimento
 void combatti(t_infotruppa* Attaccante, t_infotruppa* Difensore, char m);

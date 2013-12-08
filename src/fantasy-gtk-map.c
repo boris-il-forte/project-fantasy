@@ -931,14 +931,7 @@ void gtk_aggiungi_segnali_strutture_n(int G, t_struttura tipo, int posizione, in
 
 void gtk_aggiungi_segnali_strutture_s(int G, t_struttura tipo, int posizione, int casella, int **V)
 {
-	int i;
-	int posizioni[8];
-	int lecito = 0;
-	int n = posizionistruttura(posizione, posizioni, tipo);
-
-	for (i = 0; i < n; i++)
-		lecito = lecito || spostalecito(Mossa, posizioni[i], V);
-
+	int lecito = raggiungibile(posizione, tipo, Mossa, V);
 	if (lecito && G == CurrentPlayer)
 	{
 		g_signal_connect_swapped(Casella[casella], "button_press_event",
@@ -948,14 +941,7 @@ void gtk_aggiungi_segnali_strutture_s(int G, t_struttura tipo, int posizione, in
 
 void gtk_aggiungi_segnali_strutture_c(int G, t_struttura tipo, int posizione, int casella)
 {
-	int i;
-	int posizioni[8];
-	int lecito = 0;
-	int n = posizionistruttura(posizione, posizioni, tipo);
-
-	for (i = 0; i < n; i++)
-		lecito = lecito || assaltolecito(Mossa, posizioni[i]);
-
+	int lecito = assaltabile(posizione, tipo, Mossa);
 	if (lecito && G != CurrentPlayer)
 	{
 		if (tipo == Cas)
