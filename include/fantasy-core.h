@@ -31,7 +31,8 @@
 #define NUMSTRUTTURE 5
 #define NUMRISORSE 3
 #define accedi(x,y,z)z[(x)+LARGHEZZA*(y)] /*accede ad un array come se fosse una matrice*/
-#define posiziona(x,y,z,k)(z)+LARGHEZZA*k-((x)+LARGHEZZA*(y))
+#define posiziona(x,y,z,k)(z)+LARGHEZZA*(k)-((x)+LARGHEZZA*(y))
+#define posiziona_c(x,y) posiziona(0,0,x,y)
 #define disegna(x,y,z)accedi(x,y,infomappa.mappa)=z; accedi(x+1,y,infomappa.mappa)=z+1; accedi(x+1,y+1,infomappa.mappa)=z+3; accedi(x,y+1,infomappa.mappa)=z+2 /*disegna la struttura di simbolo z*/
 #define tipouguale(x,y)accedi(x,y,infomappa.truppe)->tipo==infomappa.truppe[Mossa]->tipo
 
@@ -170,7 +171,6 @@ void eliminamortistrutture(int Pos);
 void cambiaproprietario(int g1, int g2, int Pos,t_struttura Tipo);
 
 // funzioni per il prato
-int tipoprato(int Pos);
 void pratoacaso();
 
 //funzioni generiche

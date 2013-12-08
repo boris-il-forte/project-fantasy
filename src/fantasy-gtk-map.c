@@ -748,6 +748,207 @@ void gtk_genera_mappa(GtkWidget *Mappa)
 		}
 }
 
+//aggiunge lo sfondo
+void gtk_stampa_base_mappa(GdkPixbuf **buffer, int x, int y)
+{
+	*buffer = gdk_pixbuf_copy(Immagine.p[accedi(x, y, infomappa.prato)]);
+}
+
+//aggiunge le strutture
+int gtk_stampa_strutture(GdkPixbuf *buffer, int x, int y)
+{
+	GdkPixbuf *struttura;
+	int G;
+
+	switch (accedi(x, y, infomappa.mappa))
+	{
+	/*stampa il castello*/
+	case '0':
+		G = controlloedificio(posiziona(-1, -1, x, y), Cas);
+		gdk_pixbuf_composite(Immagine.c[G + 1][0], buffer, 0, 0, Dim_casella,
+				Dim_casella, 0, 0, 1, 1, GDK_INTERP_BILINEAR, 255);
+
+		break;
+	case '1':
+		G = controlloedificio(posiziona(0, -1, x, y), Cas);
+		gdk_pixbuf_composite(Immagine.c[G + 1][1], buffer, 0, 0, Dim_casella,
+				Dim_casella, 0, 0, 1, 1, GDK_INTERP_BILINEAR, 255);
+		break;
+	case '2':
+		G = controlloedificio(posiziona(1, -1, x, y), Cas);
+		gdk_pixbuf_composite(Immagine.c[G + 1][2], buffer, 0, 0, Dim_casella,
+				Dim_casella, 0, 0, 1, 1, GDK_INTERP_BILINEAR, 255);
+
+		break;
+	case '3':
+		G = controlloedificio(posiziona(-1, 0, x, y), Cas);
+		gdk_pixbuf_composite(Immagine.c[G + 1][3], buffer, 0, 0, Dim_casella,
+				Dim_casella, 0, 0, 1, 1, GDK_INTERP_BILINEAR, 255);
+		break;
+	case '4':
+		G = controlloedificio(posiziona(0, 0, x, y), Cas);
+		gdk_pixbuf_composite(Immagine.c[G + 1][4], buffer, 0, 0, Dim_casella,
+				Dim_casella, 0, 0, 1, 1, GDK_INTERP_BILINEAR, 255);
+		break;
+	case '5':
+		G = controlloedificio(posiziona(1, 0, x, y), Cas);
+		gdk_pixbuf_composite(Immagine.c[G + 1][5], buffer, 0, 0, Dim_casella,
+				Dim_casella, 0, 0, 1, 1, GDK_INTERP_BILINEAR, 255);
+		break;
+	case '6':
+		G = controlloedificio(posiziona(-1, 1, x, y), Cas);
+		gdk_pixbuf_composite(Immagine.c[G + 1][6], buffer, 0, 0, Dim_casella,
+				Dim_casella, 0, 0, 1, 1, GDK_INTERP_BILINEAR, 255);
+		break;
+	case '7':
+		G = controlloedificio(posiziona(0, 1, x, y), Cas);
+		gdk_pixbuf_composite(Immagine.c[G + 1][7], buffer, 0, 0, Dim_casella,
+				Dim_casella, 0, 0, 1, 1, GDK_INTERP_BILINEAR, 255);
+		break;
+	case '8':
+		G = controlloedificio(posiziona(1, 1, x, y), Cas);
+		gdk_pixbuf_composite(Immagine.c[G + 1][8], buffer, 0, 0, Dim_casella,
+				Dim_casella, 0, 0, 1, 1, GDK_INTERP_BILINEAR, 255);
+		break;
+		/*stampa la grotta*/
+	case 'G':
+		G = controlloedificio(posiziona(0, 0, x, y), Gro);
+		gdk_pixbuf_composite(Immagine.g[G + 1][0], buffer, 0, 0, Dim_casella,
+				Dim_casella, 0, 0, 1, 1, GDK_INTERP_BILINEAR, 255);
+		break;
+	case 'H':
+		G = controlloedificio(posiziona(1, 0, x, y), Gro);
+		gdk_pixbuf_composite(Immagine.g[G + 1][1], buffer, 0, 0, Dim_casella,
+				Dim_casella, 0, 0, 1, 1, GDK_INTERP_BILINEAR, 255);
+		break;
+	case 'I':
+		G = controlloedificio(posiziona(0, 1, x, y), Gro);
+		gdk_pixbuf_composite(Immagine.g[G + 1][2], buffer, 0, 0, Dim_casella,
+				Dim_casella, 0, 0, 1, 1, GDK_INTERP_BILINEAR, 255);
+		break;
+	case 'J':
+		G = controlloedificio(posiziona(1, 1, x, y), Gro);
+		gdk_pixbuf_composite(Immagine.g[G + 1][3], buffer, 0, 0, Dim_casella,
+				Dim_casella, 0, 0, 1, 1, GDK_INTERP_BILINEAR, 255);
+		break;
+		/*stampa la fattoria*/
+	case 'x':
+		G = controlloedificio(posiziona(0, 0, x, y), Fat);
+		gdk_pixbuf_composite(Immagine.f[G + 1][0], buffer, 0, 0, Dim_casella,
+				Dim_casella, 0, 0, 1, 1, GDK_INTERP_BILINEAR, 255);
+		break;
+	case 'D':
+		G = controlloedificio(posiziona(1, 0, x, y), Fat);
+		gdk_pixbuf_composite(Immagine.f[G + 1][1], buffer, 0, 0, Dim_casella,
+				Dim_casella, 0, 0, 1, 1, GDK_INTERP_BILINEAR, 255);
+		break;
+	case 'E':
+		G = controlloedificio(posiziona(0, 1, x, y), Fat);
+		gdk_pixbuf_composite(Immagine.f[G + 1][2], buffer, 0, 0, Dim_casella,
+				Dim_casella, 0, 0, 1, 1, GDK_INTERP_BILINEAR, 255);
+		break;
+	case 'F':
+		G = controlloedificio(posiziona(1, 1, x, y), Fat);
+		gdk_pixbuf_composite(Immagine.f[G + 1][3], buffer, 0, 0, Dim_casella,
+				Dim_casella, 0, 0, 1, 1, GDK_INTERP_BILINEAR, 255);
+		break;
+		/*stampa la scuderia*/
+	case 'S':
+		G = controlloedificio(posiziona(0, 0, x, y), Scu);
+		gdk_pixbuf_composite(Immagine.s[G + 1][0], buffer, 0, 0, Dim_casella,
+				Dim_casella, 0, 0, 1, 1, GDK_INTERP_BILINEAR, 255);
+		break;
+	case 'T':
+		G = controlloedificio(posiziona(1, 0, x, y), Scu);
+		gdk_pixbuf_composite(Immagine.s[G + 1][1], buffer, 0, 0, Dim_casella,
+				Dim_casella, 0, 0, 1, 1, GDK_INTERP_BILINEAR, 255);
+		break;
+	case 'U':
+		G = controlloedificio(posiziona(0, 1, x, y), Scu);
+		gdk_pixbuf_composite(Immagine.s[G + 1][2], buffer, 0, 0, Dim_casella,
+				Dim_casella, 0, 0, 1, 1, GDK_INTERP_BILINEAR, 255);
+		break;
+	case 'V':
+		G = controlloedificio(posiziona(1, 1, x, y), Scu);
+		gdk_pixbuf_composite(Immagine.s[G + 1][3], buffer, 0, 0, Dim_casella,
+				Dim_casella, 0, 0, 1, 1, GDK_INTERP_BILINEAR, 255);
+		break;
+		/*stampa in nido*/
+	case 'N':
+		G = controlloedificio(posiziona(0, 0, x, y), Nid);
+		gdk_pixbuf_composite(Immagine.n[G + 1][0], buffer, 0, 0, Dim_casella,
+				Dim_casella, 0, 0, 1, 1, GDK_INTERP_BILINEAR, 255);
+		break;
+	case 'O':
+		G = controlloedificio(posiziona(1, 0, x, y), Nid);
+		gdk_pixbuf_composite(Immagine.n[G + 1][1], buffer, 0, 0, Dim_casella,
+				Dim_casella, 0, 0, 1, 1, GDK_INTERP_BILINEAR, 255);
+		break;
+	case 'P':
+		G = controlloedificio(posiziona(0, 1, x, y), Nid);
+		gdk_pixbuf_composite(Immagine.n[G + 1][2], buffer, 0, 0, Dim_casella,
+				Dim_casella, 0, 0, 1, 1, GDK_INTERP_BILINEAR, 255);
+		break;
+	case 'Q':
+		G = controlloedificio(posiziona(1, 1, x, y), Nid);
+		gdk_pixbuf_composite(Immagine.n[G + 1][3], buffer, 0, 0, Dim_casella,
+				Dim_casella, 0, 0, 1, 1, GDK_INTERP_BILINEAR, 255);
+		break;
+	}
+
+	gdk_pixbuf_composite(struttura, buffer, 0, 0, Dim_casella, Dim_casella, 0,
+			0, 1, 1, GDK_INTERP_BILINEAR, 255);
+
+	return G;
+}
+
+//aggiunge le truppe
+int gtk_stampa_truppe(GdkPixbuf *buffer, int x, int y)
+{
+	int G = -1;
+	t_truppa tipo;
+
+	if (accedi(x,y,infomappa.truppe)!=NULL)
+	{
+		G = controllounita(posiziona_c(x,y));
+		tipo = accedi(x,y,infomappa.truppe)->tipo;
+		gdk_pixbuf_composite(Immagine.t[G][tipo],buffer,0,0,Dim_casella,Dim_casella,0,0,1,1,GDK_INTERP_BILINEAR,255);
+	}
+
+	return G;
+}
+
+//aggiunge la zona attacco e movimento
+int gtk_stampa_area(GdkPixbuf *buffer, char mode, int Mossa, int x, int y,
+		int **V)
+{
+	GdkPixbuf *area;
+	int isArea;
+	int posizione = posiziona_c(x, y);
+
+	switch (mode)
+	{
+	case 's':
+		isArea = posizione != Mossa && spostalecito(Mossa, posizione, V);
+		area = Immagine.movimento;
+		break;
+	case 'c':
+		isArea = posizione != Mossa && bersagliolecito(Mossa, posizione);
+		area = Immagine.attacco;
+		break;
+	default:
+		return 0;
+	}
+
+	if (!isArea)
+		return isArea;
+
+	gdk_pixbuf_composite(area, buffer, 0, 0, Dim_casella, Dim_casella, 0, 0, 1,
+			1, GDK_INTERP_BILINEAR, 255);
+
+	return isArea;
+}
+
 //stampa la mappa
 void gtk_stampa_mappa(int x, int y, char m)
 {
@@ -756,6 +957,7 @@ void gtk_stampa_mappa(int x, int y, char m)
 	int R;
 	int Pos = 0;
 	int G;
+	int isArea;
 	int Mx = 0;
 	int i, j;
 	int Q;
@@ -790,8 +992,7 @@ void gtk_stampa_mappa(int x, int y, char m)
 	for (R = y; R < y + caselle_verticali; R++)
 		for (C = x; C < x + caselle_orizzontali; C++)
 		{
-			TmpB = gdk_pixbuf_copy(
-					Immagine.p[tipoprato(posiziona(0, 0, C, R))]);
+			gtk_stampa_base_mappa(&TmpB, C, R);
 			switch (accedi(C, R, infomappa.mappa))
 			{
 			/*stampa il castello*/
@@ -1362,53 +1563,70 @@ void gtk_stampa_mappa(int x, int y, char m)
 							(gpointer)&infomappa.mappa[posiziona(1,1,C,R)]);
 				break;
 			case ' ':
-				if (accedi(C,R,infomappa.truppe)!=NULL)
+
+				G = gtk_stampa_truppe(TmpB, C, R);
+				isArea = gtk_stampa_area(TmpB, m, Mossa, C, R, V);
+				if (G != -1)
 				{
-					G=controllounita(posiziona(0,0,C,R));
-					tipo=accedi(C,R,infomappa.truppe)->tipo;
-					gdk_pixbuf_composite(Immagine.t[G][tipo],TmpB,0,0,Dim_casella,Dim_casella,0,0,1,1,GDK_INTERP_BILINEAR,255);
-					if(m=='n')
+
+					if (m == 'n')
 					{
-						if(G==CurrentPlayer)
-						g_signal_connect_swapped(Casella[Pos], "button_press_event", G_CALLBACK(click_unita),(gpointer)&infomappa.mappa[posiziona(0,0,C,R)]);
-						g_signal_connect(Casella[Pos], "enter-notify-event", G_CALLBACK(su_unita),(gpointer)&infomappa.mappa[posiziona(0,0,C,R)]);
+						if (G == CurrentPlayer)
+							g_signal_connect_swapped(Casella[Pos],
+									"button_press_event",
+									G_CALLBACK(click_unita),
+									(gpointer)&infomappa.mappa[posiziona(0,0,C,R)]);
+						g_signal_connect(Casella[Pos], "enter-notify-event",
+								G_CALLBACK(su_unita),
+								(gpointer)&infomappa.mappa[posiziona(0,0,C,R)]);
 					}
-					else if(m=='c')
+					else if (m == 'c')
 					{
-						if(bersagliolecito(Mossa,posiziona(0,0,C,R))==1 && controllodiversotruppe(Mossa,posiziona(0,0,C,R))==1)
-						g_signal_connect_swapped(Casella[Pos], "button_press_event", G_CALLBACK(click_bersaglio),(gpointer)&infomappa.mappa[posiziona(0,0,C,R)]);
+						if (bersagliolecito(Mossa, posiziona(0, 0, C, R)) == 1
+								&& controllodiversotruppe(Mossa,
+										posiziona(0, 0, C, R)) == 1)
+							g_signal_connect_swapped(Casella[Pos],
+									"button_press_event",
+									G_CALLBACK(click_bersaglio),
+									(gpointer)&infomappa.mappa[posiziona(0,0,C,R)]);
 						else
-						g_signal_connect_swapped(Casella[Pos], "button_press_event", G_CALLBACK(annulla_mossa),(gpointer)&infomappa.mappa[posiziona(0,0,C,R)]);
+							g_signal_connect_swapped(Casella[Pos],
+									"button_press_event",
+									G_CALLBACK(annulla_mossa),
+									(gpointer)&infomappa.mappa[posiziona(0,0,C,R)]);
 					}
-					else if(m=='s')
+					else if (m == 's')
 					{
-						if(assaltolecito(Mossa,posiziona(0,0,C,R))==1 && controllodiversotruppe(Mossa,posiziona(0,0,C,R))==0 && tipouguale(C,R))
-						g_signal_connect_swapped(Casella[Pos], "button_press_event", G_CALLBACK(click_unisci),(gpointer)&infomappa.mappa[posiziona(0,0,C,R)]);
+						if (assaltolecito(Mossa, posiziona(0, 0, C, R))
+								== 1&& controllodiversotruppe(Mossa,posiziona(0,0,C,R))==0 && tipouguale(C,R))
+							g_signal_connect_swapped(Casella[Pos],
+									"button_press_event",
+									G_CALLBACK(click_unisci),
+									(gpointer)&infomappa.mappa[posiziona(0,0,C,R)]);
 						else
-						g_signal_connect_swapped(Casella[Pos], "button_press_event", G_CALLBACK(annulla_mossa),(gpointer)&infomappa.mappa[posiziona(0,0,C,R)]);
+							g_signal_connect_swapped(Casella[Pos],
+									"button_press_event",
+									G_CALLBACK(annulla_mossa),
+									(gpointer)&infomappa.mappa[posiziona(0,0,C,R)]);
 					}
 				}
-				else if(m=='s' && spostalecito(Mossa,posiziona(0,0,C,R),V)==1)
+				else if (m == 's' && isArea)
 				{
-					gdk_pixbuf_composite(Immagine.movimento,TmpB,0,0,Dim_casella,Dim_casella,0,0,1,1,GDK_INTERP_BILINEAR,50);
-					g_signal_connect_swapped(Casella[Pos], "button_press_event", G_CALLBACK(click_destinazione),(gpointer)&infomappa.mappa[posiziona(0,0,C,R)]);
-
+					g_signal_connect_swapped(Casella[Pos], "button_press_event",
+							G_CALLBACK(click_destinazione),
+							(gpointer)&infomappa.mappa[posiziona(0,0,C,R)]);
 				}
-				else if(m=='c' && bersagliolecito(Mossa,posiziona(0,0,C,R))==1)
+				else if (m != 'n')
 				{
-					gdk_pixbuf_composite(Immagine.attacco,TmpB,0,0,Dim_casella,Dim_casella,0,0,1,1,GDK_INTERP_BILINEAR,255);
-
+					g_signal_connect_swapped(Casella[Pos], "button_press_event",
+							G_CALLBACK(annulla_mossa),
+							(gpointer)&infomappa.mappa[posiziona(0,0,C,R)]);
 				}
-				else
-				{
-					gdk_pixbuf_composite(Immagine.p[tipoprato(posiziona(0,0,C,R))],TmpB,0,0,Dim_casella,Dim_casella,0,0,1,1,GDK_INTERP_BILINEAR,255);
-					if(m!='n')
-					g_signal_connect_swapped(Casella[Pos], "button_press_event", G_CALLBACK(annulla_mossa),(gpointer)&infomappa.mappa[posiziona(0,0,C,R)]);
 
-				}
 				break;
-				default:
-				gdk_pixbuf_composite(Immagine.err,TmpB,0,0,Dim_casella,Dim_casella,0,0,1,1,GDK_INTERP_BILINEAR,255);
+			default:
+				gdk_pixbuf_composite(Immagine.err, TmpB, 0, 0, Dim_casella,
+						Dim_casella, 0, 0, 1, 1, GDK_INTERP_BILINEAR, 255);
 				break;
 			}
 

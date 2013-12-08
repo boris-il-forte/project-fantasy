@@ -163,11 +163,6 @@ int conflittomappa(int x, int y)
 	return 0;
 }
 
-// assegna un valore di prato
-int tipoprato(int Pos)
-{
-	return infomappa.prato[Pos];
-}
 //genera un prato vario
 void pratoacaso()
 {
