@@ -126,6 +126,10 @@ int carica(char *nomefile);
 int salva(char *nomefile);
 int listaskin(char *nomedir, char **sottodir);
 
+//funzioni estrazioni info mappa
+int calcolaposizionestruttura(char struttura, int x, int y);
+t_struttura tipostruttura(char struttura);
+
 //funzioni di controllo spostamento e attacco
 int inizializza_dijkstra(int PosT, char ***G, int ***V, int *mx, char *vel);
 void calcola_dijkstra(char **G, int Mx, int vel, int **V, int Q);

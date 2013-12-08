@@ -141,8 +141,7 @@ int conflitticastello(int x, int y, int cur)
 		for (i = 0; i < NUMCASTELLI; i++)
 			for (j = -10; j <= 10; j++)
 				for (k = -10; k <= 10; k++)
-					if (i != cur
-							&& pos + k - LARGHEZZA * j == infomappa.castelli[i])
+					if (i != cur && pos + k - LARGHEZZA * j == infomappa.castelli[i])
 						return 1;
 		return 0;
 	}
@@ -351,7 +350,7 @@ void creagiocatori(int n, int ia)
 		giocatore[i]->struttura[Cas]->next = NULL;
 		giocatore[i]->truppe = NULL;
 		infogiocatore[i]->tipo = Locale;
-		sprintf(infogiocatore[i]->nome, "Giocatore %d", i+1);
+		sprintf(infogiocatore[i]->nome, "Giocatore %d", i + 1);
 		infogiocatore[i]->atteggiamento = 'u';
 		for (j = 1; j < NUMSTRUTTURE; j++)
 			giocatore[i]->struttura[j] = NULL;
@@ -455,8 +454,7 @@ int evacuatruppa(t_lista_t *T)
 		}
 		if (giocatore[CurrentPlayer]->truppe == NULL)
 		{
-			giocatore[CurrentPlayer]->truppe = (t_lista_t*) malloc(
-					sizeof(t_lista_t));
+			giocatore[CurrentPlayer]->truppe = (t_lista_t*) malloc(sizeof(t_lista_t));
 			giocatore[CurrentPlayer]->truppe->truppa = infomappa.truppe[L];
 			giocatore[CurrentPlayer]->truppe->pos = L;
 			giocatore[CurrentPlayer]->truppe->next = NULL;
@@ -555,30 +553,30 @@ void identificatruppa(t_infotruppa* T, char* buf)
 {
 	switch (T->tipo)
 	{
-		case Rec:
-			sprintf(buf, "-%d Reclute(%d)-", T->numero, T->morale);
-			break;
-		case Fan:
-			sprintf(buf, "-%d Fanteria(%d)-", T->numero, T->morale);
-			break;
-		case Lan:
-			sprintf(buf, "-%d Lancieri(%d)-", T->numero, T->morale);
-			break;
-		case Arc:
-			sprintf(buf, "-%d Arcieri(%d)-", T->numero, T->morale);
-			break;
-		case Cav:
-			sprintf(buf, "-%d Cavalieri(%d)-", T->numero, T->morale);
-			break;
-		case Dra:
-			sprintf(buf, "-%d Draghi(%d)-", T->numero, T->morale);
-			break;
-		case Fen:
-			sprintf(buf, "-%d Fenici(%d)-", T->numero, T->morale);
-			break;
-		default:
-			sprintf(buf, "-%d ERRORE!(%d)-", T->numero, T->morale);
-			break;
+	case Rec:
+		sprintf(buf, "-%d Reclute(%d)-", T->numero, T->morale);
+		break;
+	case Fan:
+		sprintf(buf, "-%d Fanteria(%d)-", T->numero, T->morale);
+		break;
+	case Lan:
+		sprintf(buf, "-%d Lancieri(%d)-", T->numero, T->morale);
+		break;
+	case Arc:
+		sprintf(buf, "-%d Arcieri(%d)-", T->numero, T->morale);
+		break;
+	case Cav:
+		sprintf(buf, "-%d Cavalieri(%d)-", T->numero, T->morale);
+		break;
+	case Dra:
+		sprintf(buf, "-%d Draghi(%d)-", T->numero, T->morale);
+		break;
+	case Fen:
+		sprintf(buf, "-%d Fenici(%d)-", T->numero, T->morale);
+		break;
+	default:
+		sprintf(buf, "-%d ERRORE!(%d)-", T->numero, T->morale);
+		break;
 	}
 	return;
 }
@@ -697,8 +695,7 @@ int inizializza_dijkstra(int PosT, char ***G, int ***V, int *mx, char *vel)
 	for (i = 1; i < Mx - 1; i++)
 		for (j = 1; j < Mx - 1; j++)
 		{
-			if ((Sx + i - Cs)
-					< 0||(Sx+i-Cs)>=LARGHEZZA ||(Sy+j-Cs)<0 ||(Sy+j-Cs)>=ALTEZZA)
+			if ((Sx + i - Cs) < 0||(Sx+i-Cs)>=LARGHEZZA ||(Sy+j-Cs)<0 ||(Sy+j-Cs)>=ALTEZZA)
 				(*G)[i][j] = '#';
 			else if ((Cs - i) * (Cs - i) + (Cs - j) * (Cs - j)
 					> Vel
@@ -776,8 +773,7 @@ void calcola_dijkstra(char **G, int Mx, int vel, int **V, int Q)
 					w = ((k + l == 1 || k + l == -1) ? 100 : 141);
 					if (G[X + k][Y + l] != '#' && V[X + k][Y + l] > V[X][Y] + w)
 					{
-						if (w == 100
-								|| !(G[X + k][Y] == '#' && G[X][Y + l] == '#'))
+						if (w == 100 || !(G[X + k][Y] == '#' && G[X][Y + l] == '#'))
 						{
 							V[X + k][Y + l] = V[X][Y] + w;
 						}
@@ -787,6 +783,88 @@ void calcola_dijkstra(char **G, int Mx, int vel, int **V, int Q)
 		//printf("secondo passo ok \n");
 		v++; //passa al prossimo vertice
 		vp = 0; //annulla il conteggio dei nuovi vertici
+	}
+}
+
+//calcola la posizione della struttura
+int calcolaposizionestruttura(char struttura, int x, int y)
+{
+	switch (struttura)
+	{
+	case '0':
+		return posiziona(-1, -1, x, y);
+	case '1':
+		return posiziona(0, -1, x, y);
+	case '2':
+		return posiziona(1, -1, x, y);
+	case '3':
+		return posiziona(-1, 0, x, y);
+	case '4':
+	case 'G':
+	case 'C':
+	case 'S':
+	case 'N':
+		return posiziona(0, 0, x, y);
+	case '5':
+	case 'H':
+	case 'D':
+	case 'T':
+	case 'O':
+		return posiziona(1, 0, x, y);
+	case '6':
+		return posiziona(-1, 1, x, y);
+	case '7':
+	case 'I':
+	case 'E':
+	case 'U':
+	case 'P':
+		return posiziona(0, 1, x, y);
+	case '8':
+	case 'J':
+	case 'F':
+	case 'V':
+	case 'Q':
+		return posiziona(1, 1, x, y);
+
+	}
+
+}
+
+//estrai tipo struttura
+t_struttura tipostruttura(char struttura)
+{
+	switch (struttura)
+	{
+	case '0':
+	case '1':
+	case '2':
+	case '3':
+	case '4':
+	case '5':
+	case '6':
+	case '7':
+	case '8':
+		return Cas;
+	case 'G':
+	case 'H':
+	case 'I':
+	case 'J':
+		return Gro;
+	case 'C':
+	case 'D':
+	case 'E':
+	case 'F':
+		return Fat;
+	case 'S':
+	case 'T':
+	case 'U':
+	case 'V':
+		return Scu;
+	case 'N':
+	case 'O':
+	case 'P':
+	case 'Q':
+		return Nid;
 	}
 }
 
@@ -806,8 +884,8 @@ int spostalecito(int PosT, int PosC, int **V)
 			if (infomappa.mappa[PosC] != ' ')
 			{
 				s = (Vel * 100 - 10);
-				if (V[c - x - 1][c - y] <= s || V[c - x + 1][c - y] <= s
-						|| V[c - x][c - y - 1] <= s || V[c - x][c - y + 1] <= s)
+				if (V[c - x - 1][c - y] <= s || V[c - x + 1][c - y] <= s || V[c - x][c - y - 1] <= s
+						|| V[c - x][c - y + 1] <= s)
 				{
 					return 1;
 				}
@@ -924,7 +1002,7 @@ void combatti(t_infotruppa* Attaccante, t_infotruppa* Difensore, char m)
 	float M;
 	int D;
 	fprintf(stderr, "debug: combatti\n");
-	//calcolo potenza attacco attaccante
+//calcolo potenza attacco attaccante
 	na = Attaccante->numero;
 	Bpa = Dtruppa[Attaccante->tipo].att;
 	Bma = Attaccante->morale;
@@ -932,7 +1010,7 @@ void combatti(t_infotruppa* Attaccante, t_infotruppa* Difensore, char m)
 		Pa = Bpa + Bma / 10;
 	else
 		Pa = Bpa * na + Bma * na / 10;
-	//calcolo potenza difesa difensore
+//calcolo potenza difesa difensore
 	nd = Difensore->numero;
 	Bpd = Dtruppa[Difensore->tipo].dif;
 	Bmd = Difensore->morale;
@@ -940,33 +1018,33 @@ void combatti(t_infotruppa* Attaccante, t_infotruppa* Difensore, char m)
 		Pd = Bpd + Bmd / 10;
 	else
 		Pd = Bpd * nd + Bmd * nd / 10;
-	//calcolo dell'efficenza con la funzione versiera
+//calcolo dell'efficenza con la funzione versiera
 	E = (float) (1600) / ((na - 100) * (na - 100) + 1600); //calcola versiera in x(a=20 x=X-100)moltiplicata per 1/40
 	E *= Bpa; //calcola efficenza d'attacco truppa
 	switch (m)
 	{
-		case 's':
-			Pd += 150;
-			break;
-		case 'c':
-			Pd += 300;
-			break;
-		case 'n':
-		default:
-			break;
+	case 's':
+		Pd += 150;
+		break;
+	case 'c':
+		Pd += 300;
+		break;
+	case 'n':
+	default:
+		break;
 	}
-	//calcola moltiplicatore
+//calcola moltiplicatore
 	M = (float) Pa / (float) Pd;
-	//calcola danni netti
+//calcola danni netti
 	D = (int) (M * E);
 	if (D > 5)
 		nd -= D;
 	else
 		nd -= 5;
-	// gestisce le unità di pochi uomini
+// gestisce le unità di pochi uomini
 	if (nd < 5)
 		nd = 0;
-	//gestisce il morale e assegna il nuovo valore alle unità
+//gestisce il morale e assegna il nuovo valore alle unità
 	if (nd < Difensore->numero / 2)
 		Difensore->morale /= 2;
 	Difensore->numero = nd;
@@ -979,11 +1057,11 @@ void combatticampoaperto(int Dst, int Src)
 	t_infotruppa* A = infomappa.truppe[Src];
 	t_infotruppa* D = infomappa.truppe[Dst];
 	infomappa.truppe[Src]->combattuto = 1;
-	//attacco
+//attacco
 	combatti(A, D, 'n');
 	if (D->numero == 0 || D->morale == 0)
 		eliminamorti(D);
-	//contrattacco
+//contrattacco
 	if (infomappa.truppe[Dst] != NULL && bersagliolecito(Dst, Src) == 1)
 	{
 		combatti(D, A, 'n');
@@ -1041,22 +1119,22 @@ void assediostruttura(int Pos)
 		fprintf(stderr, "debug: di nessuno, %d\n", g);
 		switch (infomappa.mappa[Pos])
 		{
-			case 'G':
-				i = Gro;
-				break;
-			case 'S':
-				i = Scu;
-				break;
-			case 'N':
-				i = Nid;
-				break;
-			case 'C':
-				i = Fat;
-				break;
-			default:
-				fprintf(stderr, "c'è un bug!\n");
-				i = Cas;
-				break;
+		case 'G':
+			i = Gro;
+			break;
+		case 'S':
+			i = Scu;
+			break;
+		case 'N':
+			i = Nid;
+			break;
+		case 'C':
+			i = Fat;
+			break;
+		default:
+			fprintf(stderr, "c'è un bug!\n");
+			i = Cas;
+			break;
 		}
 		cambiaproprietario(CurrentPlayer, g, Pos, i);
 	}
@@ -1118,8 +1196,7 @@ void assediocastello(int Pos)
 		while (Castello->pos != Pos)
 			Castello = Castello->next;
 		if (assaltamura(Castello) == 1)
-			if (assaltabreccia(puntacasellaoccupata(Pos, C++), Castello->in)
-					== 1)
+			if (assaltabreccia(puntacasellaoccupata(Pos, C++), Castello->in) == 1)
 				cambiaproprietario(CurrentPlayer, g, Pos, Cas);
 	}
 	else
@@ -1249,8 +1326,7 @@ void cambiaproprietario(int g1, int g2, int Pos, t_struttura Tipo)
 		}
 		else
 		{
-			giocatore[g1]->struttura[Tipo] = (t_lista_s*) malloc(
-					sizeof(t_lista_s));
+			giocatore[g1]->struttura[Tipo] = (t_lista_s*) malloc(sizeof(t_lista_s));
 			giocatore[g1]->struttura[Tipo]->in = NULL;
 			giocatore[g1]->struttura[Tipo]->pos = Pos;
 			giocatore[g1]->struttura[Tipo]->next = NULL;
@@ -1279,8 +1355,7 @@ void cambiaproprietario(int g1, int g2, int Pos, t_struttura Tipo)
 		}
 		else
 		{
-			giocatore[g1]->struttura[Tipo] = (t_lista_s*) malloc(
-					sizeof(t_lista_s));
+			giocatore[g1]->struttura[Tipo] = (t_lista_s*) malloc(sizeof(t_lista_s));
 			giocatore[g1]->struttura[Tipo]->in = NULL;
 			giocatore[g1]->struttura[Tipo]->pos = Pos;
 			giocatore[g1]->struttura[Tipo]->next = NULL;
@@ -1329,11 +1404,10 @@ t_struttura controllotipostruttura(int Pos)
 	int i;
 	t_struttura t;
 	int* s[] =
-	{ infomappa.castelli, infomappa.fattorie, infomappa.stalle,
-			infomappa.grotte, infomappa.nidi };
+	{ infomappa.castelli, infomappa.fattorie, infomappa.stalle, infomappa.grotte, infomappa.nidi };
 	int n[] =
-	{ NUMCASTELLI, infomappa.numfattorie, infomappa.numstalle,
-			infomappa.numgrotte, infomappa.numnidi };
+	{ NUMCASTELLI, infomappa.numfattorie, infomappa.numstalle, infomappa.numgrotte,
+			infomappa.numnidi };
 	for (t = Cas; t < NUMSTRUTTURE; t++)
 		for (i = 0; i < n[t]; i++)
 			if (s[t][i] == Pos)
@@ -1615,7 +1689,7 @@ void fineturno()
 	t_lista_s* S;
 	for (i = 0; i < NUMSTRUTTURE; i++)
 		r[i] = 0;
-	//conta le truppe, il loro numero e aggiorna loro stato
+//conta le truppe, il loro numero e aggiorna loro stato
 	while (T != NULL)
 	{
 		T->truppa->stanca = 0;
@@ -1629,7 +1703,7 @@ void fineturno()
 		T = T->next;
 		n++;
 	}
-	//conta le strutture
+//conta le strutture
 	for (i = 0; i < NUMSTRUTTURE; i++)
 	{
 		S = giocatore[CurrentPlayer]->struttura[i];
@@ -1639,15 +1713,13 @@ void fineturno()
 			S = S->next;
 		}
 	}
-	//calcola le risorse per il prossimo turno
-	giocatore[CurrentPlayer]->oro += PROD_ORO_CAS * r[Cas]
-			+ PROD_ORO_FAT * r[Fat] + PROD_ORO_SCU * r[Scu]
-			+ PROD_ORO_NID * r[Nid] + PROD_ORO_GRO * r[Gro];
-	giocatore[CurrentPlayer]->smeraldi += PROD_SMERALDI_NID * r[Nid]
-			+ PROD_SMERALDI_GRO * r[Gro];
-	giocatore[CurrentPlayer]->cibo += PROD_CIBO_CAS * r[Cas]
-			+ PROD_CIBO_FAT * r[Fat] + PROD_CIBO_SCU * r[Scu] - FAME * c;
-	//introduce il concetto di cibo da comprare e morte e scoraggiamento per fame
+//calcola le risorse per il prossimo turno
+	giocatore[CurrentPlayer]->oro += PROD_ORO_CAS * r[Cas] + PROD_ORO_FAT * r[Fat]
+			+ PROD_ORO_SCU * r[Scu] + PROD_ORO_NID * r[Nid] + PROD_ORO_GRO * r[Gro];
+	giocatore[CurrentPlayer]->smeraldi += PROD_SMERALDI_NID * r[Nid] + PROD_SMERALDI_GRO * r[Gro];
+	giocatore[CurrentPlayer]->cibo += PROD_CIBO_CAS * r[Cas] + PROD_CIBO_FAT * r[Fat]
+			+ PROD_CIBO_SCU * r[Scu] - FAME * c;
+//introduce il concetto di cibo da comprare e morte e scoraggiamento per fame
 	if (giocatore[CurrentPlayer]->cibo < 0)
 	{
 		f = giocatore[CurrentPlayer]->cibo;
@@ -1677,16 +1749,17 @@ void fineturno()
 			}
 		}
 	}
-	//aggiorna il giocatore corrente
+//aggiorna il giocatore corrente
 	do
-	{	do
+	{
+		do
 		{
 			CurrentPlayer++;
 			CurrentPlayer %= MAXGIOCATORI;
 		} while (giocatore[CurrentPlayer] == NULL);
-		if(infogiocatore[CurrentPlayer]->tipo == IA)
+		if (infogiocatore[CurrentPlayer]->tipo == IA)
 			fantasia_usa_bot(CurrentPlayer);
-	} while(infogiocatore[CurrentPlayer]->tipo == IA);
+	} while (infogiocatore[CurrentPlayer]->tipo == IA);
 	return;
 }
 
@@ -1698,7 +1771,7 @@ void visualizza_su_terminale()
 	{
 		for (j = 0; j < LARGHEZZA; j++)
 		{
-			printf("%c", accedi(j,i,infomappa.mappa));
+			printf("%c", accedi(j, i, infomappa.mappa));
 		}
 		printf("\n");
 	}
