@@ -929,17 +929,50 @@ void gtk_aggiungi_segnali_strutture_n(int G, t_struttura tipo, int posizione, in
 	}
 }
 
-void gtk_aggiungi_segnali_strutture_s(int G, int posizione, int casella)
+void gtk_aggiungi_segnali_strutture_s(int G, t_struttura tipo, int posizione, int casella, int **V)
 {
+	int i;
+	int posizioni[8];
+	int lecito = 0;
+	int n = posizionistruttura(posizione, posizioni, tipo);
 
+	for (i = 0; i < n; i++)
+		lecito = lecito || spostalecito(Mossa, posizioni[i], V);
+
+	if (lecito && G == CurrentPlayer)
+	{
+		g_signal_connect_swapped(Casella[casella], "button_press_event",
+				G_CALLBACK(click_entrastruttura), (gpointer ) &infomappa.mappa[posizione]);
+	}
 }
 
 void gtk_aggiungi_segnali_strutture_c(int G, t_struttura tipo, int posizione, int casella)
 {
+	int i;
+	int posizioni[8];
+	int lecito = 0;
+	int n = posizionistruttura(posizione, posizioni, tipo);
 
+	for (i = 0; i < n; i++)
+		lecito = lecito || assaltolecito(Mossa, posizioni[i]);
+
+	if (lecito && G != CurrentPlayer)
+	{
+		if (tipo == Cas)
+		{
+			g_signal_connect_swapped(Casella[casella], "button_press_event",
+					G_CALLBACK(click_assediocastello), (gpointer )&infomappa.mappa[posizione]);
+		}
+		else
+		{
+			g_signal_connect_swapped(Casella[casella], "button_press_event",
+					G_CALLBACK(click_assaltostruttura), (gpointer )&infomappa.mappa[posizione]);
+		}
+	}
 }
 
-void gtk_aggiungi_segnali_strutture(char mode, int G, t_struttura tipo, int posizione, int casella)
+void gtk_aggiungi_segnali_strutture(char mode, int G, t_struttura tipo, int posizione, int casella,
+		int **V)
 {
 
 	switch (mode)
@@ -948,10 +981,10 @@ void gtk_aggiungi_segnali_strutture(char mode, int G, t_struttura tipo, int posi
 		if (G == CurrentPlayer)
 			gtk_aggiungi_segnali_strutture_n(G, tipo, posizione, casella);
 		break;
-	case 'c':
-		gtk_aggiungi_segnali_strutture_s(G, posizione, casella);
-		break;
 	case 's':
+		gtk_aggiungi_segnali_strutture_s(G, tipo, posizione, casella, V);
+		break;
+	case 'c':
 		gtk_aggiungi_segnali_strutture_c(G, tipo, posizione, casella);
 		break;
 	default:
@@ -978,8 +1011,7 @@ void gtk_aggiungi_segnali_truppe(char mode, int G, int x, int y, int posizione, 
 		}
 		break;
 	case 'c':
-		if (G != -1 && bersagliolecito(Mossa, posiziona(0, 0, x, y)) == 1
-				&& controllodiversotruppe(Mossa, posiziona(0, 0, x, y)) == 1)
+		if (G != -1 && bersagliolecito(Mossa, posiziona(0, 0, x, y)) && G != CurrentPlayer)
 		{
 			g_signal_connect_swapped(Casella[posizione], "button_press_event",
 					G_CALLBACK(click_bersaglio), (gpointer)&infomappa.mappa[posiziona_c(x,y)]);
@@ -991,9 +1023,7 @@ void gtk_aggiungi_segnali_truppe(char mode, int G, int x, int y, int posizione, 
 		}
 		break;
 	case 's':
-		if (assaltolecito(Mossa,
-				posiziona_c(x,
-						y)) && !controllodiversotruppe(Mossa,posiziona_c(x,y)) && tipouguale(x,y))
+		if (assaltolecito(Mossa, posiziona_c(x, y)) && G == CurrentPlayer && tipouguale(x, y))
 		{
 			g_signal_connect_swapped(Casella[posizione], "button_press_event",
 					G_CALLBACK(click_unisci), (gpointer)&infomappa.mappa[posiziona_c(x,y)]);
@@ -1068,315 +1098,13 @@ void gtk_stampa_mappa(int x, int y, char m)
 			G = gtk_stampa_strutture(TmpB, C, R);
 			tipoS = tipostruttura(elem);
 			posizioneAttuale = calcolaposizionestruttura(elem, C, R);
-			gtk_aggiungi_segnali_strutture(m, G, tipoS, posizioneAttuale, Pos);
-			switch (accedi(C, R, infomappa.mappa))
-			{
-			/*stampa il castello*/
-			case '0':
-				if (m == 'c' && assaltolecito(Mossa, posiziona(0, 0, C, R)) == 1
-						&& controllodiverso(Mossa, posiziona(-1, -1, C, R), Cas) == 1)
-					g_signal_connect_swapped(Casella[Pos], "button_press_event",
-							G_CALLBACK(click_assediocastello),
-							(gpointer)&infomappa.mappa[posiziona(-1,-1,C,R)]);
-				if (m == 's' && spostalecito(Mossa, posiziona(0, 0, C, R), V) == 1
-						&& controllodiverso(Mossa, posiziona(-1, -1, C, R), Cas) == 0)
-					g_signal_connect_swapped(Casella[Pos], "button_press_event",
-							G_CALLBACK(click_entrastruttura),
-							(gpointer)&infomappa.mappa[posiziona(-1,-1,C,R)]);
-				break;
-			case '1':
-				if (m == 'c' && assaltolecito(Mossa, posiziona(0, 0, C, R)) == 1
-						&& controllodiverso(Mossa, posiziona(0, -1, C, R), Cas) == 1)
-					g_signal_connect_swapped(Casella[Pos], "button_press_event",
-							G_CALLBACK(click_assediocastello),
-							(gpointer)&infomappa.mappa[posiziona(0,-1,C,R)]);
-				if (m == 's' && spostalecito(Mossa, posiziona(0, 0, C, R), V) == 1
-						&& controllodiverso(Mossa, posiziona(0, -1, C, R), Cas) == 0)
-					g_signal_connect_swapped(Casella[Pos], "button_press_event",
-							G_CALLBACK(click_entrastruttura),
-							(gpointer)&infomappa.mappa[posiziona(0,-1,C,R)]);
-				break;
-			case '2':
-				if (m == 'c' && assaltolecito(Mossa, posiziona(0, 0, C, R)) == 1
-						&& controllodiverso(Mossa, posiziona(1, -1, C, R), Cas) == 1)
-					g_signal_connect_swapped(Casella[Pos], "button_press_event",
-							G_CALLBACK(click_assediocastello),
-							(gpointer)&infomappa.mappa[posiziona(1,-1,C,R)]);
-				if (m == 's' && spostalecito(Mossa, posiziona(0, 0, C, R), V) == 1
-						&& controllodiverso(Mossa, posiziona(1, -1, C, R), Cas) == 0)
-					g_signal_connect_swapped(Casella[Pos], "button_press_event",
-							G_CALLBACK(click_entrastruttura),
-							(gpointer)&infomappa.mappa[posiziona(1,-1,C,R)]);
-				break;
-			case '3':
-				if (m == 'c' && assaltolecito(Mossa, posiziona(0, 0, C, R)) == 1
-						&& controllodiverso(Mossa, posiziona(-1, 0, C, R), Cas) == 1)
-					g_signal_connect_swapped(Casella[Pos], "button_press_event",
-							G_CALLBACK(click_assediocastello),
-							(gpointer)&infomappa.mappa[posiziona(-1,0,C,R)]);
-				if (m == 's' && spostalecito(Mossa, posiziona(0, 0, C, R), V) == 1
-						&& controllodiverso(Mossa, posiziona(-1, 0, C, R), Cas) == 0)
-					g_signal_connect_swapped(Casella[Pos], "button_press_event",
-							G_CALLBACK(click_entrastruttura),
-							(gpointer)&infomappa.mappa[posiziona(-1,0,C,R)]);
-				break;
-			case '4':
-				break;
-			case '5':
-				if (m == 'c' && assaltolecito(Mossa, posiziona(0, 0, C, R)) == 1
-						&& controllodiverso(Mossa, posiziona(1, 0, C, R), Cas) == 1)
-					g_signal_connect_swapped(Casella[Pos], "button_press_event",
-							G_CALLBACK(click_assediocastello),
-							(gpointer)&infomappa.mappa[posiziona(1,0,C,R)]);
-				if (m == 's' && spostalecito(Mossa, posiziona(0, 0, C, R), V) == 1
-						&& controllodiverso(Mossa, posiziona(1, 0, C, R), Cas) == 0)
-					g_signal_connect_swapped(Casella[Pos], "button_press_event",
-							G_CALLBACK(click_entrastruttura),
-							(gpointer)&infomappa.mappa[posiziona(1,0,C,R)]);
-				break;
-			case '6':
-				if (m == 'c' && assaltolecito(Mossa, posiziona(0, 0, C, R)) == 1
-						&& controllodiverso(Mossa, posiziona(-1, 1, C, R), Cas) == 1)
-					g_signal_connect_swapped(Casella[Pos], "button_press_event",
-							G_CALLBACK(click_assediocastello),
-							(gpointer)&infomappa.mappa[posiziona(-1,1,C,R)]);
-				if (m == 's' && spostalecito(Mossa, posiziona(0, 0, C, R), V) == 1
-						&& controllodiverso(Mossa, posiziona(-1, 1, C, R), Cas) == 0)
-					g_signal_connect_swapped(Casella[Pos], "button_press_event",
-							G_CALLBACK(click_entrastruttura),
-							(gpointer)&infomappa.mappa[posiziona(-1,1,C,R)]);
-				break;
-			case '7':
-				if (m == 'c' && assaltolecito(Mossa, posiziona(0, 0, C, R)) == 1
-						&& controllodiverso(Mossa, posiziona(0, 1, C, R), Cas) == 1)
-					g_signal_connect_swapped(Casella[Pos], "button_press_event",
-							G_CALLBACK(click_assediocastello),
-							(gpointer)&infomappa.mappa[posiziona(0,1,C,R)]);
-				if (m == 's' && spostalecito(Mossa, posiziona(0, 0, C, R), V) == 1
-						&& controllodiverso(Mossa, posiziona(0, 1, C, R), Cas) == 0)
-					g_signal_connect_swapped(Casella[Pos], "button_press_event",
-							G_CALLBACK(click_entrastruttura),
-							(gpointer)&infomappa.mappa[posiziona(0,1,C,R)]);
-				break;
-			case '8':
-				if (m == 'c' && assaltolecito(Mossa, posiziona(0, 0, C, R)) == 1
-						&& controllodiverso(Mossa, posiziona(1, 1, C, R), Cas) == 1)
-					g_signal_connect_swapped(Casella[Pos], "button_press_event",
-							G_CALLBACK(click_assediocastello),
-							(gpointer)&infomappa.mappa[posiziona(1,1,C,R)]);
-				if (m == 's' && spostalecito(Mossa, posiziona(0, 0, C, R), V) == 1
-						&& controllodiverso(Mossa, posiziona(1, 1, C, R), Cas) == 0)
-					g_signal_connect_swapped(Casella[Pos], "button_press_event",
-							G_CALLBACK(click_entrastruttura),
-							(gpointer)&infomappa.mappa[posiziona(1,1,C,R)]);
-				break;
-				/*stampa la grotta*/
-			case 'G':
-				if (m == 'c' && assaltolecito(Mossa, posiziona(0, 0, C, R)) == 1
-						&& controllodiverso(Mossa, posiziona(0, 0, C, R), Gro) == 1)
-					g_signal_connect_swapped(Casella[Pos], "button_press_event",
-							G_CALLBACK(click_assaltostruttura),
-							(gpointer)&infomappa.mappa[posiziona(0,0,C,R)]);
-				if (m == 's' && spostalecito(Mossa, posiziona(0, 0, C, R), V) == 1
-						&& controllodiverso(Mossa, posiziona(0, 0, C, R), Gro) == 0)
-					g_signal_connect_swapped(Casella[Pos], "button_press_event",
-							G_CALLBACK(click_entrastruttura),
-							(gpointer)&infomappa.mappa[posiziona(0,0,C,R)]);
-				break;
-			case 'H':
-				if (m == 'c' && assaltolecito(Mossa, posiziona(0, 0, C, R)) == 1
-						&& controllodiverso(Mossa, posiziona(1, 0, C, R), Gro) == 1)
-					g_signal_connect_swapped(Casella[Pos], "button_press_event",
-							G_CALLBACK(click_assaltostruttura),
-							(gpointer)&infomappa.mappa[posiziona(1,0,C,R)]);
-				if (m == 's' && spostalecito(Mossa, posiziona(0, 0, C, R), V) == 1
-						&& controllodiverso(Mossa, posiziona(1, 0, C, R), Gro) == 0)
-					g_signal_connect_swapped(Casella[Pos], "button_press_event",
-							G_CALLBACK(click_entrastruttura),
-							(gpointer)&infomappa.mappa[posiziona(1,0,C,R)]);
-				break;
-			case 'I':
-				if (m == 'c' && assaltolecito(Mossa, posiziona(0, 0, C, R)) == 1
-						&& controllodiverso(Mossa, posiziona(0, 1, C, R), Gro) == 1)
-					g_signal_connect_swapped(Casella[Pos], "button_press_event",
-							G_CALLBACK(click_assaltostruttura),
-							(gpointer)&infomappa.mappa[posiziona(0,1,C,R)]);
-				if (m == 's' && spostalecito(Mossa, posiziona(0, 0, C, R), V) == 1
-						&& controllodiverso(Mossa, posiziona(0, 1, C, R), Gro) == 0)
-					g_signal_connect_swapped(Casella[Pos], "button_press_event",
-							G_CALLBACK(click_entrastruttura),
-							(gpointer)&infomappa.mappa[posiziona(0,1,C,R)]);
-				break;
-			case 'J':
-				if (m == 'c' && assaltolecito(Mossa, posiziona(0, 0, C, R)) == 1
-						&& controllodiverso(Mossa, posiziona(1, 1, C, R), Gro) == 1)
-					g_signal_connect_swapped(Casella[Pos], "button_press_event",
-							G_CALLBACK(click_assaltostruttura),
-							(gpointer)&infomappa.mappa[posiziona(1,1,C,R)]);
-				if (m == 's' && spostalecito(Mossa, posiziona(0, 0, C, R), V) == 1
-						&& controllodiverso(Mossa, posiziona(1, 1, C, R), Gro) == 0)
-					g_signal_connect_swapped(Casella[Pos], "button_press_event",
-							G_CALLBACK(click_entrastruttura),
-							(gpointer)&infomappa.mappa[posiziona(1,1,C,R)]);
-				break;
-				/*stampa la fattoria*/
-			case 'C':
-				if (m == 'c' && assaltolecito(Mossa, posiziona(0, 0, C, R)) == 1
-						&& controllodiverso(Mossa, posiziona(0, 0, C, R), Fat) == 1)
-					g_signal_connect_swapped(Casella[Pos], "button_press_event",
-							G_CALLBACK(click_assaltostruttura),
-							(gpointer)&infomappa.mappa[posiziona(0,0,C,R)]);
-				if (m == 's' && spostalecito(Mossa, posiziona(0, 0, C, R), V) == 1
-						&& controllodiverso(Mossa, posiziona(0, 0, C, R), Fat) == 0)
-					g_signal_connect_swapped(Casella[Pos], "button_press_event",
-							G_CALLBACK(click_entrastruttura),
-							(gpointer)&infomappa.mappa[posiziona(0,0,C,R)]);
-				break;
-			case 'D':
-				if (m == 'c' && assaltolecito(Mossa, posiziona(0, 0, C, R)) == 1
-						&& controllodiverso(Mossa, posiziona(1, 0, C, R), Fat) == 1)
-					g_signal_connect_swapped(Casella[Pos], "button_press_event",
-							G_CALLBACK(click_assaltostruttura),
-							(gpointer)&infomappa.mappa[posiziona(1,0,C,R)]);
-				if (m == 's' && spostalecito(Mossa, posiziona(0, 0, C, R), V) == 1
-						&& controllodiverso(Mossa, posiziona(1, 0, C, R), Fat) == 0)
-					g_signal_connect_swapped(Casella[Pos], "button_press_event",
-							G_CALLBACK(click_entrastruttura),
-							(gpointer)&infomappa.mappa[posiziona(1,0,C,R)]);
-				break;
-			case 'E':
-				if (m == 'c' && assaltolecito(Mossa, posiziona(0, 0, C, R)) == 1
-						&& controllodiverso(Mossa, posiziona(0, 1, C, R), Fat) == 1)
-					g_signal_connect_swapped(Casella[Pos], "button_press_event",
-							G_CALLBACK(click_assaltostruttura),
-							(gpointer)&infomappa.mappa[posiziona(0,1,C,R)]);
-				if (m == 's' && spostalecito(Mossa, posiziona(0, 0, C, R), V) == 1
-						&& controllodiverso(Mossa, posiziona(0, 1, C, R), Fat) == 0)
-					g_signal_connect_swapped(Casella[Pos], "button_press_event",
-							G_CALLBACK(click_entrastruttura),
-							(gpointer)&infomappa.mappa[posiziona(0,1,C,R)]);
-				break;
-			case 'F':
-				if (m == 'c' && assaltolecito(Mossa, posiziona(0, 0, C, R)) == 1
-						&& controllodiverso(Mossa, posiziona(1, 1, C, R), Fat) == 1)
-					g_signal_connect_swapped(Casella[Pos], "button_press_event",
-							G_CALLBACK(click_assaltostruttura),
-							(gpointer)&infomappa.mappa[posiziona(1,1,C,R)]);
-				if (m == 's' && spostalecito(Mossa, posiziona(0, 0, C, R), V) == 1
-						&& controllodiverso(Mossa, posiziona(1, 1, C, R), Fat) == 0)
-					g_signal_connect_swapped(Casella[Pos], "button_press_event",
-							G_CALLBACK(click_entrastruttura),
-							(gpointer)&infomappa.mappa[posiziona(1,1,C,R)]);
-				break;
-				/*stampa la scuderia*/
-			case 'S':
-				if (m == 'c' && assaltolecito(Mossa, posiziona(0, 0, C, R)) == 1
-						&& controllodiverso(Mossa, posiziona(0, 0, C, R), Scu) == 1)
-					g_signal_connect_swapped(Casella[Pos], "button_press_event",
-							G_CALLBACK(click_assaltostruttura),
-							(gpointer)&infomappa.mappa[posiziona(0,0,C,R)]);
-				if (m == 's' && spostalecito(Mossa, posiziona(0, 0, C, R), V) == 1
-						&& controllodiverso(Mossa, posiziona(0, 0, C, R), Scu) == 0)
-					g_signal_connect_swapped(Casella[Pos], "button_press_event",
-							G_CALLBACK(click_entrastruttura),
-							(gpointer)&infomappa.mappa[posiziona(0,0,C,R)]);
-				break;
-			case 'T':
-				if (m == 'c' && assaltolecito(Mossa, posiziona(0, 0, C, R)) == 1
-						&& controllodiverso(Mossa, posiziona(1, 0, C, R), Scu) == 1)
-					g_signal_connect_swapped(Casella[Pos], "button_press_event",
-							G_CALLBACK(click_assaltostruttura),
-							(gpointer)&infomappa.mappa[posiziona(1,0,C,R)]);
-				if (m == 's' && spostalecito(Mossa, posiziona(0, 0, C, R), V) == 1
-						&& controllodiverso(Mossa, posiziona(1, 0, C, R), Scu) == 0)
-					g_signal_connect_swapped(Casella[Pos], "button_press_event",
-							G_CALLBACK(click_entrastruttura),
-							(gpointer)&infomappa.mappa[posiziona(1,0,C,R)]);
-				break;
-			case 'U':
-				if (m == 'c' && assaltolecito(Mossa, posiziona(0, 0, C, R)) == 1
-						&& controllodiverso(Mossa, posiziona(0, 1, C, R), Scu) == 1)
-					g_signal_connect_swapped(Casella[Pos], "button_press_event",
-							G_CALLBACK(click_assaltostruttura),
-							(gpointer)&infomappa.mappa[posiziona(0,1,C,R)]);
-				if (m == 's' && spostalecito(Mossa, posiziona(0, 0, C, R), V) == 1
-						&& controllodiverso(Mossa, posiziona(0, 1, C, R), Scu) == 0)
-					g_signal_connect_swapped(Casella[Pos], "button_press_event",
-							G_CALLBACK(click_entrastruttura),
-							(gpointer)&infomappa.mappa[posiziona(0,1,C,R)]);
-				break;
-			case 'V':
-				if (m == 'c' && assaltolecito(Mossa, posiziona(0, 0, C, R)) == 1
-						&& controllodiverso(Mossa, posiziona(1, 1, C, R), Scu) == 1)
-					g_signal_connect_swapped(Casella[Pos], "button_press_event",
-							G_CALLBACK(click_assaltostruttura),
-							(gpointer)&infomappa.mappa[posiziona(1,1,C,R)]);
-				if (m == 's' && spostalecito(Mossa, posiziona(0, 0, C, R), V) == 1
-						&& controllodiverso(Mossa, posiziona(1, 1, C, R), Scu) == 0)
-					g_signal_connect_swapped(Casella[Pos], "button_press_event",
-							G_CALLBACK(click_entrastruttura),
-							(gpointer)&infomappa.mappa[posiziona(1,1,C,R)]);
-				break;
-				/*stampa in nido*/
-			case 'N':
-				if (m == 'c' && assaltolecito(Mossa, posiziona(0, 0, C, R)) == 1
-						&& controllodiverso(Mossa, posiziona(0, 0, C, R), Nid) == 1)
-					g_signal_connect_swapped(Casella[Pos], "button_press_event",
-							G_CALLBACK(click_assaltostruttura),
-							(gpointer)&infomappa.mappa[posiziona(0,0,C,R)]);
-				if (m == 's' && spostalecito(Mossa, posiziona(0, 0, C, R), V) == 1
-						&& controllodiverso(Mossa, posiziona(0, 0, C, R), Nid) == 0)
-					g_signal_connect_swapped(Casella[Pos], "button_press_event",
-							G_CALLBACK(click_entrastruttura),
-							(gpointer)&infomappa.mappa[posiziona(0,0,C,R)]);
-				break;
-			case 'O':
-				if (m == 'c' && assaltolecito(Mossa, posiziona(0, 0, C, R)) == 1
-						&& controllodiverso(Mossa, posiziona(1, 0, C, R), Nid) == 1)
-					g_signal_connect_swapped(Casella[Pos], "button_press_event",
-							G_CALLBACK(click_assaltostruttura),
-							(gpointer)&infomappa.mappa[posiziona(1,0,C,R)]);
-				if (m == 's' && spostalecito(Mossa, posiziona(0, 0, C, R), V) == 1
-						&& controllodiverso(Mossa, posiziona(1, 0, C, R), Nid) == 0)
-					g_signal_connect_swapped(Casella[Pos], "button_press_event",
-							G_CALLBACK(click_entrastruttura),
-							(gpointer)&infomappa.mappa[posiziona(1,0,C,R)]);
-				break;
-			case 'P':
-				if (m == 'c' && assaltolecito(Mossa, posiziona(0, 0, C, R)) == 1
-						&& controllodiverso(Mossa, posiziona(0, 1, C, R), Nid) == 1)
-					g_signal_connect_swapped(Casella[Pos], "button_press_event",
-							G_CALLBACK(click_assaltostruttura),
-							(gpointer)&infomappa.mappa[posiziona(0,1,C,R)]);
-				if (m == 's' && spostalecito(Mossa, posiziona(0, 0, C, R), V) == 1
-						&& controllodiverso(Mossa, posiziona(0, 1, C, R), Nid) == 0)
-					g_signal_connect_swapped(Casella[Pos], "button_press_event",
-							G_CALLBACK(click_entrastruttura),
-							(gpointer)&infomappa.mappa[posiziona(0,1,C,R)]);
-				break;
-			case 'Q':
-				if (m == 'c' && assaltolecito(Mossa, posiziona(0, 0, C, R)) == 1
-						&& controllodiverso(Mossa, posiziona(1, 1, C, R), Nid) == 1)
-					g_signal_connect_swapped(Casella[Pos], "button_press_event",
-							G_CALLBACK(click_assaltostruttura),
-							(gpointer)&infomappa.mappa[posiziona(1,1,C,R)]);
-				if (m == 's' && spostalecito(Mossa, posiziona(0, 0, C, R), V) == 1
-						&& controllodiverso(Mossa, posiziona(1, 1, C, R), Nid) == 0)
-					g_signal_connect_swapped(Casella[Pos], "button_press_event",
-							G_CALLBACK(click_entrastruttura),
-							(gpointer)&infomappa.mappa[posiziona(1,1,C,R)]);
-				break;
-			case ' ':
+			gtk_aggiungi_segnali_strutture(m, G, tipoS, posizioneAttuale, Pos, V);
 
+			if (elem == ' ')
+			{
 				G = gtk_stampa_truppe(TmpB, C, R);
 				isArea = gtk_stampa_area(TmpB, m, Mossa, C, R, V);
 				gtk_aggiungi_segnali_truppe(m, G, C, R, Pos, isArea);
-				break;
-
-			default:
-				gdk_pixbuf_composite(Immagine.err, TmpB, 0, 0, Dim_casella, Dim_casella, 0, 0, 1, 1,
-						GDK_INTERP_BILINEAR, 255);
-				break;
 			}
 
 			Thumb[Pos] = gtk_image_new_from_pixbuf(TmpB);

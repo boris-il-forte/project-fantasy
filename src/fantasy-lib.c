@@ -868,6 +868,22 @@ t_struttura tipostruttura(char struttura)
 	}
 }
 
+// calcola tutte le posizioni di una struttura
+int posizionistruttura(int posizione, int pos[9], t_struttura tipo)
+{
+	int i, j;
+	int n = 0;
+	int min = (tipo == Cas) ? -1 : 0;
+	for (i = min; i <= 1; i++)
+		for (j = min; j <= 1; j++)
+		{
+			pos[n++] = posizione + i * LARGHEZZA + j;
+		}
+
+	return n;
+
+}
+
 // calcola se lo spostamento è lecito
 int spostalecito(int PosT, int PosC, int **V)
 {
@@ -1457,26 +1473,6 @@ int controllounita(int Pos)
 		}
 	}
 	return -1;
-}
-
-//controlla che unità e struttura non siano dello stesso giocatore
-int controllodiverso(int PosT, int PosS, t_struttura tipo)
-{
-	if (controlloedificio(PosS, tipo) == controllounita(PosT))
-		return 0;
-	else
-		return 1;
-}
-
-//controlla che le unita non siano dello stesso giocatore
-int controllodiversotruppe(int PosA, int PosD)
-{
-	if (PosA == PosD)
-		return 1;
-	if (controllounita(PosA) == controllounita(PosD))
-		return 0;
-	else
-		return 1;
 }
 
 //punta alla truppa precedente nella struttura scelta

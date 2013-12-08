@@ -129,6 +129,7 @@ int listaskin(char *nomedir, char **sottodir);
 //funzioni estrazioni info mappa
 int calcolaposizionestruttura(char struttura, int x, int y);
 t_struttura tipostruttura(char struttura);
+int posizionistruttura(int posizione, int pos[9], t_struttura tipo);
 
 //funzioni di controllo spostamento e attacco
 int inizializza_dijkstra(int PosT, char ***G, int ***V, int *mx, char *vel);
@@ -156,10 +157,9 @@ t_lista_t* puntatruppaprecedente(t_lista_t *T, t_lista_s *S);
 int controlloedificio(int Pos, t_struttura s);
 int controllounita(int Pos);
 t_struttura controllotipostruttura(int Pos);
-int controllodiverso(int PosT, int PosS, t_struttura tipo);
-int controllodiversotruppe(int PosA, int PosD);
 int controllosconfitto(int G);
 int controllovincitore();
+
 
 //funzioni di gestione dei dati di gioco
 void creagiocatori(int n, int ia);
