@@ -23,43 +23,10 @@
 #include "fantasy-gtk-img.h"
 #include "fantasy-gtk-map.h"
 #include "fantasy-gtk-tab.h"
+#include "fantasy-gtk-pan.h"
+#include "fantasy-gtk-menu.h"
+#include "fantasy-gtk-partita.h"
 
-//variabili globali
-GtkWidget *Counter[NUMRISORSE];
-GtkWidget *Coordinate;
-GtkWidget *CurrentI1;
-GtkWidget *CurrentL;
-GtkWidget *CurrentI2;
-
-
-/*header funzioni gtk*/
-
-//funzioni generiche
-int gtk_carica_avvio(char *nomefile);
-void gtk_proclama_vincitore(int g);
-
-//funzioni menu
-void gtk_crea_menu(GtkWidget *Vbox);
-
-//funzioni frecce
-GtkWidget *gtk_crea_4_frecce();
-void gtk_aggiorna_coordinate(int x, int y);
-
-
-
-//funzioni editor
-GtkWidget *gtk_crea_pulsanti_editor_s();
-GtkWidget *gtk_crea_pulsanti_editor_u();
-
-// funzioni contarisorse
-GtkWidget *gtk_crea_contarisorse();
-void gtk_aggiorna_contarisorse();
-
-// funzioni giocatore attuale
-GtkWidget *gtk_crea_giocatore_c();
-void gtk_aggiorna_giocatore_c();
-
-// funzioni combattimento
-void gtk_popup_combattimento(GtkWidget* Casella, int Perdite);
+GtkWidget *gtk_crea_finestra_principale();
 
 #endif

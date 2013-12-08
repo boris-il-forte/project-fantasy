@@ -16,6 +16,7 @@
  */
 
 #include "fantasy-gtk-map.h"
+#include "fantasy-gtk-fight.h"
 #include "fantasy-gtk-img.h"
 
 //struct spin buton
@@ -25,9 +26,8 @@ typedef struct s_spin
 	int somma;
 } t_spin;
 
-
-static GtkWidget *Casella[LARGHEZZA*ALTEZZA];
-static GtkWidget *Thumb[LARGHEZZA*ALTEZZA];
+static GtkWidget *Casella[LARGHEZZA * ALTEZZA];
+static GtkWidget *Thumb[LARGHEZZA * ALTEZZA];
 
 static int Mossa;
 
@@ -63,24 +63,25 @@ static void addestra_truppa(t_callback_s* Struct)
 		gtk_window_set_icon(GTK_WINDOW(Dialogo), Immagine.logo);
 		switch (r)
 		{
-			case 1:
-				Label = gtk_label_new("Oro insufficente!!");
-				break;
-			case 2:
-				Label = gtk_label_new("Cibo insufficente!");
-				break;
-			case 3:
-				Label = gtk_label_new("Smeraldi insufficenti!!");
-				break;
-			default:
-				Label = gtk_label_new(
-						"Errore! questo messaggio non deve comparire!");
-				break;
+		case 1:
+			Label = gtk_label_new("Oro insufficente!!");
+			break;
+		case 2:
+			Label = gtk_label_new("Cibo insufficente!");
+			break;
+		case 3:
+			Label = gtk_label_new("Smeraldi insufficenti!!");
+			break;
+		default:
+			Label = gtk_label_new(
+					"Errore! questo messaggio non deve comparire!");
+			break;
 		}
 		gtk_widget_show(Label);
 		gtk_box_pack_start(
-		GTK_BOX(gtk_dialog_get_content_area(GTK_DIALOG(Dialogo))), Label, TRUE,
-		TRUE, 0);
+				GTK_BOX(gtk_dialog_get_content_area(GTK_DIALOG(Dialogo))),
+				Label, TRUE,
+				TRUE, 0);
 		gtk_dialog_run(GTK_DIALOG(Dialogo));
 		gtk_widget_destroy(Dialogo);
 	}
@@ -497,8 +498,9 @@ static void click_unita(char* pos, GdkEventButton *Event)
 			Label = gtk_label_new("unità in combattimento!");
 			gtk_widget_show(Label);
 			gtk_box_pack_start(
-			GTK_BOX(gtk_dialog_get_content_area(GTK_DIALOG(Dialogo))), Label,
-			TRUE, TRUE, 0);
+					GTK_BOX(gtk_dialog_get_content_area(GTK_DIALOG(Dialogo))),
+					Label,
+					TRUE, TRUE, 0);
 			gtk_dialog_run(GTK_DIALOG(Dialogo));
 			gtk_widget_destroy(Dialogo);
 			return;
@@ -525,8 +527,9 @@ static void click_unita(char* pos, GdkEventButton *Event)
 				Label = gtk_label_new("unità in combattimento!");
 			gtk_widget_show(Label);
 			gtk_box_pack_start(
-			GTK_BOX(gtk_dialog_get_content_area(GTK_DIALOG(Dialogo))), Label,
-			TRUE, TRUE, 0);
+					GTK_BOX(gtk_dialog_get_content_area(GTK_DIALOG(Dialogo))),
+					Label,
+					TRUE, TRUE, 0);
 			gtk_dialog_run(GTK_DIALOG(Dialogo));
 			gtk_widget_destroy(Dialogo);
 			return;
@@ -573,8 +576,9 @@ static void click_assediocastello(char* pos)
 		Label = gtk_label_new(buf);
 		gtk_widget_show(Label);
 		gtk_box_pack_start(
-		GTK_BOX(gtk_dialog_get_content_area(GTK_DIALOG(Dialogo))), Label, TRUE,
-		TRUE, 0);
+				GTK_BOX(gtk_dialog_get_content_area(GTK_DIALOG(Dialogo))),
+				Label, TRUE,
+				TRUE, 0);
 		gtk_dialog_run(GTK_DIALOG(Dialogo));
 		gtk_widget_destroy(Dialogo);
 		W = controllovincitore();
@@ -612,8 +616,9 @@ static void click_assaltostruttura(char* pos)
 		Label = gtk_label_new(buf);
 		gtk_widget_show(Label);
 		gtk_box_pack_start(
-		GTK_BOX(gtk_dialog_get_content_area(GTK_DIALOG(Dialogo))), Label, TRUE,
-		TRUE, 0);
+				GTK_BOX(gtk_dialog_get_content_area(GTK_DIALOG(Dialogo))),
+				Label, TRUE,
+				TRUE, 0);
 		gtk_dialog_run(GTK_DIALOG(Dialogo));
 		gtk_widget_destroy(Dialogo);
 		W = controllovincitore();
@@ -652,22 +657,22 @@ static void click_unisci(char* pos)
 
 	switch (Tipo)
 	{
-		case Rec:
-		case Fan:
-		case Lan:
-		case Arc:
-			max = 100 * 2;
-			break;
-		case Cav:
-			max = 50 * 2;
-			break;
-		case Dra:
-		case Fen:
-			max = 30 * 2;
-			break;
-		default:
-			max = 100;
-			break;
+	case Rec:
+	case Fan:
+	case Lan:
+	case Arc:
+		max = 100 * 2;
+		break;
+	case Cav:
+		max = 50 * 2;
+		break;
+	case Dra:
+	case Fen:
+		max = 30 * 2;
+		break;
+	default:
+		max = 100;
+		break;
 	}
 	somma = TA->numero + TB->numero;
 	min = (somma - max) > 0 ? (somma - max) : 0;
@@ -689,8 +694,8 @@ static void click_unisci(char* pos)
 	gtk_window_set_icon(GTK_WINDOW(Dialogo), Immagine.logo);
 	Vbox = gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);
 	gtk_box_pack_start(
-	GTK_BOX(gtk_dialog_get_content_area(GTK_DIALOG(Dialogo))), Vbox,
-	TRUE, TRUE, 0);
+			GTK_BOX(gtk_dialog_get_content_area(GTK_DIALOG(Dialogo))), Vbox,
+			TRUE, TRUE, 0);
 	gtk_widget_show(Vbox);
 	Label = gtk_label_new("Sposta effettivi");
 	gtk_box_pack_start(GTK_BOX(Vbox), Label, TRUE, TRUE, 0);
@@ -785,262 +790,579 @@ void gtk_stampa_mappa(int x, int y, char m)
 	for (R = y; R < y + caselle_verticali; R++)
 		for (C = x; C < x + caselle_orizzontali; C++)
 		{
-			TmpB = gdk_pixbuf_copy(Immagine.p[tipoprato(posiziona(0,0,C,R))]);
-			switch (accedi(C,R,infomappa.mappa))
+			TmpB = gdk_pixbuf_copy(
+					Immagine.p[tipoprato(posiziona(0, 0, C, R))]);
+			switch (accedi(C, R, infomappa.mappa))
 			{
-				/*stampa il castello*/
-				case '0':
-				G=controlloedificio(posiziona(-1,-1,C,R), Cas);
-				gdk_pixbuf_composite(Immagine.c[G+1][0],TmpB,0,0,Dim_casella,Dim_casella,0,0,1,1,GDK_INTERP_BILINEAR,255);
-				if(m=='n' && G==CurrentPlayer)
-				g_signal_connect_swapped(Casella[Pos], "button_press_event", G_CALLBACK(click_castello),(gpointer)&infomappa.mappa[posiziona(-1,-1,C,R)]);
-				if(m=='c' && assaltolecito(Mossa,posiziona(0,0,C,R))==1 && controllodiverso(Mossa,posiziona(-1,-1,C,R),Cas)==1)
-				g_signal_connect_swapped(Casella[Pos], "button_press_event", G_CALLBACK(click_assediocastello),(gpointer)&infomappa.mappa[posiziona(-1,-1,C,R)]);
-				if(m=='s' && spostalecito(Mossa,posiziona(0,0,C,R),V)==1 && controllodiverso(Mossa,posiziona(-1,-1,C,R),Cas)==0)
-				g_signal_connect_swapped(Casella[Pos], "button_press_event", G_CALLBACK(click_entrastruttura),(gpointer)&infomappa.mappa[posiziona(-1,-1,C,R)]);
+			/*stampa il castello*/
+			case '0':
+				G = controlloedificio(posiziona(-1, -1, C, R), Cas);
+				gdk_pixbuf_composite(Immagine.c[G + 1][0], TmpB, 0, 0,
+						Dim_casella, Dim_casella, 0, 0, 1, 1,
+						GDK_INTERP_BILINEAR, 255);
+				if (m == 'n' && G == CurrentPlayer)
+					g_signal_connect_swapped(Casella[Pos], "button_press_event",
+							G_CALLBACK(click_castello),
+							(gpointer)&infomappa.mappa[posiziona(-1,-1,C,R)]);
+				if (m == 'c' && assaltolecito(Mossa, posiziona(0, 0, C, R)) == 1
+						&& controllodiverso(Mossa, posiziona(-1, -1, C, R), Cas)
+								== 1)
+					g_signal_connect_swapped(Casella[Pos], "button_press_event",
+							G_CALLBACK(click_assediocastello),
+							(gpointer)&infomappa.mappa[posiziona(-1,-1,C,R)]);
+				if (m == 's'
+						&& spostalecito(Mossa, posiziona(0, 0, C, R), V) == 1
+						&& controllodiverso(Mossa, posiziona(-1, -1, C, R), Cas)
+								== 0)
+					g_signal_connect_swapped(Casella[Pos], "button_press_event",
+							G_CALLBACK(click_entrastruttura),
+							(gpointer)&infomappa.mappa[posiziona(-1,-1,C,R)]);
 				break;
-				case '1':
-				G=controlloedificio(posiziona(0,-1,C,R), Cas);
-				gdk_pixbuf_composite(Immagine.c[G+1][1],TmpB,0,0,Dim_casella,Dim_casella,0,0,1,1,GDK_INTERP_BILINEAR,255);
-				if(m=='n' && G==CurrentPlayer)
-				g_signal_connect_swapped(Casella[Pos], "button_press_event", G_CALLBACK(click_castello),(gpointer)&infomappa.mappa[posiziona(0,-1,C,R)]);
-				if(m=='c' && assaltolecito(Mossa,posiziona(0,0,C,R))==1 && controllodiverso(Mossa,posiziona(0,-1,C,R),Cas)==1)
-				g_signal_connect_swapped(Casella[Pos], "button_press_event", G_CALLBACK(click_assediocastello),(gpointer)&infomappa.mappa[posiziona(0,-1,C,R)]);
-				if(m=='s' && spostalecito(Mossa,posiziona(0,0,C,R),V)==1 && controllodiverso(Mossa,posiziona(0,-1,C,R),Cas)==0)
-				g_signal_connect_swapped(Casella[Pos], "button_press_event", G_CALLBACK(click_entrastruttura),(gpointer)&infomappa.mappa[posiziona(0,-1,C,R)]);
+			case '1':
+				G = controlloedificio(posiziona(0, -1, C, R), Cas);
+				gdk_pixbuf_composite(Immagine.c[G + 1][1], TmpB, 0, 0,
+						Dim_casella, Dim_casella, 0, 0, 1, 1,
+						GDK_INTERP_BILINEAR, 255);
+				if (m == 'n' && G == CurrentPlayer)
+					g_signal_connect_swapped(Casella[Pos], "button_press_event",
+							G_CALLBACK(click_castello),
+							(gpointer)&infomappa.mappa[posiziona(0,-1,C,R)]);
+				if (m == 'c' && assaltolecito(Mossa, posiziona(0, 0, C, R)) == 1
+						&& controllodiverso(Mossa, posiziona(0, -1, C, R), Cas)
+								== 1)
+					g_signal_connect_swapped(Casella[Pos], "button_press_event",
+							G_CALLBACK(click_assediocastello),
+							(gpointer)&infomappa.mappa[posiziona(0,-1,C,R)]);
+				if (m == 's'
+						&& spostalecito(Mossa, posiziona(0, 0, C, R), V) == 1
+						&& controllodiverso(Mossa, posiziona(0, -1, C, R), Cas)
+								== 0)
+					g_signal_connect_swapped(Casella[Pos], "button_press_event",
+							G_CALLBACK(click_entrastruttura),
+							(gpointer)&infomappa.mappa[posiziona(0,-1,C,R)]);
 				break;
-				case '2':
-				G=controlloedificio(posiziona(1,-1,C,R), Cas);
-				gdk_pixbuf_composite(Immagine.c[G+1][2],TmpB,0,0,Dim_casella,Dim_casella,0,0,1,1,GDK_INTERP_BILINEAR,255);
-				if(m=='n' && G==CurrentPlayer)
-				g_signal_connect_swapped(Casella[Pos], "button_press_event", G_CALLBACK(click_castello),(gpointer)&infomappa.mappa[posiziona(1,-1,C,R)]);
-				if(m=='c' && assaltolecito(Mossa,posiziona(0,0,C,R))==1 && controllodiverso(Mossa,posiziona(1,-1,C,R),Cas)==1)
-				g_signal_connect_swapped(Casella[Pos], "button_press_event", G_CALLBACK(click_assediocastello),(gpointer)&infomappa.mappa[posiziona(1,-1,C,R)]);
-				if(m=='s' && spostalecito(Mossa,posiziona(0,0,C,R),V)==1 && controllodiverso(Mossa,posiziona(1,-1,C,R),Cas)==0)
-				g_signal_connect_swapped(Casella[Pos], "button_press_event", G_CALLBACK(click_entrastruttura),(gpointer)&infomappa.mappa[posiziona(1,-1,C,R)]);
+			case '2':
+				G = controlloedificio(posiziona(1, -1, C, R), Cas);
+				gdk_pixbuf_composite(Immagine.c[G + 1][2], TmpB, 0, 0,
+						Dim_casella, Dim_casella, 0, 0, 1, 1,
+						GDK_INTERP_BILINEAR, 255);
+				if (m == 'n' && G == CurrentPlayer)
+					g_signal_connect_swapped(Casella[Pos], "button_press_event",
+							G_CALLBACK(click_castello),
+							(gpointer)&infomappa.mappa[posiziona(1,-1,C,R)]);
+				if (m == 'c' && assaltolecito(Mossa, posiziona(0, 0, C, R)) == 1
+						&& controllodiverso(Mossa, posiziona(1, -1, C, R), Cas)
+								== 1)
+					g_signal_connect_swapped(Casella[Pos], "button_press_event",
+							G_CALLBACK(click_assediocastello),
+							(gpointer)&infomappa.mappa[posiziona(1,-1,C,R)]);
+				if (m == 's'
+						&& spostalecito(Mossa, posiziona(0, 0, C, R), V) == 1
+						&& controllodiverso(Mossa, posiziona(1, -1, C, R), Cas)
+								== 0)
+					g_signal_connect_swapped(Casella[Pos], "button_press_event",
+							G_CALLBACK(click_entrastruttura),
+							(gpointer)&infomappa.mappa[posiziona(1,-1,C,R)]);
 				break;
-				case '3':
-				G=controlloedificio(posiziona(-1,0,C,R), Cas);
-				gdk_pixbuf_composite(Immagine.c[G+1][3],TmpB,0,0,Dim_casella,Dim_casella,0,0,1,1,GDK_INTERP_BILINEAR,255);
-				if(m=='n' && G==CurrentPlayer)
-				g_signal_connect_swapped(Casella[Pos], "button_press_event", G_CALLBACK(click_castello),(gpointer)&infomappa.mappa[posiziona(-1,0,C,R)]);
-				if(m=='c' && assaltolecito(Mossa,posiziona(0,0,C,R))==1 && controllodiverso(Mossa,posiziona(-1,0,C,R),Cas)==1)
-				g_signal_connect_swapped(Casella[Pos], "button_press_event", G_CALLBACK(click_assediocastello),(gpointer)&infomappa.mappa[posiziona(-1,0,C,R)]);
-				if(m=='s' && spostalecito(Mossa,posiziona(0,0,C,R),V)==1 && controllodiverso(Mossa,posiziona(-1,0,C,R),Cas)==0)
-				g_signal_connect_swapped(Casella[Pos], "button_press_event", G_CALLBACK(click_entrastruttura),(gpointer)&infomappa.mappa[posiziona(-1,0,C,R)]);
+			case '3':
+				G = controlloedificio(posiziona(-1, 0, C, R), Cas);
+				gdk_pixbuf_composite(Immagine.c[G + 1][3], TmpB, 0, 0,
+						Dim_casella, Dim_casella, 0, 0, 1, 1,
+						GDK_INTERP_BILINEAR, 255);
+				if (m == 'n' && G == CurrentPlayer)
+					g_signal_connect_swapped(Casella[Pos], "button_press_event",
+							G_CALLBACK(click_castello),
+							(gpointer)&infomappa.mappa[posiziona(-1,0,C,R)]);
+				if (m == 'c' && assaltolecito(Mossa, posiziona(0, 0, C, R)) == 1
+						&& controllodiverso(Mossa, posiziona(-1, 0, C, R), Cas)
+								== 1)
+					g_signal_connect_swapped(Casella[Pos], "button_press_event",
+							G_CALLBACK(click_assediocastello),
+							(gpointer)&infomappa.mappa[posiziona(-1,0,C,R)]);
+				if (m == 's'
+						&& spostalecito(Mossa, posiziona(0, 0, C, R), V) == 1
+						&& controllodiverso(Mossa, posiziona(-1, 0, C, R), Cas)
+								== 0)
+					g_signal_connect_swapped(Casella[Pos], "button_press_event",
+							G_CALLBACK(click_entrastruttura),
+							(gpointer)&infomappa.mappa[posiziona(-1,0,C,R)]);
 				break;
-				case '4':
-				G=controlloedificio(posiziona(0,0,C,R), Cas);
-				gdk_pixbuf_composite(Immagine.c[G+1][4],TmpB,0,0,Dim_casella,Dim_casella,0,0,1,1,GDK_INTERP_BILINEAR,255);
-				if(m=='n' && G==CurrentPlayer)
-				g_signal_connect_swapped(Casella[Pos], "button_press_event", G_CALLBACK(click_castello),(gpointer)&infomappa.mappa[posiziona(0,0,C,R)]);
+			case '4':
+				G = controlloedificio(posiziona(0, 0, C, R), Cas);
+				gdk_pixbuf_composite(Immagine.c[G + 1][4], TmpB, 0, 0,
+						Dim_casella, Dim_casella, 0, 0, 1, 1,
+						GDK_INTERP_BILINEAR, 255);
+				if (m == 'n' && G == CurrentPlayer)
+					g_signal_connect_swapped(Casella[Pos], "button_press_event",
+							G_CALLBACK(click_castello),
+							(gpointer)&infomappa.mappa[posiziona(0,0,C,R)]);
 				break;
-				case '5':
-				G=controlloedificio(posiziona(1,0,C,R), Cas);
-				gdk_pixbuf_composite(Immagine.c[G+1][5],TmpB,0,0,Dim_casella,Dim_casella,0,0,1,1,GDK_INTERP_BILINEAR,255);
-				if(m=='n' && G==CurrentPlayer)
-				g_signal_connect_swapped(Casella[Pos], "button_press_event", G_CALLBACK(click_castello),(gpointer)&infomappa.mappa[posiziona(1,0,C,R)]);
-				if(m=='c' && assaltolecito(Mossa,posiziona(0,0,C,R))==1 && controllodiverso(Mossa,posiziona(1,0,C,R),Cas)==1)
-				g_signal_connect_swapped(Casella[Pos], "button_press_event", G_CALLBACK(click_assediocastello),(gpointer)&infomappa.mappa[posiziona(1,0,C,R)]);
-				if(m=='s' && spostalecito(Mossa,posiziona(0,0,C,R),V)==1 && controllodiverso(Mossa,posiziona(1,0,C,R),Cas)==0)
-				g_signal_connect_swapped(Casella[Pos], "button_press_event", G_CALLBACK(click_entrastruttura),(gpointer)&infomappa.mappa[posiziona(1,0,C,R)]);
+			case '5':
+				G = controlloedificio(posiziona(1, 0, C, R), Cas);
+				gdk_pixbuf_composite(Immagine.c[G + 1][5], TmpB, 0, 0,
+						Dim_casella, Dim_casella, 0, 0, 1, 1,
+						GDK_INTERP_BILINEAR, 255);
+				if (m == 'n' && G == CurrentPlayer)
+					g_signal_connect_swapped(Casella[Pos], "button_press_event",
+							G_CALLBACK(click_castello),
+							(gpointer)&infomappa.mappa[posiziona(1,0,C,R)]);
+				if (m == 'c' && assaltolecito(Mossa, posiziona(0, 0, C, R)) == 1
+						&& controllodiverso(Mossa, posiziona(1, 0, C, R), Cas)
+								== 1)
+					g_signal_connect_swapped(Casella[Pos], "button_press_event",
+							G_CALLBACK(click_assediocastello),
+							(gpointer)&infomappa.mappa[posiziona(1,0,C,R)]);
+				if (m == 's'
+						&& spostalecito(Mossa, posiziona(0, 0, C, R), V) == 1
+						&& controllodiverso(Mossa, posiziona(1, 0, C, R), Cas)
+								== 0)
+					g_signal_connect_swapped(Casella[Pos], "button_press_event",
+							G_CALLBACK(click_entrastruttura),
+							(gpointer)&infomappa.mappa[posiziona(1,0,C,R)]);
 				break;
-				case '6':
-				G=controlloedificio(posiziona(-1,1,C,R), Cas);
-				gdk_pixbuf_composite(Immagine.c[G+1][6],TmpB,0,0,Dim_casella,Dim_casella,0,0,1,1,GDK_INTERP_BILINEAR,255);
-				if(m=='n' && G==CurrentPlayer)
-				g_signal_connect_swapped(Casella[Pos], "button_press_event", G_CALLBACK(click_castello),(gpointer)&infomappa.mappa[posiziona(-1,1,C,R)]);
-				if(m=='c' && assaltolecito(Mossa,posiziona(0,0,C,R))==1 && controllodiverso(Mossa,posiziona(-1,1,C,R),Cas)==1)
-				g_signal_connect_swapped(Casella[Pos], "button_press_event", G_CALLBACK(click_assediocastello),(gpointer)&infomappa.mappa[posiziona(-1,1,C,R)]);
-				if(m=='s' && spostalecito(Mossa,posiziona(0,0,C,R),V)==1 && controllodiverso(Mossa,posiziona(-1,1,C,R),Cas)==0)
-				g_signal_connect_swapped(Casella[Pos], "button_press_event", G_CALLBACK(click_entrastruttura),(gpointer)&infomappa.mappa[posiziona(-1,1,C,R)]);
+			case '6':
+				G = controlloedificio(posiziona(-1, 1, C, R), Cas);
+				gdk_pixbuf_composite(Immagine.c[G + 1][6], TmpB, 0, 0,
+						Dim_casella, Dim_casella, 0, 0, 1, 1,
+						GDK_INTERP_BILINEAR, 255);
+				if (m == 'n' && G == CurrentPlayer)
+					g_signal_connect_swapped(Casella[Pos], "button_press_event",
+							G_CALLBACK(click_castello),
+							(gpointer)&infomappa.mappa[posiziona(-1,1,C,R)]);
+				if (m == 'c' && assaltolecito(Mossa, posiziona(0, 0, C, R)) == 1
+						&& controllodiverso(Mossa, posiziona(-1, 1, C, R), Cas)
+								== 1)
+					g_signal_connect_swapped(Casella[Pos], "button_press_event",
+							G_CALLBACK(click_assediocastello),
+							(gpointer)&infomappa.mappa[posiziona(-1,1,C,R)]);
+				if (m == 's'
+						&& spostalecito(Mossa, posiziona(0, 0, C, R), V) == 1
+						&& controllodiverso(Mossa, posiziona(-1, 1, C, R), Cas)
+								== 0)
+					g_signal_connect_swapped(Casella[Pos], "button_press_event",
+							G_CALLBACK(click_entrastruttura),
+							(gpointer)&infomappa.mappa[posiziona(-1,1,C,R)]);
 				break;
-				case '7':
-				G=controlloedificio(posiziona(0,1,C,R), Cas);
-				gdk_pixbuf_composite(Immagine.c[G+1][7],TmpB,0,0,Dim_casella,Dim_casella,0,0,1,1,GDK_INTERP_BILINEAR,255);
-				if(m=='n' && G==CurrentPlayer)
-				g_signal_connect_swapped(Casella[Pos], "button_press_event", G_CALLBACK(click_castello),(gpointer)&infomappa.mappa[posiziona(0,1,C,R)]);
-				if(m=='c' && assaltolecito(Mossa,posiziona(0,0,C,R))==1 && controllodiverso(Mossa,posiziona(0,1,C,R),Cas)==1)
-				g_signal_connect_swapped(Casella[Pos], "button_press_event", G_CALLBACK(click_assediocastello),(gpointer)&infomappa.mappa[posiziona(0,1,C,R)]);
-				if(m=='s' && spostalecito(Mossa,posiziona(0,0,C,R),V)==1 && controllodiverso(Mossa,posiziona(0,1,C,R),Cas)==0)
-				g_signal_connect_swapped(Casella[Pos], "button_press_event", G_CALLBACK(click_entrastruttura),(gpointer)&infomappa.mappa[posiziona(0,1,C,R)]);
+			case '7':
+				G = controlloedificio(posiziona(0, 1, C, R), Cas);
+				gdk_pixbuf_composite(Immagine.c[G + 1][7], TmpB, 0, 0,
+						Dim_casella, Dim_casella, 0, 0, 1, 1,
+						GDK_INTERP_BILINEAR, 255);
+				if (m == 'n' && G == CurrentPlayer)
+					g_signal_connect_swapped(Casella[Pos], "button_press_event",
+							G_CALLBACK(click_castello),
+							(gpointer)&infomappa.mappa[posiziona(0,1,C,R)]);
+				if (m == 'c' && assaltolecito(Mossa, posiziona(0, 0, C, R)) == 1
+						&& controllodiverso(Mossa, posiziona(0, 1, C, R), Cas)
+								== 1)
+					g_signal_connect_swapped(Casella[Pos], "button_press_event",
+							G_CALLBACK(click_assediocastello),
+							(gpointer)&infomappa.mappa[posiziona(0,1,C,R)]);
+				if (m == 's'
+						&& spostalecito(Mossa, posiziona(0, 0, C, R), V) == 1
+						&& controllodiverso(Mossa, posiziona(0, 1, C, R), Cas)
+								== 0)
+					g_signal_connect_swapped(Casella[Pos], "button_press_event",
+							G_CALLBACK(click_entrastruttura),
+							(gpointer)&infomappa.mappa[posiziona(0,1,C,R)]);
 				break;
-				case '8':
-				G=controlloedificio(posiziona(1,1,C,R), Cas);
-				gdk_pixbuf_composite(Immagine.c[G+1][8],TmpB,0,0,Dim_casella,Dim_casella,0,0,1,1,GDK_INTERP_BILINEAR,255);
-				if(m=='n' && G==CurrentPlayer)
-				g_signal_connect_swapped(Casella[Pos], "button_press_event", G_CALLBACK(click_castello),(gpointer)&infomappa.mappa[posiziona(1,1,C,R)]);
-				if(m=='c' && assaltolecito(Mossa,posiziona(0,0,C,R))==1 && controllodiverso(Mossa,posiziona(1,1,C,R),Cas)==1)
-				g_signal_connect_swapped(Casella[Pos], "button_press_event", G_CALLBACK(click_assediocastello),(gpointer)&infomappa.mappa[posiziona(1,1,C,R)]);
-				if(m=='s' && spostalecito(Mossa,posiziona(0,0,C,R),V)==1 && controllodiverso(Mossa,posiziona(1,1,C,R),Cas)==0)
-				g_signal_connect_swapped(Casella[Pos], "button_press_event", G_CALLBACK(click_entrastruttura),(gpointer)&infomappa.mappa[posiziona(1,1,C,R)]);
+			case '8':
+				G = controlloedificio(posiziona(1, 1, C, R), Cas);
+				gdk_pixbuf_composite(Immagine.c[G + 1][8], TmpB, 0, 0,
+						Dim_casella, Dim_casella, 0, 0, 1, 1,
+						GDK_INTERP_BILINEAR, 255);
+				if (m == 'n' && G == CurrentPlayer)
+					g_signal_connect_swapped(Casella[Pos], "button_press_event",
+							G_CALLBACK(click_castello),
+							(gpointer)&infomappa.mappa[posiziona(1,1,C,R)]);
+				if (m == 'c' && assaltolecito(Mossa, posiziona(0, 0, C, R)) == 1
+						&& controllodiverso(Mossa, posiziona(1, 1, C, R), Cas)
+								== 1)
+					g_signal_connect_swapped(Casella[Pos], "button_press_event",
+							G_CALLBACK(click_assediocastello),
+							(gpointer)&infomappa.mappa[posiziona(1,1,C,R)]);
+				if (m == 's'
+						&& spostalecito(Mossa, posiziona(0, 0, C, R), V) == 1
+						&& controllodiverso(Mossa, posiziona(1, 1, C, R), Cas)
+								== 0)
+					g_signal_connect_swapped(Casella[Pos], "button_press_event",
+							G_CALLBACK(click_entrastruttura),
+							(gpointer)&infomappa.mappa[posiziona(1,1,C,R)]);
 				break;
 				/*stampa la grotta*/
-				case 'G':
-				G=controlloedificio(posiziona(0,0,C,R),Gro);
-				gdk_pixbuf_composite(Immagine.g[G+1][0],TmpB,0,0,Dim_casella,Dim_casella,0,0,1,1,GDK_INTERP_BILINEAR,255);
-				if(m=='n' && G==CurrentPlayer)
-				g_signal_connect_swapped(Casella[Pos], "button_press_event", G_CALLBACK(click_grotta),(gpointer)&infomappa.mappa[posiziona(0,0,C,R)]);
-				if(m=='c' && assaltolecito(Mossa,posiziona(0,0,C,R))==1 && controllodiverso(Mossa,posiziona(0,0,C,R),Gro)==1)
-				g_signal_connect_swapped(Casella[Pos], "button_press_event", G_CALLBACK(click_assaltostruttura),(gpointer)&infomappa.mappa[posiziona(0,0,C,R)]);
-				if(m=='s' && spostalecito(Mossa,posiziona(0,0,C,R),V)==1 && controllodiverso(Mossa,posiziona(0,0,C,R),Gro)==0)
-				g_signal_connect_swapped(Casella[Pos], "button_press_event", G_CALLBACK(click_entrastruttura),(gpointer)&infomappa.mappa[posiziona(0,0,C,R)]);
+			case 'G':
+				G = controlloedificio(posiziona(0, 0, C, R), Gro);
+				gdk_pixbuf_composite(Immagine.g[G + 1][0], TmpB, 0, 0,
+						Dim_casella, Dim_casella, 0, 0, 1, 1,
+						GDK_INTERP_BILINEAR, 255);
+				if (m == 'n' && G == CurrentPlayer)
+					g_signal_connect_swapped(Casella[Pos], "button_press_event",
+							G_CALLBACK(click_grotta),
+							(gpointer)&infomappa.mappa[posiziona(0,0,C,R)]);
+				if (m == 'c' && assaltolecito(Mossa, posiziona(0, 0, C, R)) == 1
+						&& controllodiverso(Mossa, posiziona(0, 0, C, R), Gro)
+								== 1)
+					g_signal_connect_swapped(Casella[Pos], "button_press_event",
+							G_CALLBACK(click_assaltostruttura),
+							(gpointer)&infomappa.mappa[posiziona(0,0,C,R)]);
+				if (m == 's'
+						&& spostalecito(Mossa, posiziona(0, 0, C, R), V) == 1
+						&& controllodiverso(Mossa, posiziona(0, 0, C, R), Gro)
+								== 0)
+					g_signal_connect_swapped(Casella[Pos], "button_press_event",
+							G_CALLBACK(click_entrastruttura),
+							(gpointer)&infomappa.mappa[posiziona(0,0,C,R)]);
 				break;
-				case 'H':
-				G=controlloedificio(posiziona(1,0,C,R),Gro);
-				gdk_pixbuf_composite(Immagine.g[G+1][1],TmpB,0,0,Dim_casella,Dim_casella,0,0,1,1,GDK_INTERP_BILINEAR,255);
-				if(m=='n' && G==CurrentPlayer)
-				g_signal_connect_swapped(Casella[Pos], "button_press_event", G_CALLBACK(click_grotta),(gpointer)&infomappa.mappa[posiziona(1,0,C,R)]);
-				if(m=='c' && assaltolecito(Mossa,posiziona(0,0,C,R))==1 && controllodiverso(Mossa,posiziona(1,0,C,R),Gro)==1)
-				g_signal_connect_swapped(Casella[Pos], "button_press_event", G_CALLBACK(click_assaltostruttura),(gpointer)&infomappa.mappa[posiziona(1,0,C,R)]);
-				if(m=='s' && spostalecito(Mossa,posiziona(0,0,C,R),V)==1 && controllodiverso(Mossa,posiziona(1,0,C,R),Gro)==0)
-				g_signal_connect_swapped(Casella[Pos], "button_press_event", G_CALLBACK(click_entrastruttura),(gpointer)&infomappa.mappa[posiziona(1,0,C,R)]);
+			case 'H':
+				G = controlloedificio(posiziona(1, 0, C, R), Gro);
+				gdk_pixbuf_composite(Immagine.g[G + 1][1], TmpB, 0, 0,
+						Dim_casella, Dim_casella, 0, 0, 1, 1,
+						GDK_INTERP_BILINEAR, 255);
+				if (m == 'n' && G == CurrentPlayer)
+					g_signal_connect_swapped(Casella[Pos], "button_press_event",
+							G_CALLBACK(click_grotta),
+							(gpointer)&infomappa.mappa[posiziona(1,0,C,R)]);
+				if (m == 'c' && assaltolecito(Mossa, posiziona(0, 0, C, R)) == 1
+						&& controllodiverso(Mossa, posiziona(1, 0, C, R), Gro)
+								== 1)
+					g_signal_connect_swapped(Casella[Pos], "button_press_event",
+							G_CALLBACK(click_assaltostruttura),
+							(gpointer)&infomappa.mappa[posiziona(1,0,C,R)]);
+				if (m == 's'
+						&& spostalecito(Mossa, posiziona(0, 0, C, R), V) == 1
+						&& controllodiverso(Mossa, posiziona(1, 0, C, R), Gro)
+								== 0)
+					g_signal_connect_swapped(Casella[Pos], "button_press_event",
+							G_CALLBACK(click_entrastruttura),
+							(gpointer)&infomappa.mappa[posiziona(1,0,C,R)]);
 				break;
-				case 'I':
-				G=controlloedificio(posiziona(0,1,C,R),Gro);
-				gdk_pixbuf_composite(Immagine.g[G+1][2],TmpB,0,0,Dim_casella,Dim_casella,0,0,1,1,GDK_INTERP_BILINEAR,255);
-				if(m=='n' && G==CurrentPlayer)
-				g_signal_connect_swapped(Casella[Pos], "button_press_event", G_CALLBACK(click_grotta),(gpointer)&infomappa.mappa[posiziona(0,1,C,R)]);
-				if(m=='c' && assaltolecito(Mossa,posiziona(0,0,C,R))==1 && controllodiverso(Mossa,posiziona(0,1,C,R),Gro)==1)
-				g_signal_connect_swapped(Casella[Pos], "button_press_event", G_CALLBACK(click_assaltostruttura),(gpointer)&infomappa.mappa[posiziona(0,1,C,R)]);
-				if(m=='s' && spostalecito(Mossa,posiziona(0,0,C,R),V)==1 && controllodiverso(Mossa,posiziona(0,1,C,R),Gro)==0)
-				g_signal_connect_swapped(Casella[Pos], "button_press_event", G_CALLBACK(click_entrastruttura),(gpointer)&infomappa.mappa[posiziona(0,1,C,R)]);
+			case 'I':
+				G = controlloedificio(posiziona(0, 1, C, R), Gro);
+				gdk_pixbuf_composite(Immagine.g[G + 1][2], TmpB, 0, 0,
+						Dim_casella, Dim_casella, 0, 0, 1, 1,
+						GDK_INTERP_BILINEAR, 255);
+				if (m == 'n' && G == CurrentPlayer)
+					g_signal_connect_swapped(Casella[Pos], "button_press_event",
+							G_CALLBACK(click_grotta),
+							(gpointer)&infomappa.mappa[posiziona(0,1,C,R)]);
+				if (m == 'c' && assaltolecito(Mossa, posiziona(0, 0, C, R)) == 1
+						&& controllodiverso(Mossa, posiziona(0, 1, C, R), Gro)
+								== 1)
+					g_signal_connect_swapped(Casella[Pos], "button_press_event",
+							G_CALLBACK(click_assaltostruttura),
+							(gpointer)&infomappa.mappa[posiziona(0,1,C,R)]);
+				if (m == 's'
+						&& spostalecito(Mossa, posiziona(0, 0, C, R), V) == 1
+						&& controllodiverso(Mossa, posiziona(0, 1, C, R), Gro)
+								== 0)
+					g_signal_connect_swapped(Casella[Pos], "button_press_event",
+							G_CALLBACK(click_entrastruttura),
+							(gpointer)&infomappa.mappa[posiziona(0,1,C,R)]);
 				break;
-				case 'J':
-				G=controlloedificio(posiziona(1,1,C,R),Gro);
-				gdk_pixbuf_composite(Immagine.g[G+1][3],TmpB,0,0,Dim_casella,Dim_casella,0,0,1,1,GDK_INTERP_BILINEAR,255);
-				if(m=='n' && G==CurrentPlayer)
-				g_signal_connect_swapped(Casella[Pos], "button_press_event", G_CALLBACK(click_grotta),(gpointer)&infomappa.mappa[posiziona(1,1,C,R)]);
-				if(m=='c' && assaltolecito(Mossa,posiziona(0,0,C,R))==1 && controllodiverso(Mossa,posiziona(1,1,C,R),Gro)==1)
-				g_signal_connect_swapped(Casella[Pos], "button_press_event", G_CALLBACK(click_assaltostruttura),(gpointer)&infomappa.mappa[posiziona(1,1,C,R)]);
-				if(m=='s' && spostalecito(Mossa,posiziona(0,0,C,R),V)==1 && controllodiverso(Mossa,posiziona(1,1,C,R),Gro)==0)
-				g_signal_connect_swapped(Casella[Pos], "button_press_event", G_CALLBACK(click_entrastruttura),(gpointer)&infomappa.mappa[posiziona(1,1,C,R)]);
+			case 'J':
+				G = controlloedificio(posiziona(1, 1, C, R), Gro);
+				gdk_pixbuf_composite(Immagine.g[G + 1][3], TmpB, 0, 0,
+						Dim_casella, Dim_casella, 0, 0, 1, 1,
+						GDK_INTERP_BILINEAR, 255);
+				if (m == 'n' && G == CurrentPlayer)
+					g_signal_connect_swapped(Casella[Pos], "button_press_event",
+							G_CALLBACK(click_grotta),
+							(gpointer)&infomappa.mappa[posiziona(1,1,C,R)]);
+				if (m == 'c' && assaltolecito(Mossa, posiziona(0, 0, C, R)) == 1
+						&& controllodiverso(Mossa, posiziona(1, 1, C, R), Gro)
+								== 1)
+					g_signal_connect_swapped(Casella[Pos], "button_press_event",
+							G_CALLBACK(click_assaltostruttura),
+							(gpointer)&infomappa.mappa[posiziona(1,1,C,R)]);
+				if (m == 's'
+						&& spostalecito(Mossa, posiziona(0, 0, C, R), V) == 1
+						&& controllodiverso(Mossa, posiziona(1, 1, C, R), Gro)
+								== 0)
+					g_signal_connect_swapped(Casella[Pos], "button_press_event",
+							G_CALLBACK(click_entrastruttura),
+							(gpointer)&infomappa.mappa[posiziona(1,1,C,R)]);
 				break;
 				/*stampa la fattoria*/
-				case 'C':
-				G=controlloedificio(posiziona(0,0,C,R),Fat);
-				gdk_pixbuf_composite(Immagine.f[G+1][0],TmpB,0,0,Dim_casella,Dim_casella,0,0,1,1,GDK_INTERP_BILINEAR,255);
-				if(m=='n' && G==CurrentPlayer)
-				g_signal_connect_swapped(Casella[Pos], "button_press_event", G_CALLBACK(click_fattoria),(gpointer)&infomappa.mappa[posiziona(0,0,C,R)]);
-				if(m=='c' && assaltolecito(Mossa,posiziona(0,0,C,R))==1 && controllodiverso(Mossa,posiziona(0,0,C,R),Fat)==1)
-				g_signal_connect_swapped(Casella[Pos], "button_press_event", G_CALLBACK(click_assaltostruttura),(gpointer)&infomappa.mappa[posiziona(0,0,C,R)]);
-				if(m=='s' && spostalecito(Mossa,posiziona(0,0,C,R),V)==1 && controllodiverso(Mossa,posiziona(0,0,C,R),Fat)==0)
-				g_signal_connect_swapped(Casella[Pos], "button_press_event", G_CALLBACK(click_entrastruttura),(gpointer)&infomappa.mappa[posiziona(0,0,C,R)]);
+			case 'C':
+				G = controlloedificio(posiziona(0, 0, C, R), Fat);
+				gdk_pixbuf_composite(Immagine.f[G + 1][0], TmpB, 0, 0,
+						Dim_casella, Dim_casella, 0, 0, 1, 1,
+						GDK_INTERP_BILINEAR, 255);
+				if (m == 'n' && G == CurrentPlayer)
+					g_signal_connect_swapped(Casella[Pos], "button_press_event",
+							G_CALLBACK(click_fattoria),
+							(gpointer)&infomappa.mappa[posiziona(0,0,C,R)]);
+				if (m == 'c' && assaltolecito(Mossa, posiziona(0, 0, C, R)) == 1
+						&& controllodiverso(Mossa, posiziona(0, 0, C, R), Fat)
+								== 1)
+					g_signal_connect_swapped(Casella[Pos], "button_press_event",
+							G_CALLBACK(click_assaltostruttura),
+							(gpointer)&infomappa.mappa[posiziona(0,0,C,R)]);
+				if (m == 's'
+						&& spostalecito(Mossa, posiziona(0, 0, C, R), V) == 1
+						&& controllodiverso(Mossa, posiziona(0, 0, C, R), Fat)
+								== 0)
+					g_signal_connect_swapped(Casella[Pos], "button_press_event",
+							G_CALLBACK(click_entrastruttura),
+							(gpointer)&infomappa.mappa[posiziona(0,0,C,R)]);
 				break;
-				case 'D':
-				G=controlloedificio(posiziona(1,0,C,R),Fat);
-				gdk_pixbuf_composite(Immagine.f[G+1][1],TmpB,0,0,Dim_casella,Dim_casella,0,0,1,1,GDK_INTERP_BILINEAR,255);
-				if(m=='n' && G==CurrentPlayer)
-				g_signal_connect_swapped(Casella[Pos], "button_press_event", G_CALLBACK(click_fattoria),(gpointer)&infomappa.mappa[posiziona(1,0,C,R)]);
-				if(m=='c' && assaltolecito(Mossa,posiziona(0,0,C,R))==1 && controllodiverso(Mossa,posiziona(1,0,C,R),Fat)==1)
-				g_signal_connect_swapped(Casella[Pos], "button_press_event", G_CALLBACK(click_assaltostruttura),(gpointer)&infomappa.mappa[posiziona(1,0,C,R)]);
-				if(m=='s' && spostalecito(Mossa,posiziona(0,0,C,R),V)==1 && controllodiverso(Mossa,posiziona(1,0,C,R),Fat)==0)
-				g_signal_connect_swapped(Casella[Pos], "button_press_event", G_CALLBACK(click_entrastruttura),(gpointer)&infomappa.mappa[posiziona(1,0,C,R)]);
+			case 'D':
+				G = controlloedificio(posiziona(1, 0, C, R), Fat);
+				gdk_pixbuf_composite(Immagine.f[G + 1][1], TmpB, 0, 0,
+						Dim_casella, Dim_casella, 0, 0, 1, 1,
+						GDK_INTERP_BILINEAR, 255);
+				if (m == 'n' && G == CurrentPlayer)
+					g_signal_connect_swapped(Casella[Pos], "button_press_event",
+							G_CALLBACK(click_fattoria),
+							(gpointer)&infomappa.mappa[posiziona(1,0,C,R)]);
+				if (m == 'c' && assaltolecito(Mossa, posiziona(0, 0, C, R)) == 1
+						&& controllodiverso(Mossa, posiziona(1, 0, C, R), Fat)
+								== 1)
+					g_signal_connect_swapped(Casella[Pos], "button_press_event",
+							G_CALLBACK(click_assaltostruttura),
+							(gpointer)&infomappa.mappa[posiziona(1,0,C,R)]);
+				if (m == 's'
+						&& spostalecito(Mossa, posiziona(0, 0, C, R), V) == 1
+						&& controllodiverso(Mossa, posiziona(1, 0, C, R), Fat)
+								== 0)
+					g_signal_connect_swapped(Casella[Pos], "button_press_event",
+							G_CALLBACK(click_entrastruttura),
+							(gpointer)&infomappa.mappa[posiziona(1,0,C,R)]);
 				break;
-				case 'E':
-				G=controlloedificio(posiziona(0,1,C,R),Fat);
-				gdk_pixbuf_composite(Immagine.f[G+1][2],TmpB,0,0,Dim_casella,Dim_casella,0,0,1,1,GDK_INTERP_BILINEAR,255);
-				if(m=='n' && G==CurrentPlayer)
-				g_signal_connect_swapped(Casella[Pos], "button_press_event", G_CALLBACK(click_fattoria),(gpointer)&infomappa.mappa[posiziona(0,1,C,R)]);
-				if(m=='c' && assaltolecito(Mossa,posiziona(0,0,C,R))==1 && controllodiverso(Mossa,posiziona(0,1,C,R),Fat)==1)
-				g_signal_connect_swapped(Casella[Pos], "button_press_event", G_CALLBACK(click_assaltostruttura),(gpointer)&infomappa.mappa[posiziona(0,1,C,R)]);
-				if(m=='s' && spostalecito(Mossa,posiziona(0,0,C,R),V)==1 && controllodiverso(Mossa,posiziona(0,1,C,R),Fat)==0)
-				g_signal_connect_swapped(Casella[Pos], "button_press_event", G_CALLBACK(click_entrastruttura),(gpointer)&infomappa.mappa[posiziona(0,1,C,R)]);
+			case 'E':
+				G = controlloedificio(posiziona(0, 1, C, R), Fat);
+				gdk_pixbuf_composite(Immagine.f[G + 1][2], TmpB, 0, 0,
+						Dim_casella, Dim_casella, 0, 0, 1, 1,
+						GDK_INTERP_BILINEAR, 255);
+				if (m == 'n' && G == CurrentPlayer)
+					g_signal_connect_swapped(Casella[Pos], "button_press_event",
+							G_CALLBACK(click_fattoria),
+							(gpointer)&infomappa.mappa[posiziona(0,1,C,R)]);
+				if (m == 'c' && assaltolecito(Mossa, posiziona(0, 0, C, R)) == 1
+						&& controllodiverso(Mossa, posiziona(0, 1, C, R), Fat)
+								== 1)
+					g_signal_connect_swapped(Casella[Pos], "button_press_event",
+							G_CALLBACK(click_assaltostruttura),
+							(gpointer)&infomappa.mappa[posiziona(0,1,C,R)]);
+				if (m == 's'
+						&& spostalecito(Mossa, posiziona(0, 0, C, R), V) == 1
+						&& controllodiverso(Mossa, posiziona(0, 1, C, R), Fat)
+								== 0)
+					g_signal_connect_swapped(Casella[Pos], "button_press_event",
+							G_CALLBACK(click_entrastruttura),
+							(gpointer)&infomappa.mappa[posiziona(0,1,C,R)]);
 				break;
-				case 'F':
-				G=controlloedificio(posiziona(1,1,C,R),Fat);
-				gdk_pixbuf_composite(Immagine.f[G+1][3],TmpB,0,0,Dim_casella,Dim_casella,0,0,1,1,GDK_INTERP_BILINEAR,255);
-				if(m=='n' && G==CurrentPlayer)
-				g_signal_connect_swapped(Casella[Pos], "button_press_event", G_CALLBACK(click_fattoria),(gpointer)&infomappa.mappa[posiziona(1,1,C,R)]);
-				if(m=='c' && assaltolecito(Mossa,posiziona(0,0,C,R))==1 && controllodiverso(Mossa,posiziona(1,1,C,R),Fat)==1)
-				g_signal_connect_swapped(Casella[Pos], "button_press_event", G_CALLBACK(click_assaltostruttura),(gpointer)&infomappa.mappa[posiziona(1,1,C,R)]);
-				if(m=='s' && spostalecito(Mossa,posiziona(0,0,C,R),V)==1 && controllodiverso(Mossa,posiziona(1,1,C,R),Fat)==0)
-				g_signal_connect_swapped(Casella[Pos], "button_press_event", G_CALLBACK(click_entrastruttura),(gpointer)&infomappa.mappa[posiziona(1,1,C,R)]);
+			case 'F':
+				G = controlloedificio(posiziona(1, 1, C, R), Fat);
+				gdk_pixbuf_composite(Immagine.f[G + 1][3], TmpB, 0, 0,
+						Dim_casella, Dim_casella, 0, 0, 1, 1,
+						GDK_INTERP_BILINEAR, 255);
+				if (m == 'n' && G == CurrentPlayer)
+					g_signal_connect_swapped(Casella[Pos], "button_press_event",
+							G_CALLBACK(click_fattoria),
+							(gpointer)&infomappa.mappa[posiziona(1,1,C,R)]);
+				if (m == 'c' && assaltolecito(Mossa, posiziona(0, 0, C, R)) == 1
+						&& controllodiverso(Mossa, posiziona(1, 1, C, R), Fat)
+								== 1)
+					g_signal_connect_swapped(Casella[Pos], "button_press_event",
+							G_CALLBACK(click_assaltostruttura),
+							(gpointer)&infomappa.mappa[posiziona(1,1,C,R)]);
+				if (m == 's'
+						&& spostalecito(Mossa, posiziona(0, 0, C, R), V) == 1
+						&& controllodiverso(Mossa, posiziona(1, 1, C, R), Fat)
+								== 0)
+					g_signal_connect_swapped(Casella[Pos], "button_press_event",
+							G_CALLBACK(click_entrastruttura),
+							(gpointer)&infomappa.mappa[posiziona(1,1,C,R)]);
 				break;
 				/*stampa la scuderia*/
-				case 'S':
-				G=controlloedificio(posiziona(0,0,C,R),Scu);
-				gdk_pixbuf_composite(Immagine.s[G+1][0],TmpB,0,0,Dim_casella,Dim_casella,0,0,1,1,GDK_INTERP_BILINEAR,255);
-				if(m=='n' && G==CurrentPlayer)
-				g_signal_connect_swapped(Casella[Pos], "button_press_event", G_CALLBACK(click_scuderia),(gpointer)&infomappa.mappa[posiziona(0,0,C,R)]);
-				if(m=='c' && assaltolecito(Mossa,posiziona(0,0,C,R))==1 && controllodiverso(Mossa,posiziona(0,0,C,R),Scu)==1)
-				g_signal_connect_swapped(Casella[Pos], "button_press_event", G_CALLBACK(click_assaltostruttura),(gpointer)&infomappa.mappa[posiziona(0,0,C,R)]);
-				if(m=='s' && spostalecito(Mossa,posiziona(0,0,C,R),V)==1 && controllodiverso(Mossa,posiziona(0,0,C,R),Scu)==0)
-				g_signal_connect_swapped(Casella[Pos], "button_press_event", G_CALLBACK(click_entrastruttura),(gpointer)&infomappa.mappa[posiziona(0,0,C,R)]);
+			case 'S':
+				G = controlloedificio(posiziona(0, 0, C, R), Scu);
+				gdk_pixbuf_composite(Immagine.s[G + 1][0], TmpB, 0, 0,
+						Dim_casella, Dim_casella, 0, 0, 1, 1,
+						GDK_INTERP_BILINEAR, 255);
+				if (m == 'n' && G == CurrentPlayer)
+					g_signal_connect_swapped(Casella[Pos], "button_press_event",
+							G_CALLBACK(click_scuderia),
+							(gpointer)&infomappa.mappa[posiziona(0,0,C,R)]);
+				if (m == 'c' && assaltolecito(Mossa, posiziona(0, 0, C, R)) == 1
+						&& controllodiverso(Mossa, posiziona(0, 0, C, R), Scu)
+								== 1)
+					g_signal_connect_swapped(Casella[Pos], "button_press_event",
+							G_CALLBACK(click_assaltostruttura),
+							(gpointer)&infomappa.mappa[posiziona(0,0,C,R)]);
+				if (m == 's'
+						&& spostalecito(Mossa, posiziona(0, 0, C, R), V) == 1
+						&& controllodiverso(Mossa, posiziona(0, 0, C, R), Scu)
+								== 0)
+					g_signal_connect_swapped(Casella[Pos], "button_press_event",
+							G_CALLBACK(click_entrastruttura),
+							(gpointer)&infomappa.mappa[posiziona(0,0,C,R)]);
 				break;
-				case 'T':
-				G=controlloedificio(posiziona(1,0,C,R),Scu);
-				gdk_pixbuf_composite(Immagine.s[G+1][1],TmpB,0,0,Dim_casella,Dim_casella,0,0,1,1,GDK_INTERP_BILINEAR,255);
-				if(m=='n' && G==CurrentPlayer)
-				g_signal_connect_swapped(Casella[Pos], "button_press_event", G_CALLBACK(click_scuderia),(gpointer)&infomappa.mappa[posiziona(1,0,C,R)]);
-				if(m=='c' && assaltolecito(Mossa,posiziona(0,0,C,R))==1 && controllodiverso(Mossa,posiziona(1,0,C,R),Scu)==1)
-				g_signal_connect_swapped(Casella[Pos], "button_press_event", G_CALLBACK(click_assaltostruttura),(gpointer)&infomappa.mappa[posiziona(1,0,C,R)]);
-				if(m=='s' && spostalecito(Mossa,posiziona(0,0,C,R),V)==1 && controllodiverso(Mossa,posiziona(1,0,C,R),Scu)==0)
-				g_signal_connect_swapped(Casella[Pos], "button_press_event", G_CALLBACK(click_entrastruttura),(gpointer)&infomappa.mappa[posiziona(1,0,C,R)]);
+			case 'T':
+				G = controlloedificio(posiziona(1, 0, C, R), Scu);
+				gdk_pixbuf_composite(Immagine.s[G + 1][1], TmpB, 0, 0,
+						Dim_casella, Dim_casella, 0, 0, 1, 1,
+						GDK_INTERP_BILINEAR, 255);
+				if (m == 'n' && G == CurrentPlayer)
+					g_signal_connect_swapped(Casella[Pos], "button_press_event",
+							G_CALLBACK(click_scuderia),
+							(gpointer)&infomappa.mappa[posiziona(1,0,C,R)]);
+				if (m == 'c' && assaltolecito(Mossa, posiziona(0, 0, C, R)) == 1
+						&& controllodiverso(Mossa, posiziona(1, 0, C, R), Scu)
+								== 1)
+					g_signal_connect_swapped(Casella[Pos], "button_press_event",
+							G_CALLBACK(click_assaltostruttura),
+							(gpointer)&infomappa.mappa[posiziona(1,0,C,R)]);
+				if (m == 's'
+						&& spostalecito(Mossa, posiziona(0, 0, C, R), V) == 1
+						&& controllodiverso(Mossa, posiziona(1, 0, C, R), Scu)
+								== 0)
+					g_signal_connect_swapped(Casella[Pos], "button_press_event",
+							G_CALLBACK(click_entrastruttura),
+							(gpointer)&infomappa.mappa[posiziona(1,0,C,R)]);
 				break;
-				case 'U':
-				G=controlloedificio(posiziona(0,1,C,R),Scu);
-				gdk_pixbuf_composite(Immagine.s[G+1][2],TmpB,0,0,Dim_casella,Dim_casella,0,0,1,1,GDK_INTERP_BILINEAR,255);
-				if(m=='n' && G==CurrentPlayer)
-				g_signal_connect_swapped(Casella[Pos], "button_press_event", G_CALLBACK(click_scuderia),(gpointer)&infomappa.mappa[posiziona(0,1,C,R)]);
-				if(m=='c' && assaltolecito(Mossa,posiziona(0,0,C,R))==1 && controllodiverso(Mossa,posiziona(0,1,C,R),Scu)==1)
-				g_signal_connect_swapped(Casella[Pos], "button_press_event", G_CALLBACK(click_assaltostruttura),(gpointer)&infomappa.mappa[posiziona(0,1,C,R)]);
-				if(m=='s' && spostalecito(Mossa,posiziona(0,0,C,R),V)==1 && controllodiverso(Mossa,posiziona(0,1,C,R),Scu)==0)
-				g_signal_connect_swapped(Casella[Pos], "button_press_event", G_CALLBACK(click_entrastruttura),(gpointer)&infomappa.mappa[posiziona(0,1,C,R)]);
+			case 'U':
+				G = controlloedificio(posiziona(0, 1, C, R), Scu);
+				gdk_pixbuf_composite(Immagine.s[G + 1][2], TmpB, 0, 0,
+						Dim_casella, Dim_casella, 0, 0, 1, 1,
+						GDK_INTERP_BILINEAR, 255);
+				if (m == 'n' && G == CurrentPlayer)
+					g_signal_connect_swapped(Casella[Pos], "button_press_event",
+							G_CALLBACK(click_scuderia),
+							(gpointer)&infomappa.mappa[posiziona(0,1,C,R)]);
+				if (m == 'c' && assaltolecito(Mossa, posiziona(0, 0, C, R)) == 1
+						&& controllodiverso(Mossa, posiziona(0, 1, C, R), Scu)
+								== 1)
+					g_signal_connect_swapped(Casella[Pos], "button_press_event",
+							G_CALLBACK(click_assaltostruttura),
+							(gpointer)&infomappa.mappa[posiziona(0,1,C,R)]);
+				if (m == 's'
+						&& spostalecito(Mossa, posiziona(0, 0, C, R), V) == 1
+						&& controllodiverso(Mossa, posiziona(0, 1, C, R), Scu)
+								== 0)
+					g_signal_connect_swapped(Casella[Pos], "button_press_event",
+							G_CALLBACK(click_entrastruttura),
+							(gpointer)&infomappa.mappa[posiziona(0,1,C,R)]);
 				break;
-				case 'V':
-				G=controlloedificio(posiziona(1,1,C,R),Scu);
-				gdk_pixbuf_composite(Immagine.s[G+1][3],TmpB,0,0,Dim_casella,Dim_casella,0,0,1,1,GDK_INTERP_BILINEAR,255);
-				if(m=='n' && G==CurrentPlayer)
-				g_signal_connect_swapped(Casella[Pos], "button_press_event", G_CALLBACK(click_scuderia),(gpointer)&infomappa.mappa[posiziona(1,1,C,R)]);
-				if(m=='c' && assaltolecito(Mossa,posiziona(0,0,C,R))==1 && controllodiverso(Mossa,posiziona(1,1,C,R),Scu)==1)
-				g_signal_connect_swapped(Casella[Pos], "button_press_event", G_CALLBACK(click_assaltostruttura),(gpointer)&infomappa.mappa[posiziona(1,1,C,R)]);
-				if(m=='s' && spostalecito(Mossa,posiziona(0,0,C,R),V)==1 && controllodiverso(Mossa,posiziona(1,1,C,R),Scu)==0)
-				g_signal_connect_swapped(Casella[Pos], "button_press_event", G_CALLBACK(click_entrastruttura),(gpointer)&infomappa.mappa[posiziona(1,1,C,R)]);
+			case 'V':
+				G = controlloedificio(posiziona(1, 1, C, R), Scu);
+				gdk_pixbuf_composite(Immagine.s[G + 1][3], TmpB, 0, 0,
+						Dim_casella, Dim_casella, 0, 0, 1, 1,
+						GDK_INTERP_BILINEAR, 255);
+				if (m == 'n' && G == CurrentPlayer)
+					g_signal_connect_swapped(Casella[Pos], "button_press_event",
+							G_CALLBACK(click_scuderia),
+							(gpointer)&infomappa.mappa[posiziona(1,1,C,R)]);
+				if (m == 'c' && assaltolecito(Mossa, posiziona(0, 0, C, R)) == 1
+						&& controllodiverso(Mossa, posiziona(1, 1, C, R), Scu)
+								== 1)
+					g_signal_connect_swapped(Casella[Pos], "button_press_event",
+							G_CALLBACK(click_assaltostruttura),
+							(gpointer)&infomappa.mappa[posiziona(1,1,C,R)]);
+				if (m == 's'
+						&& spostalecito(Mossa, posiziona(0, 0, C, R), V) == 1
+						&& controllodiverso(Mossa, posiziona(1, 1, C, R), Scu)
+								== 0)
+					g_signal_connect_swapped(Casella[Pos], "button_press_event",
+							G_CALLBACK(click_entrastruttura),
+							(gpointer)&infomappa.mappa[posiziona(1,1,C,R)]);
 				break;
 				/*stampa in nido*/
-				case 'N':
-				G=controlloedificio(posiziona(0,0,C,R),Nid);
-				gdk_pixbuf_composite(Immagine.n[G+1][0],TmpB,0,0,Dim_casella,Dim_casella,0,0,1,1,GDK_INTERP_BILINEAR,255);
-				if(m=='n' && G==CurrentPlayer)
-				g_signal_connect_swapped(Casella[Pos], "button_press_event", G_CALLBACK(click_nido),(gpointer)&infomappa.mappa[posiziona(0,0,C,R)]);
-				if(m=='c' && assaltolecito(Mossa,posiziona(0,0,C,R))==1 && controllodiverso(Mossa,posiziona(0,0,C,R),Nid)==1)
-				g_signal_connect_swapped(Casella[Pos], "button_press_event", G_CALLBACK(click_assaltostruttura),(gpointer)&infomappa.mappa[posiziona(0,0,C,R)]);
-				if(m=='s' && spostalecito(Mossa,posiziona(0,0,C,R),V)==1 && controllodiverso(Mossa,posiziona(0,0,C,R),Nid)==0)
-				g_signal_connect_swapped(Casella[Pos], "button_press_event", G_CALLBACK(click_entrastruttura),(gpointer)&infomappa.mappa[posiziona(0,0,C,R)]);
+			case 'N':
+				G = controlloedificio(posiziona(0, 0, C, R), Nid);
+				gdk_pixbuf_composite(Immagine.n[G + 1][0], TmpB, 0, 0,
+						Dim_casella, Dim_casella, 0, 0, 1, 1,
+						GDK_INTERP_BILINEAR, 255);
+				if (m == 'n' && G == CurrentPlayer)
+					g_signal_connect_swapped(Casella[Pos], "button_press_event",
+							G_CALLBACK(click_nido),
+							(gpointer)&infomappa.mappa[posiziona(0,0,C,R)]);
+				if (m == 'c' && assaltolecito(Mossa, posiziona(0, 0, C, R)) == 1
+						&& controllodiverso(Mossa, posiziona(0, 0, C, R), Nid)
+								== 1)
+					g_signal_connect_swapped(Casella[Pos], "button_press_event",
+							G_CALLBACK(click_assaltostruttura),
+							(gpointer)&infomappa.mappa[posiziona(0,0,C,R)]);
+				if (m == 's'
+						&& spostalecito(Mossa, posiziona(0, 0, C, R), V) == 1
+						&& controllodiverso(Mossa, posiziona(0, 0, C, R), Nid)
+								== 0)
+					g_signal_connect_swapped(Casella[Pos], "button_press_event",
+							G_CALLBACK(click_entrastruttura),
+							(gpointer)&infomappa.mappa[posiziona(0,0,C,R)]);
 				break;
-				case 'O':
-				G=controlloedificio(posiziona(1,0,C,R),Nid);
-				gdk_pixbuf_composite(Immagine.n[G+1][1],TmpB,0,0,Dim_casella,Dim_casella,0,0,1,1,GDK_INTERP_BILINEAR,255);
-				if(m=='n' && G==CurrentPlayer)
-				g_signal_connect_swapped(Casella[Pos], "button_press_event", G_CALLBACK(click_nido),(gpointer)&infomappa.mappa[posiziona(1,0,C,R)]);
-				if(m=='c' && assaltolecito(Mossa,posiziona(0,0,C,R))==1 && controllodiverso(Mossa,posiziona(1,0,C,R),Nid)==1)
-				g_signal_connect_swapped(Casella[Pos], "button_press_event", G_CALLBACK(click_assaltostruttura),(gpointer)&infomappa.mappa[posiziona(1,0,C,R)]);
-				if(m=='s' && spostalecito(Mossa,posiziona(0,0,C,R),V)==1 && controllodiverso(Mossa,posiziona(1,0,C,R),Nid)==0)
-				g_signal_connect_swapped(Casella[Pos], "button_press_event", G_CALLBACK(click_entrastruttura),(gpointer)&infomappa.mappa[posiziona(1,0,C,R)]);
+			case 'O':
+				G = controlloedificio(posiziona(1, 0, C, R), Nid);
+				gdk_pixbuf_composite(Immagine.n[G + 1][1], TmpB, 0, 0,
+						Dim_casella, Dim_casella, 0, 0, 1, 1,
+						GDK_INTERP_BILINEAR, 255);
+				if (m == 'n' && G == CurrentPlayer)
+					g_signal_connect_swapped(Casella[Pos], "button_press_event",
+							G_CALLBACK(click_nido),
+							(gpointer)&infomappa.mappa[posiziona(1,0,C,R)]);
+				if (m == 'c' && assaltolecito(Mossa, posiziona(0, 0, C, R)) == 1
+						&& controllodiverso(Mossa, posiziona(1, 0, C, R), Nid)
+								== 1)
+					g_signal_connect_swapped(Casella[Pos], "button_press_event",
+							G_CALLBACK(click_assaltostruttura),
+							(gpointer)&infomappa.mappa[posiziona(1,0,C,R)]);
+				if (m == 's'
+						&& spostalecito(Mossa, posiziona(0, 0, C, R), V) == 1
+						&& controllodiverso(Mossa, posiziona(1, 0, C, R), Nid)
+								== 0)
+					g_signal_connect_swapped(Casella[Pos], "button_press_event",
+							G_CALLBACK(click_entrastruttura),
+							(gpointer)&infomappa.mappa[posiziona(1,0,C,R)]);
 				break;
-				case 'P':
-				G=controlloedificio(posiziona(0,1,C,R),Nid);
-				gdk_pixbuf_composite(Immagine.n[G+1][2],TmpB,0,0,Dim_casella,Dim_casella,0,0,1,1,GDK_INTERP_BILINEAR,255);
-				if(m=='n' && G==CurrentPlayer)
-				g_signal_connect_swapped(Casella[Pos], "button_press_event", G_CALLBACK(click_nido),(gpointer)&infomappa.mappa[posiziona(0,1,C,R)]);
-				if(m=='c' && assaltolecito(Mossa,posiziona(0,0,C,R))==1 && controllodiverso(Mossa,posiziona(0,1,C,R),Nid)==1)
-				g_signal_connect_swapped(Casella[Pos], "button_press_event", G_CALLBACK(click_assaltostruttura),(gpointer)&infomappa.mappa[posiziona(0,1,C,R)]);
-				if(m=='s' && spostalecito(Mossa,posiziona(0,0,C,R),V)==1 && controllodiverso(Mossa,posiziona(0,1,C,R),Nid)==0)
-				g_signal_connect_swapped(Casella[Pos], "button_press_event", G_CALLBACK(click_entrastruttura),(gpointer)&infomappa.mappa[posiziona(0,1,C,R)]);
+			case 'P':
+				G = controlloedificio(posiziona(0, 1, C, R), Nid);
+				gdk_pixbuf_composite(Immagine.n[G + 1][2], TmpB, 0, 0,
+						Dim_casella, Dim_casella, 0, 0, 1, 1,
+						GDK_INTERP_BILINEAR, 255);
+				if (m == 'n' && G == CurrentPlayer)
+					g_signal_connect_swapped(Casella[Pos], "button_press_event",
+							G_CALLBACK(click_nido),
+							(gpointer)&infomappa.mappa[posiziona(0,1,C,R)]);
+				if (m == 'c' && assaltolecito(Mossa, posiziona(0, 0, C, R)) == 1
+						&& controllodiverso(Mossa, posiziona(0, 1, C, R), Nid)
+								== 1)
+					g_signal_connect_swapped(Casella[Pos], "button_press_event",
+							G_CALLBACK(click_assaltostruttura),
+							(gpointer)&infomappa.mappa[posiziona(0,1,C,R)]);
+				if (m == 's'
+						&& spostalecito(Mossa, posiziona(0, 0, C, R), V) == 1
+						&& controllodiverso(Mossa, posiziona(0, 1, C, R), Nid)
+								== 0)
+					g_signal_connect_swapped(Casella[Pos], "button_press_event",
+							G_CALLBACK(click_entrastruttura),
+							(gpointer)&infomappa.mappa[posiziona(0,1,C,R)]);
 				break;
-				case 'Q':
-				G=controlloedificio(posiziona(1,1,C,R),Nid);
-				gdk_pixbuf_composite(Immagine.n[G+1][3],TmpB,0,0,Dim_casella,Dim_casella,0,0,1,1,GDK_INTERP_BILINEAR,255);
-				if(m=='n' && G==CurrentPlayer)
-				g_signal_connect_swapped(Casella[Pos], "button_press_event", G_CALLBACK(click_nido),(gpointer)&infomappa.mappa[posiziona(1,1,C,R)]);
-				if(m=='c' && assaltolecito(Mossa,posiziona(0,0,C,R))==1 && controllodiverso(Mossa,posiziona(1,1,C,R),Nid)==1)
-				g_signal_connect_swapped(Casella[Pos], "button_press_event", G_CALLBACK(click_assaltostruttura),(gpointer)&infomappa.mappa[posiziona(1,1,C,R)]);
-				if(m=='s' && spostalecito(Mossa,posiziona(0,0,C,R),V)==1 && controllodiverso(Mossa,posiziona(1,1,C,R),Nid)==0)
-				g_signal_connect_swapped(Casella[Pos], "button_press_event", G_CALLBACK(click_entrastruttura),(gpointer)&infomappa.mappa[posiziona(1,1,C,R)]);
+			case 'Q':
+				G = controlloedificio(posiziona(1, 1, C, R), Nid);
+				gdk_pixbuf_composite(Immagine.n[G + 1][3], TmpB, 0, 0,
+						Dim_casella, Dim_casella, 0, 0, 1, 1,
+						GDK_INTERP_BILINEAR, 255);
+				if (m == 'n' && G == CurrentPlayer)
+					g_signal_connect_swapped(Casella[Pos], "button_press_event",
+							G_CALLBACK(click_nido),
+							(gpointer)&infomappa.mappa[posiziona(1,1,C,R)]);
+				if (m == 'c' && assaltolecito(Mossa, posiziona(0, 0, C, R)) == 1
+						&& controllodiverso(Mossa, posiziona(1, 1, C, R), Nid)
+								== 1)
+					g_signal_connect_swapped(Casella[Pos], "button_press_event",
+							G_CALLBACK(click_assaltostruttura),
+							(gpointer)&infomappa.mappa[posiziona(1,1,C,R)]);
+				if (m == 's'
+						&& spostalecito(Mossa, posiziona(0, 0, C, R), V) == 1
+						&& controllodiverso(Mossa, posiziona(1, 1, C, R), Nid)
+								== 0)
+					g_signal_connect_swapped(Casella[Pos], "button_press_event",
+							G_CALLBACK(click_entrastruttura),
+							(gpointer)&infomappa.mappa[posiziona(1,1,C,R)]);
 				break;
-				case ' ':
-				if(accedi(C,R,infomappa.truppe)!=NULL)
+			case ' ':
+				if (accedi(C,R,infomappa.truppe)!=NULL)
 				{
 					G=controllounita(posiziona(0,0,C,R));
 					tipo=accedi(C,R,infomappa.truppe)->tipo;
@@ -1090,7 +1412,7 @@ void gtk_stampa_mappa(int x, int y, char m)
 				break;
 			}
 
-			Thumb[Pos]=gtk_image_new_from_pixbuf(TmpB);
+			Thumb[Pos] = gtk_image_new_from_pixbuf(TmpB);
 			gtk_container_add(GTK_CONTAINER(Casella[Pos]), Thumb[Pos]);
 			gtk_widget_show(Thumb[Pos]);
 

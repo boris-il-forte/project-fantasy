@@ -15,21 +15,16 @@
  * GNU General Public License for more details.
  */
 
-#ifndef FANTASY_GTK_TAB_H_
-#define FANTASY_GTK_TAB_H_
+#ifndef FANTASY_GTK_PARTITA_H_
+#define FANTASY_GTK_PARTITA_H_
 
 #include <gtk/gtk.h>
 
-//funzioni tab
-GtkWidget *gtk_crea_notebook_tab(GtkWidget *Notebook,char *buf);
-GtkWidget *gtk_crea_notebook(GtkWidget *Frame);
-GtkWidget *gtk_crea_elemento_tab(GtkWidget *tab,int x, int y,char *nome, char *buf);
-GtkWidget *gtk_riempi_tab_castelli(int i, char* buf);
-void gtk_aggiorna_tab();
-void gtk_pulisci_tab(GtkWidget *Target);
-void gtk_azzera_tab();
-
-void gtk_inizializza_tab();
+int gtk_nuova_partita();
+int gtk_salva_partita();
+int gtk_carica_partita();
+int gtk_carica_avvio(char *nomefile);
 
 
-#endif /* FANTASY_GTK_TAB_H_ */
+
+#endif /* FANTASY_GTK_PARTITA_H_ */

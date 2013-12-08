@@ -176,7 +176,7 @@ void gtk_aggiorna_tab_castelli()
 		switch (i)
 		{
 			case 0:
-				sprintf(nome, "Capitale");
+				sprintf(nome, "Capitale ");
 				break;
 			default:
 				sprintf(nome, "Città %d", i);

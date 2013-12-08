@@ -20,6 +20,10 @@ add_executable(fantasy-core
 				src/fantasy-gtk.c
 				src/fantasy-gtk-map.c
 				src/fantasy-gtk-tab.c
+				src/fantasy-gtk-pan.c
+				src/fantasy-gtk-fight.c
+				src/fantasy-gtk-menu.c
+				src/fantasy-gtk-partita.c
 				src/fantasy-gtk-img.c  
 				src/fantasy-lib.c  
 				src/fantasy-loadsave.c  
