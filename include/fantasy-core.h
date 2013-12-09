@@ -29,16 +29,25 @@
 #define NUMTRUPPE 7
 #define NUMSTRUTTURE 5
 #define NUMRISORSE 3
-#define accedi(x,y,z)z[(x)+LARGHEZZA*(y)] /*accede ad un array come se fosse una matrice*/
+#define accedi(x,y,z) z[(x)+LARGHEZZA*(y)] /*accede ad un array come se fosse una matrice*/
 #define posiziona(x,y,z,k)(z)+LARGHEZZA*(k)-((x)+LARGHEZZA*(y))
 #define posiziona_c(x,y) posiziona(0,0,x,y)
-#define disegna(x,y,z)accedi(x,y,infomappa.mappa)=z; accedi(x+1,y,infomappa.mappa)=z+1; accedi(x+1,y+1,infomappa.mappa)=z+3; accedi(x,y+1,infomappa.mappa)=z+2 /*disegna la struttura di simbolo z*/
-#define tipouguale(x,y)accedi(x,y,infomappa.truppe)->tipo==infomappa.truppe[Mossa]->tipo
+#define disegna(x,y,z) accedi(x,y,infomappa.mappa)=z; accedi(x+1,y,infomappa.mappa)=z+1; accedi(x+1,y+1,infomappa.mappa)=z+3; accedi(x,y+1,infomappa.mappa)=z+2 /*disegna la struttura di simbolo z*/
+#define tipouguale(x,y,mossa) accedi(x,y,infomappa.truppe)->tipo==infomappa.truppe[mossa]->tipo
 
 //definisco le strutture fondamentali
-typedef enum e_truppa {Rec,Fan,Lan,Arc,Cav,Dra,Fen} t_truppa;
-typedef enum e_struttura {Cas,Fat,Scu,Gro,Nid} t_struttura;
-typedef enum e_tipoplayer {Locale, IA, Remoto} t_tipoplayer;
+typedef enum e_truppa
+{
+	Rec, Fan, Lan, Arc, Cav, Dra, Fen
+} t_truppa;
+typedef enum e_struttura
+{
+	Cas, Fat, Scu, Gro, Nid
+} t_struttura;
+typedef enum e_tipoplayer
+{
+	Locale, IA, Remoto
+} t_tipoplayer;
 
 typedef struct s_infogioco
 {
@@ -70,9 +79,9 @@ typedef struct s_dtruppa
 
 typedef struct s_infomappa
 {
-	char mappa[ALTEZZA*LARGHEZZA];
-	char prato[ALTEZZA*LARGHEZZA];
-	t_infotruppa* truppe[ALTEZZA*LARGHEZZA];
+	char mappa[ALTEZZA * LARGHEZZA];
+	char prato[ALTEZZA * LARGHEZZA];
+	t_infotruppa* truppe[ALTEZZA * LARGHEZZA];
 	int castelli[NUMCASTELLI];
 	int fattorie[MAXFATTORIE];
 	int stalle[MAXSTALLE];
@@ -110,7 +119,6 @@ typedef struct s_player
 	int smeraldi;
 } t_player;
 
-
 typedef struct s_infoplayer //TODO implemntare la struct seriamente!
 {
 	t_tipoplayer tipo;
@@ -136,7 +144,7 @@ void combatticampoaperto(int Dst, int Src);
 void assediocastello(int Pos);
 void assediostruttura(int Pos);
 int assaltamura(t_lista_s* Castello);
-int assaltabreccia(t_infotruppa* Attaccante,t_lista_t* Difensori);
+int assaltabreccia(t_infotruppa* Attaccante, t_lista_t* Difensori);
 int assaltaedificio(t_lista_s* Edificio);
 
 //funzioni di puntamento
@@ -152,7 +160,6 @@ t_struttura controllotipostruttura(int Pos);
 int controllosconfitto(int G);
 int controllovincitore();
 
-
 //funzioni di gestione dei dati di gioco
 void creagiocatori(int n, int ia);
 int pagaunita(t_truppa T);
@@ -164,7 +171,7 @@ void spostainstruttura(int Src, int Dst);
 void identificatruppa(t_infotruppa* T, char* buf);
 void eliminamorti(t_infotruppa* M);
 void eliminamortistrutture(int Pos);
-void cambiaproprietario(int g1, int g2, int Pos,t_struttura Tipo);
+void cambiaproprietario(int g1, int g2, int Pos, t_struttura Tipo);
 
 // funzioni per il prato
 void pratoacaso();
@@ -181,7 +188,7 @@ void fineturno();
 void aggiorna_tr_callback(char* pos);
 
 //variabili globali
-int cx,cy; // posizione della mappa visibile
+int cx, cy; // posizione della mappa visibile
 char partita_in_corso;
 int CurrentPlayer;
 t_infogioco infogioco;

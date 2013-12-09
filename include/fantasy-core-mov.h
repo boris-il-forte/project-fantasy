@@ -21,12 +21,11 @@
 #include "fantasy-core.h"
 
 //funzioni di controllo spostamento e attacco
-int inizializza_dijkstra(int PosT, char ***G, int ***V, int *mx, char *vel);
-void calcola_dijkstra(char **G, int Mx, int vel, int **V, int Q);
+void calcolaspostamento(int Mossa);
 int bersagliolecito(int PosT, int PosC);
 int assaltolecito(int PosT, int PosC);
-int spostalecito(int PosT, int PosC , int **V);
-int raggiungibile(int posizioneStruttura, t_struttura tipo, int posizioneTruppa, int** V);
+int spostalecito(int PosT, int PosC);
+int raggiungibile(int posizioneStruttura, t_struttura tipo, int posizioneTruppa);
 int assaltabile(int posizioneStruttura, t_struttura tipo, int posizioneTruppa);
 
 

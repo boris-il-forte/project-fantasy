@@ -19,6 +19,8 @@
 #include "fantasy-gtk-fight.h"
 #include "fantasy-gtk-img.h"
 
+#include "fantasy-core-mov.h"
+
 //struct spin buton
 typedef struct s_spin
 {
@@ -29,7 +31,7 @@ typedef struct s_spin
 static GtkWidget *Casella[LARGHEZZA * ALTEZZA];
 static GtkWidget *Thumb[LARGHEZZA * ALTEZZA];
 
-static int Mossa;
+static int mossa;
 
 static gboolean set_adjustmentvalue(GtkAdjustment* S, t_spin* C)
 {
@@ -104,7 +106,7 @@ static void evacua_truppa(t_lista_t *T)
 static void click_bersaglio(char* pos)
 {
 	int Dst = (int) (pos - infomappa.mappa);
-	int Src = Mossa;
+	int Src = mossa;
 	int pdst, psrc;
 
 	if (Src == Dst)
@@ -132,7 +134,7 @@ static void click_bersaglio(char* pos)
 static void click_destinazione(char* pos)
 {
 	int Dst = (int) (pos - infomappa.mappa);
-	int Src = Mossa;
+	int Src = mossa;
 
 	if (Src == Dst)
 	{
@@ -467,7 +469,7 @@ static void click_unita(char* pos, GdkEventButton *Event)
 	{
 		if (T->combattuto == 0)
 		{
-			Mossa = Pos;
+			mossa = Pos;
 			gtk_pulisci_mappa();
 			gtk_stampa_mappa(cx, cy, 'c');
 			return;
@@ -491,7 +493,7 @@ static void click_unita(char* pos, GdkEventButton *Event)
 	{
 		if (T->stanca == 0 && T->combattuto == 0)
 		{
-			Mossa = Pos;
+			mossa = Pos;
 			gtk_pulisci_mappa();
 			gtk_stampa_mappa(cx, cy, 's');
 			return;
@@ -608,7 +610,7 @@ static void click_entrastruttura(char* pos)
 {
 	int Pos = (int) (pos - infomappa.mappa);
 
-	spostainstruttura(Mossa, Pos);
+	spostainstruttura(mossa, Pos);
 	gtk_aggiorna_tab_armate();
 	gtk_pulisci_mappa();
 	gtk_stampa_mappa(cx, cy, 'n');
@@ -625,7 +627,7 @@ static void click_unisci(char* pos)
 	GtkWidget * Spin1;
 	GtkWidget * Spin2;
 	GtkAdjustment *UA, *UB;
-	t_infotruppa* TA = infomappa.truppe[Mossa];
+	t_infotruppa* TA = infomappa.truppe[mossa];
 	t_infotruppa* TB = infomappa.truppe[Pos];
 	t_spin S_Callback[2];
 	t_truppa Tipo = TB->tipo;
@@ -871,7 +873,7 @@ int gtk_stampa_truppe(GdkPixbuf *buffer, int x, int y)
 }
 
 //aggiunge la zona attacco e movimento
-int gtk_stampa_area(GdkPixbuf *buffer, char mode, int Mossa, int x, int y, int **V)
+int gtk_stampa_area(GdkPixbuf *buffer, char mode, int Mossa, int x, int y)
 {
 	GdkPixbuf *area;
 	int isArea;
@@ -880,7 +882,7 @@ int gtk_stampa_area(GdkPixbuf *buffer, char mode, int Mossa, int x, int y, int *
 	switch (mode)
 	{
 	case 's':
-		isArea = posizione != Mossa && spostalecito(Mossa, posizione, V);
+		isArea = posizione != Mossa && spostalecito(Mossa, posizione);
 		area = Immagine.movimento;
 		break;
 	case 'c':
@@ -929,19 +931,19 @@ void gtk_aggiungi_segnali_strutture_n(int G, t_struttura tipo, int posizione, in
 	}
 }
 
-void gtk_aggiungi_segnali_strutture_s(int G, t_struttura tipo, int posizione, int casella, int **V)
+void gtk_aggiungi_segnali_strutture_s(int G, t_struttura tipo, int posizione, int numeroCasella)
 {
-	int lecito = raggiungibile(posizione, tipo, Mossa, V);
+	int lecito = raggiungibile(posizione, tipo, mossa);
 	if (lecito && G == CurrentPlayer)
 	{
-		g_signal_connect_swapped(Casella[casella], "button_press_event",
+		g_signal_connect_swapped(Casella[numeroCasella], "button_press_event",
 				G_CALLBACK(click_entrastruttura), (gpointer ) &infomappa.mappa[posizione]);
 	}
 }
 
 void gtk_aggiungi_segnali_strutture_c(int G, t_struttura tipo, int posizione, int casella)
 {
-	int lecito = assaltabile(posizione, tipo, Mossa);
+	int lecito = assaltabile(posizione, tipo, mossa);
 	if (lecito && G != CurrentPlayer)
 	{
 		if (tipo == Cas)
@@ -957,21 +959,20 @@ void gtk_aggiungi_segnali_strutture_c(int G, t_struttura tipo, int posizione, in
 	}
 }
 
-void gtk_aggiungi_segnali_strutture(char mode, int G, t_struttura tipo, int posizione, int casella,
-		int **V)
+void gtk_aggiungi_segnali_strutture(char mode, int G, t_struttura tipo, int posizioneStruttura, int casella)
 {
 
 	switch (mode)
 	{
 	case 'n':
 		if (G == CurrentPlayer)
-			gtk_aggiungi_segnali_strutture_n(G, tipo, posizione, casella);
+			gtk_aggiungi_segnali_strutture_n(G, tipo, posizioneStruttura, casella);
 		break;
 	case 's':
-		gtk_aggiungi_segnali_strutture_s(G, tipo, posizione, casella, V);
+		gtk_aggiungi_segnali_strutture_s(G, tipo, posizioneStruttura, casella);
 		break;
 	case 'c':
-		gtk_aggiungi_segnali_strutture_c(G, tipo, posizione, casella);
+		gtk_aggiungi_segnali_strutture_c(G, tipo, posizioneStruttura, casella);
 		break;
 	default:
 		break;
@@ -997,7 +998,7 @@ void gtk_aggiungi_segnali_truppe(char mode, int G, int x, int y, int posizione, 
 		}
 		break;
 	case 'c':
-		if (G != -1 && bersagliolecito(Mossa, posiziona(0, 0, x, y)) && G != CurrentPlayer)
+		if (G != -1 && bersagliolecito(mossa, posiziona(0, 0, x, y)) && G != CurrentPlayer)
 		{
 			g_signal_connect_swapped(Casella[posizione], "button_press_event",
 					G_CALLBACK(click_bersaglio), (gpointer)&infomappa.mappa[posiziona_c(x,y)]);
@@ -1009,13 +1010,13 @@ void gtk_aggiungi_segnali_truppe(char mode, int G, int x, int y, int posizione, 
 		}
 		break;
 	case 's':
-		if (assaltolecito(Mossa, posiziona_c(x, y)) && G == CurrentPlayer && tipouguale(x, y)
-				&& posiziona_c(x,y) != Mossa)
+		if (assaltolecito(mossa, posiziona_c(x, y)) && G == CurrentPlayer && tipouguale(x, y, mossa)
+				&& posiziona_c(x,y) != mossa)
 		{
 			g_signal_connect_swapped(Casella[posizione], "button_press_event",
 					G_CALLBACK(click_unisci), (gpointer)&infomappa.mappa[posiziona_c(x,y)]);
 		}
-		else if (isArea && posiziona_c(x,y) != Mossa)
+		else if (isArea && posiziona_c(x,y) != mossa)
 		{
 			g_signal_connect_swapped(Casella[posizione], "button_press_event",
 					G_CALLBACK(click_destinazione), (gpointer)&infomappa.mappa[posiziona_c(x,y)]);
@@ -1037,77 +1038,56 @@ void gtk_aggiungi_segnali_truppe(char mode, int G, int x, int y, int posizione, 
 void gtk_stampa_mappa(int x, int y, char m)
 {
 	static char pre = 'n';
-	int C;
-	int R;
-	int Pos = 0;
+	int C, R;
+
+	int posizioneAttuale;
 	int G;
+	char elem;
 	int isArea;
-	int Mx = 0;
-	int i, j;
-	int Q;
-	int **V = NULL;
-	char **Graph = NULL;
-	char vel;
-	GdkPixbuf *TmpB;
+	int Pos = 0;
+
+	GdkPixbuf *buffer;
 	t_truppa tipo;
 	t_struttura tipoS;
-	char elem;
-	int posizioneAttuale;
+
+
 
 //gestisce memorizzazione del modo stampa
+	if (m == 's')
+	{
+		calcolaspostamento(mossa);
+	}
 	if (m == 'p')
 		m = pre;
 	else
 		pre = m;
-//lancia il dijkstra se si sta muovendo una unità
-	if (m == 's')
-	{
-		Q = inizializza_dijkstra(Mossa, &Graph, &V, &Mx, &vel);
-		calcola_dijkstra(Graph, Mx, vel, V, Q);
-		for (i = 0; i < Mx; i++)
-		{
-			for (j = 0; j < Mx; j++)
-			{
-				printf("%2d ", V[i][j] / 100);
-			}
-			if (i / Mx == 0)
-				printf("(i=%d j=%d)\n", i, j);
-		}
-
-	}
 
 //stampa ogni casella
 	for (R = y; R < y + caselle_verticali; R++)
 		for (C = x; C < x + caselle_orizzontali; C++)
 		{
 			elem = accedi(C, R, infomappa.mappa);
-			gtk_stampa_base_mappa(&TmpB, C, R);
-			G = gtk_stampa_strutture(TmpB, C, R);
+			gtk_stampa_base_mappa(&buffer, C, R);
+			G = gtk_stampa_strutture(buffer, C, R);
 			tipoS = tipostruttura(elem);
 			posizioneAttuale = calcolaposizionestruttura(elem, C, R);
-			gtk_aggiungi_segnali_strutture(m, G, tipoS, posizioneAttuale, Pos, V);
+			gtk_aggiungi_segnali_strutture(m, G, tipoS, posizioneAttuale, Pos);
 
 			if (elem == ' ')
 			{
-				G = gtk_stampa_truppe(TmpB, C, R);
-				isArea = gtk_stampa_area(TmpB, m, Mossa, C, R, V);
+				G = gtk_stampa_truppe(buffer, C, R);
+				isArea = gtk_stampa_area(buffer, m, mossa, C, R);
 				gtk_aggiungi_segnali_truppe(m, G, C, R, Pos, isArea);
 			}
 
-			Thumb[Pos] = gtk_image_new_from_pixbuf(TmpB);
+			Thumb[Pos] = gtk_image_new_from_pixbuf(buffer);
 			gtk_container_add(GTK_CONTAINER(Casella[Pos]), Thumb[Pos]);
 			gtk_widget_show(Thumb[Pos]);
 
-			g_object_unref(TmpB);
+			g_object_unref(buffer);
 
 			Pos++;
 		}
-	if (m == 's') // grazie dijkstra
-	{
-		for (i = 0; i < Mx; i++)
-			free(V[i]);
-		free(V);
-	}
 }
 
 //pulisce la mappa dalle immagini e dai segnali
