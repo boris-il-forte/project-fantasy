@@ -990,7 +990,7 @@ void gtk_aggiungi_segnali_truppe(char mode, int G, int x, int y, int posizione, 
 			g_signal_connect_swapped(Casella[posizione], "button_press_event",
 					G_CALLBACK(click_unita), (gpointer)&infomappa.mappa[posiziona_c(x,y)]);
 		}
-		else if (G != -1)
+		if (G != -1)
 		{
 			g_signal_connect(Casella[posizione], "enter-notify-event", G_CALLBACK(su_unita),
 					(gpointer)&infomappa.mappa[posiziona_c(x,y)]);
@@ -1009,12 +1009,13 @@ void gtk_aggiungi_segnali_truppe(char mode, int G, int x, int y, int posizione, 
 		}
 		break;
 	case 's':
-		if (assaltolecito(Mossa, posiziona_c(x, y)) && G == CurrentPlayer && tipouguale(x, y))
+		if (assaltolecito(Mossa, posiziona_c(x, y)) && G == CurrentPlayer && tipouguale(x, y)
+				&& posiziona_c(x,y) != Mossa)
 		{
 			g_signal_connect_swapped(Casella[posizione], "button_press_event",
 					G_CALLBACK(click_unisci), (gpointer)&infomappa.mappa[posiziona_c(x,y)]);
 		}
-		else if (isArea)
+		else if (isArea && posiziona_c(x,y) != Mossa)
 		{
 			g_signal_connect_swapped(Casella[posizione], "button_press_event",
 					G_CALLBACK(click_destinazione), (gpointer)&infomappa.mappa[posiziona_c(x,y)]);
