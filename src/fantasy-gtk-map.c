@@ -872,8 +872,8 @@ int gtk_stampa_truppe(GdkPixbuf *buffer, int x, int y)
 	return G;
 }
 
-//aggiunge la zona attacco e movimento
-int gtk_stampa_area(GdkPixbuf *buffer, char mode, int Mossa, int x, int y)
+//aggiunge la zona attacco e movimento in campo aperto
+int gtk_stampa_area_campo(GdkPixbuf *buffer, char mode, int Mossa, int x, int y)
 {
 	GdkPixbuf *area;
 	int isArea;
@@ -904,6 +904,35 @@ int gtk_stampa_area(GdkPixbuf *buffer, char mode, int Mossa, int x, int y)
 			GDK_INTERP_BILINEAR, alpha);
 
 	return isArea;
+}
+
+//aggiunge la zona attacco e movimento sulle strutture
+void gtk_stampa_area_strutture(GdkPixbuf *buffer, char mode, int G, t_struttura tipo, int posizione)
+{
+	GdkPixbuf *area;
+	int isArea;
+
+	switch (mode)
+	{
+	case 's':
+		isArea = raggiungibile(posizione, tipo, mossa);
+		if (!isArea || G != CurrentPlayer)
+			return;
+		area = Immagine.movimento;
+		break;
+	case 'c':
+		isArea = assaltabile(posizione, tipo, mossa);
+		if (!isArea || G == CurrentPlayer)
+			return;
+		area = Immagine.attacco;
+		break;
+	default:
+		return;
+	}
+
+	gdk_pixbuf_composite(area, buffer, 0, 0, Dim_casella, Dim_casella, 0, 0, 1, 1,
+			GDK_INTERP_BILINEAR, 50);
+
 }
 
 void gtk_aggiungi_segnali_strutture_n(int G, t_struttura tipo, int posizione, int casella)
@@ -1071,16 +1100,20 @@ void gtk_stampa_mappa(int x, int y, char m)
 		{
 			elem = accedi(C, R, infomappa.mappa);
 			gtk_stampa_base_mappa(&buffer, C, R);
-			G = gtk_stampa_strutture(buffer, C, R);
-			tipoS = tipostruttura(elem);
-			posizioneAttuale = calcolaposizionestruttura(elem, C, R);
-			gtk_aggiungi_segnali_strutture(m, G, tipoS, posizioneAttuale, Pos);
 
 			if (elem == ' ')
 			{
 				G = gtk_stampa_truppe(buffer, C, R);
-				isArea = gtk_stampa_area(buffer, m, mossa, C, R);
+				isArea = gtk_stampa_area_campo(buffer, m, mossa, C, R);
 				gtk_aggiungi_segnali_truppe(m, G, C, R, Pos, isArea);
+			}
+			else
+			{
+				G = gtk_stampa_strutture(buffer, C, R);
+				tipoS = tipostruttura(elem);
+				posizioneAttuale = calcolaposizionestruttura(elem, C, R);
+				gtk_stampa_area_strutture(buffer, m, G, tipoS, posizioneAttuale);
+				gtk_aggiungi_segnali_strutture(m, G, tipoS, posizioneAttuale, Pos);
 			}
 
 			Thumb[Pos] = gtk_image_new_from_pixbuf(buffer);
