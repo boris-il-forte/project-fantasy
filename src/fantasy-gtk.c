@@ -37,14 +37,13 @@ static void click_nt()
 		T = giocatore[CurrentPlayer]->truppe;
 	if (giocatore[CurrentPlayer]->truppe == NULL)
 	{
-		Dialogo = gtk_dialog_new_with_buttons("F.C.", NULL,
-				GTK_DIALOG_DESTROY_WITH_PARENT, GTK_STOCK_OK, NULL);
+		Dialogo = gtk_dialog_new_with_buttons("F.C.", NULL, GTK_DIALOG_DESTROY_WITH_PARENT,
+				GTK_STOCK_OK, NULL);
 		gtk_window_set_icon(GTK_WINDOW(Dialogo), Immagine.logo);
 		Label = gtk_label_new("Non ci sono unità!");
 		gtk_widget_show(Label);
-		gtk_box_pack_start(
-				GTK_BOX(gtk_dialog_get_content_area(GTK_DIALOG(Dialogo))),
-				Label, TRUE, TRUE, 0);
+		gtk_box_pack_start(GTK_BOX(gtk_dialog_get_content_area(GTK_DIALOG(Dialogo))), Label, TRUE,
+				TRUE, 0);
 		gtk_dialog_run(GTK_DIALOG(Dialogo));
 		gtk_widget_destroy(Dialogo);
 	}
@@ -62,6 +61,7 @@ static void click_nt()
 		if (cy > ALTEZZA - caselle_verticali)
 			cy = (ALTEZZA - caselle_verticali);
 		gtk_pulisci_mappa();
+		gtk_aggiorna_coordinate(cx, cy);
 		gtk_stampa_mappa(cx, cy, 'n');
 		T = T->next;
 	}
@@ -94,6 +94,7 @@ static void click_nc()
 		if (cy > ALTEZZA - caselle_verticali)
 			cy = (ALTEZZA - caselle_verticali);
 		gtk_pulisci_mappa();
+		gtk_aggiorna_coordinate(cx, cy);
 		gtk_stampa_mappa(cx, cy, 'n');
 		S = S->next;
 	}
@@ -116,6 +117,7 @@ static void click_turno()
 			gtk_aggiorna_tab_strutture();
 			gtk_aggiorna_tab_armate();
 			gtk_pulisci_mappa();
+			gtk_aggiorna_coordinate(cx, cy);
 			gtk_stampa_mappa(cx, cy, 'n');
 			W = controllovincitore();
 			if (W != 0)
@@ -178,17 +180,17 @@ GtkWidget *gtk_crea_finestra_principale()
 	gtk_box_pack_start(GTK_BOX(Vbox), Hbox, FALSE, FALSE, 5);
 	gtk_widget_show(Hbox);
 	// 	crea 4 pulsanti
+	//crea pulsante seleziona castello
+	pulsante = gtk_button_new_with_label("Prossimo Castello"); // Prossimo Castello
+	gtk_box_pack_start(GTK_BOX(Hbox), pulsante, FALSE, FALSE, 2);
+	gtk_widget_set_size_request(pulsante, 3 * Dim_casella, -1);
+	g_signal_connect_swapped(pulsante, "clicked", G_CALLBACK(click_nc), NULL);
+	gtk_widget_show(pulsante);
 	//crea pulsante seleziona truppa
 	pulsante = gtk_button_new_with_label("Prossima Truppa"); // Prossima Truppa
 	gtk_box_pack_start(GTK_BOX(Hbox), pulsante, FALSE, FALSE, 2);
 	gtk_widget_set_size_request(pulsante, 3 * Dim_casella, -1);
 	g_signal_connect_swapped(pulsante, "clicked", G_CALLBACK(click_nt), NULL);
-	gtk_widget_show(pulsante);
-	//crea pulsante seleziona castello
-	pulsante = gtk_button_new_with_label("prossimo castello"); // Prossimo Castello
-	gtk_box_pack_start(GTK_BOX(Hbox), pulsante, FALSE, FALSE, 2);
-	gtk_widget_set_size_request(pulsante, 3 * Dim_casella, -1);
-	g_signal_connect_swapped(pulsante, "clicked", G_CALLBACK(click_nc), NULL);
 	gtk_widget_show(pulsante);
 	//crea pulsante ricerca minaccie
 	pulsante = gtk_button_new_with_label("Mostra Minacce"); // Mostra Minacce
@@ -211,8 +213,7 @@ GtkWidget *gtk_crea_finestra_principale()
 	pulsante = gtk_button_new_with_label("Fine Turno");
 	gtk_box_pack_start(GTK_BOX(Vbox), pulsante, FALSE, FALSE, 10);
 	gtk_widget_set_size_request(pulsante, 3 * Dim_casella, -1);
-	g_signal_connect_swapped(pulsante, "clicked", G_CALLBACK(click_turno),
-			NULL);
+	g_signal_connect_swapped(pulsante, "clicked", G_CALLBACK(click_turno), NULL);
 	gtk_widget_show(pulsante);
 	//crea footer
 	Tag = gtk_crea_footer();

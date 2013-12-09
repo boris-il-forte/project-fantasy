@@ -277,3 +277,15 @@ void calcolaspostamento(int Mossa)
 	calcola_dijkstra();
 }
 
+int calcolaresiduo(int PosT, int PosC)
+{
+	int residuo;
+	int c = Vel + 1;
+	int x = c - PosT % LARGHEZZA + PosC % LARGHEZZA;
+	int y = c - PosT / LARGHEZZA + PosC / LARGHEZZA;
+	residuo = Vel * 100 - Valore[x][y];
+
+	return residuo / Vel;
+
+}
+

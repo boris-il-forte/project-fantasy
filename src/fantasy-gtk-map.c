@@ -878,26 +878,30 @@ int gtk_stampa_area(GdkPixbuf *buffer, char mode, int Mossa, int x, int y)
 	GdkPixbuf *area;
 	int isArea;
 	int posizione = posiziona_c(x, y);
+	int alpha;
 
 	switch (mode)
 	{
 	case 's':
 		isArea = posizione != Mossa && spostalecito(Mossa, posizione);
+		if (!isArea)
+			return isArea;
 		area = Immagine.movimento;
+		alpha = 25 + calcolaresiduo(Mossa, posizione);
 		break;
 	case 'c':
 		isArea = posizione != Mossa && bersagliolecito(Mossa, posizione);
+		if (!isArea)
+			return isArea;
 		area = Immagine.attacco;
+		alpha = 50;
 		break;
 	default:
 		return 0;
 	}
 
-	if (!isArea)
-		return isArea;
-
 	gdk_pixbuf_composite(area, buffer, 0, 0, Dim_casella, Dim_casella, 0, 0, 1, 1,
-			GDK_INTERP_BILINEAR, 255);
+			GDK_INTERP_BILINEAR, alpha);
 
 	return isArea;
 }
@@ -959,7 +963,8 @@ void gtk_aggiungi_segnali_strutture_c(int G, t_struttura tipo, int posizione, in
 	}
 }
 
-void gtk_aggiungi_segnali_strutture(char mode, int G, t_struttura tipo, int posizioneStruttura, int casella)
+void gtk_aggiungi_segnali_strutture(char mode, int G, t_struttura tipo, int posizioneStruttura,
+		int casella)
 {
 
 	switch (mode)
@@ -1049,8 +1054,6 @@ void gtk_stampa_mappa(int x, int y, char m)
 	GdkPixbuf *buffer;
 	t_truppa tipo;
 	t_struttura tipoS;
-
-
 
 //gestisce memorizzazione del modo stampa
 	if (m == 's')

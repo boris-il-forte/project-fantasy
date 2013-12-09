@@ -27,6 +27,7 @@ int assaltolecito(int PosT, int PosC);
 int spostalecito(int PosT, int PosC);
 int raggiungibile(int posizioneStruttura, t_struttura tipo, int posizioneTruppa);
 int assaltabile(int posizioneStruttura, t_struttura tipo, int posizioneTruppa);
+int calcolaresiduo(int x, int y);
 
 
 #endif /* FANTASY_CORE_MOV_H_ */
