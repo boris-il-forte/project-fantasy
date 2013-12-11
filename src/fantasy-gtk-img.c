@@ -18,7 +18,7 @@
 #include "fantasy-gtk-img.h"
 
 int Dim_casella;
-int caselle_orizzontali,caselle_verticali;
+int caselle_orizzontali, caselle_verticali;
 
 Immagini Immagine;
 
@@ -30,7 +30,7 @@ void gtk_calcola_dimensioni()
 
 	w = gdk_screen_get_width(gdk_screen_get_default());
 	h = gdk_screen_get_height(gdk_screen_get_default());
-	Dim_casella = 0.05 * MIN(w,h) + 3; //FIXME
+	Dim_casella = 0.05 * MIN(w, h) + 3; //FIXME
 	wof = 4 * Dim_casella;
 	hof = 7 * Dim_casella;
 	caselle_orizzontali = (w - wof) / Dim_casella; // 27 eee
@@ -62,17 +62,10 @@ void gtk_carica_immagine_skin(char name[64], GdkPixbuf **immagine)
 
 }
 
-//carica le immagini del gioco
-void gtk_carica_immagini()
+void gtk_carica_immagini_gioco()
 {
-	int i, j;
-	char Buf[64];
-	char Buf2[64];
-	char BufErr[128];
-	const char *err = "impossibile caricare l'immagine ";
-	//carico il file di configurazione
-	caricaconfig("fantasy.config");
 	//carico immagini del gioco
+	char Buf[64];
 	sprintf(Buf, "img/fantasy-icon.png");
 	if ((Immagine.err = gdk_pixbuf_new_from_file_at_size(Buf, Dim_casella,
 			Dim_casella, NULL)) == NULL)
@@ -99,6 +92,19 @@ void gtk_carica_immagini()
 		perror("impossibile caricare l'immagine freccia.png");
 		exit(1);
 	}
+}
+
+//carica le immagini del gioco
+void gtk_carica_immagini()
+{
+	int i, j;
+
+	char nomeImmagine[64];
+	//carico il file di configurazione
+	caricaconfig("fantasy.config");
+
+	//carico immagini del gioco
+	gtk_carica_immagini_gioco();
 	// carico immagini da skin
 	gtk_carica_immagine_skin("mov", &Immagine.movimento);
 	gtk_carica_immagine_skin("atk", &Immagine.attacco);
@@ -108,148 +114,51 @@ void gtk_carica_immagini()
 	//carica le immagini del prato
 	for (i = 0; i < 5; i++)
 	{
-		sprintf(Buf2, "/p/p%d.", i);
-		sprintf(Buf, "skin/");
-		strcat(Buf, infogioco.skin);
-		strcat(Buf, Buf2);
-		strcat(Buf, infogioco.ext); // non esistono XPM ancora. colossale standardizzazione richiesta per le skin.
-		if ((Immagine.p[i] = gdk_pixbuf_new_from_file_at_size(Buf, Dim_casella,
-				Dim_casella, NULL)) == NULL)
-		{
-			sprintf(BufErr, "%s", err);
-			strcat(BufErr, Buf);
-			perror(BufErr);
-			Immagine.p[i] = Immagine.err;
-		}
+		sprintf(nomeImmagine, "p/p%d", i);
+		gtk_carica_immagine_skin(nomeImmagine, &Immagine.p[i]);
 	}
 
-	//carica gli scudi colorati
 	for (i = 0; i < MAXGIOCATORI; i++)
 	{
-		sprintf(Buf2, "/a/%d.", i);
-		sprintf(Buf, "skin/");
-		strcat(Buf, infogioco.skin);
-		strcat(Buf, Buf2);
-		strcat(Buf, infogioco.ext);
-		if ((Immagine.a[i] = gdk_pixbuf_new_from_file_at_size(Buf,
-				Dim_casella / 2, Dim_casella / 2, NULL)) == NULL)
-		{
-			sprintf(BufErr, "%s", err);
-			strcat(BufErr, Buf);
-			perror(BufErr);
-			Immagine.a[i] = Immagine.err;
-		}
-	}
-	//carica il castello
-	for (i = 0; i <= MAXGIOCATORI; i++)
-		for (j = 0; j < 9; j++)
-		{
-			sprintf(Buf2, "/c/%d/c%d.", i, j);
-			sprintf(Buf, "skin/");
-			strcat(Buf, infogioco.skin);
-			strcat(Buf, Buf2);
-			strcat(Buf, infogioco.ext);
-			if ((Immagine.c[i][j] = gdk_pixbuf_new_from_file_at_size(Buf,
-					Dim_casella, Dim_casella, NULL)) == NULL)
-			{
-				sprintf(BufErr, "%s", err);
-				strcat(BufErr, Buf);
-				perror(BufErr);
-				Immagine.c[i][j] = Immagine.err;
-			}
-		}
-	//carica la grotta
-	for (i = 0; i <= MAXGIOCATORI; i++)
-		for (j = 0; j < 4; j++)
-		{
-			sprintf(Buf2, "/g/%d/g%d.", i, j);
-			sprintf(Buf, "skin/");
-			strcat(Buf, infogioco.skin);
-			strcat(Buf, Buf2);
-			strcat(Buf, infogioco.ext);
-			if ((Immagine.g[i][j] = gdk_pixbuf_new_from_file_at_size(Buf,
-					Dim_casella, Dim_casella, NULL)) == NULL)
-			{
-				sprintf(BufErr, "%s", err);
-				strcat(BufErr, Buf);
-				perror(BufErr);
-				Immagine.g[i][j] = Immagine.err;
-			}
-		}
-	//carica la stalla
-	for (i = 0; i <= MAXGIOCATORI; i++)
-		for (j = 0; j < 4; j++)
-		{
-			sprintf(Buf2, "/s/%d/s%d.", i, j);
-			sprintf(Buf, "skin/");
-			strcat(Buf, infogioco.skin);
-			strcat(Buf, Buf2);
-			strcat(Buf, infogioco.ext);
-			if ((Immagine.s[i][j] = gdk_pixbuf_new_from_file_at_size(Buf,
-					Dim_casella, Dim_casella, NULL)) == NULL)
-			{
-				sprintf(BufErr, "%s", err);
-				strcat(BufErr, Buf);
-				perror(BufErr);
-				Immagine.s[i][j] = Immagine.err;
-			}
-		}
-	//carica la fattoria
-	for (i = 0; i <= MAXGIOCATORI; i++)
-		for (j = 0; j < 4; j++)
-		{
-			sprintf(Buf2, "/f/%d/f%d.", i, j);
-			sprintf(Buf, "skin/");
-			strcat(Buf, infogioco.skin);
-			strcat(Buf, Buf2);
-			strcat(Buf, infogioco.ext);
-			if ((Immagine.f[i][j] = gdk_pixbuf_new_from_file_at_size(Buf,
-					Dim_casella, Dim_casella, NULL)) == NULL)
-			{
-				sprintf(BufErr, "%s", err);
-				strcat(BufErr, Buf);
-				perror(BufErr);
-				Immagine.f[i][j] = Immagine.err;
-			}
-		}
-	//carica il nido
-	for (i = 0; i < MAXGIOCATORI; i++)
-		for (j = 0; j < 4; j++)
-		{
-			sprintf(Buf2, "/n/%d/n%d.", i, j);
-			sprintf(Buf, "skin/");
-			strcat(Buf, infogioco.skin);
-			strcat(Buf, Buf2);
-			strcat(Buf, infogioco.ext);
-			if ((Immagine.n[i][j] = gdk_pixbuf_new_from_file_at_size(Buf,
-					Dim_casella, Dim_casella, NULL)) == NULL)
-			{
-				sprintf(BufErr, "%s", err);
-				strcat(BufErr, Buf);
-				perror(BufErr);
-				Immagine.n[i][j] = Immagine.err;
-			}
-		}
-	//carica le truppe
-	for (i = 0; i < MAXGIOCATORI; i++)
+		//carica gli scudi colorati
+		sprintf(nomeImmagine, "a/%d", i);
+		gtk_carica_immagine_skin(nomeImmagine, &Immagine.a[i]);
+
+		//carica le truppe
 		for (j = 0; j <= Fen; j++)
 		{
-			sprintf(Buf2, "/t/t%d%d.", i, j);
-			sprintf(Buf, "skin/");
-			strcat(Buf, infogioco.skin);
-			strcat(Buf, Buf2);
-			strcat(Buf, infogioco.ext);
-			if ((Immagine.t[i][j] = gdk_pixbuf_new_from_file_at_size(Buf,
-					Dim_casella, Dim_casella, NULL)) == NULL)
-			{
-				sprintf(BufErr, "%s", err);
-				strcat(BufErr, Buf);
-				perror(BufErr);
-				Immagine.t[i][j] = Immagine.err;
-			}
+			sprintf(nomeImmagine, "t/t%d%d", i, j);
+			gtk_carica_immagine_skin(nomeImmagine, &Immagine.t[i][j]);
+
 		}
+	}
+
+	for (i = 0; i <= MAXGIOCATORI; i++)
+	{
+		//carica il castello
+		for (j = 0; j < 9; j++)
+		{
+			sprintf(nomeImmagine, "c/%d/c%d", i, j);
+			gtk_carica_immagine_skin(nomeImmagine, &Immagine.c[i][j]);
+		}
+
+		//carica le altre strutture
+		for (j = 0; j < 4; j++)
+		{
+			//carica la grotta
+			sprintf(nomeImmagine, "g/%d/g%d", i, j);
+			gtk_carica_immagine_skin(nomeImmagine, &Immagine.g[i][j]);
+			//carica la stalla
+			sprintf(nomeImmagine, "s/%d/s%d", i, j);
+			gtk_carica_immagine_skin(nomeImmagine, &Immagine.s[i][j]);
+			//carica la fattoria
+			sprintf(nomeImmagine, "f/%d/f%d", i, j);
+			gtk_carica_immagine_skin(nomeImmagine, &Immagine.f[i][j]);
+			//carica il nido
+			sprintf(nomeImmagine, "n/%d/n%d", i, j);
+			gtk_carica_immagine_skin(nomeImmagine, &Immagine.n[i][j]);
+		}
+	}
+
 }
-
-
-
 
