@@ -928,7 +928,10 @@ int gtk_stampa_area_campo(GdkPixbuf *buffer, char mode, int Mossa, int x, int y,
 		if (!isArea)
 			return isArea;
 		area = Immagine.attacco;
-		alpha = 50;
+		if(assaltolecito(Mossa, posizione))
+			alpha = 130;
+		else
+			alpha = 80;
 		break;
 	default:
 		return 0;
