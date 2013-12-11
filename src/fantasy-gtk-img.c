@@ -39,6 +39,29 @@ void gtk_calcola_dimensioni()
 			caselle_orizzontali, caselle_verticali);
 }
 
+void gtk_carica_immagine_skin(char name[64], GdkPixbuf **immagine)
+{
+	char BufErr[128];
+	char Buf[128];
+	const char *err = "impossibile caricare l'immagine ";
+	// carico immagini da skin
+	sprintf(Buf, "skin/");
+	strcat(Buf, infogioco.skin);
+	strcat(Buf, "/");
+	strcat(Buf, name);
+	strcat(Buf, ".");
+	strcat(Buf, infogioco.ext);
+	if ((*immagine = gdk_pixbuf_new_from_file_at_size(Buf, Dim_casella,
+			Dim_casella, NULL)) == NULL)
+	{
+		sprintf(BufErr, "%s", err);
+		strcat(BufErr, Buf);
+		perror(BufErr);
+		*immagine = Immagine.err;
+	}
+
+}
+
 //carica le immagini del gioco
 void gtk_carica_immagini()
 {
@@ -77,30 +100,10 @@ void gtk_carica_immagini()
 		exit(1);
 	}
 	// carico immagini da skin
-	sprintf(Buf, "skin/");
-	strcat(Buf, infogioco.skin);
-	strcat(Buf, "/mov.");
-	strcat(Buf, infogioco.ext);
-	if ((Immagine.movimento = gdk_pixbuf_new_from_file_at_size(Buf, Dim_casella,
-			Dim_casella, NULL)) == NULL)
-	{
-		sprintf(BufErr, "%s", err);
-		strcat(BufErr, Buf);
-		perror(BufErr);
-		Immagine.movimento = Immagine.err;
-	}
-	sprintf(Buf, "skin/");
-	strcat(Buf, infogioco.skin);
-	strcat(Buf, "/atk.");
-	strcat(Buf, infogioco.ext);
-	if ((Immagine.attacco = gdk_pixbuf_new_from_file_at_size(Buf, Dim_casella,
-			Dim_casella, NULL)) == NULL)
-	{
-		sprintf(BufErr, "%s", err);
-		strcat(BufErr, Buf);
-		perror(BufErr);
-		Immagine.attacco = Immagine.err;
-	}
+	gtk_carica_immagine_skin("mov", &Immagine.movimento);
+	gtk_carica_immagine_skin("atk", &Immagine.attacco);
+	gtk_carica_immagine_skin("atk2", &Immagine.assalto);
+	gtk_carica_immagine_skin("ent", &Immagine.entrata);
 
 	//carica le immagini del prato
 	for (i = 0; i < 5; i++)

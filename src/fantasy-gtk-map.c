@@ -956,20 +956,20 @@ void gtk_stampa_area_strutture(GdkPixbuf *buffer, char mode, int G,
 		isArea = raggiungibile(posizione, tipo, mossa);
 		if (!isArea || G != CurrentPlayer)
 			return;
-		area = Immagine.movimento;
+		area = Immagine.entrata;
 		break;
 	case 'c':
 		isArea = assaltabile(posizione, tipo, mossa);
 		if (!isArea || G == CurrentPlayer)
 			return;
-		area = Immagine.attacco;
+		area = Immagine.assalto;
 		break;
 	default:
 		return;
 	}
 
 	gdk_pixbuf_composite(area, buffer, 0, 0, Dim_casella, Dim_casella, 0, 0, 1,
-			1, GDK_INTERP_BILINEAR, 50);
+			1, GDK_INTERP_BILINEAR, 80);
 
 }
 

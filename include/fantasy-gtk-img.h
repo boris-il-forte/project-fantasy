@@ -31,7 +31,9 @@ typedef struct immagini_s
 	GdkPixbuf* decorazione;
 	GdkPixbuf* freccia;
 	GdkPixbuf* movimento;
+	GdkPixbuf* entrata;
 	GdkPixbuf* attacco;
+	GdkPixbuf* assalto;
 	GdkPixbuf* p[5]; // immagine del prato
 	GdkPixbuf* c[MAXGIOCATORI+1][9]; // matrice che contiene i pezzi dei 12 castelli di proprietà + il castello vuoto
 	GdkPixbuf* g[MAXGIOCATORI+1][4]; // matrice che contiene i pezzi delle 12 grotte di proprietà + la grotta vuota
