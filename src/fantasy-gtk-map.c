@@ -321,7 +321,7 @@ static void click_fattoria(char* pos)
 			(gpointer )&tr_callback[Rec]);
 	gtk_widget_show(oggetto);
 	//fanteria
-	oggetto = gtk_menu_item_new_with_label("Arceri");
+	oggetto = gtk_menu_item_new_with_label("Arcieri");
 	gtk_menu_shell_append(GTK_MENU_SHELL(lista), oggetto);
 	g_signal_connect_swapped(oggetto, "activate", G_CALLBACK(addestra_truppa),
 			(gpointer )&tr_callback[Arc]);
