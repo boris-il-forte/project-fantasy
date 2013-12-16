@@ -185,7 +185,7 @@ void visualizza_su_terminale();
 void liberaheap();
 void liberagiocatore(int G);
 void fineturno();
-void aggiorna_tr_callback(char pos);
+void aggiorna_tr_callback(int pos);
 
 //variabili globali
 int cx, cy; // posizione della mappa visibile

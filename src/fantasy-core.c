@@ -1462,7 +1462,7 @@ t_infotruppa* puntacasellaoccupata(int Pos, int C)
 }
 
 //aggiorna tr_callback
-void aggiorna_tr_callback(char pos)
+void aggiorna_tr_callback(int pos)
 {
 	t_truppa i;
 	for (i = Rec; i < NUMTRUPPE; i++)
