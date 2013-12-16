@@ -388,7 +388,7 @@ t_player* caricaGiocatore(FILE* fp)
 void caricaGiocatori(int *inGioco, FILE* fp)
 {
 	int i;
-	int num_strutture, num_truppe;
+
 	for (i = 0; i < MAXGIOCATORI; i++)
 	{
 		if (inGioco[i])

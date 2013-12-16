@@ -107,6 +107,7 @@ t_iadata fantasia_inizializza_bot(char modo)
 //gestisce un giocatore artificiale
 void fantasia_usa_bot(int num)
 {
+	(void) num; //FIXME togliere...
 	//fantasia_gtk_fineturno(); attiva fine tiurno...
 }
 

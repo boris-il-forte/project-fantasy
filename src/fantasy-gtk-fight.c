@@ -18,6 +18,7 @@
 
 #include "fantasy-gtk-fight.h"
 #include "fantasy-gtk-img.h"
+#include "fantasy-gtk-partita.h"
 
 //autodistrugge il popup
 static gboolean autodestroy_popup(GtkWidget *Popup)

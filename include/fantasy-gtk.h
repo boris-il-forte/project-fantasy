@@ -25,9 +25,12 @@
 #include "fantasy-gtk-tab.h"
 #include "fantasy-gtk-pan.h"
 #include "fantasy-gtk-menu.h"
+#include "fantasy-gtk-fight.h"
 #include "fantasy-gtk-key.h"
 #include "fantasy-gtk-partita.h"
 
 GtkWidget *gtk_crea_finestra_principale();
+
+extern char* ancora;
 
 #endif

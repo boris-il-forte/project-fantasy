@@ -15,8 +15,7 @@
  * GNU General Public License for more details.
  */
 
-#include "fantasy-gtk-tab.h"
-#include "fantasy-gtk-img.h"
+#include "fantasy-gtk.h"
 #include "fantasy-core.h"
 
 //struct per tab
@@ -26,6 +25,7 @@ typedef struct s_listapertab
 	struct s_listapertab* next;
 } t_listapertab;
 
+
 GtkWidget *Notebook[4];
 GtkWidget *Listacastelli[NUMCASTELLI];
 t_listapertab* Listastrutture;
@@ -33,7 +33,7 @@ t_listapertab* Listatruppe;
 
 static void centra_mappa(char* pos)
 {
-	int P = (int) (pos - infomappa.mappa);
+	int P = (int) (pos - ancora);
 
 	cx = P % LARGHEZZA + 1 - caselle_orizzontali / 2;
 	cy = P / LARGHEZZA + 1 - caselle_verticali / 2;
@@ -128,7 +128,7 @@ GtkWidget *gtk_crea_elemento_tab(GtkWidget *tab, int x, int y, char *nome,
 	Button = gtk_button_new_with_label(buffer);
 	g_signal_connect_swapped(Button, "button_press_event",
 			G_CALLBACK(centra_mappa),
-			(gpointer)&infomappa.mappa[x+y*LARGHEZZA]);
+			(gpointer) &ancora[x+y*LARGHEZZA]);
 	gtk_box_pack_start(GTK_BOX(Hbox), Button, FALSE, FALSE, 0);
 	gtk_widget_show(Button);
 	gtk_widget_show(Hbox);
@@ -156,7 +156,7 @@ GtkWidget * gtk_riempi_tab_castelli(int i, char* buf)
 }
 
 //aggiorna il tab castelli
-void gtk_aggiorna_tab_castelli()
+static void gtk_aggiorna_tab_castelli()
 {
 	int i;
 	int x, y;
@@ -189,7 +189,7 @@ void gtk_aggiorna_tab_castelli()
 }
 
 //aggiorna il tab strutture
-void gtk_aggiorna_tab_strutture()
+static void gtk_aggiorna_tab_strutture()
 {
 	int i, j = 0;
 	int x, y;
@@ -248,7 +248,7 @@ void gtk_aggiorna_tab_strutture()
 }
 
 //aggiorna il tab armate
-void gtk_aggiorna_tab_armate()
+static void gtk_aggiorna_tab_armate()
 {
 	int x, y;
 	char nome[20];

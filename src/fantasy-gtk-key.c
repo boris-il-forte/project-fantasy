@@ -17,6 +17,8 @@
 
 #include "fantasy-gtk-key.h"
 #include "fantasy-gtk-img.h"
+#include "fantasy-gtk-map.h"
+#include "fantasy-gtk-pan.h"
 #include "fantasy-core.h"
 
 #include <gdk/gdkkeysyms.h>
@@ -67,6 +69,7 @@ static gboolean leggistream_tastiera(struct keypress_s *keypress)
 		{
 			cx -= 1;
 			gtk_pulisci_mappa();
+			gtk_aggiorna_coordinate(cx, cy);
 			gtk_stampa_mappa(cx, cy, 'p');
 		}
 		break;
@@ -75,6 +78,7 @@ static gboolean leggistream_tastiera(struct keypress_s *keypress)
 		{
 			cy -= 1;
 			gtk_pulisci_mappa();
+			gtk_aggiorna_coordinate(cx, cy);
 			gtk_stampa_mappa(cx, cy, 'p');
 		}
 		break;
@@ -83,6 +87,7 @@ static gboolean leggistream_tastiera(struct keypress_s *keypress)
 		{
 			cy += 1;
 			gtk_pulisci_mappa();
+			gtk_aggiorna_coordinate(cx, cy);
 			gtk_stampa_mappa(cx, cy, 'p');
 		}
 		break;
@@ -91,11 +96,13 @@ static gboolean leggistream_tastiera(struct keypress_s *keypress)
 		{
 			cx += 1;
 			gtk_pulisci_mappa();
+			gtk_aggiorna_coordinate(cx, cy);
 			gtk_stampa_mappa(cx, cy, 'p');
 		}
 		break;
 	case GDK_KEY_Escape:
 		gtk_pulisci_mappa();
+		gtk_aggiorna_coordinate(cx, cy);
 		gtk_stampa_mappa(cx, cy, 'n');
 		break;
 	default:

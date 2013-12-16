@@ -140,7 +140,7 @@ void gtk_carica_immagini()
 		//carica il castello
 		for (j = 0; j < 9; j++)
 		{
-			sprintf(nomeImmagine, "c/%d/c%d", i, j, 1);
+			sprintf(nomeImmagine, "c/%d/c%d", i, j);
 			gtk_carica_immagine_skin(nomeImmagine, &Immagine.c[i][j], 1);
 		}
 

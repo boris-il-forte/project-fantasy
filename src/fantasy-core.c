@@ -20,6 +20,7 @@
 #include <time.h>
 #include <string.h>
 #include "fantasy-core.h"
+#include "fantasy-core-mov.h"
 #include "fantasy-IA.h"
 
 #define INIZIO_ORO 1000
@@ -687,6 +688,8 @@ int calcolaposizionestruttura(char struttura, int x, int y)
 	case 'V':
 	case 'Q':
 		return posiziona(1, 1, x, y);
+	default:
+		return -1;
 
 	}
 
@@ -727,6 +730,8 @@ t_struttura tipostruttura(char struttura)
 	case 'P':
 	case 'Q':
 		return Nid;
+	default:
+		return -1;
 	}
 }
 
@@ -1457,13 +1462,13 @@ t_infotruppa* puntacasellaoccupata(int Pos, int C)
 }
 
 //aggiorna tr_callback
-void aggiorna_tr_callback(char* pos)
+void aggiorna_tr_callback(char pos)
 {
 	t_truppa i;
 	for (i = Rec; i < NUMTRUPPE; i++)
 	{
 		tr_callback[i].tipo = i;
-		tr_callback[i].pos = pos - infomappa.mappa;
+		tr_callback[i].pos = pos;
 	}
 }
 

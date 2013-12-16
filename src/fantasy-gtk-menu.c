@@ -15,9 +15,7 @@
  * GNU General Public License for more details.
  */
 
-#include "fantasy-gtk-menu.h"
-#include "fantasy-gtk-img.h"
-#include "fantasy-gtk-partita.h"
+#include "fantasy-gtk.h"
 #include "fantasy-core.h"
 
 static void menuitem_response()
@@ -81,6 +79,7 @@ static void preferenze()
 			if (partita_in_corso != 0)
 			{
 				gtk_pulisci_mappa();
+				gtk_aggiorna_coordinate(cx, cy);
 				gtk_stampa_mappa(cx, cy, 'n');
 			}
 		}

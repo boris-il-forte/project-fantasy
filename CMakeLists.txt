@@ -36,6 +36,6 @@ target_link_libraries(fantasy-core ${GTK3_LIBRARIES})
 
 #set the warnings for gcc
 if(CMAKE_COMPILER_IS_GNUCC)
-    set_property(TARGET fantasy-core APPEND_STRING PROPERTY COMPILE_FLAGS -Wall)
+    set_target_properties(fantasy-core PROPERTIES COMPILE_FLAGS "-Wall -Wextra")
 endif(CMAKE_COMPILER_IS_GNUCC)
 

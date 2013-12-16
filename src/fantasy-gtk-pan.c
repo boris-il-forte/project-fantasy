@@ -15,8 +15,7 @@
  * GNU General Public License for more details.
  */
 
-#include "fantasy-gtk-pan.h"
-#include "fantasy-gtk-img.h"
+#include "fantasy-gtk.h"
 
 #include "fantasy-core.h"
 
@@ -29,7 +28,7 @@ static GtkWidget *CurrentI2;
 
 static void sposta_mappa(char* v)
 {
-	int V = (int) (v - infomappa.mappa);
+	int V = (int) (v - ancora);
 
 	if (partita_in_corso == 0)
 		return;
@@ -92,7 +91,7 @@ GtkWidget *gtk_crea_4_frecce()
 		Pulsante = gtk_button_new();
 		gtk_widget_set_size_request(Pulsante, Dim_casella, Dim_casella);
 		g_signal_connect_swapped(Pulsante, "button_press_event",
-				G_CALLBACK(sposta_mappa), (gpointer )&infomappa.mappa[i]);
+				G_CALLBACK(sposta_mappa), (gpointer) &ancora[i]);
 		gtk_grid_attach(GTK_GRID(Pulsantiera), Pulsante, i / 3, i % 3, 1, 1);
 		switch (i)
 		{

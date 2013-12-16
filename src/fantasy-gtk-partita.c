@@ -15,8 +15,7 @@
  * GNU General Public License for more details.
  */
 
-#include "fantasy-gtk-partita.h"
-#include "fantasy-gtk-img.h"
+#include "fantasy-gtk.h"
 
 #include "fantasy-core.h"
 

@@ -79,15 +79,15 @@ typedef struct s_dtruppa
 
 typedef struct s_infomappa
 {
-	char mappa[ALTEZZA * LARGHEZZA];
-	char prato[ALTEZZA * LARGHEZZA];
+	unsigned char mappa[ALTEZZA * LARGHEZZA];
+	unsigned char prato[ALTEZZA * LARGHEZZA];
 	t_infotruppa* truppe[ALTEZZA * LARGHEZZA];
 	int castelli[NUMCASTELLI];
 	int fattorie[MAXFATTORIE];
 	int stalle[MAXSTALLE];
 	int grotte[MAXGROTTE];
 	int nidi[MAXNIDI];
-	char numstalle, numnidi, numgrotte, numfattorie;
+	unsigned char numstalle, numnidi, numgrotte, numfattorie;
 } t_infomappa;
 
 typedef struct s_callback_s
@@ -185,7 +185,7 @@ void visualizza_su_terminale();
 void liberaheap();
 void liberagiocatore(int G);
 void fineturno();
-void aggiorna_tr_callback(char* pos);
+void aggiorna_tr_callback(char pos);
 
 //variabili globali
 int cx, cy; // posizione della mappa visibile

@@ -15,9 +15,7 @@
  * GNU General Public License for more details.
  */
 
-#include "fantasy-gtk-map.h"
-#include "fantasy-gtk-fight.h"
-#include "fantasy-gtk-img.h"
+#include "fantasy-gtk.h"
 
 #include "fantasy-core-mov.h"
 
@@ -32,6 +30,8 @@ static GtkWidget *Casella[LARGHEZZA * ALTEZZA];
 static GtkWidget *Thumb[LARGHEZZA * ALTEZZA];
 
 static int mossa;
+
+
 
 static gboolean set_adjustmentvalue(GtkAdjustment* S, t_spin* C)
 {
@@ -100,7 +100,7 @@ static void evacua_truppa(t_lista_t *T)
 	}
 	else
 	{
-		gtk_aggiorna_tab_armate();
+		gtk_aggiorna_tab();
 		gtk_pulisci_mappa();
 		gtk_stampa_mappa(cx, cy, 'n');
 	}
@@ -108,7 +108,7 @@ static void evacua_truppa(t_lista_t *T)
 
 static void click_bersaglio(char* pos)
 {
-	int Dst = (int) (pos - infomappa.mappa);
+	int Dst = (int) (pos - ancora);
 	int Src = mossa;
 	int pdst, psrc;
 
@@ -122,7 +122,7 @@ static void click_bersaglio(char* pos)
 		pdst = infomappa.truppe[Dst]->numero;
 		psrc = infomappa.truppe[Src]->numero;
 		combatticampoaperto(Dst, Src);
-		gtk_aggiorna_tab_armate();
+		gtk_aggiorna_tab();
 		gtk_pulisci_mappa();
 		gtk_stampa_mappa(cx, cy, 'n');
 		pdst -= (infomappa.truppe[Dst] != NULL) ?
@@ -140,7 +140,7 @@ static void click_bersaglio(char* pos)
 
 static void click_destinazione(char* pos)
 {
-	int Dst = (int) (pos - infomappa.mappa);
+	int Dst = (int) (pos - ancora);
 	int Src = mossa;
 
 	if (Src == Dst)
@@ -152,7 +152,7 @@ static void click_destinazione(char* pos)
 	else
 	{
 		spostatruppa(Src, Dst);
-		gtk_aggiorna_tab_armate();
+		gtk_aggiorna_tab();
 		gtk_pulisci_mappa();
 		gtk_stampa_mappa(cx, cy, 'n');
 	}
@@ -175,7 +175,7 @@ static void click_castello(char* pos)
 	t_lista_t *T;
 	char buf[50];
 
-	aggiorna_tr_callback(pos);
+	aggiorna_tr_callback(pos - ancora);
 	/*crea menu*/
 	menu = gtk_menu_new();
 	/*etichetta addestra*/
@@ -186,19 +186,19 @@ static void click_castello(char* pos)
 	oggetto = gtk_menu_item_new_with_label("Reclute");
 	gtk_menu_shell_append(GTK_MENU_SHELL(lista), oggetto);
 	g_signal_connect_swapped(oggetto, "activate", G_CALLBACK(addestra_truppa),
-			(gpointer )&tr_callback[Rec]);
+			(gpointer)&tr_callback[Rec]);
 	gtk_widget_show(oggetto);
 	//fanteria
 	oggetto = gtk_menu_item_new_with_label("Fanteria");
 	gtk_menu_shell_append(GTK_MENU_SHELL(lista), oggetto);
 	g_signal_connect_swapped(oggetto, "activate", G_CALLBACK(addestra_truppa),
-			(gpointer )&tr_callback[Fan]);
+			(gpointer)&tr_callback[Fan]);
 	gtk_widget_show(oggetto);
 	//lanceri
 	oggetto = gtk_menu_item_new_with_label("Lancieri");
 	gtk_menu_shell_append(GTK_MENU_SHELL(lista), oggetto);
 	g_signal_connect_swapped(oggetto, "activate", G_CALLBACK(addestra_truppa),
-			(gpointer )&tr_callback[Lan]);
+			(gpointer)&tr_callback[Lan]);
 	gtk_widget_show(oggetto);
 	//attacca la lista alla scelta
 	gtk_menu_item_set_submenu(GTK_MENU_ITEM(scelta), lista);
@@ -209,7 +209,7 @@ static void click_castello(char* pos)
 	/*crea pulsanti per evacuare unità*/
 	lista = gtk_menu_new();
 	//inizializza la lista truppe
-	S = puntastruttura(pos - infomappa.mappa);
+	S = puntastruttura(pos - ancora);
 	T = S->in;
 	//lista le unità nella struttura
 	while (T != NULL)
@@ -218,7 +218,7 @@ static void click_castello(char* pos)
 		oggetto = gtk_menu_item_new_with_label(buf);
 		gtk_menu_shell_append(GTK_MENU_SHELL(lista), oggetto);
 		g_signal_connect_swapped(oggetto, "activate", G_CALLBACK(evacua_truppa),
-				(gpointer )T);
+				(gpointer)T);
 		gtk_widget_show(oggetto);
 		T = T->next;
 	}
@@ -244,7 +244,7 @@ static void click_scuderia(char* pos)
 	t_lista_t *T;
 	char buf[50];
 
-	aggiorna_tr_callback(pos);
+	aggiorna_tr_callback(pos - ancora);
 	/*crea menu*/
 	menu = gtk_menu_new();
 	/*etichetta addestra*/
@@ -255,13 +255,13 @@ static void click_scuderia(char* pos)
 	oggetto = gtk_menu_item_new_with_label("Reclute");
 	gtk_menu_shell_append(GTK_MENU_SHELL(lista), oggetto);
 	g_signal_connect_swapped(oggetto, "activate", G_CALLBACK(addestra_truppa),
-			(gpointer )&tr_callback[Rec]);
+			(gpointer)&tr_callback[Rec]);
 	gtk_widget_show(oggetto);
 	//Cavalleria
 	oggetto = gtk_menu_item_new_with_label("Cavalleria");
 	gtk_menu_shell_append(GTK_MENU_SHELL(lista), oggetto);
 	g_signal_connect_swapped(oggetto, "activate", G_CALLBACK(addestra_truppa),
-			(gpointer )&tr_callback[Cav]);
+			(gpointer)&tr_callback[Cav]);
 	gtk_widget_show(oggetto);
 	//attacca la lista alla scelta
 	gtk_menu_item_set_submenu(GTK_MENU_ITEM(scelta), lista);
@@ -272,7 +272,7 @@ static void click_scuderia(char* pos)
 	/*crea pulsanti per evacuare unità*/
 	lista = gtk_menu_new();
 	//inizializza la lista truppe
-	S = puntastruttura(pos - infomappa.mappa);
+	S = puntastruttura(pos - ancora);
 	T = S->in;
 	//lista le unità nella struttura
 	while (T != NULL)
@@ -281,7 +281,7 @@ static void click_scuderia(char* pos)
 		oggetto = gtk_menu_item_new_with_label(buf);
 		gtk_menu_shell_append(GTK_MENU_SHELL(lista), oggetto);
 		g_signal_connect_swapped(oggetto, "activate", G_CALLBACK(evacua_truppa),
-				(gpointer )T);
+				(gpointer)T);
 		gtk_widget_show(oggetto);
 		T = T->next;
 	}
@@ -307,7 +307,7 @@ static void click_fattoria(char* pos)
 	t_lista_t *T;
 	char buf[50];
 
-	aggiorna_tr_callback(pos);
+	aggiorna_tr_callback(pos - ancora);
 	/*crea menu*/
 	menu = gtk_menu_new();
 	/*etichetta addestra*/
@@ -318,13 +318,13 @@ static void click_fattoria(char* pos)
 	oggetto = gtk_menu_item_new_with_label("Reclute");
 	gtk_menu_shell_append(GTK_MENU_SHELL(lista), oggetto);
 	g_signal_connect_swapped(oggetto, "activate", G_CALLBACK(addestra_truppa),
-			(gpointer )&tr_callback[Rec]);
+			(gpointer)&tr_callback[Rec]);
 	gtk_widget_show(oggetto);
 	//fanteria
 	oggetto = gtk_menu_item_new_with_label("Arcieri");
 	gtk_menu_shell_append(GTK_MENU_SHELL(lista), oggetto);
 	g_signal_connect_swapped(oggetto, "activate", G_CALLBACK(addestra_truppa),
-			(gpointer )&tr_callback[Arc]);
+			(gpointer)&tr_callback[Arc]);
 	gtk_widget_show(oggetto);
 	//attacca la lista alla scelta
 	gtk_menu_item_set_submenu(GTK_MENU_ITEM(scelta), lista);
@@ -335,7 +335,7 @@ static void click_fattoria(char* pos)
 	/*crea pulsanti per evacuare unità*/
 	lista = gtk_menu_new();
 	//inizializza la lista truppe
-	S = puntastruttura(pos - infomappa.mappa);
+	S = puntastruttura(pos - ancora);
 	T = S->in;
 	//lista le unità nella struttura
 	while (T != NULL)
@@ -344,7 +344,7 @@ static void click_fattoria(char* pos)
 		oggetto = gtk_menu_item_new_with_label(buf);
 		gtk_menu_shell_append(GTK_MENU_SHELL(lista), oggetto);
 		g_signal_connect_swapped(oggetto, "activate", G_CALLBACK(evacua_truppa),
-				(gpointer )T);
+				(gpointer)T);
 		gtk_widget_show(oggetto);
 		T = T->next;
 	}
@@ -370,7 +370,7 @@ static void click_grotta(char* pos)
 	t_lista_t *T;
 	char buf[50];
 
-	aggiorna_tr_callback(pos);
+	aggiorna_tr_callback(pos -ancora);
 	/*crea menu*/
 	menu = gtk_menu_new();
 	/*etichetta addestra*/
@@ -381,7 +381,7 @@ static void click_grotta(char* pos)
 	oggetto = gtk_menu_item_new_with_label("Draghi");
 	gtk_menu_shell_append(GTK_MENU_SHELL(lista), oggetto);
 	g_signal_connect_swapped(oggetto, "activate", G_CALLBACK(addestra_truppa),
-			(gpointer )&tr_callback[Dra]);
+			(gpointer)&tr_callback[Dra]);
 	gtk_widget_show(oggetto);
 	//attacca la lista alla scelta
 	gtk_menu_item_set_submenu(GTK_MENU_ITEM(scelta), lista);
@@ -392,7 +392,7 @@ static void click_grotta(char* pos)
 	/*crea pulsanti per evacuare unità*/
 	lista = gtk_menu_new();
 	//inizializza la lista truppe
-	S = puntastruttura(pos - infomappa.mappa);
+	S = puntastruttura(pos - ancora);
 	T = S->in;
 	//lista le unità nella struttura
 	while (T != NULL)
@@ -401,7 +401,7 @@ static void click_grotta(char* pos)
 		oggetto = gtk_menu_item_new_with_label(buf);
 		gtk_menu_shell_append(GTK_MENU_SHELL(lista), oggetto);
 		g_signal_connect_swapped(oggetto, "activate", G_CALLBACK(evacua_truppa),
-				(gpointer )T);
+				(gpointer)T);
 		gtk_widget_show(oggetto);
 		T = T->next;
 	}
@@ -427,7 +427,7 @@ static void click_nido(char* pos)
 	t_lista_t *T;
 	char buf[50];
 
-	aggiorna_tr_callback(pos);
+	aggiorna_tr_callback(pos - ancora);
 	/*crea menu*/
 	menu = gtk_menu_new();
 	/*etichetta addestra*/
@@ -438,7 +438,7 @@ static void click_nido(char* pos)
 	oggetto = gtk_menu_item_new_with_label("Fenici");
 	gtk_menu_shell_append(GTK_MENU_SHELL(lista), oggetto);
 	g_signal_connect_swapped(oggetto, "activate", G_CALLBACK(addestra_truppa),
-			(gpointer )&tr_callback[Fen]);
+			(gpointer)&tr_callback[Fen]);
 	gtk_widget_show(oggetto);
 	//attacca la lista alla scelta
 	gtk_menu_item_set_submenu(GTK_MENU_ITEM(scelta), lista);
@@ -449,7 +449,7 @@ static void click_nido(char* pos)
 	/*crea pulsanti per evacuare unità*/
 	lista = gtk_menu_new();
 	//inizializza la lista truppe
-	S = puntastruttura(pos - infomappa.mappa);
+	S = puntastruttura(pos - ancora);
 	T = S->in;
 	//lista le unità nella struttura
 	while (T != NULL)
@@ -458,7 +458,7 @@ static void click_nido(char* pos)
 		oggetto = gtk_menu_item_new_with_label(buf);
 		gtk_menu_shell_append(GTK_MENU_SHELL(lista), oggetto);
 		g_signal_connect_swapped(oggetto, "activate", G_CALLBACK(evacua_truppa),
-				(gpointer )T);
+				(gpointer)T);
 		gtk_widget_show(oggetto);
 		T = T->next;
 	}
@@ -479,7 +479,7 @@ static void click_unita(char* pos, GdkEventButton *Event)
 	GtkWidget* Dialogo;
 	GtkWidget* Label;
 	t_infotruppa* T;
-	int Pos = (int) (pos - infomappa.mappa);
+	int Pos = (int) (pos - ancora);
 
 	T = infomappa.truppe[Pos];
 	if (Event->button == 3)
@@ -541,7 +541,7 @@ static void click_unita(char* pos, GdkEventButton *Event)
 
 static void su_unita(GtkWidget *Truppa, GdkEvent *event, char* pos)
 {
-	int Pos = (int) (pos - infomappa.mappa);
+	int Pos = (int) (pos - ancora);
 	t_infotruppa* T;
 	char buf[30];
 
@@ -555,7 +555,7 @@ static void su_unita(GtkWidget *Truppa, GdkEvent *event, char* pos)
 
 static void click_assediocastello(char* pos)
 {
-	int Pos = (int) (pos - infomappa.mappa);
+	int Pos = (int) (pos - ancora);
 	int G = controlloedificio(Pos, Cas);
 	int W;
 	char buf[60];
@@ -563,8 +563,7 @@ static void click_assediocastello(char* pos)
 	GtkWidget *Label;
 
 	assediocastello(Pos);
-	gtk_aggiorna_tab_armate();
-	gtk_aggiorna_tab_castelli();
+	gtk_aggiorna_tab();
 	gtk_pulisci_mappa();
 	gtk_stampa_mappa(cx, cy, 'n');
 	if (controllosconfitto(G) == 1)
@@ -593,7 +592,7 @@ static void click_assediocastello(char* pos)
 
 static void click_assaltostruttura(char* pos)
 {
-	int Pos = (int) (pos - infomappa.mappa);
+	int Pos = (int) (pos - ancora);
 	int G;
 	int W;
 	char buf[60];
@@ -603,8 +602,7 @@ static void click_assaltostruttura(char* pos)
 
 	G = controlloedificio(Pos, t);
 	assediostruttura(Pos);
-	gtk_aggiorna_tab_strutture();
-	gtk_aggiorna_tab_armate();
+	gtk_aggiorna_tab();
 	gtk_pulisci_mappa();
 	gtk_stampa_mappa(cx, cy, 'n');
 	if (controllosconfitto(G) == 1)
@@ -633,17 +631,17 @@ static void click_assaltostruttura(char* pos)
 
 static void click_entrastruttura(char* pos)
 {
-	int Pos = (int) (pos - infomappa.mappa);
+	int Pos = (int) (pos - ancora);
 
 	spostainstruttura(mossa, Pos);
-	gtk_aggiorna_tab_armate();
+	gtk_aggiorna_tab();
 	gtk_pulisci_mappa();
 	gtk_stampa_mappa(cx, cy, 'n');
 }
 
 static void click_unisci(char* pos)
 {
-	int Pos = (int) (pos - infomappa.mappa);
+	int Pos = (int) (pos - ancora);
 	int max, somma, min;
 	const int a = 0, b = 1;
 	GtkWidget * Dialogo;
@@ -726,7 +724,7 @@ static void click_unisci(char* pos)
 		gtk_widget_destroy(Dialogo);
 	}
 	gtk_pulisci_mappa();
-	gtk_aggiorna_tab_armate();
+	gtk_aggiorna_tab();
 	gtk_stampa_mappa(cx, cy, 'n');
 }
 
@@ -928,7 +926,7 @@ int gtk_stampa_area_campo(GdkPixbuf *buffer, char mode, int Mossa, int x, int y,
 		if (!isArea)
 			return isArea;
 		area = Immagine.attacco;
-		if(assaltolecito(Mossa, posizione))
+		if (assaltolecito(Mossa, posizione))
 			alpha = 130;
 		else
 			alpha = 80;
@@ -976,31 +974,34 @@ void gtk_stampa_area_strutture(GdkPixbuf *buffer, char mode, int G,
 void gtk_aggiungi_segnali_strutture_n(int G, t_struttura tipo, int posizione,
 		int casella)
 {
+	if (G != CurrentPlayer)
+		return;
+
 	switch (tipo)
 	{
 	case Cas:
 		g_signal_connect_swapped(Casella[casella], "button_press_event",
 				G_CALLBACK(click_castello),
-				(gpointer )&infomappa.mappa[posizione]);
+				(gpointer) &ancora[posizione]);
 		break;
 	case Fat:
 		g_signal_connect_swapped(Casella[casella], "button_press_event",
 				G_CALLBACK(click_fattoria),
-				(gpointer )&infomappa.mappa[posizione]);
+				(gpointer) &ancora[posizione]);
 		break;
 	case Scu:
 		g_signal_connect_swapped(Casella[casella], "button_press_event",
 				G_CALLBACK(click_scuderia),
-				(gpointer )&infomappa.mappa[posizione]);
+				(gpointer) &ancora[posizione]);
 		break;
 	case Nid:
 		g_signal_connect_swapped(Casella[casella], "button_press_event",
-				G_CALLBACK(click_nido), (gpointer )&infomappa.mappa[posizione]);
+				G_CALLBACK(click_nido), (gpointer) &ancora[posizione]);
 		break;
 	case Gro:
 		g_signal_connect_swapped(Casella[casella], "button_press_event",
 				G_CALLBACK(click_grotta),
-				(gpointer )&infomappa.mappa[posizione]);
+				(gpointer) &ancora[posizione]);
 		break;
 	default:
 		break;
@@ -1015,7 +1016,7 @@ void gtk_aggiungi_segnali_strutture_s(int G, t_struttura tipo, int posizione,
 	{
 		g_signal_connect_swapped(Casella[numeroCasella], "button_press_event",
 				G_CALLBACK(click_entrastruttura),
-				(gpointer ) &infomappa.mappa[posizione]);
+				(gpointer) &ancora[posizione]);
 	}
 }
 
@@ -1029,13 +1030,13 @@ void gtk_aggiungi_segnali_strutture_c(int G, t_struttura tipo, int posizione,
 		{
 			g_signal_connect_swapped(Casella[casella], "button_press_event",
 					G_CALLBACK(click_assediocastello),
-					(gpointer )&infomappa.mappa[posizione]);
+					(gpointer) &ancora[posizione]);
 		}
 		else
 		{
 			g_signal_connect_swapped(Casella[casella], "button_press_event",
 					G_CALLBACK(click_assaltostruttura),
-					(gpointer )&infomappa.mappa[posizione]);
+					(gpointer) &ancora[posizione]);
 		}
 	}
 }
@@ -1047,9 +1048,7 @@ void gtk_aggiungi_segnali_strutture(char mode, int G, t_struttura tipo,
 	switch (mode)
 	{
 	case 'n':
-		if (G == CurrentPlayer)
-			gtk_aggiungi_segnali_strutture_n(G, tipo, posizioneStruttura,
-					casella);
+		gtk_aggiungi_segnali_strutture_n(G, tipo, posizioneStruttura, casella);
 		break;
 	case 's':
 		gtk_aggiungi_segnali_strutture_s(G, tipo, posizioneStruttura, casella);
@@ -1074,13 +1073,13 @@ void gtk_aggiungi_segnali_truppe(char mode, int G, int x, int y, int posizione,
 		{
 			g_signal_connect_swapped(Casella[posizione], "button_press_event",
 					G_CALLBACK(click_unita),
-					(gpointer)&infomappa.mappa[posiziona_c(x,y)]);
+					(gpointer) &ancora[posiziona_c(x,y)]);
 		}
 		if (G != -1)
 		{
 			g_signal_connect(Casella[posizione], "enter-notify-event",
 					G_CALLBACK(su_unita),
-					(gpointer)&infomappa.mappa[posiziona_c(x,y)]);
+					(gpointer) &ancora[posiziona_c(x,y)]);
 		}
 		break;
 	case 'c':
@@ -1089,13 +1088,13 @@ void gtk_aggiungi_segnali_truppe(char mode, int G, int x, int y, int posizione,
 		{
 			g_signal_connect_swapped(Casella[posizione], "button_press_event",
 					G_CALLBACK(click_bersaglio),
-					(gpointer)&infomappa.mappa[posiziona_c(x,y)]);
+					(gpointer) &ancora[posiziona_c(x,y)]);
 		}
 		else
 		{
 			g_signal_connect_swapped(Casella[posizione], "button_press_event",
 					G_CALLBACK(annulla_mossa),
-					(gpointer)&infomappa.mappa[posiziona_c(x,y)]);
+					(gpointer) &ancora[posiziona_c(x,y)]);
 		}
 		break;
 	case 's':
@@ -1104,19 +1103,19 @@ void gtk_aggiungi_segnali_truppe(char mode, int G, int x, int y, int posizione,
 		{
 			g_signal_connect_swapped(Casella[posizione], "button_press_event",
 					G_CALLBACK(click_unisci),
-					(gpointer)&infomappa.mappa[posiziona_c(x,y)]);
+					(gpointer) &ancora[posiziona_c(x,y)]);
 		}
 		else if (isArea && posiziona_c(x,y) != mossa)
 		{
 			g_signal_connect_swapped(Casella[posizione], "button_press_event",
 					G_CALLBACK(click_destinazione),
-					(gpointer)&infomappa.mappa[posiziona_c(x,y)]);
+					(gpointer) &ancora[posiziona_c(x,y)]);
 		}
 		else
 		{
 			g_signal_connect_swapped(Casella[posizione], "button_press_event",
 					G_CALLBACK(annulla_mossa),
-					(gpointer)&infomappa.mappa[posiziona_c(x,y)]);
+					(gpointer) &ancora[posiziona_c(x,y)]);
 		}
 		break;
 	default:
@@ -1139,7 +1138,6 @@ void gtk_stampa_mappa(int x, int y, char m)
 	int Pos = 0;
 
 	GdkPixbuf *buffer;
-	t_truppa tipo;
 	t_struttura tipoS;
 
 //gestisce memorizzazione del modo stampa

@@ -17,6 +17,8 @@
 
 #include "fantasy-gtk.h"
 
+char* ancora = 0;
+
 static gboolean delete_event()
 {
 	gtk_main_quit();
@@ -113,9 +115,7 @@ static void click_turno()
 			fineturno();
 			gtk_aggiorna_giocatore_c();
 			gtk_aggiorna_contarisorse();
-			gtk_aggiorna_tab_castelli();
-			gtk_aggiorna_tab_strutture();
-			gtk_aggiorna_tab_armate();
+			gtk_aggiorna_tab();
 			gtk_pulisci_mappa();
 			gtk_aggiorna_coordinate(cx, cy);
 			gtk_stampa_mappa(cx, cy, 'n');
