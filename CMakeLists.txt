@@ -34,3 +34,8 @@ add_executable(fantasy-core
 #Link the libraries
 target_link_libraries(fantasy-core ${GTK3_LIBRARIES}) 
 
+#set the warnings for gcc
+if(CMAKE_COMPILER_IS_GNUCC)
+    set_property(TARGET fantasy-core APPEND_STRING PROPERTY COMPILE_FLAGS -Wall)
+endif(CMAKE_COMPILER_IS_GNUCC)
+
