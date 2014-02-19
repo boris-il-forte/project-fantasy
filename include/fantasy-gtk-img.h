@@ -30,6 +30,9 @@ typedef struct immagini_s
 	GdkPixbuf* logo;
 	GdkPixbuf* decorazione;
 	GdkPixbuf* freccia;
+	GdkPixbuf* cibo;
+	GdkPixbuf* oro;
+	GdkPixbuf* smeraldi;
 	GdkPixbuf* movimento;
 	GdkPixbuf* entrata;
 	GdkPixbuf* attacco;

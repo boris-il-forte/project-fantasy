@@ -94,6 +94,30 @@ void gtk_carica_immagini_gioco()
 		perror("impossibile caricare l'immagine freccia.png");
 		exit(1);
 	}
+
+	sprintf(Buf, "img/cibo.png");
+	if ((Immagine.cibo = gdk_pixbuf_new_from_file_at_size(Buf,
+			Dim_casella / 2, Dim_casella / 2, NULL)) == NULL)
+	{
+		perror("impossibile caricare l'immagine cibo.png");
+		exit(1);
+	}
+
+	sprintf(Buf, "img/oro.png");
+	if ((Immagine.oro = gdk_pixbuf_new_from_file_at_size(Buf,
+			Dim_casella / 2, Dim_casella / 2, NULL)) == NULL)
+	{
+		perror("impossibile caricare l'immagine oro.png");
+		exit(1);
+	}
+
+	sprintf(Buf, "img/smeraldi.png");
+	if ((Immagine.smeraldi = gdk_pixbuf_new_from_file_at_size(Buf,
+			Dim_casella / 2, Dim_casella / 2, NULL)) == NULL)
+	{
+		perror("impossibile caricare l'immagine smeraldi.png");
+		exit(1);
+	}
 }
 
 //carica le immagini del gioco

@@ -132,24 +132,22 @@ GtkWidget *gtk_crea_contarisorse()
 	int i;
 	GtkWidget *Vbox;
 	GtkWidget *Hbox[NUMRISORSE];
-	GtkWidget *Label[NUMRISORSE];
+	GtkWidget *Icon[NUMRISORSE];
 
-	Label[0] = gtk_label_new("Oro: ");
-	Label[1] = gtk_label_new("Cibo: ");
-	Label[2] = gtk_label_new("Smeraldi: ");
+	Icon[0] = gtk_image_new_from_pixbuf(Immagine.oro);
+	Icon[1] = gtk_image_new_from_pixbuf(Immagine.cibo);
+	Icon[2] = gtk_image_new_from_pixbuf(Immagine.smeraldi);
 	Vbox = gtk_box_new(GTK_ORIENTATION_VERTICAL, 5);
 	for (i = 0; i < NUMRISORSE; i++)
 	{
 		Hbox[i] = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 0);
 		gtk_box_pack_start(GTK_BOX(Vbox), Hbox[i], FALSE, FALSE, 0);
-		gtk_box_pack_start(GTK_BOX(Hbox[i]), Label[i], FALSE, FALSE, 0);
-		gtk_widget_set_size_request(Label[i], 2 * Dim_casella, -1);
+		gtk_box_pack_start(GTK_BOX(Hbox[i]), Icon[i], TRUE, FALSE, 0);
 		Counter[i] = gtk_entry_new();
+		gtk_entry_set_width_chars (GTK_ENTRY(Counter[i]), 10);
 		gtk_editable_set_editable(GTK_EDITABLE(Counter[i]), FALSE);
 		gtk_entry_set_text(GTK_ENTRY(Counter[i]), "0");
-		gtk_entry_set_width_chars(GTK_ENTRY(Counter[i]), 6);
-		gtk_widget_set_size_request(Counter[i], Dim_casella, -1);
-		gtk_box_pack_start(GTK_BOX(Hbox[i]), Counter[i], FALSE, FALSE, 0);
+		gtk_box_pack_start(GTK_BOX(Hbox[i]), Counter[i], TRUE, FALSE, 0);
 		gtk_widget_show_all(Hbox[i]);
 	}
 
@@ -171,14 +169,22 @@ void gtk_aggiorna_contarisorse()
 	{
 		n = (float) R[i];
 		nk = 0;
-		while (n > 999)
+		while (n > 99999)
 		{
 			n = n / 1000;
 			nk++;
 		}
-		sprintf(Buf, "%.2f", n);
-		for (j = 0; nk > 0 && j < 6; j++, nk--)
-			strcat(Buf, "k");
+
+		if(nk > 0)
+		{
+			sprintf(Buf, "%.2f", n);
+			for (j = 0; nk > 0 && j < 6; j++, nk--)
+				strcat(Buf, "k");
+		}
+		else
+		{
+			sprintf(Buf, "%d", R[i]);
+		}
 		gtk_entry_set_text(GTK_ENTRY(Counter[i]), Buf);
 	}
 }
