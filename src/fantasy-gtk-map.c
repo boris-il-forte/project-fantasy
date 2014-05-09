@@ -60,7 +60,7 @@ static void addestra_truppa(t_callback_s* Struct)
 	else
 	{
 		Dialogo = gtk_dialog_new_with_buttons("F.C.", NULL,
-				GTK_DIALOG_DESTROY_WITH_PARENT | GTK_DIALOG_MODAL, GTK_STOCK_OK,
+				GTK_DIALOG_DESTROY_WITH_PARENT | GTK_DIALOG_MODAL, "_OK",
 				GTK_RESPONSE_ACCEPT, NULL);
 		gtk_window_set_icon(GTK_WINDOW(Dialogo), Immagine.logo);
 		switch (r)
@@ -495,7 +495,7 @@ static void click_unita(char* pos, GdkEventButton *Event)
 		{
 			Dialogo = gtk_dialog_new_with_buttons("F.C.", NULL,
 					GTK_DIALOG_DESTROY_WITH_PARENT | GTK_DIALOG_MODAL,
-					GTK_STOCK_OK, GTK_RESPONSE_ACCEPT, NULL);
+					"_OK", GTK_RESPONSE_ACCEPT, NULL);
 			gtk_window_set_icon(GTK_WINDOW(Dialogo), Immagine.logo);
 			Label = gtk_label_new("unità in combattimento!");
 			gtk_widget_show(Label);
@@ -521,7 +521,7 @@ static void click_unita(char* pos, GdkEventButton *Event)
 		{
 			Dialogo = gtk_dialog_new_with_buttons("F.C.", NULL,
 					GTK_DIALOG_DESTROY_WITH_PARENT | GTK_DIALOG_MODAL,
-					GTK_STOCK_OK, GTK_RESPONSE_ACCEPT, NULL);
+					"_OK", GTK_RESPONSE_ACCEPT, NULL);
 			gtk_window_set_icon(GTK_WINDOW(Dialogo), Immagine.logo);
 			if (T->stanca == 1)
 				Label = gtk_label_new("unità stanca!");
@@ -570,7 +570,7 @@ static void click_assediocastello(char* pos)
 	{
 		liberagiocatore(G);
 		Dialogo = gtk_dialog_new_with_buttons("F.C.", NULL,
-				GTK_DIALOG_DESTROY_WITH_PARENT | GTK_DIALOG_MODAL, GTK_STOCK_OK,
+				GTK_DIALOG_DESTROY_WITH_PARENT | GTK_DIALOG_MODAL, "_OK",
 				GTK_RESPONSE_ACCEPT, NULL);
 		gtk_window_set_icon(GTK_WINDOW(Dialogo), Immagine.logo);
 		sprintf(buf, " il giocatore %d \n è stato sconfitto! ", G + 1);
@@ -609,7 +609,7 @@ static void click_assaltostruttura(char* pos)
 	{
 		liberagiocatore(G);
 		Dialogo = gtk_dialog_new_with_buttons("F.C.", NULL,
-				GTK_DIALOG_DESTROY_WITH_PARENT | GTK_DIALOG_MODAL, GTK_STOCK_OK,
+				GTK_DIALOG_DESTROY_WITH_PARENT | GTK_DIALOG_MODAL, "_OK",
 				GTK_RESPONSE_ACCEPT, NULL);
 		gtk_window_set_icon(GTK_WINDOW(Dialogo), Immagine.logo);
 		sprintf(buf, " il giocatore %d \n è stato sconfitto! ", G + 1);
@@ -689,9 +689,9 @@ static void click_unisci(char* pos)
 	g_signal_connect(UB, "value_changed", G_CALLBACK(set_adjustmentvalue),
 			&S_Callback[a]);
 	Dialogo = gtk_dialog_new_with_buttons("Fantasy C", NULL,
-			GTK_DIALOG_DESTROY_WITH_PARENT | GTK_DIALOG_MODAL, GTK_STOCK_OK,
+			GTK_DIALOG_DESTROY_WITH_PARENT | GTK_DIALOG_MODAL, "_OK",
 			GTK_RESPONSE_YES,
-			GTK_STOCK_CANCEL, GTK_RESPONSE_NO, NULL);
+			"_Cancel", GTK_RESPONSE_NO, NULL);
 	gtk_window_set_icon(GTK_WINDOW(Dialogo), Immagine.logo);
 	Vbox = gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);
 	gtk_box_pack_start(

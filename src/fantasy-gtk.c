@@ -40,7 +40,7 @@ static void click_nt()
 	if (giocatore[CurrentPlayer]->truppe == NULL)
 	{
 		Dialogo = gtk_dialog_new_with_buttons("F.C.", NULL, GTK_DIALOG_DESTROY_WITH_PARENT,
-				GTK_STOCK_OK, NULL);
+				"_Ok", NULL);
 		gtk_window_set_icon(GTK_WINDOW(Dialogo), Immagine.logo);
 		Label = gtk_label_new("Non ci sono unità!");
 		gtk_widget_show(Label);
