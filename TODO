@@ -1,24 +1,15 @@
 TODO
 
 Gionnico:
-- Salva e carica devono considerare la possibilità di avere giocatory NULL in mezzo all'array		| Urgente!
-- Salva e carica devono gestire le IA per bene. salvare il profilo giocatore e caricare le ia corrette	| Urgentissimo!
-- Debug salva e carica: fattoria inesistente in altro a destra da fixare				| priorità alta
 - Editor di mappe & scenari										| priorità media
 
 Boris_il_forte:
 - IA 											| priorità alta
-- Minimappa										| priorità media
-- Debug vario										| priorità bassa
+- Minimappa								| priorità media
+- Debug vario							| priorità bassa
 
 
 Il_RatMan:
-- Scuderia
-- Fattoria
-- Nido
-- Grotta
-- Prati
-- Icone oro, cibo, smeraldi
 - Icona prossima unità
 - Icona prossimo castello
 - Icona prossimo nemico vicino
