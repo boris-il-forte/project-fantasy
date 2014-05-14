@@ -4,9 +4,9 @@ Gionnico:
 - Editor di mappe & scenari										| priorità media
 
 Boris_il_forte:
-- IA 											| priorità alta
-- Minimappa								| priorità media
-- Debug vario							| priorità bassa
+- IA                                          | priorità alta
+- Minimappa						                        | priorità media
+- Debug vario					                        | priorità bassa
 
 
 Il_RatMan:
@@ -14,7 +14,7 @@ Il_RatMan:
 - Icona prossimo castello
 - Icona prossimo nemico vicino
 
-Chiunque: 										| priorità molto bassa
+Chiunque: 										                | priorità molto bassa
 - Zoom in & out
 
 NintendOtaku:
