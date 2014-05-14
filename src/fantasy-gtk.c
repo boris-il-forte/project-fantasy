@@ -17,6 +17,8 @@
 
 #include "fantasy-gtk.h"
 
+#include <glib/gi18n.h>
+
 char* ancora = 0;
 
 static gboolean delete_event()
@@ -39,8 +41,8 @@ static void click_nt()
 		T = giocatore[CurrentPlayer]->truppe;
 	if (giocatore[CurrentPlayer]->truppe == NULL)
 	{
-		Dialogo = gtk_dialog_new_with_buttons("F.C.", NULL, GTK_DIALOG_DESTROY_WITH_PARENT,
-				"_Ok", NULL);
+		Dialogo = gtk_dialog_new_with_buttons("F.C.", NULL, GTK_DIALOG_DESTROY_WITH_PARENT | GTK_DIALOG_MODAL,
+				_("_Ok"), GTK_RESPONSE_ACCEPT, NULL);
 		gtk_window_set_icon(GTK_WINDOW(Dialogo), Immagine.logo);
 		Label = gtk_label_new("Non ci sono unità!");
 		gtk_widget_show(Label);

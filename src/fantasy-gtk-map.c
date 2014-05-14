@@ -19,6 +19,8 @@
 
 #include "fantasy-core-mov.h"
 
+#include <glib/gi18n.h>
+
 //struct spin buton
 typedef struct s_spin
 {
@@ -30,8 +32,6 @@ static GtkWidget *Casella[LARGHEZZA * ALTEZZA];
 static GtkWidget *Thumb[LARGHEZZA * ALTEZZA];
 
 static int mossa;
-
-
 
 static gboolean set_adjustmentvalue(GtkAdjustment* S, t_spin* C)
 {
@@ -60,7 +60,7 @@ static void addestra_truppa(t_callback_s* Struct)
 	else
 	{
 		Dialogo = gtk_dialog_new_with_buttons("F.C.", NULL,
-				GTK_DIALOG_DESTROY_WITH_PARENT | GTK_DIALOG_MODAL, "_OK",
+				GTK_DIALOG_DESTROY_WITH_PARENT | GTK_DIALOG_MODAL, _("_OK"),
 				GTK_RESPONSE_ACCEPT, NULL);
 		gtk_window_set_icon(GTK_WINDOW(Dialogo), Immagine.logo);
 		switch (r)
@@ -186,19 +186,19 @@ static void click_castello(char* pos)
 	oggetto = gtk_menu_item_new_with_label("Reclute");
 	gtk_menu_shell_append(GTK_MENU_SHELL(lista), oggetto);
 	g_signal_connect_swapped(oggetto, "activate", G_CALLBACK(addestra_truppa),
-			(gpointer)&tr_callback[Rec]);
+			(gpointer )&tr_callback[Rec]);
 	gtk_widget_show(oggetto);
 	//fanteria
 	oggetto = gtk_menu_item_new_with_label("Fanteria");
 	gtk_menu_shell_append(GTK_MENU_SHELL(lista), oggetto);
 	g_signal_connect_swapped(oggetto, "activate", G_CALLBACK(addestra_truppa),
-			(gpointer)&tr_callback[Fan]);
+			(gpointer )&tr_callback[Fan]);
 	gtk_widget_show(oggetto);
 	//lanceri
 	oggetto = gtk_menu_item_new_with_label("Lancieri");
 	gtk_menu_shell_append(GTK_MENU_SHELL(lista), oggetto);
 	g_signal_connect_swapped(oggetto, "activate", G_CALLBACK(addestra_truppa),
-			(gpointer)&tr_callback[Lan]);
+			(gpointer )&tr_callback[Lan]);
 	gtk_widget_show(oggetto);
 	//attacca la lista alla scelta
 	gtk_menu_item_set_submenu(GTK_MENU_ITEM(scelta), lista);
@@ -218,7 +218,7 @@ static void click_castello(char* pos)
 		oggetto = gtk_menu_item_new_with_label(buf);
 		gtk_menu_shell_append(GTK_MENU_SHELL(lista), oggetto);
 		g_signal_connect_swapped(oggetto, "activate", G_CALLBACK(evacua_truppa),
-				(gpointer)T);
+				(gpointer )T);
 		gtk_widget_show(oggetto);
 		T = T->next;
 	}
@@ -255,13 +255,13 @@ static void click_scuderia(char* pos)
 	oggetto = gtk_menu_item_new_with_label("Reclute");
 	gtk_menu_shell_append(GTK_MENU_SHELL(lista), oggetto);
 	g_signal_connect_swapped(oggetto, "activate", G_CALLBACK(addestra_truppa),
-			(gpointer)&tr_callback[Rec]);
+			(gpointer )&tr_callback[Rec]);
 	gtk_widget_show(oggetto);
 	//Cavalleria
 	oggetto = gtk_menu_item_new_with_label("Cavalleria");
 	gtk_menu_shell_append(GTK_MENU_SHELL(lista), oggetto);
 	g_signal_connect_swapped(oggetto, "activate", G_CALLBACK(addestra_truppa),
-			(gpointer)&tr_callback[Cav]);
+			(gpointer )&tr_callback[Cav]);
 	gtk_widget_show(oggetto);
 	//attacca la lista alla scelta
 	gtk_menu_item_set_submenu(GTK_MENU_ITEM(scelta), lista);
@@ -281,7 +281,7 @@ static void click_scuderia(char* pos)
 		oggetto = gtk_menu_item_new_with_label(buf);
 		gtk_menu_shell_append(GTK_MENU_SHELL(lista), oggetto);
 		g_signal_connect_swapped(oggetto, "activate", G_CALLBACK(evacua_truppa),
-				(gpointer)T);
+				(gpointer )T);
 		gtk_widget_show(oggetto);
 		T = T->next;
 	}
@@ -318,13 +318,13 @@ static void click_fattoria(char* pos)
 	oggetto = gtk_menu_item_new_with_label("Reclute");
 	gtk_menu_shell_append(GTK_MENU_SHELL(lista), oggetto);
 	g_signal_connect_swapped(oggetto, "activate", G_CALLBACK(addestra_truppa),
-			(gpointer)&tr_callback[Rec]);
+			(gpointer )&tr_callback[Rec]);
 	gtk_widget_show(oggetto);
 	//fanteria
 	oggetto = gtk_menu_item_new_with_label("Arcieri");
 	gtk_menu_shell_append(GTK_MENU_SHELL(lista), oggetto);
 	g_signal_connect_swapped(oggetto, "activate", G_CALLBACK(addestra_truppa),
-			(gpointer)&tr_callback[Arc]);
+			(gpointer )&tr_callback[Arc]);
 	gtk_widget_show(oggetto);
 	//attacca la lista alla scelta
 	gtk_menu_item_set_submenu(GTK_MENU_ITEM(scelta), lista);
@@ -344,7 +344,7 @@ static void click_fattoria(char* pos)
 		oggetto = gtk_menu_item_new_with_label(buf);
 		gtk_menu_shell_append(GTK_MENU_SHELL(lista), oggetto);
 		g_signal_connect_swapped(oggetto, "activate", G_CALLBACK(evacua_truppa),
-				(gpointer)T);
+				(gpointer )T);
 		gtk_widget_show(oggetto);
 		T = T->next;
 	}
@@ -370,7 +370,7 @@ static void click_grotta(char* pos)
 	t_lista_t *T;
 	char buf[50];
 
-	aggiorna_tr_callback(pos -ancora);
+	aggiorna_tr_callback(pos - ancora);
 	/*crea menu*/
 	menu = gtk_menu_new();
 	/*etichetta addestra*/
@@ -381,7 +381,7 @@ static void click_grotta(char* pos)
 	oggetto = gtk_menu_item_new_with_label("Draghi");
 	gtk_menu_shell_append(GTK_MENU_SHELL(lista), oggetto);
 	g_signal_connect_swapped(oggetto, "activate", G_CALLBACK(addestra_truppa),
-			(gpointer)&tr_callback[Dra]);
+			(gpointer )&tr_callback[Dra]);
 	gtk_widget_show(oggetto);
 	//attacca la lista alla scelta
 	gtk_menu_item_set_submenu(GTK_MENU_ITEM(scelta), lista);
@@ -401,7 +401,7 @@ static void click_grotta(char* pos)
 		oggetto = gtk_menu_item_new_with_label(buf);
 		gtk_menu_shell_append(GTK_MENU_SHELL(lista), oggetto);
 		g_signal_connect_swapped(oggetto, "activate", G_CALLBACK(evacua_truppa),
-				(gpointer)T);
+				(gpointer )T);
 		gtk_widget_show(oggetto);
 		T = T->next;
 	}
@@ -432,13 +432,13 @@ static void click_nido(char* pos)
 	menu = gtk_menu_new();
 	/*etichetta addestra*/
 	scelta = gtk_menu_item_new_with_label("Addestra:");
-	/*crea pulsanti per addestrare unità*/
+	/*crea pulsanti per addestrare uniFtà*/
 	lista = gtk_menu_new();
 	//Fenici
 	oggetto = gtk_menu_item_new_with_label("Fenici");
 	gtk_menu_shell_append(GTK_MENU_SHELL(lista), oggetto);
 	g_signal_connect_swapped(oggetto, "activate", G_CALLBACK(addestra_truppa),
-			(gpointer)&tr_callback[Fen]);
+			(gpointer )&tr_callback[Fen]);
 	gtk_widget_show(oggetto);
 	//attacca la lista alla scelta
 	gtk_menu_item_set_submenu(GTK_MENU_ITEM(scelta), lista);
@@ -458,7 +458,7 @@ static void click_nido(char* pos)
 		oggetto = gtk_menu_item_new_with_label(buf);
 		gtk_menu_shell_append(GTK_MENU_SHELL(lista), oggetto);
 		g_signal_connect_swapped(oggetto, "activate", G_CALLBACK(evacua_truppa),
-				(gpointer)T);
+				(gpointer )T);
 		gtk_widget_show(oggetto);
 		T = T->next;
 	}
@@ -494,8 +494,8 @@ static void click_unita(char* pos, GdkEventButton *Event)
 		else
 		{
 			Dialogo = gtk_dialog_new_with_buttons("F.C.", NULL,
-					GTK_DIALOG_DESTROY_WITH_PARENT | GTK_DIALOG_MODAL,
-					"_OK", GTK_RESPONSE_ACCEPT, NULL);
+					GTK_DIALOG_DESTROY_WITH_PARENT | GTK_DIALOG_MODAL, _("_OK"),
+					GTK_RESPONSE_ACCEPT, NULL);
 			gtk_window_set_icon(GTK_WINDOW(Dialogo), Immagine.logo);
 			Label = gtk_label_new("unità in combattimento!");
 			gtk_widget_show(Label);
@@ -520,8 +520,8 @@ static void click_unita(char* pos, GdkEventButton *Event)
 		else
 		{
 			Dialogo = gtk_dialog_new_with_buttons("F.C.", NULL,
-					GTK_DIALOG_DESTROY_WITH_PARENT | GTK_DIALOG_MODAL,
-					"_OK", GTK_RESPONSE_ACCEPT, NULL);
+					GTK_DIALOG_DESTROY_WITH_PARENT | GTK_DIALOG_MODAL, _("_OK"),
+					GTK_RESPONSE_ACCEPT, NULL);
 			gtk_window_set_icon(GTK_WINDOW(Dialogo), Immagine.logo);
 			if (T->stanca == 1)
 				Label = gtk_label_new("unità stanca!");
@@ -570,7 +570,7 @@ static void click_assediocastello(char* pos)
 	{
 		liberagiocatore(G);
 		Dialogo = gtk_dialog_new_with_buttons("F.C.", NULL,
-				GTK_DIALOG_DESTROY_WITH_PARENT | GTK_DIALOG_MODAL, "_OK",
+				GTK_DIALOG_DESTROY_WITH_PARENT | GTK_DIALOG_MODAL, _("_OK"),
 				GTK_RESPONSE_ACCEPT, NULL);
 		gtk_window_set_icon(GTK_WINDOW(Dialogo), Immagine.logo);
 		sprintf(buf, " il giocatore %d \n è stato sconfitto! ", G + 1);
@@ -609,7 +609,7 @@ static void click_assaltostruttura(char* pos)
 	{
 		liberagiocatore(G);
 		Dialogo = gtk_dialog_new_with_buttons("F.C.", NULL,
-				GTK_DIALOG_DESTROY_WITH_PARENT | GTK_DIALOG_MODAL, "_OK",
+				GTK_DIALOG_DESTROY_WITH_PARENT | GTK_DIALOG_MODAL, _("_OK"),
 				GTK_RESPONSE_ACCEPT, NULL);
 		gtk_window_set_icon(GTK_WINDOW(Dialogo), Immagine.logo);
 		sprintf(buf, " il giocatore %d \n è stato sconfitto! ", G + 1);
@@ -689,9 +689,8 @@ static void click_unisci(char* pos)
 	g_signal_connect(UB, "value_changed", G_CALLBACK(set_adjustmentvalue),
 			&S_Callback[a]);
 	Dialogo = gtk_dialog_new_with_buttons("Fantasy C", NULL,
-			GTK_DIALOG_DESTROY_WITH_PARENT | GTK_DIALOG_MODAL, "_OK",
-			GTK_RESPONSE_YES,
-			"_Cancel", GTK_RESPONSE_NO, NULL);
+			GTK_DIALOG_DESTROY_WITH_PARENT | GTK_DIALOG_MODAL, _("_OK"),
+			GTK_RESPONSE_YES, _("_Cancel"), GTK_RESPONSE_NO, NULL);
 	gtk_window_set_icon(GTK_WINDOW(Dialogo), Immagine.logo);
 	Vbox = gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);
 	gtk_box_pack_start(
@@ -981,27 +980,23 @@ void gtk_aggiungi_segnali_strutture_n(int G, t_struttura tipo, int posizione,
 	{
 	case Cas:
 		g_signal_connect_swapped(Casella[casella], "button_press_event",
-				G_CALLBACK(click_castello),
-				(gpointer) &ancora[posizione]);
+				G_CALLBACK(click_castello), (gpointer ) &ancora[posizione]);
 		break;
 	case Fat:
 		g_signal_connect_swapped(Casella[casella], "button_press_event",
-				G_CALLBACK(click_fattoria),
-				(gpointer) &ancora[posizione]);
+				G_CALLBACK(click_fattoria), (gpointer ) &ancora[posizione]);
 		break;
 	case Scu:
 		g_signal_connect_swapped(Casella[casella], "button_press_event",
-				G_CALLBACK(click_scuderia),
-				(gpointer) &ancora[posizione]);
+				G_CALLBACK(click_scuderia), (gpointer ) &ancora[posizione]);
 		break;
 	case Nid:
 		g_signal_connect_swapped(Casella[casella], "button_press_event",
-				G_CALLBACK(click_nido), (gpointer) &ancora[posizione]);
+				G_CALLBACK(click_nido), (gpointer ) &ancora[posizione]);
 		break;
 	case Gro:
 		g_signal_connect_swapped(Casella[casella], "button_press_event",
-				G_CALLBACK(click_grotta),
-				(gpointer) &ancora[posizione]);
+				G_CALLBACK(click_grotta), (gpointer ) &ancora[posizione]);
 		break;
 	default:
 		break;
@@ -1016,7 +1011,7 @@ void gtk_aggiungi_segnali_strutture_s(int G, t_struttura tipo, int posizione,
 	{
 		g_signal_connect_swapped(Casella[numeroCasella], "button_press_event",
 				G_CALLBACK(click_entrastruttura),
-				(gpointer) &ancora[posizione]);
+				(gpointer ) &ancora[posizione]);
 	}
 }
 
@@ -1030,13 +1025,13 @@ void gtk_aggiungi_segnali_strutture_c(int G, t_struttura tipo, int posizione,
 		{
 			g_signal_connect_swapped(Casella[casella], "button_press_event",
 					G_CALLBACK(click_assediocastello),
-					(gpointer) &ancora[posizione]);
+					(gpointer ) &ancora[posizione]);
 		}
 		else
 		{
 			g_signal_connect_swapped(Casella[casella], "button_press_event",
 					G_CALLBACK(click_assaltostruttura),
-					(gpointer) &ancora[posizione]);
+					(gpointer ) &ancora[posizione]);
 		}
 	}
 }
@@ -1078,8 +1073,7 @@ void gtk_aggiungi_segnali_truppe(char mode, int G, int x, int y, int posizione,
 		if (G != -1)
 		{
 			g_signal_connect(Casella[posizione], "enter-notify-event",
-					G_CALLBACK(su_unita),
-					(gpointer) &ancora[posiziona_c(x,y)]);
+					G_CALLBACK(su_unita), (gpointer) &ancora[posiziona_c(x,y)]);
 		}
 		break;
 	case 'c':

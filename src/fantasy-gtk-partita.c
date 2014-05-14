@@ -19,6 +19,8 @@
 
 #include "fantasy-core.h"
 
+#include <glib/gi18n.h>
+
 static gboolean set_adjustmentmax(GtkAdjustment* S, GtkAdjustment* D)
 {
 	int max = gtk_adjustment_get_value(GTK_ADJUSTMENT(S));
@@ -128,8 +130,8 @@ int gtk_salva_partita()
 	if (partita_in_corso == 0)
 		return 0;
 	Fselect = gtk_file_chooser_dialog_new("Salva", NULL,
-			GTK_FILE_CHOOSER_ACTION_SAVE, "_Cancel", GTK_RESPONSE_CANCEL,
-			"document-save", GTK_RESPONSE_ACCEPT, NULL);
+			GTK_FILE_CHOOSER_ACTION_SAVE, _("_Cancel"), GTK_RESPONSE_CANCEL,
+			_("_Save"), GTK_RESPONSE_ACCEPT, NULL);
 	gtk_file_chooser_set_do_overwrite_confirmation(GTK_FILE_CHOOSER(Fselect),
 	TRUE);
 	gtk_file_chooser_set_current_name(GTK_FILE_CHOOSER(Fselect), ".fc");
@@ -159,8 +161,8 @@ int gtk_carica_partita()
 	int ok = 0;
 
 	Fselect = gtk_file_chooser_dialog_new("Carica", NULL,
-			GTK_FILE_CHOOSER_ACTION_OPEN, "_Cancel", GTK_RESPONSE_CANCEL,
-			"document-open" , GTK_RESPONSE_ACCEPT, NULL);
+			GTK_FILE_CHOOSER_ACTION_OPEN, _("_Cancel"), GTK_RESPONSE_CANCEL,
+			_("_Open") , GTK_RESPONSE_ACCEPT, NULL);
 
 	gtk_personalizza_selezionatore(Fselect);
 
@@ -171,7 +173,7 @@ int gtk_carica_partita()
 		{
 			Dialogo = gtk_dialog_new();
 			gtk_window_set_modal(GTK_WINDOW(Dialogo), TRUE);
-			gtk_dialog_add_buttons(GTK_DIALOG(Dialogo), "_Ok", 1,
+			gtk_dialog_add_buttons(GTK_DIALOG(Dialogo), _("_Ok"), 1,
 			NULL);
 			gtk_window_set_icon(GTK_WINDOW(Dialogo), Immagine.logo);
 			gtk_window_set_title(GTK_WINDOW(Dialogo), "Errore!");
