@@ -13,6 +13,7 @@ Teto
 - riaggiustare cartella skin in modo più sensato | priorità media
 - generare campi automaticamente | priorità alta
 - preparare estensione per tipi di terreno diversi: foreste, fiumi, paludi, strade, altro | priorità bassa
+- bonus/malus per le unità in base al terreno (attacco/difesa/morale/movimento) | priorità bassa
 
 Il_RatMan:
 - fiumi
