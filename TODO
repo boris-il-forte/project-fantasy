@@ -1,20 +1,29 @@
 TODO
 
 Gionnico:
-- Editor di mappe & scenari										| priorità media
+- Editor di mappe & scenari	| priorità media
 
 Boris_il_forte:
-- IA                                          | priorità alta
-- Minimappa						                        | priorità media
-- Debug vario					                        | priorità bassa
+- IA  | priorità alta
+- Minimappa	 | priorità media
+- Debug vario	| priorità bassa
 
+Teto
+- Caricare immagini campi | priorità alta
+- riaggiustare cartella skin in modo più sensato | priorità media
+- generare campi automaticamente | priorità alta
+- preparare estensione per tipi di terreno diversi: foreste, fiumi, paludi, strade, altro | priorità bassa
 
 Il_RatMan:
+- fiumi
+- strade
+- paludi
+- foreste
 - Icona prossima unità
 - Icona prossimo castello
 - Icona prossimo nemico vicino
 
-Chiunque: 										                | priorità molto bassa
+Chiunque: | priorità molto bassa
 - Zoom in & out
 
 NintendOtaku:
