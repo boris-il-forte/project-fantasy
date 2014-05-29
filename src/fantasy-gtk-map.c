@@ -751,7 +751,7 @@ void gtk_genera_mappa(GtkWidget *Mappa)
 //aggiunge lo sfondo
 void gtk_stampa_base_mappa(GdkPixbuf **buffer, int x, int y)
 {
-	*buffer = gdk_pixbuf_copy(Immagine.p[accedi(x, y, infomappa.prato)]);
+	*buffer = gdk_pixbuf_copy(Immagine.prato[accedi(x, y, infomappa.prato)]);
 }
 
 //aggiunge le strutture
@@ -766,109 +766,109 @@ int gtk_stampa_strutture(GdkPixbuf *buffer, int x, int y)
 	/*stampa il castello*/
 	case '0':
 		G = controlloedificio(posiziona(-1, -1, x, y), Cas);
-		struttura = Immagine.c[G + 1][0];
+		struttura = Immagine.castello[G + 1][0];
 
 		break;
 	case '1':
 		G = controlloedificio(posiziona(0, -1, x, y), Cas);
-		struttura = Immagine.c[G + 1][1];
+		struttura = Immagine.castello[G + 1][1];
 		break;
 	case '2':
 		G = controlloedificio(posiziona(1, -1, x, y), Cas);
-		struttura = Immagine.c[G + 1][2];
+		struttura = Immagine.castello[G + 1][2];
 
 		break;
 	case '3':
 		G = controlloedificio(posiziona(-1, 0, x, y), Cas);
-		struttura = Immagine.c[G + 1][3];
+		struttura = Immagine.castello[G + 1][3];
 		break;
 	case '4':
 		G = controlloedificio(posiziona(0, 0, x, y), Cas);
-		struttura = Immagine.c[G + 1][4];
+		struttura = Immagine.castello[G + 1][4];
 		break;
 	case '5':
 		G = controlloedificio(posiziona(1, 0, x, y), Cas);
-		struttura = Immagine.c[G + 1][5];
+		struttura = Immagine.castello[G + 1][5];
 		break;
 	case '6':
 		G = controlloedificio(posiziona(-1, 1, x, y), Cas);
-		struttura = Immagine.c[G + 1][6];
+		struttura = Immagine.castello[G + 1][6];
 		break;
 	case '7':
 		G = controlloedificio(posiziona(0, 1, x, y), Cas);
-		struttura = Immagine.c[G + 1][7];
+		struttura = Immagine.castello[G + 1][7];
 		break;
 	case '8':
 		G = controlloedificio(posiziona(1, 1, x, y), Cas);
-		struttura = Immagine.c[G + 1][8];
+		struttura = Immagine.castello[G + 1][8];
 		break;
 		/*stampa la grotta*/
 	case 'G':
 		G = controlloedificio(posiziona(0, 0, x, y), Gro);
-		struttura = Immagine.g[G + 1][0];
+		struttura = Immagine.grotta[G + 1][0];
 		break;
 	case 'H':
 		G = controlloedificio(posiziona(1, 0, x, y), Gro);
-		struttura = Immagine.g[G + 1][1];
+		struttura = Immagine.grotta[G + 1][1];
 		break;
 	case 'I':
 		G = controlloedificio(posiziona(0, 1, x, y), Gro);
-		struttura = Immagine.g[G + 1][2];
+		struttura = Immagine.grotta[G + 1][2];
 		break;
 	case 'J':
 		G = controlloedificio(posiziona(1, 1, x, y), Gro);
-		struttura = Immagine.g[G + 1][3];
+		struttura = Immagine.grotta[G + 1][3];
 		break;
 		/*stampa la fattoria*/
 	case 'C':
 		G = controlloedificio(posiziona(0, 0, x, y), Fat);
-		struttura = Immagine.f[G + 1][0];
+		struttura = Immagine.fattoria[G + 1][0];
 		break;
 	case 'D':
 		G = controlloedificio(posiziona(1, 0, x, y), Fat);
-		struttura = Immagine.f[G + 1][1];
+		struttura = Immagine.fattoria[G + 1][1];
 		break;
 	case 'E':
 		G = controlloedificio(posiziona(0, 1, x, y), Fat);
-		struttura = Immagine.f[G + 1][2];
+		struttura = Immagine.fattoria[G + 1][2];
 		break;
 	case 'F':
 		G = controlloedificio(posiziona(1, 1, x, y), Fat);
-		struttura = Immagine.f[G + 1][3];
+		struttura = Immagine.fattoria[G + 1][3];
 		break;
 		/*stampa la scuderia*/
 	case 'S':
 		G = controlloedificio(posiziona(0, 0, x, y), Scu);
-		struttura = Immagine.s[G + 1][0];
+		struttura = Immagine.scuderia[G + 1][0];
 		break;
 	case 'T':
 		G = controlloedificio(posiziona(1, 0, x, y), Scu);
-		struttura = Immagine.s[G + 1][1];
+		struttura = Immagine.scuderia[G + 1][1];
 		break;
 	case 'U':
 		G = controlloedificio(posiziona(0, 1, x, y), Scu);
-		struttura = Immagine.s[G + 1][2];
+		struttura = Immagine.scuderia[G + 1][2];
 		break;
 	case 'V':
 		G = controlloedificio(posiziona(1, 1, x, y), Scu);
-		struttura = Immagine.s[G + 1][3];
+		struttura = Immagine.scuderia[G + 1][3];
 		break;
 		/*stampa in nido*/
 	case 'N':
 		G = controlloedificio(posiziona(0, 0, x, y), Nid);
-		struttura = Immagine.n[G + 1][0];
+		struttura = Immagine.nido[G + 1][0];
 		break;
 	case 'O':
 		G = controlloedificio(posiziona(1, 0, x, y), Nid);
-		struttura = Immagine.n[G + 1][1];
+		struttura = Immagine.nido[G + 1][1];
 		break;
 	case 'P':
 		G = controlloedificio(posiziona(0, 1, x, y), Nid);
-		struttura = Immagine.n[G + 1][2];
+		struttura = Immagine.nido[G + 1][2];
 		break;
 	case 'Q':
 		G = controlloedificio(posiziona(1, 1, x, y), Nid);
-		struttura = Immagine.n[G + 1][3];
+		struttura = Immagine.nido[G + 1][3];
 		break;
 	default:
 		G = -1;
@@ -895,7 +895,7 @@ int gtk_stampa_truppe(GdkPixbuf *buffer, int x, int y)
 	{
 		G = controllounita(posiziona_c(x,y));
 		tipo = accedi(x,y,infomappa.truppe)->tipo;
-		gdk_pixbuf_composite(Immagine.t[G][tipo], buffer, 0, 0, Dim_casella, Dim_casella, 0, 0, 1, 1, GDK_INTERP_BILINEAR, 255);
+		gdk_pixbuf_composite(Immagine.truppa[G][tipo], buffer, 0, 0, Dim_casella, Dim_casella, 0, 0, 1, 1, GDK_INTERP_BILINEAR, 255);
 	}
 
 	return G;

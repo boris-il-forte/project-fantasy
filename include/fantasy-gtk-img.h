@@ -37,14 +37,15 @@ typedef struct immagini_s
 	GdkPixbuf* entrata;
 	GdkPixbuf* attacco;
 	GdkPixbuf* assalto;
-	GdkPixbuf* p[5]; // immagine del prato
-	GdkPixbuf* c[MAXGIOCATORI+1][9]; // matrice che contiene i pezzi dei 12 castelli di proprietà + il castello vuoto
-	GdkPixbuf* g[MAXGIOCATORI+1][4]; // matrice che contiene i pezzi delle 12 grotte di proprietà + la grotta vuota
-	GdkPixbuf* s[MAXGIOCATORI+1][4]; // matrice che contiene i pezzi delle 12 scuderie di proprietà + la scuderia vuota
-	GdkPixbuf* n[MAXGIOCATORI+1][4]; // matrice che contiene i pezzi dei 12 nidi di proprietà + il nido vuoto
-	GdkPixbuf* f[MAXGIOCATORI+1][4]; // matrice che contiene i pezzi delle 12 fattorie di proprietà + la fattoria vuota
-	GdkPixbuf* t[MAXGIOCATORI][NUMTRUPPE]; // matrice che contiene le truppe dei 12 giocatori
-	GdkPixbuf* a[MAXGIOCATORI]; // array con gli scudi dei giocatori
+	GdkPixbuf* prato[5]; // immagine del prato
+	GdkPixbuf* castello[MAXGIOCATORI+1][9]; // matrice che contiene i pezzi dei 12 castelli di proprietà + il castello vuoto
+	GdkPixbuf* grotta[MAXGIOCATORI+1][4]; // matrice che contiene i pezzi delle 12 grotte di proprietà + la grotta vuota
+	GdkPixbuf* scuderia[MAXGIOCATORI+1][4]; // matrice che contiene i pezzi delle 12 scuderie di proprietà + la scuderia vuota
+	GdkPixbuf* nido[MAXGIOCATORI+1][4]; // matrice che contiene i pezzi dei 12 nidi di proprietà + il nido vuoto
+	GdkPixbuf* fattoria[MAXGIOCATORI+1][4]; // matrice che contiene i pezzi delle 12 fattorie di proprietà + la fattoria vuota
+	GdkPixbuf* truppa[MAXGIOCATORI][NUMTRUPPE]; // matrice che contiene le truppe dei 12 giocatori
+	GdkPixbuf* scudo[MAXGIOCATORI]; // array con gli scudi dei giocatori
+	GdkPixbuf* campo[MAXGIOCATORI]; // array con le immagini del campo di grano
 	GdkPixbuf* err;
 } Immagini;
 

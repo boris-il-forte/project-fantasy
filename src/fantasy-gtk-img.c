@@ -140,21 +140,28 @@ void gtk_carica_immagini()
 	//carica le immagini del prato
 	for (i = 0; i < 5; i++)
 	{
-		sprintf(nomeImmagine, "p/p%d", i);
-		gtk_carica_immagine_skin(nomeImmagine, &Immagine.p[i], 1);
+		sprintf(nomeImmagine, "prato/p%d", i);
+		gtk_carica_immagine_skin(nomeImmagine, &Immagine.prato[i], 1);
+	}
+
+	//carica le immagini del campo di grano
+	for (i = 0; i < 12; i++)
+	{
+		sprintf(nomeImmagine, "campi/grano%d", i);
+		gtk_carica_immagine_skin(nomeImmagine, &Immagine.campo[i], 1);
 	}
 
 	for (i = 0; i < MAXGIOCATORI; i++)
 	{
 		//carica gli scudi colorati
-		sprintf(nomeImmagine, "a/%d", i);
-		gtk_carica_immagine_skin(nomeImmagine, &Immagine.a[i], 2);
+		sprintf(nomeImmagine, "scudi/%d", i);
+		gtk_carica_immagine_skin(nomeImmagine, &Immagine.scudo[i], 2);
 
 		//carica le truppe
 		for (j = 0; j <= Fen; j++)
 		{
-			sprintf(nomeImmagine, "t/t%d%d", i, j);
-			gtk_carica_immagine_skin(nomeImmagine, &Immagine.t[i][j], 1);
+			sprintf(nomeImmagine, "truppe/t%d%d", i, j);
+			gtk_carica_immagine_skin(nomeImmagine, &Immagine.truppa[i][j], 1);
 
 		}
 	}
@@ -164,25 +171,25 @@ void gtk_carica_immagini()
 		//carica il castello
 		for (j = 0; j < 9; j++)
 		{
-			sprintf(nomeImmagine, "c/%d/c%d", i, j);
-			gtk_carica_immagine_skin(nomeImmagine, &Immagine.c[i][j], 1);
+			sprintf(nomeImmagine, "castelli/%d/c%d", i, j);
+			gtk_carica_immagine_skin(nomeImmagine, &Immagine.castello[i][j], 1);
 		}
 
 		//carica le altre strutture
 		for (j = 0; j < 4; j++)
 		{
 			//carica la grotta
-			sprintf(nomeImmagine, "g/%d/g%d", i, j);
-			gtk_carica_immagine_skin(nomeImmagine, &Immagine.g[i][j], 1);
-			//carica la stalla
-			sprintf(nomeImmagine, "s/%d/s%d", i, j);
-			gtk_carica_immagine_skin(nomeImmagine, &Immagine.s[i][j], 1);
+			sprintf(nomeImmagine, "grotte/%d/g%d", i, j);
+			gtk_carica_immagine_skin(nomeImmagine, &Immagine.grotta[i][j], 1);
+			//carica la scuderia
+			sprintf(nomeImmagine, "scuderie/%d/s%d", i, j);
+			gtk_carica_immagine_skin(nomeImmagine, &Immagine.scuderia[i][j], 1);
 			//carica la fattoria
-			sprintf(nomeImmagine, "f/%d/f%d", i, j);
-			gtk_carica_immagine_skin(nomeImmagine, &Immagine.f[i][j], 1);
+			sprintf(nomeImmagine, "fattorie/%d/f%d", i, j);
+			gtk_carica_immagine_skin(nomeImmagine, &Immagine.fattoria[i][j], 1);
 			//carica il nido
-			sprintf(nomeImmagine, "n/%d/n%d", i, j);
-			gtk_carica_immagine_skin(nomeImmagine, &Immagine.n[i][j], 1);
+			sprintf(nomeImmagine, "nidi/%d/n%d", i, j);
+			gtk_carica_immagine_skin(nomeImmagine, &Immagine.nido[i][j], 1);
 		}
 	}
 
