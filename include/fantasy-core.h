@@ -81,6 +81,7 @@ typedef struct s_infomappa
 {
 	unsigned char mappa[ALTEZZA * LARGHEZZA];
 	unsigned char prato[ALTEZZA * LARGHEZZA];
+	unsigned char ambiente[ALTEZZA * LARGHEZZA];
 	t_infotruppa* truppe[ALTEZZA * LARGHEZZA];
 	int castelli[NUMCASTELLI];
 	int fattorie[MAXFATTORIE];

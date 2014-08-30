@@ -25,7 +25,7 @@
 #include "fantasy-core.h"
 
 
-typedef struct immagini_s
+typedef struct immagini_s //FIXME magic...
 {
 	GdkPixbuf* logo;
 	GdkPixbuf* decorazione;
@@ -45,7 +45,7 @@ typedef struct immagini_s
 	GdkPixbuf* fattoria[MAXGIOCATORI+1][4]; // matrice che contiene i pezzi delle 12 fattorie di proprietà + la fattoria vuota
 	GdkPixbuf* truppa[MAXGIOCATORI][NUMTRUPPE]; // matrice che contiene le truppe dei 12 giocatori
 	GdkPixbuf* scudo[MAXGIOCATORI]; // array con gli scudi dei giocatori
-	GdkPixbuf* campo[MAXGIOCATORI]; // array con le immagini del campo di grano
+	GdkPixbuf* campo[13]; // array con le immagini del campo di grano
 	GdkPixbuf* err;
 } Immagini;
 

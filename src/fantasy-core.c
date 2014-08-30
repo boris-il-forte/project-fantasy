@@ -128,6 +128,7 @@ void inizializza()
 		for (j = 0; j < LARGHEZZA; j++)
 		{
 			accedi(j,i,infomappa.mappa)=' ';
+			accedi(j,i,infomappa.ambiente)=0;
 			accedi(j,i,infomappa.truppe)=NULL;
 		}
 	}
@@ -161,6 +162,18 @@ int conflittomappa(int x, int y)
 			}
 			else return 1;
 	return 0;
+}
+
+//genera i campi
+void campiCasuali() //TODO implementare
+{
+	int i, j;
+		srand((unsigned) time(NULL));
+		for (i = 0; i < ALTEZZA; i++)
+			for (j = 0; j < LARGHEZZA; j++)
+			{
+				accedi(j,i,infomappa.ambiente) = 1;
+			}
 }
 
 //genera un prato vario
@@ -263,6 +276,7 @@ void generamappa()
 	}
 	//crea prato vario
 	pratoacaso();
+	campiCasuali();
 }
 
 //genera la mappa caricata
