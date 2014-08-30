@@ -20,7 +20,9 @@ Compila il sorgente, quindi eseguilo. :)
 COMPILAZIONE
 ------------
 
-cmake .
+mkdir Build
+cd Build
+cmake ..
 make
 
 
@@ -37,11 +39,4 @@ COPYRIGHT
 
 Il progetto è distribuito sotto licenza GNU GPL versione 2.
 (C) 2011-2012 Davide Tateo, gionnico
-
-
-SITO INTERNET
--------------
-
-Il sito internet di riferimento del progetto è
-http://forzazzurri.mine.nu/projects/fantasy
-dove è possibile trovare notizie sul progetto e contattare gli autori.
+(C) 2013-2014 Davide Tateo
