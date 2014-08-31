@@ -143,7 +143,9 @@ int conflitticastello(int x, int y, int cur)
 		for (i = 0; i < NUMCASTELLI; i++)
 			for (j = -10; j <= 10; j++)
 				for (k = -10; k <= 10; k++)
-					if (i != cur && pos + k - LARGHEZZA * j == infomappa.castelli[i])
+					if (i != cur
+								&& pos + k - LARGHEZZA * j
+											== infomappa.castelli[i])
 						return 1;
 		return 0;
 	}
@@ -168,13 +170,13 @@ int conflittomappa(int x, int y)
 void campiCasuali() //TODO implementare
 {
 	int i, j;
-		srand((unsigned) time(NULL));
-		for (i = 0; i < ALTEZZA; i++)
-			for (j = 0; j < LARGHEZZA; j++)
-			{
-				accedi(j,i,infomappa.ambiente) = 1;
-			}
-}
+	srand((unsigned) time(NULL));
+	for (i = 0; i < ALTEZZA; i++)
+		for (j = 0; j < LARGHEZZA; j++)
+		{
+			accedi(j,i,infomappa.ambiente)= 1;
+		}
+	}
 
 //genera un prato vario
 void pratoacaso()
@@ -182,6 +184,7 @@ void pratoacaso()
 	int n, i, j;
 	srand((unsigned) time(NULL));
 	for (i = 0; i < ALTEZZA; i++)
+	{
 		for (j = 0; j < LARGHEZZA; j++)
 		{
 			n = rand() % 20;
@@ -198,6 +201,8 @@ void pratoacaso()
 			accedi(j,i,infomappa.prato)=n;
 		}
 	}
+}
+
 //genera la mappa casuale
 void generamappa()
 {
@@ -469,7 +474,8 @@ int evacuatruppa(t_lista_t *T)
 		}
 		if (giocatore[CurrentPlayer]->truppe == NULL)
 		{
-			giocatore[CurrentPlayer]->truppe = (t_lista_t*) malloc(sizeof(t_lista_t));
+			giocatore[CurrentPlayer]->truppe = (t_lista_t*) malloc(
+						sizeof(t_lista_t));
 			giocatore[CurrentPlayer]->truppe->truppa = infomappa.truppe[L];
 			giocatore[CurrentPlayer]->truppe->pos = L;
 			giocatore[CurrentPlayer]->truppe->next = NULL;
@@ -568,30 +574,30 @@ void identificatruppa(t_infotruppa* T, char* buf)
 {
 	switch (T->tipo)
 	{
-	case Rec:
-		sprintf(buf, "-%d Reclute(%d)-", T->numero, T->morale);
-		break;
-	case Fan:
-		sprintf(buf, "-%d Fanteria(%d)-", T->numero, T->morale);
-		break;
-	case Lan:
-		sprintf(buf, "-%d Lancieri(%d)-", T->numero, T->morale);
-		break;
-	case Arc:
-		sprintf(buf, "-%d Arcieri(%d)-", T->numero, T->morale);
-		break;
-	case Cav:
-		sprintf(buf, "-%d Cavalieri(%d)-", T->numero, T->morale);
-		break;
-	case Dra:
-		sprintf(buf, "-%d Draghi(%d)-", T->numero, T->morale);
-		break;
-	case Fen:
-		sprintf(buf, "-%d Fenici(%d)-", T->numero, T->morale);
-		break;
-	default:
-		sprintf(buf, "-%d ERRORE!(%d)-", T->numero, T->morale);
-		break;
+		case Rec:
+			sprintf(buf, "-%d Reclute(%d)-", T->numero, T->morale);
+			break;
+		case Fan:
+			sprintf(buf, "-%d Fanteria(%d)-", T->numero, T->morale);
+			break;
+		case Lan:
+			sprintf(buf, "-%d Lancieri(%d)-", T->numero, T->morale);
+			break;
+		case Arc:
+			sprintf(buf, "-%d Arcieri(%d)-", T->numero, T->morale);
+			break;
+		case Cav:
+			sprintf(buf, "-%d Cavalieri(%d)-", T->numero, T->morale);
+			break;
+		case Dra:
+			sprintf(buf, "-%d Draghi(%d)-", T->numero, T->morale);
+			break;
+		case Fen:
+			sprintf(buf, "-%d Fenici(%d)-", T->numero, T->morale);
+			break;
+		default:
+			sprintf(buf, "-%d ERRORE!(%d)-", T->numero, T->morale);
+			break;
 	}
 	return;
 }
@@ -662,48 +668,47 @@ void liberagiocatore(int G)
 	infogiocatore[G] = NULL;
 }
 
-
 //calcola la posizione della struttura
 int calcolaposizionestruttura(char struttura, int x, int y)
 {
 	switch (struttura)
 	{
-	case '0':
-		return posiziona(-1, -1, x, y);
-	case '1':
-		return posiziona(0, -1, x, y);
-	case '2':
-		return posiziona(1, -1, x, y);
-	case '3':
-		return posiziona(-1, 0, x, y);
-	case '4':
-	case 'G':
-	case 'C':
-	case 'S':
-	case 'N':
-		return posiziona(0, 0, x, y);
-	case '5':
-	case 'H':
-	case 'D':
-	case 'T':
-	case 'O':
-		return posiziona(1, 0, x, y);
-	case '6':
-		return posiziona(-1, 1, x, y);
-	case '7':
-	case 'I':
-	case 'E':
-	case 'U':
-	case 'P':
-		return posiziona(0, 1, x, y);
-	case '8':
-	case 'J':
-	case 'F':
-	case 'V':
-	case 'Q':
-		return posiziona(1, 1, x, y);
-	default:
-		return -1;
+		case '0':
+			return posiziona(-1, -1, x, y);
+		case '1':
+			return posiziona(0, -1, x, y);
+		case '2':
+			return posiziona(1, -1, x, y);
+		case '3':
+			return posiziona(-1, 0, x, y);
+		case '4':
+		case 'G':
+		case 'C':
+		case 'S':
+		case 'N':
+			return posiziona(0, 0, x, y);
+		case '5':
+		case 'H':
+		case 'D':
+		case 'T':
+		case 'O':
+			return posiziona(1, 0, x, y);
+		case '6':
+			return posiziona(-1, 1, x, y);
+		case '7':
+		case 'I':
+		case 'E':
+		case 'U':
+		case 'P':
+			return posiziona(0, 1, x, y);
+		case '8':
+		case 'J':
+		case 'F':
+		case 'V':
+		case 'Q':
+			return posiziona(1, 1, x, y);
+		default:
+			return -1;
 
 	}
 
@@ -714,38 +719,38 @@ t_struttura tipostruttura(char struttura)
 {
 	switch (struttura)
 	{
-	case '0':
-	case '1':
-	case '2':
-	case '3':
-	case '4':
-	case '5':
-	case '6':
-	case '7':
-	case '8':
-		return Cas;
-	case 'G':
-	case 'H':
-	case 'I':
-	case 'J':
-		return Gro;
-	case 'C':
-	case 'D':
-	case 'E':
-	case 'F':
-		return Fat;
-	case 'S':
-	case 'T':
-	case 'U':
-	case 'V':
-		return Scu;
-	case 'N':
-	case 'O':
-	case 'P':
-	case 'Q':
-		return Nid;
-	default:
-		return -1;
+		case '0':
+		case '1':
+		case '2':
+		case '3':
+		case '4':
+		case '5':
+		case '6':
+		case '7':
+		case '8':
+			return Cas;
+		case 'G':
+		case 'H':
+		case 'I':
+		case 'J':
+			return Gro;
+		case 'C':
+		case 'D':
+		case 'E':
+		case 'F':
+			return Fat;
+		case 'S':
+		case 'T':
+		case 'U':
+		case 'V':
+			return Scu;
+		case 'N':
+		case 'O':
+		case 'P':
+		case 'Q':
+			return Nid;
+		default:
+			return -1;
 	}
 }
 
@@ -764,7 +769,6 @@ int posizionistruttura(int posizione, int pos[9], t_struttura tipo)
 	return n;
 
 }
-
 
 //elimina i puntatori alle unita morte
 void eliminamorti(t_infotruppa* M)
@@ -852,15 +856,15 @@ void combatti(t_infotruppa* Attaccante, t_infotruppa* Difensore, char m)
 	E *= Bpa; //calcola efficenza d'attacco truppa
 	switch (m)
 	{
-	case 's':
-		Pd += 150;
-		break;
-	case 'c':
-		Pd += 300;
-		break;
-	case 'n':
-	default:
-		break;
+		case 's':
+			Pd += 150;
+			break;
+		case 'c':
+			Pd += 300;
+			break;
+		case 'n':
+		default:
+			break;
 	}
 //calcola moltiplicatore
 	M = (float) Pa / (float) Pd;
@@ -948,22 +952,22 @@ void assediostruttura(int Pos)
 		fprintf(stderr, "debug: di nessuno, %d\n", g);
 		switch (infomappa.mappa[Pos])
 		{
-		case 'G':
-			i = Gro;
-			break;
-		case 'S':
-			i = Scu;
-			break;
-		case 'N':
-			i = Nid;
-			break;
-		case 'C':
-			i = Fat;
-			break;
-		default:
-			fprintf(stderr, "c'è un bug!\n");
-			i = Cas;
-			break;
+			case 'G':
+				i = Gro;
+				break;
+			case 'S':
+				i = Scu;
+				break;
+			case 'N':
+				i = Nid;
+				break;
+			case 'C':
+				i = Fat;
+				break;
+			default:
+				fprintf(stderr, "c'è un bug!\n");
+				i = Cas;
+				break;
 		}
 		cambiaproprietario(CurrentPlayer, g, Pos, i);
 	}
@@ -1025,7 +1029,8 @@ void assediocastello(int Pos)
 		while (Castello->pos != Pos)
 			Castello = Castello->next;
 		if (assaltamura(Castello) == 1)
-			if (assaltabreccia(puntacasellaoccupata(Pos, C++), Castello->in) == 1)
+			if (assaltabreccia(puntacasellaoccupata(Pos, C++), Castello->in)
+						== 1)
 				cambiaproprietario(CurrentPlayer, g, Pos, Cas);
 	}
 	else
@@ -1155,7 +1160,8 @@ void cambiaproprietario(int g1, int g2, int Pos, t_struttura Tipo)
 		}
 		else
 		{
-			giocatore[g1]->struttura[Tipo] = (t_lista_s*) malloc(sizeof(t_lista_s));
+			giocatore[g1]->struttura[Tipo] = (t_lista_s*) malloc(
+						sizeof(t_lista_s));
 			giocatore[g1]->struttura[Tipo]->in = NULL;
 			giocatore[g1]->struttura[Tipo]->pos = Pos;
 			giocatore[g1]->struttura[Tipo]->next = NULL;
@@ -1184,7 +1190,8 @@ void cambiaproprietario(int g1, int g2, int Pos, t_struttura Tipo)
 		}
 		else
 		{
-			giocatore[g1]->struttura[Tipo] = (t_lista_s*) malloc(sizeof(t_lista_s));
+			giocatore[g1]->struttura[Tipo] = (t_lista_s*) malloc(
+						sizeof(t_lista_s));
 			giocatore[g1]->struttura[Tipo]->in = NULL;
 			giocatore[g1]->struttura[Tipo]->pos = Pos;
 			giocatore[g1]->struttura[Tipo]->next = NULL;
@@ -1233,10 +1240,11 @@ t_struttura controllotipostruttura(int Pos)
 	int i;
 	t_struttura t;
 	int* s[] =
-	{ infomappa.castelli, infomappa.fattorie, infomappa.stalle, infomappa.grotte, infomappa.nidi };
+	{ infomappa.castelli, infomappa.fattorie, infomappa.stalle,
+	infomappa.grotte, infomappa.nidi };
 	int n[] =
-	{ NUMCASTELLI, infomappa.numfattorie, infomappa.numstalle, infomappa.numgrotte,
-			infomappa.numnidi };
+	{ NUMCASTELLI, infomappa.numfattorie, infomappa.numstalle,
+	infomappa.numgrotte, infomappa.numnidi };
 	for (t = Cas; t < NUMSTRUTTURE; t++)
 		for (i = 0; i < n[t]; i++)
 			if (s[t][i] == Pos)
@@ -1523,11 +1531,13 @@ void fineturno()
 		}
 	}
 //calcola le risorse per il prossimo turno
-	giocatore[CurrentPlayer]->oro += PROD_ORO_CAS * r[Cas] + PROD_ORO_FAT * r[Fat]
-			+ PROD_ORO_SCU * r[Scu] + PROD_ORO_NID * r[Nid] + PROD_ORO_GRO * r[Gro];
-	giocatore[CurrentPlayer]->smeraldi += PROD_SMERALDI_NID * r[Nid] + PROD_SMERALDI_GRO * r[Gro];
-	giocatore[CurrentPlayer]->cibo += PROD_CIBO_CAS * r[Cas] + PROD_CIBO_FAT * r[Fat]
-			+ PROD_CIBO_SCU * r[Scu] - FAME * c;
+	giocatore[CurrentPlayer]->oro += PROD_ORO_CAS * r[Cas]
+				+ PROD_ORO_FAT * r[Fat] + PROD_ORO_SCU * r[Scu]
+				+ PROD_ORO_NID * r[Nid] + PROD_ORO_GRO * r[Gro];
+	giocatore[CurrentPlayer]->smeraldi += PROD_SMERALDI_NID * r[Nid]
+				+ PROD_SMERALDI_GRO * r[Gro];
+	giocatore[CurrentPlayer]->cibo += PROD_CIBO_CAS * r[Cas]
+				+ PROD_CIBO_FAT * r[Fat] + PROD_CIBO_SCU * r[Scu] - FAME * c;
 //introduce il concetto di cibo da comprare e morte e scoraggiamento per fame
 	if (giocatore[CurrentPlayer]->cibo < 0)
 	{

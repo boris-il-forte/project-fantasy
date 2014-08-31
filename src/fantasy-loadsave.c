@@ -236,6 +236,7 @@ void caricaInfoStato(FILE* fp, int *inGioco)
 void caricaMappa(FILE* fp)
 {
 	ckfread(infomappa.prato, sizeof(infomappa.prato), fp);
+	ckfread(infomappa.ambiente, sizeof(infomappa.ambiente), fp);
 	ckfread(infomappa.castelli, sizeof(infomappa.castelli), fp);
 	ckfread(infomappa.fattorie, sizeof(infomappa.fattorie), fp);
 	ckfread(infomappa.stalle, sizeof(infomappa.stalle), fp);
@@ -474,6 +475,7 @@ void salvaInfoStato(FILE* fp)
 void salvaMappa(FILE* fp)
 {
 	ckfwrite(infomappa.prato, sizeof(infomappa.prato), fp);
+	ckfwrite(infomappa.ambiente, sizeof(infomappa.ambiente), fp);
 	ckfwrite(infomappa.castelli, sizeof(infomappa.castelli), fp);
 	ckfwrite(infomappa.fattorie, sizeof(infomappa.fattorie), fp);
 	ckfwrite(infomappa.stalle, sizeof(infomappa.stalle), fp);

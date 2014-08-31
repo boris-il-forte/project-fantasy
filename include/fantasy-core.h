@@ -176,6 +176,7 @@ void cambiaproprietario(int g1, int g2, int Pos, t_struttura Tipo);
 
 // funzioni per il prato
 void pratoacaso();
+void campiCasuali();
 
 //funzioni generiche
 void caricadati();
